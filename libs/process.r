@@ -1,3 +1,7 @@
+process.RAW <- function(varInfo, modInfo, rawInfo, layers) {
+    browser()
+}
+
 
 process.CLM <- function(dir) {
     browser()

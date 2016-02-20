@@ -3,6 +3,7 @@
 ################################################################################
 library(benchmarkMetrics)
 library(gitBasedProjects)
+library(raster)
 library(rasterExtras)
 sourceAllLibs()
 
@@ -28,27 +29,29 @@ Model.RAW = list(      #DIR                 #Processing         # Start date
 
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
-                                #BurntArea  GPP
+            varname  = rbind(c("BurntArea", "gpp"    ),
+                             c(100        , 1/1000   ),
+                             c('Monthly'  , 'Annual' )),
             CLM      = rbind(c("BAF"      , "gpp"    ),
-                             c(1          , 1        ),
+                             c(100        , 1        ),
                              c('Daily'    , 'Monthly')),
             CTEM     = rbind(c("burntArea", "gpp"    ),
-                             c(1          , 1        ),
+                             c(100        , 1        ),
                              c('Daily'    , 'Daily'  )),
             INFERNO  = rbind(c("NULL"     , "gpp"    ),
-                             c(1          , 1        ),
+                             c(100        , 1        ),
                              c('Daily'    , 'Daily'  )),
             JSBACH   = rbind(c("NULL"     , "NULL"   ),
-                             c(1          , 1        ),
+                             c(100        , 1        ),
                              c('Daily'    , 'Daily'  )),
             LPJglob  = rbind(c("NULL"     , "NULL"   ),
-                             c(1          , 1        ),
+                             c(100        , 1        ),
                              c('Daily'    , 'Daily'  )),
             LPJspit  = rbind(c("NULL"     , "NULL"   ),
-                             c(1          , 1        ),
+                             c(100        , 1        ),
                              c('Daily'    , 'Daily'  )),
             ORCHIDEE = rbind(c("NULL"     , "NULL"   ),
-                             c(1          , 1        ),
+                             c(100        , 1        ),
                              c('Daily'    , 'Daily'  )))
 
 Model.plotting = list( #Title            #Colour
