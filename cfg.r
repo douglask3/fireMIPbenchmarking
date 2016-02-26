@@ -8,6 +8,12 @@ library(rasterExtras)
 sourceAllLibs()
 
 ################################################################################
+## Set Parameters                                                             ##
+################################################################################
+month_length = c(31,28,31,30,31,30,31,31,30,31,30,31)
+experiment   = 'SF1'
+
+################################################################################
 ## Paths                                                                      ##
 ################################################################################
 setupProjectStructure()
@@ -19,7 +25,7 @@ data_dir.BenchmarkData = '~/Documents2/lpxBenchmarking/data/benchmarkData/'
 ################################################################################
 
 Model.RAW = list(      #DIR                 #Processing         # Start date
-            CLM      = c('CLM'               , process.CLM     , 1900),
+            CLM      = c('CLM'               , process.CLM     , 1996),
             CTEM     = c('CTEM'              , process.CTEM    , 1900),
             INFERNO  = c('inferno'           , process.inferno , 1900),
             JSBACH   = c('JSBACH'            , process.jsbach  , 1900),
@@ -31,7 +37,8 @@ Model.RAW = list(      #DIR                 #Processing         # Start date
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("BurntArea", "gpp"    ),
                              c(100        , 1/1000   ),
-                             c('Monthly'  , 'Annual' )),
+                             c('Monthly'  , 'Annual' ),
+                             c('mean'     , 'sum'    )),
             CLM      = rbind(c("BAF"      , "gpp"    ),
                              c(100        , 1        ),
                              c('Daily'    , 'Monthly')),
@@ -79,6 +86,7 @@ BurntArea.Spacial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
 BurntArea.Spacial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                          obsVarname    = "mfire_frac",
                          obsLayers     = 8:127,
+                         obsStart      = 1996,
                          ComparisonFun = FullNME,
                          plotArgs      = BurntArea.Spacial)
 

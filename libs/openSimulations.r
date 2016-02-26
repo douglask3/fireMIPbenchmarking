@@ -1,5 +1,5 @@
-openSimulations <- function(name, ...) {
-    varnN = which( Model.Variable[[1]][1,] == componentID(name)[1])
+openSimulations <- function(name, varnN,  ...) {
+
 
     dat = mapply(openSimulation,  Model.Variable[-1], Model.RAW,
                  MoreArgs = list(name, varnN, ...))
@@ -17,7 +17,7 @@ openSimulation <- function(modInfo, rawInfo, name, varnN, layers) {
 
     if (file.exists(tempName)) return(brick(tempName))
 
-    dat = process.RAW(modInfo, varInfo, rawInfo, layers)
+    dat = process.RAW(varInfo, modInfo, rawInfo, layers)
     browser()
 }
 
