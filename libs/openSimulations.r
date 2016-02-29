@@ -18,7 +18,7 @@ openSimulation <- function(modInfo, rawInfo, name, varnN, layers) {
     if (file.exists(tempName)) return(brick(tempName))
 
     dat = process.RAW(varInfo, modInfo, rawInfo, layers)
-    browser()
+    return(dat)
 }
 
 componentID <- function(name) strsplit(name,'.', TRUE)[[1]]

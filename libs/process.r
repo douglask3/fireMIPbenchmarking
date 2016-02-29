@@ -5,9 +5,12 @@ process.RAW <- function(varInfo, modInfo, rawInfo, layers) {
 
     tempFile = paste(c(temp_dir, '/RAW', rawInfo[c(1,3)], modInfo,
                      min(layers), '-', max(layers), '.nc'), collapse = '')
+
+
     if (file.exists(tempFile)) dat = brick(tempFile)
     else {
-
+        cat(paste('\nOpening raw data for', rawInfo[[1]], 'for',
+                  varInfo[[1]], 'comparison\n'))
         dir = paste(data_dir.ModelOuutputs, rawInfo[[1]], experiment, sep = '/')
         files = list.files(dir, full.names = TRUE)
 
@@ -16,7 +19,7 @@ process.RAW <- function(varInfo, modInfo, rawInfo, layers) {
                                startYear = rawInfo[[3]], modLayers, layersIndex,
                                combine = varInfo[4])
 
-            dat = writeRaster(dat, tempFile, overwrite = TRUE)
+            if (!is.null(dat)) dat = writeRaster(dat, tempFile, overwrite = TRUE)
         memSafeFile.remove()
     }
     return(dat)
@@ -24,11 +27,20 @@ process.RAW <- function(varInfo, modInfo, rawInfo, layers) {
 
 calculateLayersFromOpening <- function(varInfo, modInfo, layers, startYear) {
     varTime = varInfo[3]; modTime = modInfo[3]
+
     FUN = paste(varTime, '2', modTime, sep = '')
     if (!exists(FUN, mode = 'function')) stop("unknown timestep combinations")
 
-    FUN = match.fun(FUN, startYear)
+    FUN = match.fun(FUN)
     return(FUN(layers, startYear))
+}
+
+ Daily2Daily  <- function(...) Monthly2Monthly(..., n = 365)
+Annual2Annual <- function(...) Monthly2Monthly(..., n = 1  )
+
+Monthly2Monthly <- function(layers, start, n = 12) {
+    ModLayers = layers - n * (start - 1900) + 1
+    return(list(ModLayers, layers))
 }
 
 Monthly2Daily <- function(layers, start) {
@@ -53,35 +65,35 @@ Monthly2Daily <- function(layers, start) {
     return(list(ModLayers, ModLayersindex))
 }
 
-Monthly2Annual <- function(layers) {
+Monthly2Annual <- function(layers, start) {
     browser()
 }
 
 
-Daily2Monthly <- function(layers) {
+Daily2Monthly <- function(layers, start) {
     browser()
 }
 
-Daily2Annual <- function(layers) {
+Daily2Annual <- function(layers, start) {
     browser()
 }
 
-Annual2Monthly <- function(layers) {
+Annual2Monthly <- function(layers, start) {
     browser()
 }
 
 
-Annual2Daily <- function(layers) {
+Annual2Daily <- function(layers, start) {
     browser()
 }
 
 process.CLM <- function(files, varName, startYear,
                         layers, layersIndex, combine) {
-    print('clm')
-    index = which(grepl(varName, files))
-    if (multiNoFileWarnings(index)) return(NULL)
 
-    dat = brick.gunzip(files[index[1]])
+    file = findAfile(files, varName)
+    if (is.null(file)) return(NULL)
+
+    dat = brick.gunzip(file)
     nr = nrow(dat)
 
     layer = raster(xmn = 0, xmx = 360, ymn = -90, ymx = 90,
@@ -92,12 +104,12 @@ process.CLM <- function(files, varName, startYear,
 
         openLayer <- function(j) {
             layer[] = getValuesBlock(dat, row = 1, nrow = nr, col = j, ncol = 1)
-            layer = convert_pacific_centric_2_regular(layer)
             return(layer)
         }
 
-        dat    = layer.apply(layers, openLayer)
-        return(writeRaster(match.fun(combine)(dat), memSafeFile(),
+        dat = layer.apply(layers, openLayer)
+        dat = combineLayers(dat)
+        return(writeRaster(dat, memSafeFile(),
                overwrite = TRUE))
     }
 
@@ -106,7 +118,21 @@ process.CLM <- function(files, varName, startYear,
     return(dat)
 }
 
-multiNoFileWarnings <- function(x) {
+combineLayers <- function(dat, combine) {
+    if (nlayers(dat) > 1 ) dat = match.fun(combine)(dat)
+    dat = convert_pacific_centric_2_regular(dat)
+    return(dat)
+}
+
+findAfile <- function(files, varName) {
+    if (is.null(varName)) return(NULL)
+    varName = paste(varName, '.', sep = '')
+    index = which(grepl(varName, files, fixed = TRUE))
+    if (multiNoFileWarnings(index, varName)) return(NULL)
+    return(files[index[1]])
+}
+
+multiNoFileWarnings <- function(x, varName) {
     if (length(x) > 1) warning(paste('None-unique file for ', 'CLM',
                                ' - variable:', varName ,
                                '. First file selected', sep = ''))
@@ -119,27 +145,26 @@ multiNoFileWarnings <- function(x) {
     return(FALSE)
 }
 
-process.CTEM <- function(dir, varName, startYear, layers) {
-    browser()
+process.CTEM <- function(files, varName, startYear,
+                        layers, layersIndex, combine) {
+    file = findAfile(files, varName)
+    if (is.null(file)) return(NULL)
 
+    dat = brick.gunzip(file)
+    dat = dat[[layers]]
+
+    makeLayer <- function(i) {
+        layers = which(i == layersIndex)
+        dat = dat[[layers]]
+        dat = combineLayers(dat)
+        return(dat)
+    }
+
+    dat = layer.apply(unique(layersIndex), makeLayer)
 }
-
-process.inferno <- function(dir, varName, startYear, layers) {
-    browser()
-
-}
-
-process.jsbach <- function(dir, varName, startYear, layers) {
-    browser()
-
-}
-
-process.lpj <- function(dir, varName, startYear, layers) {
-    browser()
-
-}
-
-process.orchidee <- function(dir, varName, startYear, layers) {
+process.orchidee <- function(files, varName, startYear,
+                        layers, layersIndex, combine) {
+    print('orchidee')
     browser()
 
 }
