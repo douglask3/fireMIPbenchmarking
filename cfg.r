@@ -5,6 +5,8 @@ library(benchmarkMetrics)
 library(gitBasedProjects)
 library(raster)
 library(rasterExtras)
+library(rasterPlot)
+library(mapdata)
 sourceAllLibs()
 
 ################################################################################
@@ -54,21 +56,21 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
             LPJglob  = rbind(c("NULL"     , "NULL"   , "ra"       ),
                              c(100        , 1        , 1          ),
                              c('Daily'    , 'Daily'  , "Monthly"  )),
-            LPJspit  = rbind(c("NULL"     , "NULL"   , "NULL"     ),
+            LPJspit  = rbind(c("NULL"     , "NULL"   , "npp_WWF"  ),
                              c(100        , 1        , 1          ),
                              c('Daily'    , 'Daily'  , "Monthly"  )),
             ORCHIDEE = rbind(c("NULL"     , "NULL"   , "intensFire"),
                              c(100        , 1        , 1          ),
                              c('Daily'    , 'Daily'  , "Monthly" )))
 
-Model.plotting = list( #Title            #Colour
+Model.plotting = rbind( #Title            #Colour
             CLM      = c('CLM'               , 'red'     ),
             CTEM     = c('CTEM'              , 'green'   ),
             INFERNO  = c('inferno'           , 'blue'    ),
             JSBACH   = c('JSBACH'            , 'yellow'  ),
             LPJglob  = c('LPJ-GUESS-GlobFIRM', 'cyan'    ),
-            LPJspit  = c('LPJ-GUESS-SPITFIRE', 'magenta' ),
-            ORCHIDEE = c('ORCHIDEE'          , 'black'   ))
+            LPJspit  = c('LPJ-GUESS-SPITFIRE', 'darkcyan' ),
+            ORCHIDEE = c('ORCHIDEE'          , 'magenta'   ))
 
 ################################################################################
 ## Comparison Info                                                            ##
@@ -99,6 +101,6 @@ ModelMask         = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc
 
 
 ## Comparisons to be performed
-comparisonList <- named.list(ModelMask, BurntArea.Spacial)
+comparisonList <- named.list(ModelMask)#, BurntArea.Spacial)
 
 runComparisons(comparisonList)
