@@ -13,11 +13,12 @@ runComparison <- function(info, name) {
     mod = openSimulations(name, varnN, simLayers)
 
     ## Regrid if appripriate
-    if (is.raster(obs)) c(obs, mod) := cropBothWays(obs, mod)
-        else obs = list(obs)
+    memSafeFile.initialise('temp/')
+        if (is.raster(obs)) c(obs, mod) := cropBothWays(obs, mod)
+            else obs = list(obs)
 
-    comps = comparison(mod, obs, info)
-
+        comps = comparison(mod, obs, name, info)
+    memSafeFile.remove()
     return(comps)
 }
 
@@ -31,8 +32,15 @@ layersFrom1900 <- function(start, res, layers) {
     return(layers + diff)
 }
 
-comparison <- function(mod, obs, info) {
-    lapply(mod, function(i)
-           do.call(info$ComparisonFun,
-                   c(obs, i, name, list(info$plotArgs), info$ExtraArgs)))
+
+
+comparison <- function(mod, obs, name, info) {
+    if (is.True(info$allTogether)) {
+        do.call(info$ComparisonFun,
+                c(obs, list(mod), name, list(info$plotArgs), info$ExtraArgs))
+    } else {
+        lapply(mod, function(i)
+               do.call(info$ComparisonFun,
+                       c(obs, i, name, list(info$plotArgs), info$ExtraArgs)))
+    }
 }

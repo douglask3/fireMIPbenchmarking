@@ -94,7 +94,8 @@ ModelMask         = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc
                          obsVarname    = "mfire_frac",
                          obsLayers     = 8,
                          obsStart      = 1996,
-                         ComparisonFun = mapComparison)
+                         ComparisonFun = mapComparison,
+                         allTogether   = TRUE)
 
 
 ## Comparisons to be performed
