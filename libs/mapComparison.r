@@ -2,6 +2,7 @@ mapComparison <- function(obs, mod, name, ...) {
 
     ## Set up and arrange data
     index = !sapply(mod, is.null)
+    fname = 'maskComparison'
 
     cropOutAntarctic <- function(dat) crop(dat, extent(c(-180, 180, -60, 90)))
 
@@ -24,7 +25,8 @@ mapComparison <- function(obs, mod, name, ...) {
     plotDims   = standardPlotDims(length(mod) + 1)
 
 
-    makePlot <- function(mod, fname) {
+    makePlot <- function(mod, fnamei) {
+        fname = paste(figs_dir, fname, fnamei, '.pdf', sep ='-')
         pdf(fname, height = plotDims[2]*3, width = plotDims[1]*5)
 
         ## Plot
@@ -46,10 +48,11 @@ mapComparison <- function(obs, mod, name, ...) {
     }
 
 
-    makePlot(mod, 'figs/maskMaps.pdf')
+    makePlot(mod, 'ModelMasks')
     mod[index]  = lapply(mod[index], raster::resample, obs)
 
-    compare2mask <- function(mask, fnames) {
+    compare2mask <- function(mask, fnamei) {
+        fnames = paste(fname, fnamei, c('outside', 'inside'), sep = '-')
 
         modi = mod
         modi[index] = lapply(modi[index], function(i) i > 0.5 | mask == 0)
@@ -60,11 +63,11 @@ mapComparison <- function(obs, mod, name, ...) {
         makePlot(modi, fnames[2])
     }
 
-    compare2mask(obs, c('figs/maskMaps2.pdf', 'figs/maskMaps3.pdf'))
+    compare2mask(obs, 'vsObs')
 
     common = layer.apply(c(obs, mod), '>', 0.5)
     common = sum(common)>0
 
-    compare2mask(common, c('figs/maskMaps4.pdf', 'figs/maskMaps5.pdf'))
+    compare2mask(common, 'vsCommon')
     browser()
 }
