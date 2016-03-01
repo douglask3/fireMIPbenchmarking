@@ -45,18 +45,26 @@ mapComparison <- function(obs, mod, name, ...) {
         dev.off.gitWatermark(x = 0.85, y = 0.05, srt = 0, cex = 1.5)
     }
 
-    makePlot(mod, 'figs/maskMaps.pdf')
 
+    makePlot(mod, 'figs/maskMaps.pdf')
     mod[index]  = lapply(mod[index], raster::resample, obs)
 
-    modi = mod
-    modi[index] = lapply(modi[index], function(i) i > 0.5 | obs == 0)
-    makePlot(modi, 'figs/maskMaps2.pdf')
+    compare2mask <- function(mask, fnames) {
 
-    modi = mod
-    modi[index] = lapply(modi[index], function(i) (i < 0.5) | obs != 0)
-    makePlot(modi, 'figs/maskMaps3.pdf')
+        modi = mod
+        modi[index] = lapply(modi[index], function(i) i > 0.5 | mask == 0)
+        makePlot(modi, fnames[1])
 
-    
+        modi = mod
+        modi[index] = lapply(modi[index], function(i) (i < 0.5) | mask != 0)
+        makePlot(modi, fnames[2])
+    }
+
+    compare2mask(obs, c('figs/maskMaps2.pdf', 'figs/maskMaps3.pdf'))
+
+    common = layer.apply(c(obs, mod), '>', 0.5)
+    common = sum(common)>0
+
+    compare2mask(common, c('figs/maskMaps4.pdf', 'figs/maskMaps5.pdf'))
     browser()
 }
