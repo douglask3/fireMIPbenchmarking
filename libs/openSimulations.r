@@ -1,11 +1,6 @@
-openSimulations <- function(name, varnN,  ...) {
-
-
-    dat = mapply(openSimulation,  Model.Variable[-1], Model.RAW,
-                 MoreArgs = list(name, varnN, ...))
-
-    browser()
-}
+openSimulations <- function(name, varnN,  ...)
+    mapply(openSimulation,  Model.Variable[-1], Model.RAW,
+           MoreArgs = list(name, varnN, ...))
 
 
 openSimulation <- function(modInfo, rawInfo, name, varnN, layers) {
