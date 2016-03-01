@@ -26,6 +26,7 @@ mapComparison <- function(obs, mod, name, ...) {
 
 
     makePlot <- function(mod, fnamei) {
+        return()
         fname = paste(figs_dir, fname, fnamei, '.pdf', sep ='-')
         pdf(fname, height = plotDims[2]*3, width = plotDims[1]*5)
 
@@ -47,7 +48,6 @@ mapComparison <- function(obs, mod, name, ...) {
         dev.off.gitWatermark(x = 0.85, y = 0.05, srt = 0, cex = 1.5)
     }
 
-
     makePlot(mod, 'ModelMasks')
     mod[index]  = lapply(mod[index], raster::resample, obs)
 
@@ -65,9 +65,38 @@ mapComparison <- function(obs, mod, name, ...) {
 
     compare2mask(obs, 'vsObs')
 
-    common = layer.apply(c(obs, mod), '>', 0.5)
-    common = sum(common)>0
+    dat    = lapply(c(obs, mod), '>', 0.5)
+    names(dat) = c('Observations', Model.plotting[, 1])
+
+    common = layer.apply(dat, function(i) i)
+    common = sum(common) > 0
 
     compare2mask(common, 'vsCommon')
-    browser()
+
+    CommonArea <- function(i, j, areaWeighted = FALSE) {
+        i[is.na(i)] = 1
+        j[is.na(j)] = 1
+        i0 = i
+        i = i == j
+
+        if (areaWeighted) {
+            a = area(i)
+            nEqual = sum.raster(a * i)
+            nTotal = sum.raster(a)
+        } else {
+            nEqual = sum.raster(i)
+            nTotal = length(i[])
+        }
+        return(round(100 * nEqual/nTotal, 2))
+    }
+    CommonAreas <- function(fname,...) {
+        tab = sapply(dat, function(...) sapply(dat, CommonArea, ...), ...)
+        for (i in 2:nrow(tab)) for (j in 1:(i-1)) tab[i,j] = 100 - tab[i,j]
+
+        fname = paste(outputs_dir, 'CommonAreas',fname, '.csv', sep = '-')
+        write.csv(tab, fname)
+        cat(gitFullInfo(), file = fname, append = TRUE)
+    }
+    CommonAreas('pc_of_cells')
+    CommonAreas('pc_of_area', areaWeighted = TRUE)
 }
