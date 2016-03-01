@@ -11,8 +11,8 @@ process.RAW <- function(varInfo, modInfo, rawInfo, layers) {
     else {
         cat(paste('\nOpening raw data for', rawInfo[[1]], 'for',
                   varInfo[[1]], 'comparison\n'))
-        dir = paste(data_dir.ModelOuutputs, rawInfo[[1]], experiment, sep = '/')
-        files = list.files(dir, full.names = TRUE)
+        dir   = paste(data_dir.ModelOuutputs, rawInfo[[1]], experiment, sep = '/')
+        files = list.files(dir, full.names = TRUE, recursive = TRUE)
 
         memSafeFile.initialise('temp/')
             dat = rawInfo[[2]](files, varName = modInfo[1],
@@ -124,12 +124,14 @@ combineLayers <- function(dat, combine) {
     return(dat)
 }
 
-findAfile <- function(files, varName) {
+findAfile <- function(files, varName, sep = '.', warn = TRUE, returnAll = !warn) {
     if (is.null(varName)) return(NULL)
-    varName = paste(varName, '.', sep = '')
+    varName = paste(varName, sep, sep = '')
     index = which(grepl(varName, files, fixed = TRUE))
-    if (multiNoFileWarnings(index, varName)) return(NULL)
-    return(files[index[1]])
+    if (warn && multiNoFileWarnings(index, varName)) return(NULL)
+    files = files[index]
+    if (!returnAll) files = files[1]
+    return(files)
 }
 
 multiNoFileWarnings <- function(x, varName) {
@@ -160,11 +162,42 @@ process.CTEM <- function(files, varName, startYear,
         return(dat)
     }
 
-    dat = layer.apply(unique(layersIndex), makeLayer)
+    dat = combineRawLayers(dat, layersIndex)
+    return(dat)
 }
+
+combineRawLayers <- function(dat, layersIndex) {
+    makeLayer <- function(i) {
+        layers = which(i == layersIndex)
+        dat = dat[[layers]]
+        dat = combineLayers(dat)
+        return(dat)
+    }
+    dat = layer.apply(unique(layersIndex), makeLayer)
+    return(dat)
+}
+
 process.orchidee <- function(files, varName, startYear,
                         layers, layersIndex, combine) {
-    print('orchidee')
-    browser()
 
+    files = findAfile(files, varName, '_', FALSE)
+    if (is.null(file)) return(NULL)
+
+    nl = nlayers(brick.gunzip(files[1]))
+    lyersIndex = (layers-1)/nl
+    yearsIndex = floor(lyersIndex)
+    lyersIndex = (lyersIndex - yearsIndex) * nl
+    lyersIndex = split(lyersIndex + 1, yearsIndex)
+
+    index = unique(floor(yearsIndex)) + 1950
+    index = apply(sapply(index, grepl, files), 1, sum)!=0
+    files = files[index]
+
+    dat = lapply(files, brick.gunzip)
+
+    dat = mapply(function(i, j) i[[j]], dat, lyersIndex)
+    dat = layer.apply(dat, function(i) i)
+
+    dat = combineRawLayers(dat, layersIndex)
+    return(dat)
 }
