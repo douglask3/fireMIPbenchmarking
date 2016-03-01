@@ -66,12 +66,15 @@ mapComparison <- function(obs, mod, name, ...) {
     compare2mask(obs, 'vsObs')
 
     dat    = lapply(c(obs, mod), '>', 0.5)
-    names(dat) = c('Observations', Model.plotting[, 1])
 
     common = layer.apply(dat, function(i) i)
     common = sum(common) > 0
 
     compare2mask(common, 'vsCommon')
+
+    dat = c(common, dat)
+
+    names(dat) = c('Common', 'Observations', Model.plotting[, 1])
 
     CommonArea <- function(i, j, areaWeighted = FALSE) {
         i[is.na(i)] = 1
