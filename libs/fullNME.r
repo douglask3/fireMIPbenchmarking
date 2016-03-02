@@ -9,7 +9,6 @@ FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ...) {
     obs     = mean(obs)
     mod     = mean(mod)
     weights = area(obs)
-    browser()
 
     if (mnth2yr) { obs = obs * 12; mod = mod * 12}
 
