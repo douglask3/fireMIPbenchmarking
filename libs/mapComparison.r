@@ -19,6 +19,7 @@ mapComparison <- function(obs, mod, name, ...) {
 
     obs        = is.na(obs)
     mod        = lapply(mod, is.na)
+    mod0       = mod == 0
 
 
     ## Set up plot
@@ -101,4 +102,12 @@ mapComparison <- function(obs, mod, name, ...) {
     }
     CommonAreas('pc_of_cells')
     CommonAreas('pc_of_area', areaWeighted = TRUE)
+
+    writeOutMasks <- function(i, name) {
+        fname = paste(outputs_dir.modelMasks, name, '.nc', sep = '-')
+        writeRaster.gitInfo(i, fname, overwrite = TRUE)
+    }
+
+    dat = c(common, mod0)
+    mapply(writeOutMasks, dat, c('Common', Model.plotting[, 1]))
 }
