@@ -1,4 +1,4 @@
-mapComparison <- function(obs, mod, name, ...) {
+maskComparison <- function(obs, mod, name, ...) {
 
     ## Set up and arrange data
     index = !sapply(mod, is.null)
@@ -19,15 +19,20 @@ mapComparison <- function(obs, mod, name, ...) {
 
     obs        = is.na(obs)
     mod        = lapply(mod, is.na)
-    mod0       = mod == 0
 
+    c(mod_regrid, common) := maskComparison.plot(mod, obs, fname, index)
+    maskComparison.commonAreaComparison(common, obs, mod_regrid)
+    maskComparison.writeMasks(common, mod)
+}
 
+maskComparison.plot <- function(mod, obs, fname, index) {
     ## Set up plot
     plotDims   = standardPlotDims(length(mod) + 1)
 
 
     makePlot <- function(mod, fnamei) {
         fname = paste(figs_dir, fname, fnamei, '.pdf', sep ='-')
+        print(fname)
         pdf(fname, height = plotDims[2]*3, width = plotDims[1]*5)
 
         ## Plot
@@ -72,7 +77,12 @@ mapComparison <- function(obs, mod, name, ...) {
 
     compare2mask(common, 'vsCommon')
 
-    dat = c(common, dat)
+    return(list(mod, common))
+}
+
+
+maskComparison.commonAreaComparison <- function(common, obs, mod) {
+    dat = c(common, obs, mod)
 
     names(dat) = c('Common', 'Observations', Model.plotting[, 1])
 
@@ -103,11 +113,16 @@ mapComparison <- function(obs, mod, name, ...) {
     CommonAreas('pc_of_cells')
     CommonAreas('pc_of_area', areaWeighted = TRUE)
 
+}
+
+
+maskComparison.writeMasks <- function (common, mod) {
+
     writeOutMasks <- function(i, name) {
         fname = paste(outputs_dir.modelMasks, name, '.nc', sep = '-')
         writeRaster.gitInfo(i, fname, overwrite = TRUE)
     }
 
-    dat = c(common, mod0)
-    mapply(writeOutMasks, dat, c('Common', Model.plotting[, 1]))
+    mapply(writeOutMasks, c(common, mod), c('Common', Model.plotting[, 1]))
+
 }
