@@ -26,7 +26,6 @@ mapComparison <- function(obs, mod, name, ...) {
 
 
     makePlot <- function(mod, fnamei) {
-        return()
         fname = paste(figs_dir, fname, fnamei, '.pdf', sep ='-')
         pdf(fname, height = plotDims[2]*3, width = plotDims[1]*5)
 
