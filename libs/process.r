@@ -6,6 +6,7 @@ process.RAW <- function(varInfo, modInfo, rawInfo, layers) {
     tempFile = paste(c(temp_dir, '/RAW', rawInfo[c(1,3)], modInfo,
                      min(layers), '-', max(layers), '.nc'), collapse = '')
 
+    if (modInfo[1] == "NULL") return(NULL)
 
     if (file.exists(tempFile)) dat = brick(tempFile)
     else {
@@ -134,11 +135,18 @@ findAfile <- function(files, varName, sep = '.', warn = TRUE, returnAll = !warn)
     return(files)
 }
 
-multiNoFileWarnings <- function(x, varName) {
+multiNoFileWarnings <- function() {
+    oneFileWarning(...)
+    noFileWarning(...)
+}
+
+oneFileWarning <- function(x, varName)
     if (length(x) > 1) warning(paste('None-unique file for ', 'CLM',
                                ' - variable:', varName ,
                                '. First file selected', sep = ''))
 
+
+noFileWarning <- function(x, varName) {
     if (length(x) == 0) {
         warnings(paste('No file found for ', 'CLM', ' - variable:', varName,
                        '. Model ignored for this variable'))
@@ -179,9 +187,8 @@ combineRawLayers <- function(dat, layersIndex) {
 
 process.orchidee <- function(files, varName, startYear,
                         layers, layersIndex, combine) {
-
     files = findAfile(files, varName, '_', FALSE)
-    if (is.null(file)) return(NULL)
+    if (noFileWarning(files)) return(NULL)
 
     nl = nlayers(brick.gunzip(files[1]))
     lyersIndex = (layers-1)/nl
