@@ -29,12 +29,9 @@ plotSeasonal.conc <- function(obs, mod, name, score, ...) {
     plotNME.spatial(obs, mod, name, cols, dcols, limits, dlimits, ...)
 }
 
-plotSeasonal.phse <- function(obs, mod, name, score, lcLibPath) {
-	source(lcLibPath('dev.off.annotate.r'), local = TRUE)
-	source(lcLibPath('plotStandard.r'), local = TRUE)
-	source(lcLibPath('seasonLegend.r'), local = TRUE)
+plotSeasonal.phse <- function(obs, mod, name, score) {
 
-    figName = setupPlotStandardMap(name, 2, 3, width = c(0.1, 1, 1), lcLibPath = lcLibPath)
+    figName = setupPlotStandardMap(name, 2, 3, width = c(0.1, 1, 1))
 
     limits      = list(  0:11,
                        c(-5.5:5.5))
@@ -59,7 +56,7 @@ plotSeasonal.phse <- function(obs, mod, name, score, lcLibPath) {
 
     dif = acos(cos(dif))
 
-    plotStandardMetricMap(dif, 'MPD realtive contributions', lcLibPath = lcLibPath)
+    plotStandardMetricMap(dif, 'MPD realtive contributions')
 
     dev.off.annotate(name)
     return(figName)

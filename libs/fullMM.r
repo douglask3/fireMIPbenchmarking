@@ -29,11 +29,9 @@ FullMM <- function(obs, mod, name, plotArgs = NULL, extraItem = NULL,
     return(list(score, null, figName))
 }
 
-plotMM <- function(obs, mod, name, itemNames, cols, dcols, limits, dlimits,
-                   lcLibPath = lcLibPath) {
-	source(lcLibPath('dev.off.annotate.r'), local = TRUE)
-	source(lcLibPath('plotStandard.r'), local = TRUE)
-    figName = setupPlotStandardMap(name, 4, nlayers(obs), lcLibPath = lcLibPath)
+plotMM <- function(obs, mod, name, itemNames, cols, dcols, limits, dlimits) {
+
+    figName = setupPlotStandardMap(name, 4, nlayers(obs))
 
     plotItems <- function(x, txt, ...) {
         for (i in 1:nlayers(x))
@@ -45,7 +43,7 @@ plotMM <- function(obs, mod, name, itemNames, cols, dcols, limits, dlimits,
     plotItems(mod - obs, 'mod - obs', dlimits, dcols)
 
     MMs = sum(abs(obs - mod))
-    plotStandardMetricMap(MMs, 'MM realtive contributions', lcLibPath = lcLibPath)
+    plotStandardMetricMap(MMs, 'MM realtive contributions')
 
     dev.off.annotate(name)
     return(figName)

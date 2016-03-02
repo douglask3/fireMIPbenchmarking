@@ -6,9 +6,10 @@ FullNME <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
 }
 
 FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ...) {
-    obs     = mean (obs)
-    mod     = mean (mod)
+    obs     = mean(obs)
+    mod     = mean(mod)
     weights = area(obs)
+    browser()
 
     if (mnth2yr) { obs = obs * 12; mod = mod * 12}
 
@@ -42,10 +43,7 @@ FullNME.site <- function(obs, mod, name, plotArgs, nRRs = 2, ...) {
 }
 
 plotNME.site <- function (x, y, obs, mod, score, name, cols, limits, nRRs = 2,
-                          ..., lcLibPath) {
-	source(lcLibPath('dev.off.annotate.r'), local = TRUE)
-	source(lcLibPath('plotStandard.r'), local = TRUE)
-	source(lcLibPath('setupPlot.r'), local = TRUE)
+                          ...) {
 
     figName = setupPlot(name, 1, 2, mar = c(0,0,0,0), oma = c(2,0,0,0),
                         height2width = 0.5, scaleWidth = 6)
@@ -96,13 +94,10 @@ plotNME.spatial <- function(obs, mod, ...) {
 }
 
 plotNME.spatial.stepN <- function(obs, mod, step, name, cols, dcols,
-                                  limits, dlimits, lcLibPath) {
-	source(lcLibPath('dev.off.annotate.r'), local = TRUE)
-	source(lcLibPath('plotStandard.r'), local = TRUE)
+                                  limits, dlimits) {
 
     stepN   = paste("step", step, sep = '')
-    figName = setupPlotStandardMap(paste(name, stepN, sep = '-'), 2, 2,
-                                   lcLibPath = lcLibPath)
+    figName = setupPlotStandardMap(paste(name, stepN, sep = '-'), 2, 2)
 
     mapply(plotStandardMap, c(obs, mod), c('obs','mod'), MoreArgs = list(limits, cols))
     plotStandardMap(mod - obs, 'mod - obs', dlimits, dcols)
@@ -113,8 +108,7 @@ plotNME.spatial.stepN <- function(obs, mod, step, name, cols, dcols,
     NMEs  = abs(mod - obs) / abs(obs - mnObs)
 
     stepN = paste("step", step, sep = ' ')
-    plotStandardMetricMap(NMEs, paste('NME realtive contributions -', stepN),
-                          lcLibPath = lcLibPath)
+    plotStandardMetricMap(NMEs, paste('NME realtive contributions -', stepN))
 
     dev.off.annotate(paste(name, stepN))
     return(figName)
@@ -144,9 +138,7 @@ FullNME.InterAnnual <- function(obs, mod, name, plotArgs = NULL, nZ = 1,
     return(list(score, null, figName))
 }
 
-plotNME.InterAnnual <- function(obs, mod, name, x, lcLibPath) {
-	source(lcLibPath('dev.off.annotate.r'), local = TRUE)
-	source(lcLibPath('setupPlot.r'), local = TRUE)
+plotNME.InterAnnual <- function(obs, mod, name, x) {
 
     figName = setupPlot(name, 1, 1, scaleWidth = 10)
     x = x[[1]]
