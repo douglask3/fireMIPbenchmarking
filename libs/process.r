@@ -135,7 +135,7 @@ findAfile <- function(files, varName, sep = '.', warn = TRUE, returnAll = !warn)
     return(files)
 }
 
-multiNoFileWarnings <- function() {
+multiNoFileWarnings <- function(...) {
     oneFileWarning(...)
     noFileWarning(...)
 }
