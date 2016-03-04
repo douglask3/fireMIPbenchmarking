@@ -1,4 +1,5 @@
 runComparisons <- function(comparisonList) {
+    memSafeFile.remove()
     outs = mapply(runComparison, comparisonList, names(comparisonList))
     browser()
 }
@@ -9,17 +10,50 @@ runComparison <- function(info, name) {
 
     simLayers = layersFrom1900(info$obsStart, obsTemporalRes, info$obsLayers)
 
-    obs = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
-    mod = openSimulations(name, varnN, simLayers)
+    obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
+    mod   = openSimulations(name, varnN, simLayers)
+    masks = loadMask()
 
+    compareWithMask <- function(mask) {
     ## Regrid if appripriate
-    memSafeFile.initialise('temp/')
-        if (is.raster(obs)) c(obs, mod) := cropBothWays(obs, mod)
-            else obs = list(obs)
+        memSafeFile.initialise('temp/')
 
-        comps = comparison(mod, obs, name, info)
-    memSafeFile.remove()
+            if (is.raster(obs)) {
+                c(obs, mod) := remask(obs, mod, mask)
+                c(obs, mod) := cropBothWays(obs, mod)
+            } else obs = list(obs)
+
+            comps = comparison(mod, obs, name, info)
+        memSafeFile.remove()
+        return(comps)
+    }
+    comps = lapply(masks, compareWithMask)
+
     return(comps)
+}
+
+remask <- function(obs, mod, mask) {
+    resample <- function(i) {
+        if (is.null(i)) return(i)
+        return(raster::resample(i, mask, filename = memSafeFile()))
+    }
+    obs = raster::resample(obs, mask)
+    mod = lapply(mod, resample)
+
+    if (mask_type == 'all') obs[is.na(mask)] = NaN
+    else browser()
+
+    return(list(obs, mod))
+}
+
+loadMask <- function() {
+    if (mask_type == 'all') {
+        files = list.files.patternPath(outputs_dir.modelMasks,
+                                       full.names = TRUE)
+        mask  = lapply(files, raster)
+    } else browser()
+
+    return(mask)
 }
 
 layersFrom1900 <- function(start, res, layers) {

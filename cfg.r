@@ -15,6 +15,7 @@ sourceAllLibs()
 ################################################################################
 month_length = c(31,28,31,30,31,30,31,31,30,31,30,31)
 experiment   = 'SF1'
+mask_type    = 'all'
 
 ################################################################################
 ## Paths                                                                      ##
@@ -103,6 +104,6 @@ ModelMask         = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc
 
 
 ## Comparisons to be performed
-comparisonList <- named.list(ModelMask, BurntArea.Spacial)
+comparisonList <- named.list(BurntArea.Spacial, ModelMask)
 
 runComparisons(comparisonList)

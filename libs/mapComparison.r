@@ -120,9 +120,9 @@ maskComparison.writeMasks <- function (common, mod) {
 
     writeOutMasks <- function(i, name) {
         fname = paste(outputs_dir.modelMasks, name, '.nc', sep = '-')
-        writeRaster.gitInfo(i, fname, overwrite = TRUE)
+        writeRaster.gitInfo(i == 0, fname, overwrite = TRUE)
     }
-
+    
     mapply(writeOutMasks, c(common, mod), c('Common', Model.plotting[, 1]))
 
 }
