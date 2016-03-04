@@ -4,6 +4,7 @@
 library(benchmarkMetrics)
 library(gitBasedProjects)
 library(raster)
+library(ncdf4)
 library(rasterExtras)
 library(rasterPlot)
 library(mapdata)
@@ -21,6 +22,7 @@ experiment   = 'SF1'
 setupProjectStructure()
 data_dir.ModelOuutputs = 'data/ModelOutputs'
 data_dir.BenchmarkData = '~/Documents2/lpxBenchmarking/data/benchmarkData/'
+outputs_dir.modelMasks = paste(outputs_dir, 'modelMasks', sep = '/')
 
 ################################################################################
 ## Model Information                                                          ##
@@ -28,7 +30,7 @@ data_dir.BenchmarkData = '~/Documents2/lpxBenchmarking/data/benchmarkData/'
 
 Model.RAW = list(      #DIR                 #Processing         # Start date
             CLM      = c('CLM'               , process.CLM     , 1996),
-            CTEM     = c('CTEM'              , process.CTEM    , 1900),
+            CTEM     = c('CTEM'              , process.CTEM    , 1859),
             INFERNO  = c('inferno'           , process.CTEM    , 1900),
             JSBACH   = c('JSBACH'            , process.CTEM    , 1950),
             LPJglob  = c('LPJ-GUESS-GlobFIRM', process.CTEM    , 1950),
@@ -46,7 +48,7 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                              c('Daily'    , 'Monthly', "Monthly"  )),
             CTEM     = rbind(c("burntArea", "gpp"    , "cSoil"    ),
                              c(100        , 1        , 1          ),
-                             c('Daily'    , 'Daily'  , "Monthly"  )),
+                             c('Monthly'  , 'Daily'  , "Monthly"  )),
             INFERNO  = rbind(c("NULL"     , "gpp"    , "cSoil"    ),
                              c(100        , 1        , 1          ),
                              c('Daily'    , 'Daily'  , "Monthly"  )),
@@ -96,11 +98,11 @@ ModelMask         = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc
                          obsVarname    = "mfire_frac",
                          obsLayers     = 8,
                          obsStart      = 1996,
-                         ComparisonFun = mapComparison,
+                         ComparisonFun = maskComparison,
                          allTogether   = TRUE)
 
 
 ## Comparisons to be performed
-comparisonList <- named.list(ModelMask)#, BurntArea.Spacial)
+comparisonList <- named.list(ModelMask, BurntArea.Spacial)
 
 runComparisons(comparisonList)
