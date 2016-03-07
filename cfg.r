@@ -93,7 +93,8 @@ BurntArea.Spacial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc
                          obsLayers     = 8:127,
                          obsStart      = 1996,
                          ComparisonFun = FullNME,
-                         plotArgs      = BurntArea.Spacial)
+                         plotArgs      = BurntArea.Spacial,
+                         ExtraArgs     = list(mnth2yr = TRUE))
 
 ModelMask         = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                          obsVarname    = "mfire_frac",
