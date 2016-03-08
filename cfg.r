@@ -41,11 +41,11 @@ Model.RAW = list(      #DIR                 #Processing         # Start date
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("BurntArea", "gpp"    , "ModelMask"),
-                             c(100        , 1/1000   , 1          ),
+                             c(1          , 1/1000   , 1          ),
                              c('Monthly'  , 'Annual' , "Monthly"  ),
                              c('mean'     , 'sum'    , "sum"      )),
             CLM      = rbind(c("BAF"      , "gpp"    , "cSoilt"   ),
-                             c(100        , 1        , 1          ),
+                             c(1          , 1        , 1          ),
                              c('Daily'    , 'Monthly', "Monthly"  )),
             CTEM     = rbind(c("burntArea", "gpp"    , "cSoil"    ),
                              c(100        , 1        , 1          ),
