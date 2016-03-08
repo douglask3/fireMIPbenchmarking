@@ -11,11 +11,11 @@ FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ...) {
     weights = area(obs)
 
     if (mnth2yr) { obs = obs * 12; mod = mod * 12}
-
     score   = NME (obs, mod, weights)
 
     if (!is.null(plotArgs))
         figNames = do.call(plotNME.spatial, c(obs, mod, name, plotArgs, ...))
+    else figNames = NULL
 
     null    = null.NME(obs, w = weights, n = nRRs)
     return(list(score, null, figNames))
