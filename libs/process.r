@@ -3,7 +3,7 @@ process.RAW <- function(varInfo, modInfo, rawInfo, layers) {
     c(modLayers, layersIndex) :=
         calculateLayersFromOpening(varInfo, modInfo, layers, rawInfo[[3]])
 
-    tempFile = paste(c(temp_dir, '/RAW', rawInfo[c(1,3)], modInfo,
+    tempFile = paste(c(temp_dir, '/processed', rawInfo[c(1,3)], modInfo,
                      min(layers), '-', max(layers), '.nc'), collapse = '')
 
     if (modInfo[1] == "NULL") return(NULL)
@@ -20,6 +20,13 @@ process.RAW <- function(varInfo, modInfo, rawInfo, layers) {
                                startYear = rawInfo[[3]], modLayers, layersIndex,
                                combine = varInfo[4])
 
+            scale = as.numeric(modInfo[2])/as.numeric(varInfo[2])
+
+            if (scale != 1) {
+                scaleMod <- function(i)
+                    writeRaster(i * scale, file = memSafeFile())
+                dat = layer.apply(dat, scaleMod)
+            }
             if (!is.null(dat)) dat = writeRaster(dat, tempFile, overwrite = TRUE)
         memSafeFile.remove()
     }
