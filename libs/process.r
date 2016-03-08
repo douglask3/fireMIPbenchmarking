@@ -20,17 +20,44 @@ process.RAW <- function(varInfo, modInfo, rawInfo, layers) {
                                startYear = rawInfo[[3]], modLayers, layersIndex,
                                combine = varInfo[4])
 
-            scale = as.numeric(varInfo[2])/as.numeric(modInfo[2])
+            dat = scaleMod(dat, varInfo[2], modInfo[2])
 
-            if (scale != 1) {
-                scaleMod <- function(i)
-                    writeRaster(i * scale, file = memSafeFile())
-                dat = layer.apply(dat, scaleMod)
-            }
             if (!is.null(dat)) dat = writeRaster(dat, tempFile, overwrite = TRUE)
         memSafeFile.remove()
     }
     return(dat)
+}
+
+scaleMod <- function(dat, obs, mod) {
+    if (mod == "Ha") {
+        dat = covertFromHa2Frac(dat)
+        mod = 1
+    }
+    scale = as.numeric(obs)/as.numeric(mod)
+
+    if (scale != 1) {
+        scaleMod <- function(i)
+            writeRaster(i * scale, file = memSafeFile())
+        dat = layer.apply(dat, scaleMod)
+    }
+    return(dat)
+}
+
+covertFromHa2Frac <- function(dat) {
+    a = area(dat) * 100
+    dat = memSafeFunction(dat, '/', a)
+    return(dat)
+}
+
+memSafeFunction <- function(x, FUN, ...) {
+    if (is.character(FUN)) FUN = match.fun(FUN)
+    FUN2 = function(i) {
+        l = FUN(i, ...)
+        l = writeRaster(l, file = memSafeFile())
+    }
+
+    x = layer.apply(x, FUN2)
+    return(x)
 }
 
 calculateLayersFromOpening <- function(varInfo, modInfo, layers, startYear) {

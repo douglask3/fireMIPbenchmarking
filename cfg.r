@@ -64,7 +64,7 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                              c(100        , 1        , 1          ),
                              c('Monthly'  , 'Daily'  , "Monthly"  )),
             ORCHIDEE = rbind(c("meanFire" , "NULL"   , "intensFire"),
-                             c("100"        , 1        , 1          ),
+                             c("Ha"       , 1        , 1          ),
                              c('Monthly'  , 'Daily'  , "Monthly" )))
 
 Model.plotting = rbind( #Title            #Colour
