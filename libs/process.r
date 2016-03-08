@@ -20,7 +20,7 @@ process.RAW <- function(varInfo, modInfo, rawInfo, layers) {
                                startYear = rawInfo[[3]], modLayers, layersIndex,
                                combine = varInfo[4])
 
-            scale = as.numeric(modInfo[2])/as.numeric(varInfo[2])
+            scale = as.numeric(varInfo[2])/as.numeric(modInfo[2])
 
             if (scale != 1) {
                 scaleMod <- function(i)
