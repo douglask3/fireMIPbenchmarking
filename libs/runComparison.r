@@ -69,12 +69,21 @@ layersFrom1900 <- function(start, res, layers) {
 
 
 comparison <- function(mod, obs, name, info) {
-    if (is.True(info$allTogether)) {
-        do.call(info$ComparisonFun,
-                c(obs, list(mod), name, list(info$plotArgs), info$ExtraArgs))
-    } else {
-        lapply(mod, function(i)
-               do.call(info$ComparisonFun,
-                       c(obs, i, name, list(info$plotArgs), info$ExtraArgs)))
+    if (is.True(info$allTogether)) { # Does this comparison require all models to be passed at the same time
+        comp = do.call(info$ComparisonFun,
+                       c(obs, list(mod), name, list(info$plotArgs),
+                         info$ExtraArgs))
+    } else { # or each model individually
+        
+        index = !(sapply(mod, is.null))
+
+        comp = rep(list(NULL), length(mod))
+        comp[index] = lapply(mod[index], function(i)
+                      do.call(info$ComparisonFun,
+                              c(obs, i, name, list(info$plotArgs),
+                                info$ExtraArgs)))
+        browser()
     }
+
+    return(comp)
 }
