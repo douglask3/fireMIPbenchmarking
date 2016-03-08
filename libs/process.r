@@ -162,9 +162,13 @@ noFileWarning <- function(x, varName) {
     return(FALSE)
 }
 
+process.INFERNO <- function(...)
+    process.CTEM(..., vegVarN = 'LandCoverFrac')
+
 
 process.CTEM <- function(files, varName, startYear,
-                        layers, layersIndex, combine) {
+                        layers, layersIndex, combine,
+                        vegVarN = 'landCoverFrac') {
 
     brickLevels <- function()
         lapply(1:9, function(i) brick.gunzip(file, level = i, nl = max(layers)))
@@ -176,7 +180,7 @@ process.CTEM <- function(files, varName, startYear,
     dat0 = brickLevels()
 
     ## Open frac cover
-    file = findAfile(files, 'landCoverFrac')
+    file = findAfile(files, vegVarN)
     veg0 = brickLevels()
 
     mask = is.na(dat0[[1]][[1]])
