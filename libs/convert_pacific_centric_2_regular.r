@@ -1,4 +1,4 @@
-convert_pacific_centric_2_regular <- function(dat) {
+convert_pacific_centric_2_regular <- function(dat, tempWrite = FALSE) {
     if (xmax(dat) < 180) return(dat)
 
     index = 1:length(values(dat[[1]]))
@@ -11,5 +11,6 @@ convert_pacific_centric_2_regular <- function(dat) {
 
     xyz[,1] = x
     dat = rasterFromXYZ(xyz, crs = projection(dat))
+    if (tempWrite) dat = writeRaster(dat, file = memSafeFile())
     return(dat)
 }
