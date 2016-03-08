@@ -32,10 +32,10 @@ outputs_dir.modelMasks = paste(outputs_dir, 'modelMasks', sep = '/')
 Model.RAW = list(      #DIR                 #Processing         # Start date
             CLM      = c('CLM'               , process.CLM     , 1996),
             CTEM     = c('CTEM'              , process.CTEM    , 1859),
-            INFERNO  = c('inferno'           , process.CTEM    , 1900),
-            JSBACH   = c('JSBACH'            , process.CTEM    , 1950),
-            LPJglob  = c('LPJ-GUESS-GlobFIRM', process.CTEM    , 1950),
-            LPJspit  = c('LPJ-GUESS-SPITFIRE', process.CTEM    , 1950),
+            INFERNO  = c('inferno'           , process.default , 1900),
+            JSBACH   = c('JSBACH'            , process.default , 1950),
+            LPJglob  = c('LPJ-GUESS-GlobFIRM', process.default , 1950),
+            LPJspit  = c('LPJ-GUESS-SPITFIRE', process.default , 1950),
             ORCHIDEE = c('ORCHIDEE'          , process.orchidee, 1950))
 
 
