@@ -8,6 +8,7 @@ library(ncdf4)
 library(rasterExtras)
 library(rasterPlot)
 library(mapdata)
+sourceAllLibs('../gitProjectExtras/gitBasedProjects/R/')
 sourceAllLibs()
 
 ################################################################################
@@ -56,9 +57,9 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
             JSBACH   = rbind(c("NULL"     , "NULL"   , "npp"      ),
                              c(100        , 1        , 1          ),
                              c('Monthly'  , 'Daily'  , "Monthly"  )),
-            LPJglob  = rbind(c("NULL"     , "NULL"   , "ra"       ),
+            LPJglob  = rbind(c("burntArea", "NULL"   , "ra"       ),
                              c(100        , 1        , 1          ),
-                             c('Monthly'  , 'Daily'  , "Monthly"  )),
+                             c('Annual'   , 'Daily'  , "Monthly"  )),
             LPJspit  = rbind(c("burntAreaMonthly",
                                             "NULL"   , "npp_WWF"  ),
                              c(100        , 1        , 1          ),

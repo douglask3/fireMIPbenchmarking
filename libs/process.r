@@ -92,17 +92,20 @@ Monthly2Daily <- function(layers, start) {
         ModLayers = c(ModLayers, ModLayer)
 
         ModLayer = rep(layers[i], length.out = length(ModLayer))
-
         ModLayersindex = c(ModLayersindex, ModLayer)
     }
 
     ModLayers = ModLayers - 365 * (start - 1900)
-
+    
     return(list(ModLayers, ModLayersindex))
 }
 
 Monthly2Annual <- function(layers, start) {
-    browser()
+
+    ModLayers = floor(layers / 12)
+    ModLayers = ModLayers - start + 1900
+
+    return(list(ModLayers, layers))
 }
 
 
