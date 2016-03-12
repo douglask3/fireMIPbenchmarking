@@ -28,28 +28,9 @@ process.RAW <- function(varInfo, modInfo, rawInfo, layers) {
     return(dat)
 }
 
-scaleMod <- function(dat, obs, mod) {
-    if (mod == "Ha") {
-        dat = covertFromHa2Frac(dat)
-        mod = 1
-    }
-    scale = as.numeric(obs)/as.numeric(mod)
-
-    if (scale != 1) {
-        scaleMod <- function(i)
-            writeRaster(i * scale, file = memSafeFile())
-        dat = layer.apply(dat, scaleMod)
-    }
-    return(dat)
-}
-
-covertFromHa2Frac <- function(dat) {
-    a = area(dat) * 100
-    dat = memSafeFunction(dat, '/', a)
-    return(dat)
-}
-
-
+################################################################################
+## Layer Indexing Funs                                                        ##
+################################################################################
 calculateLayersFromOpening <- function(varInfo, modInfo, layers, startYear) {
     varTime = varInfo[3]; modTime = modInfo[3]
 
@@ -113,4 +94,29 @@ Annual2Monthly <- function(layers, start) {
 
 Annual2Daily <- function(layers, start) {
     browser()
+}
+
+
+################################################################################
+## Scaling Funs                                                               ##
+################################################################################
+scaleMod <- function(dat, obs, mod) {
+    if (mod == "Ha") {
+        dat = covertFromHa2Frac(dat)
+        mod = 1
+    }
+    scale = as.numeric(obs)/as.numeric(mod)
+
+    if (scale != 1) {
+        scaleMod <- function(i)
+            writeRaster(i * scale, file = memSafeFile())
+        dat = layer.apply(dat, scaleMod)
+    }
+    return(dat)
+}
+
+covertFromHa2Frac <- function(dat) {
+    a = area(dat) * 100
+    dat = memSafeFunction(dat, '/', a)
+    return(dat)
 }
