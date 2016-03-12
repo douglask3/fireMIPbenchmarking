@@ -1,31 +1,18 @@
-process.RAW <- function(varInfo, modInfo, rawInfo, layers) {
+process.RAW <- function (rawInfo, varInfo, modLayers, layersIndex) {
+    cat(paste('\nOpening raw data for', rawInfo[[1]], 'for',
+              varInfo[[1]], 'comparison\n'))
+    dir   = paste(data_dir.ModelOutputs, rawInfo[[1]], experiment, sep = '/')
+    files = list.files(dir, full.names = TRUE, recursive = TRUE)
 
-    c(modLayers, layersIndex) :=
-        calculateLayersFromOpening(varInfo, modInfo, layers, rawInfo[[3]])
+    memSafeFile.initialise('temp/')
+        dat = rawInfo[[2]](files, varName = modInfo[1],
+                           startYear = rawInfo[[3]], modLayers, layersIndex,
+                           combine = varInfo[4])
 
-    tempFile = paste(c(temp_dir, '/processed', rawInfo[c(1,3)], modInfo,
-                     min(layers), '-', max(layers), '.nc'), collapse = '')
+        dat = scaleMod(dat, varInfo[2], modInfo[2])
 
-    if (modInfo[1] == "NULL") return(NULL)
-
-    if (file.exists(tempFile)) dat = brick(tempFile)
-    else {
-        cat(paste('\nOpening raw data for', rawInfo[[1]], 'for',
-                  varInfo[[1]], 'comparison\n'))
-        dir   = paste(data_dir.ModelOuutputs, rawInfo[[1]], experiment, sep = '/')
-        files = list.files(dir, full.names = TRUE, recursive = TRUE)
-
-        memSafeFile.initialise('temp/')
-            dat = rawInfo[[2]](files, varName = modInfo[1],
-                               startYear = rawInfo[[3]], modLayers, layersIndex,
-                               combine = varInfo[4])
-
-            dat = scaleMod(dat, varInfo[2], modInfo[2])
-
-            if (!is.null(dat)) dat = writeRaster(dat, tempFile, overwrite = TRUE)
-        memSafeFile.remove()
-    }
-    return(dat)
+        if (!is.null(dat)) dat = writeRaster(dat, tempFile, overwrite = TRUE)
+    memSafeFile.remove()
 }
 
 ################################################################################

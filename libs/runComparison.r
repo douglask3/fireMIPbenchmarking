@@ -5,6 +5,9 @@ runComparisons <- function(comparisonList) {
 }
 
 runComparison <- function(info, name) {
+
+    componentID <- function(name) strsplit(name,'.', TRUE)[[1]]
+
     varnN = which( Model.Variable[[1]][1,] == componentID(name)[1])
     obsTemporalRes = Model.Variable[[1]][3, varnN]
 
