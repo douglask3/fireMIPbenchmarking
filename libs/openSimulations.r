@@ -6,7 +6,7 @@ openSimulations <- function(name, varnN,  ...)
 openSimulation <- function(modInfo, rawInfo, name, varnN, layers) {
     varInfo = Model.Variable[[1]][,varnN]
     modInfo = modInfo[,varnN]
-    dat = process.RAW(varInfo, modInfo, rawInfo, layers)
+    dat = openModel(varInfo, modInfo, rawInfo, layers)
     return(dat)
 }
 
@@ -20,7 +20,7 @@ openModel <- function(varInfo, modInfo, rawInfo, layers) {
     if (modInfo[1] == "NULL") return(NULL)
 
     if (file.exists(tempFile)) dat = brick(tempFile)
-    else dat = process.RAW(rawInfo, varInfo, modLayers, layersIndex)
-
+    else dat = process.RAW(rawInfo, varInfo, modInfo, modLayers, layersIndex, tempFile)
+    
     return(dat)
 }
