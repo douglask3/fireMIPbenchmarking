@@ -1,4 +1,4 @@
-process.RAW <- function (rawInfo, varInfo, modLayers, layersIndex) {
+process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex, outFile) {
     cat(paste('\nOpening raw data for', rawInfo[[1]], 'for',
               varInfo[[1]], 'comparison\n'))
     dir   = paste(data_dir.ModelOutputs, rawInfo[[1]], experiment, sep = '/')
@@ -9,9 +9,8 @@ process.RAW <- function (rawInfo, varInfo, modLayers, layersIndex) {
                            startYear = rawInfo[[3]], modLayers, layersIndex,
                            combine = varInfo[4])
 
-        dat = scaleMod(dat, varInfo[2], modInfo[2])
-
-        if (!is.null(dat)) dat = writeRaster(dat, tempFile, overwrite = TRUE)
+        if (!is.null(dat)) dat = scaleMod(dat, varInfo[2], modInfo[2])
+        if (!is.null(dat)) dat = writeRaster(dat, outFile, overwrite = TRUE)
     memSafeFile.remove()
 }
 
