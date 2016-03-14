@@ -139,6 +139,7 @@ comparison <- function(mod, obs, name, info) {
                               c(obs, i, name, list(info$plotArgs),
                                 info$ExtraArgs)))
     }
+    if (is.null(comp)) return(NULL)
     file =  outputScoves(comp, name, info)
     return(file)
 }
