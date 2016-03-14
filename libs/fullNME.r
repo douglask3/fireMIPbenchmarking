@@ -1,6 +1,6 @@
 FullNME <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
                     byZ = FALSE, nZ = 0, ...) {
-
+    
     if (!byZ) return(FullNME.spatial(obs, mod, name, mnth2yr, plotArgs, ...))
         else  return(FullNME.InterAnnual(obs, mod, name, plotArgs, nZ, ...))
 }
@@ -21,6 +21,47 @@ FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ...) {
     return(list(score, null, figNames))
 }
 
+
+plotNME.spatial <- function(obs, mod, ...) {
+	wgthdMean <- function(x)
+		sum(values(x * area(x)), na.rm = TRUE) /
+			sum(values(area(x, na.rm = TRUE)), na.rm = TRUE)
+
+	wgthdVar  <- function(x) {
+		x = abs(x - wgthdMean(x))
+		return(wgthdMean(x))
+	}
+
+    f1 = plotNME.spatial.stepN(obs, mod, 1, ...)
+
+    mod = mod * wgthdMean(obs) / wgthdMean(mod)
+    f2 = plotNME.spatial.stepN(obs, mod, 2, ...)
+
+    mod = mod * wgthdVar(obs) / wgthdVar(mod)
+    f3 = plotNME.spatial.stepN(obs, mod, 3, ...)
+    return(c(f1, f2, f3))
+}
+
+plotNME.spatial.stepN <- function(obs, mod, step, name, cols, dcols,
+                                  limits, dlimits) {
+
+    stepN   = paste("step", step, sep = '')
+    figName = setupPlotStandardMap(paste(name, stepN, sep = '-'), 2, 2)
+
+    mapply(plotStandardMap, c(obs, mod), c('obs','mod'), MoreArgs = list(limits, cols))
+    plotStandardMap(mod - obs, 'mod - obs', dlimits, dcols)
+
+    mnObs = sum(values(mod*area(mod)), na.rm = TRUE) /
+            sum(values(area(mod,na.rm = TRUE)), na.rm = TRUE)
+
+    NMEs  = abs(mod - obs) / abs(obs - mnObs)
+
+    stepN = paste("step", step, sep = ' ')
+    plotStandardMetricMap(NMEs, paste('NME realtive contributions -', stepN))
+
+    dev.off.annotate(paste(name, stepN))
+    return(figName)
+}
 
 FullNME.site <- function(obs, mod, name, plotArgs, nRRs = 2, ...) {
     x     = obs$lon
@@ -72,49 +113,9 @@ plotNME.site <- function (x, y, obs, mod, score, name, cols, limits, nRRs = 2,
 }
 
 
-plotNME.spatial <- function(obs, mod, ...) {
-	wgthdMean <- function(x)
-		sum(values(x * area(x)), na.rm = TRUE) /
-			sum(values(area(x, na.rm = TRUE)), na.rm = TRUE)
-
-	wgthdVar  <- function(x) {
-		x = abs(x - wgthdMean(x))
-		return(wgthdMean(x))
-	}
-
-    f1 = plotNME.spatial.stepN(obs, mod, 1, ...)
-
-    mod = mod * wgthdMean(obs) / wgthdMean(mod)
-    f2 = plotNME.spatial.stepN(obs, mod, 2, ...)
-
-    mod = mod * wgthdVar(obs) / wgthdVar(mod)
-    f3 = plotNME.spatial.stepN(obs, mod, 3, ...)
-    return(c(f1, f2, f3))
-}
-
-plotNME.spatial.stepN <- function(obs, mod, step, name, cols, dcols,
-                                  limits, dlimits) {
-
-    stepN   = paste("step", step, sep = '')
-    figName = setupPlotStandardMap(paste(name, stepN, sep = '-'), 2, 2)
-
-    mapply(plotStandardMap, c(obs, mod), c('obs','mod'), MoreArgs = list(limits, cols))
-    plotStandardMap(mod - obs, 'mod - obs', dlimits, dcols)
-
-    mnObs = sum(values(mod*area(mod)), na.rm = TRUE) /
-            sum(values(area(mod,na.rm = TRUE)), na.rm = TRUE)
-
-    NMEs  = abs(mod - obs) / abs(obs - mnObs)
-
-    stepN = paste("step", step, sep = ' ')
-    plotStandardMetricMap(NMEs, paste('NME realtive contributions -', stepN))
-
-    dev.off.annotate(paste(name, stepN))
-    return(figName)
-}
-
 FullNME.InterAnnual <- function(obs, mod, name, plotArgs = NULL, nZ = 1,
                                 nRRs = 2, ...) {
+
     ## Convert brick layers to ts
     calAnnual <- function(i) sum.raster(i * area(i), na.rm = TRUE)
     calIAV <- function(x) unlist(layer.apply(x, calAnnual))
