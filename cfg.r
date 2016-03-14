@@ -38,7 +38,7 @@ Model.RAW = list(      #DIR                 #Processing         # Start date
             LPJglob  = c('LPJ-GUESS-GlobFIRM', process.default , 1950),
             LPJspit  = c('LPJ-GUESS-SPITFIRE', process.default , 1950),
             LPJblze  = c('LPJ-GUESS-BLAZE'   , process.default , 1950),
-            MC2      = c('MC2'               , process.MC2     , 1950),
+            MC2      = c('MC2'               , process.default , 1950),
             ORCHIDEE = c('ORCHIDEE'          , process.orchidee, 1950))
 
 
@@ -66,12 +66,12 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                                             "NULL"   , "npp_WWF"  ),
                              c(100        , 1        , 1          ),
                              c('Monthly'  , 'Daily'  , "Monthly"  )),
-            LPJblze  = rbind(c("NULL"     , "NULL"   , "npp_WWF"  ),
+            LPJblze  = rbind(c("NULL"     , "NULL"   , "cSoil"    ),
                              c(100        , 1        , 1          ),
-                             c('Monthly'  , 'Daily'  , "Monthly"  )),
-            MC2      = rbind(c("burntArea", "NULL"   , "npp_WWF"  ),
+                             c('Monthly'  , 'Daily'  , "Annual"   )),
+            MC2      = rbind(c("BA"       , "NULL"   , "tas"      ),
                              c(100        , 1        , 1          ),
-                             c('Annual'   , 'Daily'  , "Monthly"  )),
+                             c('Annual'   , 'Daily'  , "Annual"  )),
             ORCHIDEE = rbind(c("meanFire" , "NULL"   , "intensFire"),
                              c("Ha"       , 1        , 1          ),
                              c('Monthly'  , 'Daily'  , "Monthly" )))
@@ -83,8 +83,8 @@ Model.plotting = rbind( #Title            #Colour
             JSBACH   = c('JSBACH'            , 'yellow'     ),
             LPJglob  = c('LPJ-GUESS-GlobFIRM', 'cyan'       ),
             LPJspit  = c('LPJ-GUESS-SPITFIRE', 'darkcyan'   ),
-            LPJblze  = c('LPJ-GUESS-SPITFIRE', 'dodgerblue4'),
-            MC2      = c('MC2'               , 'darkyellow' ),
+            LPJblze  = c('LPJ-GUESS-BLAZE'   , 'dodgerblue4'),
+            MC2      = c('MC2'               , 'darkgoldenrod4' ),
             ORCHIDEE = c('ORCHIDEE'          , 'magenta'    ))
 
 ################################################################################
