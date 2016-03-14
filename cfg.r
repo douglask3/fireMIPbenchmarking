@@ -37,6 +37,8 @@ Model.RAW = list(      #DIR                 #Processing         # Start date
             JSBACH   = c('JSBACH'            , process.default , 1950),
             LPJglob  = c('LPJ-GUESS-GlobFIRM', process.default , 1950),
             LPJspit  = c('LPJ-GUESS-SPITFIRE', process.default , 1950),
+            LPJblze  = c('LPJ-GUESS-BLAZE'   , process.default , 1950),
+            MC2      = c('MC2'               , process.MC2     , 1950),
             ORCHIDEE = c('ORCHIDEE'          , process.orchidee, 1950))
 
 
@@ -64,18 +66,26 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                                             "NULL"   , "npp_WWF"  ),
                              c(100        , 1        , 1          ),
                              c('Monthly'  , 'Daily'  , "Monthly"  )),
+            LPJblze  = rbind(c("NULL"     , "NULL"   , "npp_WWF"  ),
+                             c(100        , 1        , 1          ),
+                             c('Monthly'  , 'Daily'  , "Monthly"  )),
+            MC2      = rbind(c("burntArea", "NULL"   , "npp_WWF"  ),
+                             c(100        , 1        , 1          ),
+                             c('Annual'   , 'Daily'  , "Monthly"  )),
             ORCHIDEE = rbind(c("meanFire" , "NULL"   , "intensFire"),
                              c("Ha"       , 1        , 1          ),
                              c('Monthly'  , 'Daily'  , "Monthly" )))
 
 Model.plotting = rbind( #Title            #Colour
-            CLM      = c('CLM'               , 'red'     ),
-            CTEM     = c('CTEM'              , 'green'   ),
-            INFERNO  = c('inferno'           , 'blue'    ),
-            JSBACH   = c('JSBACH'            , 'yellow'  ),
-            LPJglob  = c('LPJ-GUESS-GlobFIRM', 'cyan'    ),
-            LPJspit  = c('LPJ-GUESS-SPITFIRE', 'darkcyan' ),
-            ORCHIDEE = c('ORCHIDEE'          , 'magenta'   ))
+            CLM      = c('CLM'               , 'red'        ),
+            CTEM     = c('CTEM'              , 'green'      ),
+            INFERNO  = c('inferno'           , 'blue'       ),
+            JSBACH   = c('JSBACH'            , 'yellow'     ),
+            LPJglob  = c('LPJ-GUESS-GlobFIRM', 'cyan'       ),
+            LPJspit  = c('LPJ-GUESS-SPITFIRE', 'darkcyan'   ),
+            LPJblze  = c('LPJ-GUESS-SPITFIRE', 'dodgerblue4'),
+            MC2      = c('MC2'               , 'darkyellow' ),
+            ORCHIDEE = c('ORCHIDEE'          , 'magenta'    ))
 
 ################################################################################
 ## Comparison Info                                                            ##
