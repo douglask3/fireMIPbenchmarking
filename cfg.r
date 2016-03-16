@@ -44,38 +44,38 @@ Model.RAW = list(      #DIR                 #Processing         # Start date
 
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
-            varname  = rbind(c("BurntArea", "gpp"    , "ModelMask"),
-                             c(1          , 1/1000   , 1          ),
-                             c('Monthly'  , 'Annual' , "Monthly"  ),
-                             c('mean'     , 'sum'    , "sum"      )),
-            CLM      = rbind(c("BAF"      , "gpp"    , "cSoilt"   ),
-                             c(1          , 1        , 1          ),
-                             c('Daily'    , 'Monthly', "Monthly"  )),
-            CTEM     = rbind(c("burntArea", "gpp"    , "cSoil"    ),
-                             c(100        , 1        , 1          ),
-                             c('Monthly'  , 'Daily'  , "Monthly"  )),
-            INFERNO  = rbind(c("burntArea", "gpp"    , "cSoil"    ),
-                             c(100        , 1        , 1          ),
-                             c('Monthly'  , 'Daily'  , "Monthly"  )),
-            JSBACH   = rbind(c("NULL"     , "NULL"   , "npp"      ),
-                             c(100        , 1        , 1          ),
-                             c('Monthly'  , 'Daily'  , "Monthly"  )),
-            LPJglob  = rbind(c("burntArea", "NULL"   , "ra"       ),
-                             c(100        , 1        , 1          ),
-                             c('Annual'   , 'Daily'  , "Monthly"  )),
+            varname  = rbind(c("BurntArea", "lifeForm"     , "gpp"    , "ModelMask"),
+                             c(1          , 100            , 1/1000   , 1          ),
+                             c('Monthly'  , 'Annual'       , 'Annual' , "Monthly"  ),
+                             c('mean'     , 'sum'          , "sum"    , "sum"      )),
+            CLM      = rbind(c("BAF"      , "NULL"         , "gpp"    , "cSoilt"   ),
+                             c(1          , 1              , 1        , 1          ),
+                             c('Daily'    , 'Annual'       , 'Monthly', "Monthly"  )),
+            CTEM     = rbind(c("burntArea", "landCoverFrac", "gpp"    , "cSoil"    ),
+                             c(100        , 1              , 1        , 1          ),
+                             c('Monthly'  , 'Annual'       , 'Annual' , "Monthly"  )),
+            INFERNO  = rbind(c("burntArea", "landCoverFrac", "gpp"    , "cSoil"    ),
+                             c(100        , 1              , 1        , 1          ),
+                             c('Monthly'  , 'Monthly'      , 'Annual' , "Monthly"  )),
+            JSBACH   = rbind(c("NULL"     , "NULL"         , "NULL"   , "npp"      ),
+                             c(100        , 1              , 1        ,1           ),
+                             c('Monthly'  , 'Annual'       , 'Daily'  , "Monthly"  )),
+            LPJglob  = rbind(c("burntArea", "NULL"         , "NULL"   , "ra"       ),
+                             c(100        , 1              , 1        , 1          ),
+                             c('Annual'   , "Annual"       , 'Daily'  , "Monthly"  )),
             LPJspit  = rbind(c("burntAreaMonthly",
-                                            "NULL"   , "npp_WWF"  ),
-                             c(100        , 1        , 1          ),
-                             c('Monthly'  , 'Daily'  , "Monthly"  )),
-            LPJblze  = rbind(c("NULL"     , "NULL"   , "cSoil"    ),
-                             c(100        , 1        , 1          ),
-                             c('Monthly'  , 'Daily'  , "Annual"   )),
-            MC2      = rbind(c("BA"       , "NULL"   , "tas"      ),
-                             c(100        , 1        , 1          ),
-                             c('Annual'   , 'Daily'  , "Annual"  )),
-            ORCHIDEE = rbind(c("meanFire" , "NULL"   , "intensFire"),
-                             c("Ha"       , 1        , 1          ),
-                             c('Monthly'  , 'Daily'  , "Monthly" )))
+                                            "NULL"         , "NULL"   , "npp_WWF"  ),
+                             c(100        , 1              , 1        , 1          ),
+                             c('Monthly'  , "Annual"       , 'Daily'  , "Monthly"  )),
+            LPJblze  = rbind(c("NULL"     , "NULL"         , "NULL"   , "cSoil"    ),
+                             c(100        , 1              , 1        , 1          ),
+                             c('Monthly'  , 'Annual'       , 'Daily'  , "Annual"   )),
+            MC2      = rbind(c("BA"       , "NULL"         , "NULL"   , "tas"      ),
+                             c(100        , 1              , 1        , 1          ),
+                             c('Annual'   , 'Annual'       , 'Daily'  , "Annual"  )),
+            ORCHIDEE = rbind(c("meanFire" , "NULL"         , "NULL"   , "intensFire"),
+                             c("Ha"       , 1              , 1        , 1          ),
+                             c('Monthly'  , 'Annual'       , 'Daily'  , "Monthly" )))
 
 Model.plotting = rbind( #Title            #Colour
             CLM      = c('CLM'               , 'red'        ),
@@ -175,7 +175,12 @@ BurntArea.Season  = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc
                          ComparisonFun = FullSeasonal,
                          plotArgs      = TRUE)
 
-
+lifeForm          = list(obsFile       = "veg_cont_fields_CRU.nc",
+                         obsVarname    = c("Tree_cover", "Herb"),
+                         ComparisonFun = FullMM,
+                         plotArgs      = VegComparison,
+                         ExtraArgs     = list(extraItem = 100,
+                                              itemNames = c('Tree', 'Herb', 'Bare')))
 
 
 
