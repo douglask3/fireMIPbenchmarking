@@ -52,15 +52,10 @@ comparisonOutput <- function(files, mnames, name) {
         col = sapply(dat, function(j) j[,i])
         col = col[,mskOrder]
 
-        anotateMin <- function(j, sym = '*') {
-            index = which(as.numeric(j)==min(as.numeric(j), na.rm = TRUE))
 
-            j[index] = paste(j[index], sym, sep = '')
-            return(j)
-        }
         anotateMin <- function(j) {
             j[j == "N/A"] = NA
-            if (all(is.na(j))) return(rep(FALSE, length(j)))
+            if (all(is.na(as.numeric(j)))) return(rep(FALSE, length(j)))
             index = as.numeric(j)== min(as.numeric(j), na.rm = TRUE)
             index[is.na(index)] = FALSE
             return(index)
