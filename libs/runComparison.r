@@ -33,8 +33,8 @@ runComparison <- function(info, name) {
     }
     files = mapply(compareWithMask, masks, mnames)
     comparisonOutput(files, mnames, name)
-    browser()
-    return(comps)
+
+    return(files)
 }
 
 comparisonOutput <- function(files, mnames, name) {
@@ -140,6 +140,6 @@ comparison <- function(mod, obs, name, info) {
                                 info$ExtraArgs)))
     }
     if (is.null(comp)) return(NULL)
-    file =  outputScoves(comp, name, info)
+    file =  outputScores(comp, name, info)
     return(file)
 }
