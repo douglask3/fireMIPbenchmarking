@@ -1,6 +1,6 @@
 FullNME <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
                     byZ = FALSE, nZ = 0, ...) {
-    
+
     if (!byZ) return(FullNME.spatial(obs, mod, name, mnth2yr, plotArgs, ...))
         else  return(FullNME.InterAnnual(obs, mod, name, plotArgs, nZ, ...))
 }
@@ -10,7 +10,7 @@ FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ...) {
     mod     = mean(mod)
     weights = area(obs)
 
-    if (mnth2yr) { obs = obs * 12; mod = mod * 12}
+    if (mnth2yr) {obs = obs * 12; mod = mod * 12}
     score   = NME (obs, mod, weights)
 
     if (!is.null(plotArgs))
@@ -43,7 +43,7 @@ plotNME.spatial <- function(obs, mod, ...) {
 }
 
 plotNME.spatial.stepN <- function(obs, mod, step, name, cols, dcols,
-                                  limits, dlimits) {
+                                  limits, dlimits, ...) {
 
     stepN   = paste("step", step, sep = '')
     figName = setupPlotStandardMap(paste(name, stepN, sep = '-'), 2, 2)
@@ -127,7 +127,7 @@ FullNME.InterAnnual <- function(obs, mod, name, plotArgs = NULL, nZ = 1,
     convert2Iannual <- function(d)
         sapply(1:floor(length(d)/nZ),convert2annual,d)
 
-    if (nZ > 1) c(obs, mod) :=  lapply(list(obs, mod), convert2Iannual)
+        if (nZ > 1) c(obs, mod) :=  lapply(list(obs, mod), convert2Iannual)
 
     score = NME (obs, mod)
     null  = null.NME(obs, n = nRRs)

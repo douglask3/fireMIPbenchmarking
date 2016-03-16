@@ -29,8 +29,7 @@ plotSeasonal.conc <- function(obs, mod, name, score, ...) {
     plotNME.spatial(obs, mod, name, cols, dcols, limits, dlimits, ...)
 }
 
-plotSeasonal.phse <- function(obs, mod, name, score) {
-
+plotSeasonal.phse <- function(obs, mod, name, score, ...) {
     figName = setupPlotStandardMap(name, 2, 3, width = c(0.1, 1, 1))
 
     limits      = list(  0:11,
@@ -39,7 +38,7 @@ plotSeasonal.phse <- function(obs, mod, name, score) {
                        c("#660066","#0000FF",'white','#FF0000', "#660066"))
 
     #c(obs, mod) := lapply(c(obs, mod), {function(i) i[i<0] = i[i<0] + 12; i})
-    seasonLegend(limits[[1]], cols[[1]], dat = obs)
+    SeasonLegend(limits[[1]], cols[[1]], dat = obs)
 
     mapply(plotStandardMap, c(obs, mod), c('obs','mod'),
            MoreArgs = list(limits[[1]], cols[[1]], add_legend = FALSE))
@@ -49,7 +48,7 @@ plotSeasonal.phse <- function(obs, mod, name, score) {
     mod[mod < (-6)] = mod[mod <(-6)] + 6
     mod[mod >   6 ] = mod[mod >  6 ] - 6
 
-    seasonLegend(limits[[2]], cols[[2]], dat = mod)
+    SeasonLegend(limits[[2]], cols[[2]], dat = mod)
 
     plotStandardMap(mod,  'mod - obs', limits[[2]], cols[[2]],
                  add_legend = FALSE)
