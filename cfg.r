@@ -93,7 +93,7 @@ Model.plotting = rbind( #Title            #Colour
 ################################################################################
 
 ## Plotting ##
-BurntArea.Spacial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
+BurntArea.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                          dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
                                         '#FFD793', "#F07700", "#AA0000"),
                          limits  = c(0.001,.01,.02,.05,.1,.2),
@@ -182,6 +182,53 @@ lifeForm          = list(obsFile       = "veg_cont_fields_CRU.nc",
                          ExtraArgs     = list(extraItem = 100,
                                               itemNames = c('Tree', 'Herb', 'Bare')))
 
+
+## Height
+Height            = list(obsFile       = "height_Simard.nc",
+                         obsVarname    = "height",
+                         ComparisonFun = FullNME,
+                         obsStart      = 2007,
+                         plotArgs      = Height)
+
+## NPP
+NPP               = list(obsFile       = "NPP.csv",
+                         obsVarname    = "csv",
+                         obsStart      = 1997:2005,
+                         ComparisonFun = FullNME.site,
+                         plotArgs      = NPP)
+
+## GPP
+GPP               = list(obsFile       = "NPP6.csv",
+                         obsVarname    = "csv",
+                         obsStart      = 1997:2005,
+                         ComparisonFun = FullNME.site,
+                         plotArgs      = GPP)
+
+
+## Fapar
+fAPAR.spacial     = list(obsFile       = "SeaWiFs_fapar_annual.nc",
+                         obsVarname    = "fapar",
+                         obsLayers     = 1:8,
+                         obsStart      = 1998,
+                         ComparisonFun = FullNME,
+                         plotArgs      = fAPAR.spacial)
+
+fAPAR.season     = list(obsFile       = 'SeaWiFS_fapar_monthly.nc',
+                        obsVarname    = "fapar",
+                        obsLayers     = NULL,
+                        obsStart      = 1998,
+                        ComparisonFun = FullSeasonal,
+                        plotArgs      = TRUE)
+
+
+
+fAPAR.ia         = list(obsFile       = "SeaWiFs_fapar_annual.nc",
+                        obsVarname    = "fapar",
+                        obsLayers     = 1:8,
+                        obsStart      = 1998,
+                        ComparisonFun = FullNME,
+                        plotArgs      = fAPAR.ia,
+                        ExtraArgs     = list(byZ = TRUE))
 
 
 
