@@ -70,7 +70,7 @@ comparisonOutput <- function(files, mnames, name) {
         colnames(col) = names(mskOrder)
         rownames(col) = modNames
 
-        file = paste(outputs_dir, name, tname, 'allMasks', '.csv', sep = '')
+        file = paste(outputs_dir, name, tname, 'allMasks', '.csv', sep = '-')
         write.csv(col, file)
         cat(gitFullInfo(), file = file, append = TRUE)
     }
