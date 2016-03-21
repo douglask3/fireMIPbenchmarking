@@ -6,8 +6,8 @@ process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex, outF
 
     memSafeFile.initialise('temp/')
         dat = rawInfo[[2]](files, varName = modInfo[1],
-                           startYear = rawInfo[[3]], modLayers, layersIndex,
-                           combine = varInfo[4])
+                           startYear = rawInfo[3], modLayers, layersIndex,
+                           combine = varInfo[5])
 
         if (!is.null(dat)) dat = scaleMod(dat, varInfo[2], modInfo[2])
         if (!is.null(dat)) dat = writeRaster(dat, outFile, overwrite = TRUE)

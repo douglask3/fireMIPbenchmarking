@@ -13,11 +13,10 @@ openSimulation <- function(modInfo, rawInfo, name, varnN, layers) {
 openModel <- function(varInfo, modInfo, rawInfo, layers) {
     if (modInfo[1] == "NULL") return(NULL)
 
-
     c(modLayers, layersIndex) :=
-        calculateLayersFromOpening(varInfo, modInfo, layers, rawInfo[[3]])
+        calculateLayersFromOpening(varInfo, modInfo, layers, modInfo[3])
 
-    tempFile = paste(c(temp_dir, '/processed', rawInfo[c(1,3)], modInfo,
+    tempFile = paste(c(temp_dir, '/processed',  modInfo,
                      min(layers), '-', max(layers), '.nc'), collapse = '')
 
     if (file.exists(tempFile)) dat = brick(tempFile)
@@ -32,13 +31,13 @@ openModel <- function(varInfo, modInfo, rawInfo, layers) {
 ## Layer Indexing Funs                                                        ##
 ################################################################################
 calculateLayersFromOpening <- function(varInfo, modInfo, layers, startYear) {
-    varTime = varInfo[3]; modTime = modInfo[3]
+    varTime = varInfo[3]; modTime = modInfo[4]
 
     FUN = paste(varTime, '2', modTime, sep = '')
     if (!exists(FUN, mode = 'function')) stop("unknown timestep combinations")
 
     FUN = match.fun(FUN)
-    return(FUN(layers, startYear))
+    return(FUN(layers, as.numeric(startYear)))
 }
 
  Daily2Daily  <- function(...) Monthly2Monthly(..., n = 365)
@@ -73,8 +72,8 @@ Monthly2Daily <- function(layers, start) {
 Monthly2Annual <- function(layers, start) {
 
     ModLayers = floor(layers / 12)
-    ModLayers = ModLayers - start + 1900
-
+    ModLayers = ModLayers - start + 1900 +1
+    
     return(list(ModLayers, layers))
 }
 

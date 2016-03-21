@@ -32,7 +32,7 @@ outputs_dir.modelMasks = paste(outputs_dir, 'modelMasks', sep = '/')
 ################################################################################
 
 Model.RAW = list(      #DIR                 #Processing         # Start date
-            CLM      = c('CLM'               , process.CLM     , 1996),
+            CLM      = c('CLM'               , process.CLM     , 1700),
             CTEM     = c('CTEM'              , process.CTEM    , 1859),
             INFERNO  = c('inferno'           , process.INFERNO , 1900),
             JSBACH   = c('JSBACH'            , process.default , 1950),
@@ -47,34 +47,44 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
             varname  = rbind(c("BurntArea", "lifeForm"     , "gpp"    , "ModelMask"),
                              c(1          , 100            , 1/1000   , 1          ),
                              c('Monthly'  , 'Annual'       , 'Annual' , "Monthly"  ),
+                             c(1996       , 1992           , 1997     , 1996       ),
                              c('mean'     , 'sum'          , "sum"    , "sum"      )),
             CLM      = rbind(c("BAF"      , "NULL"         , "gpp"    , "cSoilt"   ),
                              c(1          , 1              , 1        , 1          ),
+                             c(1700       , 1              , 1        , 1996       ),
                              c('Daily'    , 'Annual'       , 'Monthly', "Monthly"  )),
             CTEM     = rbind(c("burntArea", "landCoverFrac", "gpp"    , "cSoil"    ),
                              c(100        , 1              , 1        , 1          ),
+                             c(1859       , 1              , 1        , 1996       ),
                              c('Monthly'  , 'Annual'       , 'Annual' , "Monthly"  )),
             INFERNO  = rbind(c("burntArea", "landCoverFrac", "gpp"    , "cSoil"    ),
                              c(100        , 1              , 1        , 1          ),
+                             c(1700       , 1              , 1        , 1996       ),
                              c('Monthly'  , 'Monthly'      , 'Annual' , "Monthly"  )),
             JSBACH   = rbind(c("NULL"     , "NULL"         , "NULL"   , "npp"      ),
-                             c(100        , 1              , 1        ,1           ),
+                             c(100        , 1              , 1        , 1          ),
+                             c(100        , 1              , 1        , 1996       ),
                              c('Monthly'  , 'Annual'       , 'Daily'  , "Monthly"  )),
             LPJglob  = rbind(c("burntArea", "NULL"         , "NULL"   , "ra"       ),
                              c(100        , 1              , 1        , 1          ),
+                             c(1700       , 1              , 1        , 1996       ),
                              c('Annual'   , "Annual"       , 'Daily'  , "Monthly"  )),
             LPJspit  = rbind(c("burntAreaMonthly",
                                             "NULL"         , "NULL"   , "npp_WWF"  ),
                              c(100        , 1              , 1        , 1          ),
+                             c(1700       , 1              , 1        , 1996       ),
                              c('Monthly'  , "Annual"       , 'Daily'  , "Monthly"  )),
             LPJblze  = rbind(c("NULL"     , "NULL"         , "NULL"   , "cSoil"    ),
                              c(100        , 1              , 1        , 1          ),
+                             c(100        , 1              , 1        , 1996       ),
                              c('Monthly'  , 'Annual'       , 'Daily'  , "Annual"   )),
             MC2      = rbind(c("BA"       , "NULL"         , "NULL"   , "tas"      ),
                              c(100        , 1              , 1        , 1          ),
+                             c(1901       , 1              , 1        , 1996       ),
                              c('Annual'   , 'Annual'       , 'Daily'  , "Annual"  )),
             ORCHIDEE = rbind(c("meanFire" , "NULL"         , "NULL"   , "intensFire"),
                              c("Ha"       , 1              , 1        , 1          ),
+                             c(1950       , 1              , 1        , 1996       ),
                              c('Monthly'  , 'Annual'       , 'Daily'  , "Monthly" )))
 
 Model.plotting = rbind( #Title            #Colour
@@ -120,7 +130,7 @@ Height                = list(cols    = c('white',"#BBBB00","#CCCC00",
                              limits  = c(0.1, 1, 2, 5, 10)*2,
                              dlimits = c(-20, -10, -5, -2, 2, 5, 10, 20))
 
-fAPAR.spacial         = list(cols    = c('white',"#AAFFAA","#00FF00",
+fAPAR.Spatial         = list(cols    = c('white',"#AAFFAA","#00FF00",
                                          "#001100"),
                              dcols   = c('#0000AA','#9302FF','#D0C0FF','white',
                                         '#D7FF93',"#77F000","#00AA00"),
@@ -152,12 +162,12 @@ GPP                   = list(cols    = c('white',"#00F3CC","#00EE33",
 
 
 ## Full comparisons info ##
-BurntArea.Spacial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
+BurntArea.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                          obsVarname    = "mfire_frac",
                          obsLayers     = 8:127,
                          obsStart      = 1996,
                          ComparisonFun = FullNME,
-                         plotArgs      = BurntArea.Spacial,
+                         plotArgs      = BurntArea.Spatial,
                          ExtraArgs     = list(mnth2yr = TRUE))
 
 BurntArea.IA      = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
@@ -165,7 +175,7 @@ BurntArea.IA      = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc
                          obsLayers     = 8:127,
                          obsStart      = 1996,
                          ComparisonFun = FullNME,
-                         plotArgs      = BurntAreaIA.plot,
+                         plotArgs      = BurntArea.IA,
                          ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
 BurntArea.Season  = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
@@ -206,12 +216,12 @@ GPP               = list(obsFile       = "NPP6.csv",
 
 
 ## Fapar
-fAPAR.spacial     = list(obsFile       = "SeaWiFs_fapar_annual.nc",
+fAPAR.Spatial     = list(obsFile       = "SeaWiFs_fapar_annual.nc",
                          obsVarname    = "fapar",
                          obsLayers     = 1:8,
                          obsStart      = 1998,
                          ComparisonFun = FullNME,
-                         plotArgs      = fAPAR.spacial)
+                         plotArgs      = fAPAR.Spatial)
 
 fAPAR.season     = list(obsFile       = 'SeaWiFS_fapar_monthly.nc',
                         obsVarname    = "fapar",
@@ -237,10 +247,11 @@ ModelMask         = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc
                          obsLayers     = 8,
                          obsStart      = 1996,
                          ComparisonFun = maskComparison,
-                         allTogether   = TRUE)
+                         allTogether   = TRUE,
+                         noMasking     = TRUE)
 
 
 ## Comparisons to be performed
-comparisonList <- named.list(BurntArea.Season, BurntArea.IA, BurntArea.Spacial, ModelMask)
+comparisonList <- named.list(BurntArea.Spatial, BurntArea.IA, BurntArea.Season, ModelMask)
 
 runComparisons(comparisonList)

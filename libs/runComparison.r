@@ -5,22 +5,24 @@ runComparisons <- function(comparisonList) {
 }
 
 runComparison <- function(info, name) {
-
+    if(is.null(info$noMasking)) info$noMasking = FALSE
     componentID <- function(name) strsplit(name,'.', TRUE)[[1]]
 
     varnN = which( Model.Variable[[1]][1,] == componentID(name)[1])
     obsTemporalRes = Model.Variable[[1]][3, varnN]
 
-    simLayers = layersFrom1900(info$obsStart, obsTemporalRes, info$obsLayers)
+    simLayers = layersFrom1900(Model.Variable[[1]][4,varnN],
+                               obsTemporalRes, info$obsLayers)
 
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
     mod   = openSimulations(name, varnN, simLayers)
-    c(masks, mnames) := loadMask()
+
+    c(masks, mnames) := loadMask(info$noMasking)
 
     compareWithMask <- function(mask, mname) {
+        obs0 = obs
     ## Regrid if appripriate
         memSafeFile.initialise('temp/')
-
             if (is.raster(obs)) {
                 c(obs, mod) := remask(obs, mod, mask)
                 c(obs, mod) := cropBothWays(obs, mod)
@@ -31,6 +33,7 @@ runComparison <- function(info, name) {
         memSafeFile.remove()
         return(files)
     }
+
     files = mapply(compareWithMask, masks, mnames)
     comparisonOutput(files, mnames, name)
 
@@ -78,12 +81,14 @@ comparisonOutput <- function(files, mnames, name) {
 }
 
 remask <- function(obs, mod, mask) {
+    if (is.null(mask) || (is.character(mask) && mask == "NULL"))
+        return(list(obs, mod))
+
     resample <- function(i) {
         if (is.null(i)) return(i)
         return(raster::resample(i, mask))
     }
     obs = memSafeFunction(obs, resample)
-
     mod = lapply(mod, memSafeFunction, resample)
 
     if (mask_type == 'all') obs[is.na(mask)] = NaN
@@ -92,13 +97,13 @@ remask <- function(obs, mod, mask) {
     return(list(obs, mod))
 }
 
-loadMask <- function() {
+loadMask <- function(noMask) {
+    if (noMask) return(list('NULL', 'noMask'))
     if (mask_type == 'all') {
         files = list.files.patternPath(outputs_dir.modelMasks,
                                        full.names = TRUE)
         names = lapply(files, function(i) strsplit(i, outputs_dir.modelMasks)[[1]][2])
         names = sapply(names, function(i) strsplit(i, '.nc')[[1]][1])
-
 
         mask  = lapply(files, raster)
     } else browser()
@@ -108,7 +113,7 @@ loadMask <- function() {
 
 layersFrom1900 <- function(start, res, layers) {
     layers = layers - min(layers)
-    diff = start - 1900
+    diff = as.numeric(start) - 1900
          if (res == "Annual" ) diff
     else if (res == "Monthly") diff = diff * 12
     else if (res == "Dailys" ) diff = diff * 365
@@ -119,7 +124,6 @@ layersFrom1900 <- function(start, res, layers) {
 
 
 comparison <- function(mod, obs, name, info) {
-
     if (is.True(info$allTogether)) { # Does this comparison require all models to be passed at the same time
         comp = do.call(info$ComparisonFun,
                        c(obs, list(mod), name, list(info$plotArgs),
