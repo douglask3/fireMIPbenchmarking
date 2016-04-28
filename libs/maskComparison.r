@@ -1,5 +1,4 @@
 maskComparison <- function(obs, mod, name, ...) {
-
     ## Set up and arrange data
     index = !sapply(mod, is.null)
     fname = 'maskComparison'
