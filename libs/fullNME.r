@@ -115,7 +115,6 @@ plotNME.site <- function (x, y, obs, mod, score, name, cols, limits, nRRs = 2,
 
 FullNME.InterAnnual <- function(obs, mod, name, plotArgs = NULL, nZ = 1,
                                 nRRs = 2, ...) {
-
     ## Convert brick layers to ts
     calAnnual <- function(i) sum.raster(i * area(i), na.rm = TRUE)
     calIAV <- function(x) unlist(layer.apply(x, calAnnual))
