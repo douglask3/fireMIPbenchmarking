@@ -1,5 +1,5 @@
 runComparisons <- function(comparisonList) {
-    memSafeFile.remove()
+    try(memSafeFile.remove(), silent = TRUE)
     outs = mapply(runComparison, comparisonList, names(comparisonList))
     browser()
 }
@@ -132,11 +132,13 @@ comparison <- function(mod, obs, name, info) {
 
         index = !(sapply(mod, is.null))
 
-        comp = rep(list(NULL), length(mod))
-        comp[index] = lapply(mod[index], function(i)
-                      do.call(info$ComparisonFun,
-                              c(obs, i, name, list(info$plotArgs),
-                                info$ExtraArgs)))
+        comp = yay = rep(list(NULL), length(mod))
+        FUN = function(i, j) {
+            fname = paste(name, j, sep = 'model-')
+            do.call(info$ComparisonFun, c(obs, i, fname, list(info$plotArgs),
+                    info$ExtraArgs))
+        }
+        comp[index] = mapply(FUN, mod[index], names(mod), SIMPLIFY = FALSE)
     }
     if (is.null(comp)) return(NULL)
     file =  outputScores(comp, name, info)
