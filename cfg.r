@@ -10,7 +10,7 @@ library(rasterPlot)
 library(mapdata)
 library(plotrix)
 sourceAllLibs('../gitProjectExtras/gitBasedProjects/R/')
-sourceAllLibs()
+sourceAllLibs('src')
 
 ################################################################################
 ## Set Parameters                                                             ##
