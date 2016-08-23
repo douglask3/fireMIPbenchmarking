@@ -17,7 +17,7 @@ sourceAllLibs()
 ################################################################################
 month_length = c(31,28,31,30,31,30,31,31,30,31,30,31)
 experiment   = 'SF1'
-mask_type    = 'all'
+mask_type    = 'common'
 
 ################################################################################
 ## Paths                                                                      ##
@@ -82,8 +82,8 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                              c(100        , 1              , 1        , 1          ),
                              c(1901       , 1              , 1        , 1996       ),
                              c('Annual'   , 'Annual'       , 'Daily'  , "Annual"  )),
-            ORCHIDEE = rbind(c("meanFire" , "NULL"         , "NULL"   , "intensFire"),
-                             c("Ha"       , 1              , 1        , 1          ),
+            ORCHIDEE = rbind(c("burntArea", "NULL"         , "NULL"   , "burntArea"),
+                             c(100        , 1              , 1        , 1          ),
                              c(1950       , 1              , 1        , 1996       ),
                              c('Monthly'  , 'Annual'       , 'Daily'  , "Monthly" )))
 
@@ -252,6 +252,7 @@ ModelMask         = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc
 
 
 ## Comparisons to be performed
-comparisonList <- named.list(BurntArea.Spatial, BurntArea.IA, BurntArea.Season, ModelMask)
+comparisonList <- named.list(BurntArea.IA, BurntArea.Spatial, BurntArea.Season, ModelMask)
+comparisonList <- named.list(BurntArea.IA, BurntArea.Spatial, BurntArea.Season)
 
 runComparisons(comparisonList)
