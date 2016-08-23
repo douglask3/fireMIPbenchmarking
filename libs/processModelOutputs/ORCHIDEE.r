@@ -1,6 +1,7 @@
 process.orchidee <- function(files, varName, startYear,
                         layers, layersIndex, combine) {
-    files = findAfile(files, varName, '_', FALSE)
+    files0 = files
+    files = findAfile(files, varName, '', FALSE)
     if (noFileWarning(files)) return(NULL)
 
     nl = nlayers(brick.gunzip(files[1]))
