@@ -5,6 +5,7 @@ runComparisons <- function(comparisonList) {
 }
 
 runComparison <- function(info, name) {
+
     if(is.null(info$noMasking)) info$noMasking = FALSE
     componentID <- function(name) strsplit(name,'.', TRUE)[[1]]
 
@@ -29,34 +30,36 @@ runComparison <- function(info, name) {
             } else obs = list(obs)
 
             name  = paste(name, '-mask', mname, sep ='')
-            files = comparison(mod, obs, name, info)
+            scores = comparison(mod, obs, name, info)
         memSafeFile.remove()
-        return(files)
+        return(scores)
     }
 
-    files = mapply(compareWithMask, masks, mnames)
-    comparisonOutput(files, mnames, name)
-
-    return(files)
+    scores = mapply(compareWithMask, masks, mnames, SIMPLIFY = FALSE)
+    comparisonOutput(scores, mnames, name)
+    return(scores)
 }
 
-comparisonOutput <- function(files, mnames, name) {
-    dat = lapply(files,read.csv, row.names = 1)
+comparisonOutput <- function(scores, mskNames, name) {
+    #dat = lapply(files,read.csv, row.names = 1)
+
 
     modNames = Model.plotting[,1]
-    mskNames = substr(mnames,2, nchar(mnames)-1)
-
-    mskOrder = sapply(modNames, function(i) which(mskNames == i))
-    addition = setdiff(1:length(mskNames),mskOrder)
-    names(addition) = mskNames[addition]
-    mskOrder = c(mskOrder, addition)
+    if (length(mskNames)>1)  mskNames = substr(mskNames,2, nchar(mskNames)-1)
+    if (length(mskNames) == length(modNames)) {
+        mskOrder = sapply(modNames, function(i) which(mskNames == i))
+        addition = setdiff(1:length(mskNames),mskOrder)
+        names(addition) = mskNames[addition]
+        mskOrder = c(mskOrder, addition)
+    } else mskOrder = 1:length(mskNames)
 
     tab4Col <- function(i, tname) {
-        col = sapply(dat, function(j) j[,i])
-        col = col[,mskOrder]
+        col = as.matrix(sapply(scores, function(j) j[,i]))
 
+        if (length(mskOrder ) > 1) col = col[,mskOrder]
 
         anotateMin <- function(j) {
+            if (length(j) == 1) return(FALSE)
             j[j == "N/A"] = NA
             if (all(is.na(as.numeric(j)))) return(rep(FALSE, length(j)))
             index = as.numeric(j)== min(as.numeric(j), na.rm = TRUE)
@@ -76,8 +79,13 @@ comparisonOutput <- function(files, mnames, name) {
         file = paste(outputs_dir, name, tname, 'allMasks', '.csv', sep = '-')
         write.csv(col, file)
         cat(gitFullInfo(), file = file, append = TRUE)
+        return(col)
     }
-    mapply(tab4Col, 1:ncol(dat[[1]]), colnames(dat[[1]]))
+    tabi = mapply(tab4Col, 1:ncol(scores[[1]]), colnames(scores[[1]]),
+                 SIMPLIFY = FALSE)
+    tab = tabi[[1]]; for (i in tabi[-1]) tab = cbind(tab, i)
+    if (length(scores) == 1) colnames(tab) = colnames(scores[[1]])
+    return(tab)
 }
 
 remask <- function(obs, mod, mask) {
@@ -88,10 +96,12 @@ remask <- function(obs, mod, mask) {
         if (is.null(i)) return(i)
         return(raster::resample(i, mask))
     }
+
     obs = memSafeFunction(obs, resample)
     mod = lapply(mod, memSafeFunction, resample)
 
-    if (mask_type == 'all') obs[is.na(mask)] = NaN
+    if (mask_type == 'all' || mask_type == 'common')
+        obs[is.na(mask)] = NaN
     else browser()
 
     return(list(obs, mod))
@@ -99,14 +109,19 @@ remask <- function(obs, mod, mask) {
 
 loadMask <- function(noMask) {
     if (noMask) return(list('NULL', 'noMask'))
+
+    files = list.files.patternPath(outputs_dir.modelMasks,
+                                   full.names = TRUE)
+
     if (mask_type == 'all') {
-        files = list.files.patternPath(outputs_dir.modelMasks,
-                                       full.names = TRUE)
         names = lapply(files, function(i) strsplit(i, outputs_dir.modelMasks)[[1]][2])
         names = sapply(names, function(i) strsplit(i, '.nc')[[1]][1])
-
         mask  = lapply(files, raster)
-    } else browser()
+    } else if (mask_type == 'common') {
+        names = 'Common'
+        file = files[grepl(names, files)]
+        mask = list(raster(file))
+    }
 
     return(list(mask, names))
 }
@@ -132,15 +147,16 @@ comparison <- function(mod, obs, name, info) {
 
         index = !(sapply(mod, is.null))
 
-        comp = yay = rep(list(NULL), length(mod))
+        comp = rep(list(NULL), length(mod))
         FUN = function(i, j) {
             fname = paste(name, j, sep = 'model-')
             do.call(info$ComparisonFun, c(obs, i, fname, list(info$plotArgs),
                     info$ExtraArgs))
         }
+
         comp[index] = mapply(FUN, mod[index], names(mod), SIMPLIFY = FALSE)
     }
     if (is.null(comp)) return(NULL)
-    file =  outputScores(comp, name, info)
-    return(file)
+    scores =  outputScores(comp, name, info)
+    return(scores)
 }

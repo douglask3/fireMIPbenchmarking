@@ -1,6 +1,9 @@
 outputScores <- function(comp, name, info) {
 
-    if (grepl('MPD',comp[[1]][[1]]$call[1])) n = c(6,4)
+    MPD_test = !sapply(comp, is.null)
+    MPD_test = sapply(comp[MPD_test],
+                      function(i) grepl('MPD', i[[1]]$call[1]))
+    if (length(MPD_test) !=0 && MPD_test[1]) n = c(6,4)
         else n = c(2,3)
 
     extractScore <- function(FUN, n = 2) {
@@ -15,20 +18,26 @@ outputScores <- function(comp, name, info) {
 
     file   = paste(outputs_dir, name, '.csv', sep = '-')
     write.csv(scores, file)
-    return(file)
+    return(scores)
 }
 
 beautifyOutScore <- function(scores) {
     rownames(scores) = Model.plotting[,1]
-    
-    if (ncol(scores) == 10) {
-        colnames(scores)[1:4] = paste('mean',c('phase', 'concentration1',
-                                               'concentration2',
-                                               'concentration3'), sep = '.')
-        colnames(scores)[5:6] = paste('random',c('phase', 'concentration'),
-                                      sep = '.')
-    }
 
+    if (ncol(scores) == 10) {
+        cnames = paste('concentration',1:3, sep = '')
+        cnames = c(paste('mean'  , c('phase', cnames), sep = '.'),
+                   paste('random', c('phase', 'concentration'), sep = '.'),
+                   paste('models', c('phase', cnames), sep = '.'))
+
+        colnames(scores) = cnames
+    } else if (ncol(scores) == 5) {
+        colnames(scores) = c('mean', 'random',
+                             'step1', 'step2', 'step3')
+    } else {
+        print('MM colnames')
+        browser()
+    }
     return(scores)
 }
 
