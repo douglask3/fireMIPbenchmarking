@@ -11,7 +11,6 @@ openObservation <- function(file, varname,...) {
     browser()
 }
 
-
 openCsvInputs <- function(file, scaling = NULL, dir) {
     file = paste(dir, file, sep="")
     return(read.csv(file))
@@ -19,7 +18,7 @@ openCsvInputs <- function(file, scaling = NULL, dir) {
 
 openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL, dir) {
     if (is.null(varname)) varname = ""
-    
+
     dat = stack(varname = varname, paste(dir, file, sep=""))
 
     if (!is.null(layerID)) {
