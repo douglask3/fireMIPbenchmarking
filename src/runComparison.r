@@ -1,7 +1,7 @@
 runComparisons <- function(comparisonList) {
     try(memSafeFile.remove(), silent = TRUE)
     outs = mapply(runComparison, comparisonList, names(comparisonList))
-    browser()
+    ## outputs all?
 }
 
 runComparison <- function(info, name) {
@@ -42,8 +42,6 @@ runComparison <- function(info, name) {
 
 comparisonOutput <- function(scores, mskNames, name) {
     #dat = lapply(files,read.csv, row.names = 1)
-
-
     modNames = Model.plotting[,1]
     if (length(mskNames)>1)  mskNames = substr(mskNames,2, nchar(mskNames)-1)
     if (length(mskNames) == length(modNames)) {
@@ -61,8 +59,8 @@ comparisonOutput <- function(scores, mskNames, name) {
         anotateMin <- function(j) {
             if (length(j) == 1) return(FALSE)
             j[j == "N/A"] = NA
-            if (all(is.na(as.numeric(j)))) return(rep(FALSE, length(j)))
-            index = as.numeric(j)== min(as.numeric(j), na.rm = TRUE)
+            if (all(is.na(as.numeric.start(j)))) return(rep(FALSE, length(j)))
+            index = as.numeric.start(j)== min(as.numeric.start(j), na.rm = TRUE)
             index[is.na(index)] = FALSE
             return(index)
         }
@@ -154,7 +152,7 @@ comparison <- function(mod, obs, name, info) {
                     info$ExtraArgs))
         }
 
-        comp[index] = mapply(FUN, mod[index], names(mod), SIMPLIFY = FALSE)
+        comp[index] = mapply(FUN, mod[index], names(mod)[index], SIMPLIFY = FALSE)
     }
     if (is.null(comp)) return(NULL)
     scores =  outputScores(comp, name, info)
