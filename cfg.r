@@ -9,14 +9,14 @@ library(rasterExtras)
 library(rasterPlot)
 library(mapdata)
 library(plotrix)
-sourceAllLibs('../gitProjectExtras/gitBasedProjects/R/')
+
 sourceAllLibs('src')
 
 ################################################################################
 ## Set Parameters                                                             ##
 ################################################################################
 month_length = c(31,28,31,30,31,30,31,31,30,31,30,31)
-experiment   = 'SF1'
+experiment   = ''
 mask_type    = 'common'
 
 ################################################################################
@@ -34,14 +34,13 @@ outputs_dir.modelMasks = paste(outputs_dir, 'modelMasks', sep = '/')
 Model.RAW = list(      #DIR                 #Processing         # Start date
             CLM      = c('CLM'               , process.CLM     , 1700),
             CTEM     = c('CTEM'              , process.CTEM    , 1859),
-            INFERNO  = c('inferno'           , process.INFERNO , 1900),
+            INFERNO  = c('Inferno'           , process.INFERNO , 1900),
             JSBACH   = c('JSBACH'            , process.default , 1950),
             LPJglob  = c('LPJ-GUESS-GlobFIRM', process.default , 1950),
             LPJspit  = c('LPJ-GUESS-SPITFIRE', process.default , 1950),
             LPJblze  = c('LPJ-GUESS-BLAZE'   , process.default , 1950),
             MC2      = c('MC2'               , process.default , 1950),
             ORCHIDEE = c('ORCHIDEE'          , process.orchidee, 1950))
-
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("BurntArea", "lifeForm"     , "gpp"    , "ModelMask"),
@@ -74,9 +73,9 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                              c(100        , 1              , 1        , 1          ),
                              c(1700       , 1              , 1        , 1996       ),
                              c('Monthly'  , "Annual"       , 'Daily'  , "Monthly"  )),
-            LPJblze  = rbind(c("NULL"     , "NULL"         , "NULL"   , "cSoil"    ),
+            LPJblze  = rbind(c("BA"       , "NULL"         , "NULL"   , "cSoil"    ),
                              c(100        , 1              , 1        , 1          ),
-                             c(100        , 1              , 1        , 1996       ),
+                             c(1700       , 1              , 1        , 1996       ),
                              c('Monthly'  , 'Annual'       , 'Daily'  , "Annual"   )),
             MC2      = rbind(c("BA"       , "NULL"         , "NULL"   , "tas"      ),
                              c(100        , 1              , 1        , 1          ),
@@ -161,6 +160,7 @@ GPP                   = list(cols    = c('white',"#00F3CC","#00EE33",
 
 
 
+##################################################################################
 ## Full comparisons info ##
 BurntArea.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                          obsVarname    = "mfire_frac",
