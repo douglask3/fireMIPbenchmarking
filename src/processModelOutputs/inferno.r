@@ -1,2 +1,2 @@
 process.INFERNO <- function(...)
-    process.CTEM(..., vegVarN = 'LandCoverFrac')
+    process.CTEM(..., vegVarN = NULL)
