@@ -8,7 +8,7 @@ process.CTEM <- function(files, varName, startYear,
 
     ## Open variable
     file = findAfile(files, varName)
-    if (is.null(file)) return(NULL)
+    if (noFileWarning(files, varName)) return(NULL)
     dat0 = brickLevels()
 
     ## Open frac cover
@@ -35,7 +35,7 @@ process.CTEM <- function(files, varName, startYear,
 
         dat = noNaN(dat0[[1]][[i]]) * v1
         for (j in tiles[-1]) {
-            if (is.null(vegVarN)) v2 = 1 else v2 = veg0[[j]][[i]]            
+            if (is.null(vegVarN)) v2 = 1 else v2 = veg0[[j]][[i]]
             dat = dat + noNaN(dat0[[j]][[i]]) * v2
         }
         dat[is.na(mask)] = NaN

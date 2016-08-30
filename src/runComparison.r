@@ -118,6 +118,9 @@ loadMask <- function(noMask) {
     } else if (mask_type == 'common') {
         names = 'Common'
         file = files[grepl(names, files)]
+        
+        if (length(file) == 0) stop("Expecting a common mask, but no mask produced.
+                                     Check you data/model outputs are opeing correctly")
         mask = list(raster(file))
     }
 

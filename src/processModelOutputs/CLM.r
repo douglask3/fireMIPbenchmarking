@@ -2,7 +2,8 @@ process.CLM <- function(files, varName, startYear,
                         layers, layersIndex, combine) {
 
     file = findAfile(files, varName)
-    if (is.null(file)) return(NULL)
+    browser()
+    if (noFileWarning(files, varName)) return(NULL)
 
     dat = brick.gunzip(file)
     nr = nrow(dat)

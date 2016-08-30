@@ -2,7 +2,7 @@ process.orchidee <- function(files, varName, startYear,
                         layers, layersIndex, combine) {
     files0 = files
     files = findAfile(files, varName, '', FALSE)
-    if (noFileWarning(files)) return(NULL)
+    if (noFileWarning(files, varName)) return(NULL)
 
     nl = nlayers(brick.gunzip(files[1]))
     lyersIndex = (layers-1)/nl
