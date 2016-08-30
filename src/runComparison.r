@@ -111,9 +111,8 @@ remask <- function(obs, mod, mask) {
 
 loadMask <- function(obs, mod, varnN) {
     mod = mod[!sapply(mod, is.null)]
-    filenames = sapply(mod, filename.noPath, noExtension = TRUE)
-
     
+    filename = paste(c(temp_dir, varnN, names(mod), '.nc'), collapse = '-')
     if(file.exists(filename)) return(raster(filename))
 
     mod = lapply(mod, function(i) sum(i))
