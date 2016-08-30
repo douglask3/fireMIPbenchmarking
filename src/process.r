@@ -1,6 +1,8 @@
-process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex, outFile) {
+process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex,
+                         outFile) {
     cat(paste('\nOpening raw data for', rawInfo[[1]], 'for',
               varInfo[[1]], 'comparison\n'))
+
     dir   = paste(data_dir.ModelOutputs, rawInfo[[1]], experiment, sep = '/')
     files = list.files(dir, full.names = TRUE, recursive = TRUE)
 
