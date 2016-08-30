@@ -31,14 +31,13 @@ process.CTEM <- function(files, varName, startYear,
 
     combineLevels <- function(i) {
         cat(i, ' ')
-        if (is.null(vegVarN)) {
-            v1 = 1; v2 = 1;
-        } else {
-            v1 = veg0[[1]][[i]]; v2 = veg0[[j]][[i]]
-        }
-        dat = noNaN(dat0[[1]][[i]]) * v1
-        for (j in tiles[-1]) dat = dat + noNaN(dat0[[j]][[i]]) * v2
+        if (is.null(vegVarN)) v1 = 1  else v1 = veg0[[1]][[i]]
 
+        dat = noNaN(dat0[[1]][[i]]) * v1
+        for (j in tiles[-1]) {
+            if (is.null(vegVarN)) v2 = 1 else v2 = veg0[[j]][[i]]            
+            dat = dat + noNaN(dat0[[j]][[i]]) * v2
+        }
         dat[is.na(mask)] = NaN
         dat = convert_pacific_centric_2_regular(dat)
         return(dat)
