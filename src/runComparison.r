@@ -111,7 +111,7 @@ remask <- function(obs, mod, mask) {
 
 loadMask <- function(obs, mod, varnN) {
     mod = mod[!sapply(mod, is.null)]
-    
+
     filename = paste(c(temp_dir, varnN, names(mod), '.nc'), collapse = '-')
     if(file.exists(filename)) return(raster(filename))
 
@@ -126,28 +126,6 @@ loadMask <- function(obs, mod, varnN) {
     return(mask)
 }
 
-
-loadMask_old <- function(noMask) {
-    if (noMask) return(list('NULL', 'noMask'))
-
-    files = list.files.patternPath(outputs_dir.modelMasks,
-                                   full.names = TRUE)
-
-    if (mask_type == 'all') {
-        names = lapply(files, function(i) strsplit(i, outputs_dir.modelMasks)[[1]][2])
-        names = sapply(names, function(i) strsplit(i, '.nc')[[1]][1])
-        mask  = lapply(files, raster)
-    } else if (mask_type == 'common') {
-        names = 'Common'
-        file = files[grepl(names, files)]
-
-        if (length(file) == 0) stop("Expecting a common mask, but no mask produced.
-                                     Check you data/model outputs are opeing correctly")
-        mask = list(raster(file))
-    }
-
-    return(list(mask, names))
-}
 
 layersFrom1900 <- function(start, res, layers) {
     layers = layers - min(layers)
