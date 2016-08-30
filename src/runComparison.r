@@ -18,7 +18,9 @@ runComparison <- function(info, name) {
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
     mod   = openSimulations(name, varnN, simLayers)
 
-    c(masks, mnames) := loadMask(info$noMasking)
+    mask  = loadMask(obs, mod, name)
+    browser()
+    c(mod, obs) = remask(mod, obs)
 
     compareWithMask <- function(mask, mname) {
         obs0 = obs
@@ -105,7 +107,28 @@ remask <- function(obs, mod, mask) {
     return(list(obs, mod))
 }
 
-loadMask <- function(noMask) {
+
+
+loadMask <- function(obs, mod, varnN) {
+    mod = mod[!sapply(mod, is.null)]
+    filenames = sapply(mod, filename.noPath, noExtension = TRUE)
+
+    
+    if(file.exists(filename)) return(raster(filename))
+
+    mod = lapply(mod, function(i) sum(i))
+    obs = sum(obs)
+    mod = layer.apply(mod, function(i) raster::resample(i, obs))
+
+    mask = sum(mod) + obs
+    mask = is.na(mask)
+
+    mask = writeRaster(mask, filename = filename)
+    return(mask)
+}
+
+
+loadMask_old <- function(noMask) {
     if (noMask) return(list('NULL', 'noMask'))
 
     files = list.files.patternPath(outputs_dir.modelMasks,
@@ -118,7 +141,7 @@ loadMask <- function(noMask) {
     } else if (mask_type == 'common') {
         names = 'Common'
         file = files[grepl(names, files)]
-        
+
         if (length(file) == 0) stop("Expecting a common mask, but no mask produced.
                                      Check you data/model outputs are opeing correctly")
         mask = list(raster(file))
