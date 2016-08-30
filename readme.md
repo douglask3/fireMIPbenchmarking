@@ -11,6 +11,10 @@ To clone this to you own computer:
 
     git clone https://github.com/douglask3/fireMIPbenchmarking.git
 
+This will copy the current code and version history to a directory called `fireMIPbenchmarking`. To grab any updates, cd into `fireMIPbenchmarking`, and run:
+
+    git pull https://github.com/douglask3/fireMIPbenchmarking.git
+
 When I have finished initial development, I will provide a link for the latest 'stable' version of the project.
 
 <hr>
