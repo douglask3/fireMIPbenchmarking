@@ -20,9 +20,8 @@ runComparison <- function(info, name) {
 
     mask  = loadMask(obs, mod, name)
     c(obs, mod) := remask(obs, mod, mask, name)
-    browser()
-
     scores = comparison(mod, obs, name, info)
+    
     #comparisonOutput(scores, name)
     return(scores)
 }
