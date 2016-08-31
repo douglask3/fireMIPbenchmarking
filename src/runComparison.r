@@ -23,7 +23,7 @@ runComparison <- function(info, name) {
     browser()
 
     scores = comparison(mod, obs, name, info)
-    comparisonOutput(scores, name)
+    #comparisonOutput(scores, name)
     return(scores)
 }
 
