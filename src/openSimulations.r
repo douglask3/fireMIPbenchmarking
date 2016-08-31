@@ -16,7 +16,7 @@ openModel <- function(varInfo, modInfo, rawInfo, layers) {
     c(modLayers, layersIndex) :=
         calculateLayersFromOpening(varInfo, modInfo, layers, modInfo[3])
 
-    tempFile = paste(c(temp_dir, '/processed',  modInfo,
+    tempFile = paste(c(temp_dir, '/processed', rawInfo[[1]], modInfo,
                      min(layers), '-', max(layers), '.nc'), collapse = '')
 
     if (file.exists(tempFile)) dat = brick(tempFile)
@@ -73,7 +73,7 @@ Monthly2Annual <- function(layers, start) {
 
     ModLayers = floor(layers / 12)
     ModLayers = ModLayers - start + 1900 +1
-    
+
     return(list(ModLayers, layers))
 }
 
