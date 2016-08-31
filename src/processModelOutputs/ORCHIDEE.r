@@ -12,9 +12,17 @@ process.orchidee <- function(files, varName, startYear,
 
     index = unique(floor(yearsIndex)) + 1950
     index = apply(sapply(index, grepl, files), 1, sum)!=0
+    
     files = files[index]
 
-    dat = lapply(files, brick.gunzip)
+    brickLevels <- function(file) {
+        openLevel <- function(i) brick.gunzip(file, level = i, nl = nl)
+        dat = openLevel(1)
+        for (i in 2:12) dat = dat + openLevel(i)
+        return(dat)
+    }
+
+    dat = lapply(files, brickLevels)
 
     dat = mapply(function(i, j) i[[j]], dat, lyersIndex)
     dat = layer.apply(dat, function(i) i)
