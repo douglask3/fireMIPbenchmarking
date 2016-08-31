@@ -19,30 +19,15 @@ runComparison <- function(info, name) {
     mod   = openSimulations(name, varnN, simLayers)
 
     mask  = loadMask(obs, mod, name)
+    c(obs, mod) := remask(obs, mod, mask, name)
     browser()
-    c(mod, obs) = remask(mod, obs)
 
-    compareWithMask <- function(mask, mname) {
-        obs0 = obs
-    ## Regrid if appripriate
-        memSafeFile.initialise('temp/')
-            if (is.raster(obs)) {
-                c(obs, mod) := remask(obs, mod, mask)
-                c(obs, mod) := cropBothWays(obs, mod)
-            } else obs = list(obs)
-
-            name  = paste(name, '-mask', mname, sep ='')
-            scores = comparison(mod, obs, name, info)
-        memSafeFile.remove()
-        return(scores)
-    }
-
-    scores = mapply(compareWithMask, masks, mnames, SIMPLIFY = FALSE)
-    comparisonOutput(scores, mnames, name)
+    scores = comparison(mod, obs, name, info)
+    comparisonOutput(scores, name)
     return(scores)
 }
 
-comparisonOutput <- function(scores, mskNames, name) {
+comparisonOutput <- function(scores, name) {
     #dat = lapply(files,read.csv, row.names = 1)
     modNames = Model.plotting[,1]
     if (length(mskNames)>1)  mskNames = substr(mskNames,2, nchar(mskNames)-1)
@@ -88,23 +73,48 @@ comparisonOutput <- function(scores, mskNames, name) {
     return(tab)
 }
 
-remask <- function(obs, mod, mask) {
+
+remask <- function(obs, mod0, mask, varnN) {
+    ## if no mask to apply, return as is
     if (is.null(mask) || (is.character(mask) && mask == "NULL"))
         return(list(obs, mod))
 
-    resample <- function(i) {
-        if (is.null(i)) return(i)
-        return(raster::resample(i, mask))
+    ## if mask has been applied and stored in cache, return cache
+    present = !sapply(mod0, is.null)
+    mod = mod0[present]
+
+    filename_obs = paste(temp_dir, filename.noPath(mask, TRUE)       , 'obsRemasked.nc', sep = '-')
+    filename_mod = paste(temp_dir, sapply(mod, filename.noPath, TRUE), 'modRemasked.nc', sep = '-')
+    filenames    = c(filename_obs, filename_mod)
+
+    if (files.exist(filenames)) {
+        obs = stack(filename_obs)
+        mod0[present] = lapply(filename_mod, stack)
+        return(list(obs, mod0))
     }
 
-    obs = memSafeFunction(obs, resample)
+    ## otherwise mask files
+    memSafeFile.initialise('temp/')
+
+    resample <- function(i, remask = FALSE) {
+        if (is.null(i)) return(i)
+        i = raster::resample(i, mask)
+        if (remask) i[mask == 1] = NaN
+        return(i)
+    }
+
+    obs = memSafeFunction(obs, resample, TRUE)
     mod = lapply(mod, memSafeFunction, resample)
 
-    if (mask_type == 'all' || mask_type == 'common')
-        obs[is.na(mask)] = NaN
-    else browser()
+    c(obs, mod) := cropBothWays(obs, mod)
 
-    return(list(obs, mod))
+    obs = writeRaster(obs, filename_obs, overwrite = TRUE)
+    mod = mapply(writeRaster, mod, filename_mod,
+                 MoreArgs = list(overwrite = TRUE))
+
+    memSafeFile.remove()
+    mod0[present] = mod
+    return(list(obs, mod0))
 }
 
 
@@ -126,7 +136,6 @@ loadMask <- function(obs, mod, varnN) {
     return(mask)
 }
 
-
 layersFrom1900 <- function(start, res, layers) {
     layers = layers - min(layers)
     diff = as.numeric(start) - 1900
@@ -136,8 +145,6 @@ layersFrom1900 <- function(start, res, layers) {
 
     return(layers + diff)
 }
-
-
 
 comparison <- function(mod, obs, name, info) {
     if (is.True(info$allTogether)) { # Does this comparison require all models to be passed at the same time
