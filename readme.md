@@ -29,37 +29,23 @@ Where:
 
 * PATH is a common path to all models, which must be defined in the cfg file as ``outputs_dir.BenchmarkData``
 * NAME is a unique name for the model. It doesn't not have to be the actual model name, but can be for example an abbriviation. So long as no other model shares that name
-* EXP is the experiment (i.e "SF1")
+* EXP is the experiment (i.e "SF1"). This is optional.
 * OUTPUTS: all the model outputs. These should be netcdf files. The can be individually zipped with gzip. And they are allowed to be in different directories.
 
 <hr>
 ## Configuring
 <hr>
 
-There are several points in the 'cfg.r' where you can set the comparisons to be made, add new models, add extra observatioanl comparisons, and define which models and comparisons are to be made
+There are several points in the 'cfg.r' where you can set the comparisons to be made, add new models, add extra observational comparisons, and define which models and comparisons are to be made
 
-### Set Parameters
+### Paths
 <hr>
 
 Here, you can set the following parameter:
 
     experiment   = 'SF1'
 
-Sets the experiment directory. Here, its set to SF1
-
-    mask_type    = 'common'
-
-What mask to apply to the spatial comparisons. The options are still comoing online, but will include:
-
-* 'common': Compares areas of where observations and all models have data
-* 'commonHi': All models are resampled to the highest resolution of models and data (typically 0.5 degree) before applying the common grid
-* 'commonLw': All models are resampled to the lowest resolution of models and data before applying the common grid
-* 'Observations': models resampled to observations grid and compare for common grid between observation and model on a model by model basis
-* 'Modelled':  observations resampled to model grid and compare for common grid between observation and model on a model by model basis.
-
-
-### Paths
-<hr>
+*Sets the experiment directory. Here, its set to SF1. If there is no experiment directory, set* `experiment = ''`
 
     data_dir.ModelOuutputs = 'data/ModelOutputs/'
 
@@ -76,7 +62,7 @@ The path and start of pattern of the mask from model and observations, to be app
 ###  Model Information
 <hr>
 
-**Model.RAW** lists information about the model outputs and how ethy should be processed.
+**Model.RAW** lists information about the model outputs and how they should be processed.
 Each model forms an item in a list, and each item has three entires:
 
 * *Directory name*, or <<NAME>> in model data section
@@ -89,9 +75,10 @@ Each model forms an item in a list, and each item has three entires:
 For example
 
     Model.RAW = list(
-                    CLM  = c('CLM' , process.CLM , 1996),
-                    CTEM = c('CTEM', process.CTEM, 1859))
+                    CLM  = c('CLM' , process.CLM),
+                    LPJspit  = c('LPJ-GUESS-SPITFIRE', process.default , 1950))
 
+Makes the system look for CLM model outputs in `<<PATH>>/CLM` and LPJspit in `<<PATH>>/LPJ-GUESS-SPITFIRE`. CLM uses process.CLM function to open model outputs, whereas LPJspit uses process.default. Functions for opening new models (like the function `process.CLM`) can be added in `src/processModelOutput`. See "Adding new models" below for more details.
 
 **Model.Variable** Description soon
 For example
