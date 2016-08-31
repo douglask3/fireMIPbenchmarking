@@ -242,17 +242,9 @@ fAPAR.ia         = list(obsFile       = "SeaWiFs_fapar_annual.nc",
 
 
 
-ModelMask         = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
-                         obsVarname    = "mfire_frac",
-                         obsLayers     = 8,
-                         obsStart      = 1996,
-                         ComparisonFun = maskComparison,
-                         allTogether   = TRUE,
-                         noMasking     = TRUE)
-
 
 ## Comparisons to be performed
-comparisonList <- named.list(BurntArea.IA, BurntArea.Spatial, BurntArea.Season, ModelMask)
+comparisonList <- named.list(BurntArea.IA, BurntArea.Spatial, BurntArea.Season)
 comparisonList <- named.list(BurntArea.IA, BurntArea.Spatial, BurntArea.Season)
 
 runComparisons(comparisonList)
