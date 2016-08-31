@@ -31,16 +31,16 @@ outputs_dir.modelMasks = paste(outputs_dir, 'modelMasks', sep = '/')
 ## Model Information                                                          ##
 ################################################################################
 
-Model.RAW = list(      #DIR                 #Processing         # Start date
-            CLM      = c('CLM'               , process.CLM     , 1700),
-            CTEM     = c('CTEM'              , process.CTEM    , 1859),
-            INFERNO  = c('Inferno'           , process.INFERNO , 1900),
-            JSBACH   = c('JSBACH'            , process.default , 1950),
-            LPJglob  = c('LPJ-GUESS-GlobFIRM', process.default , 1950),
-            LPJspit  = c('LPJ-GUESS-SPITFIRE', process.default , 1950),
-            LPJblze  = c('LPJ-GUESS-BLAZE'   , process.default , 1950),
-            MC2      = c('MC2'               , process.default , 1950),
-            ORCHIDEE = c('ORCHIDEE'          , process.orchidee, 1950))
+Model.RAW = list(      #DIR                 #Processing
+            CLM      = c('CLM'               , process.CLM     ),
+            CTEM     = c('CTEM'              , process.CTEM    ),
+            INFERNO  = c('Inferno'           , process.INFERNO ),
+            JSBACH   = c('JSBACH'            , process.default ),
+            LPJglob  = c('LPJ-GUESS-GlobFIRM', process.default ),
+            LPJspit  = c('LPJ-GUESS-SPITFIRE', process.default ),
+            LPJblze  = c('LPJ-GUESS-BLAZE'   , process.default ),
+            MC2      = c('MC2'               , process.default ),
+            ORCHIDEE = c('ORCHIDEE'          , process.orchidee))
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("BurntArea", "lifeForm"     , "gpp"    , "ModelMask"),
