@@ -43,14 +43,14 @@ Model.RAW = list(      #DIR                 #Processing
             ORCHIDEE = c('ORCHIDEE'          , process.orchidee))
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
-            varname  = rbind(c("BurntArea", "lifeForm"     , "gpp"    , "ModelMask"),
+            varname  = rbind(c("BurntArea", "lifeForm"     , "GPP"    , "ModelMask"),
                              c(1          , 100            , 1/1000   , 1          ),
                              c('Monthly'  , 'Annual'       , 'Annual' , "Monthly"  ),
                              c(1996       , 1992           , 1997     , 1996       ),
                              c('mean'     , 'sum'          , "sum"    , "sum"      )),
             CLM      = rbind(c("BAF"      , "NULL"         , "gpp"    , "cSoilt"   ),
                              c(1          , 1              , 1        , 1          ),
-                             c(1700       , 1              , 1        , 1996       ),
+                              c(1700       , 1              , 1        , 1996       ),
                              c('Monthly'  , 'Annual'       , 'Monthly', "Monthly"  )),
             CTEM     = rbind(c("burntArea", "landCoverFrac", "gpp"    , "cSoil"    ),
                              c(100        , 1              , 1        , 1          ),
@@ -165,7 +165,6 @@ GPP                   = list(cols    = c('white',"#00F3CC","#00EE33",
 BurntArea.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                          obsVarname    = "mfire_frac",
                          obsLayers     = 1:180,
-                         obsStart      = 1998,
                          ComparisonFun = FullNME,
                          plotArgs      = BurntArea.Spatial,
                          ExtraArgs     = list(mnth2yr = TRUE))
@@ -173,7 +172,6 @@ BurntArea.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc
 BurntArea.IA      = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                          obsVarname    = "mfire_frac",
                          obsLayers     = 1:180,
-                         obsStart      = 1998,
                          ComparisonFun = FullNME,
                          plotArgs      = BurntArea.IA,
                          ExtraArgs     = list(byZ = TRUE, nZ = 12))
@@ -181,7 +179,6 @@ BurntArea.IA      = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc
 BurntArea.Season  = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                          obsVarname    = "mfire_frac",
                          obsLayers     = 8:127,
-                         obsStart      = 1996,
                          ComparisonFun = FullSeasonal,
                          plotArgs      = TRUE)
 
@@ -197,20 +194,19 @@ lifeForm          = list(obsFile       = "veg_cont_fields_CRU.nc",
 Height            = list(obsFile       = "height_Simard.nc",
                          obsVarname    = "height",
                          ComparisonFun = FullNME,
-                         obsStart      = 2007,
                          plotArgs      = Height)
 
 ## NPP
 NPP               = list(obsFile       = "NPP.csv",
                          obsVarname    = "csv",
-                         obsStart      = 1997:2005,
+                         obsLayers     = 1:9,
                          ComparisonFun = FullNME.site,
                          plotArgs      = NPP)
 
 ## GPP
-GPP               = list(obsFile       = "NPP6.csv",
+GPP               = list(obsFile       = "GPP6.csv",
                          obsVarname    = "csv",
-                         obsStart      = 1997:2005,
+                         obsLayers     = 1:9,
                          ComparisonFun = FullNME.site,
                          plotArgs      = GPP)
 
@@ -219,14 +215,12 @@ GPP               = list(obsFile       = "NPP6.csv",
 fAPAR.Spatial     = list(obsFile       = "SeaWiFs_fapar_annual.nc",
                          obsVarname    = "fapar",
                          obsLayers     = 1:8,
-                         obsStart      = 1998,
                          ComparisonFun = FullNME,
                          plotArgs      = fAPAR.Spatial)
 
 fAPAR.season     = list(obsFile       = 'SeaWiFS_fapar_monthly.nc',
                         obsVarname    = "fapar",
                         obsLayers     = NULL,
-                        obsStart      = 1998,
                         ComparisonFun = FullSeasonal,
                         plotArgs      = TRUE)
 
@@ -235,7 +229,6 @@ fAPAR.season     = list(obsFile       = 'SeaWiFS_fapar_monthly.nc',
 fAPAR.ia         = list(obsFile       = "SeaWiFs_fapar_annual.nc",
                         obsVarname    = "fapar",
                         obsLayers     = 1:8,
-                        obsStart      = 1998,
                         ComparisonFun = FullNME,
                         plotArgs      = fAPAR.ia,
                         ExtraArgs     = list(byZ = TRUE))
@@ -245,6 +238,6 @@ fAPAR.ia         = list(obsFile       = "SeaWiFs_fapar_annual.nc",
 
 ## Comparisons to be performed
 comparisonList <- named.list(BurntArea.IA, BurntArea.Spatial, BurntArea.Season)
-comparisonList <- named.list(BurntArea.IA, BurntArea.Spatial, BurntArea.Season)
+comparisonList <- named.list(GPP, BurntArea.IA, BurntArea.Spatial, BurntArea.Season)
 
 runComparisons(comparisonList)
