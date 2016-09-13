@@ -35,7 +35,7 @@ calculateLayersFromOpening <- function(varInfo, modInfo, layers, startYear) {
 
     FUN = paste(varTime, '2', modTime, sep = '')
     if (!exists(FUN, mode = 'function')) stop("unknown timestep combinations")
-
+    print(FUN)
     FUN = match.fun(FUN)
     return(FUN(layers, as.numeric(startYear)))
 }
@@ -45,7 +45,7 @@ Annual2Annual <- function(...) Monthly2Monthly(..., n = 1  )
 
 Monthly2Monthly <- function(layers, start, n = 12) {
     ModLayers = layers - n * (start - 1900) + 1
-    return(list(ModLayers, layers))
+    return(list(layers, ModLayers))
 }
 
 Monthly2Daily <- function(layers, start) {
@@ -87,7 +87,12 @@ Daily2Annual <- function(layers, start) {
 }
 
 Annual2Monthly <- function(layers, start) {
-    browser()
+    ModLayers =  unlist(lapply(layers, function(i) i * 12 + 1:12))
+    ModLayersindex = rep(layers, each = 12)
+
+    ModLayers = ModLayers - 12 * (start - 1900)
+
+    return(list(ModLayers, ModLayersindex))
 }
 
 
