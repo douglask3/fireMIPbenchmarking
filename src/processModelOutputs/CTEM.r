@@ -42,15 +42,8 @@ process.CTEM <- function(files, varName, startYear,
         dat = convert_pacific_centric_2_regular(dat)
         return(dat)
     }
-    dat = layer.apply(layers, combineLevels)
+    dat = layer.apply(layers, combineLevels)    
 
-    makeLayer <- function(i) {
-        layers = which(i == layersIndex)
-        dat = dat[[layers]]
-        dat = combineLayers(dat, combine)
-        return(dat)
-    }
-
-    dat = combineRawLayers(dat, layersIndex)
+    dat = combineRawLayers(dat, layersIndex, combine)
     return(dat)
 }
