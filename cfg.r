@@ -18,7 +18,7 @@ sourceAllLibs('src')
 month_length = c(31,28,31,30,31,30,31,31,30,31,30,31)
 experiment   = ''
 mask_type    = 'common'
-
+nRRs = 2
 ################################################################################
 ## Paths                                                                      ##
 ################################################################################
@@ -50,7 +50,7 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                              c('mean'     , 'sum'          , "sum"    , "sum"      )),
             CLM      = rbind(c("BAF"      , "NULL"         , "gpp"    , "cSoilt"   ),
                              c(1          , 1              , 1        , 1          ),
-                              c(1700       , 1              , 1        , 1996       ),
+                              c(1700       , 1             , 1        , 1996       ),
                              c('Monthly'  , 'Annual'       , 'Monthly', "Monthly"  )),
             CTEM     = rbind(c("burntArea", "landCoverFrac", "gpp"    , "cSoil"    ),
                              c(100        , 1              , 1        , 1          ),
