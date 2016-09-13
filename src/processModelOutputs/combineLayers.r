@@ -1,5 +1,8 @@
 combineLayers <- function(dat, combine) {
-    if (nlayers(dat) > 1 ) dat = match.fun(combine)(dat)
+    nl = nlayers(dat)
+    if (combine == "sum") FUN = mean else FUN = match.fun(combine)
+    if (nl > 1 ) dat = FUN(dat)
+    if (combine == "sum") dat = dat * nl
     dat = convert_pacific_centric_2_regular(dat)
     return(dat)
 }
