@@ -91,6 +91,7 @@ comparison <- function(mod, obs, name, info) {
 
         index = !(sapply(mod, is.null))
 
+        if (!is.raster(obs)) obs = list(obs)
         comp = rep(list(NULL), length(mod))
         FUN = function(i, j) {
             fname = paste(name, j, sep = 'model-')

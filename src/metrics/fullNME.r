@@ -1,6 +1,5 @@
 FullNME <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
                     byZ = FALSE, nZ = 0, ...) {
-
     if (!byZ) return(FullNME.spatial(obs, mod, name, mnth2yr, plotArgs, ...))
         else  return(FullNME.InterAnnual(obs, mod, name, plotArgs, nZ, ...))
 }
@@ -63,7 +62,9 @@ plotNME.spatial.stepN <- function(obs, mod, step, name, cols, dcols,
     return(figName)
 }
 
-FullNME.site <- function(obs, mod, name, plotArgs, nRRs = 2, ...) {
+FullNME.site <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
+                    byZ = FALSE, nZ = 0, ...) {
+    
     x     = obs$lon
     y     = obs$lat
     obs   = obs[,3]

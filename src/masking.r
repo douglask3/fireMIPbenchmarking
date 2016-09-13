@@ -5,10 +5,15 @@ loadMask <- function(obs, mod, varnN) {
     if(file.exists(filename)) return(raster(filename))
 
     mod = lapply(mod, function(i) sum(i))
-    obs = sum(obs)
-    mod = layer.apply(mod, function(i) raster::resample(i, obs))
 
+    if (is.raster(obs)) obs = sum(obs)
+        else {
+            obs = raster(ncol = 720, nrow = 360)
+            obs[] = 1
+        }
+    mod = layer.apply(mod, function(i) raster::resample(i, obs))
     mask = sum(mod) + obs
+
     mask = is.na(mask)
 
     mask = writeRaster(mask, filename = filename)
@@ -24,12 +29,14 @@ remask <- function(obs, mod0, mask, varnN) {
     present = !sapply(mod0, is.null)
     mod = mod0[present]
 
-    filename_obs = paste(temp_dir, filename.noPath(mask, TRUE)       , 'obsRemasked.nc', sep = '-')
+    if (is.raster(obs))
+        filename_obs = paste(temp_dir, filename.noPath(mask, TRUE), 'obsRemasked.nc', sep = '-')
+    else
+        filename_obs = c()
     filename_mod = paste(temp_dir, sapply(mod, filename.noPath, TRUE), 'modRemasked.nc', sep = '-')
     filenames    = c(filename_obs, filename_mod)
 
     if (files.exist(filenames)) {
-        obs = stack(filename_obs)
         mod0[present] = lapply(filename_mod, stack)
         return(list(obs, mod0))
     }
@@ -43,13 +50,15 @@ remask <- function(obs, mod0, mask, varnN) {
         if (remask) i[mask == 1] = NaN
         return(i)
     }
+    
 
-    obs = memSafeFunction(obs, resample, TRUE)
     mod = lapply(mod, memSafeFunction, resample)
 
-    c(obs, mod) := cropBothWays(obs, mod)
-
-    obs = writeRaster(obs, filename_obs, overwrite = TRUE)
+    if (is.raster(obs)) {
+        obs = memSafeFunction(obs, resample, TRUE)
+        c(obs, mod) := cropBothWays(obs, mod)
+        obs = writeRaster(obs, filename_obs, overwrite = TRUE)
+    }
     mod = mapply(writeRaster, mod, filename_mod,
                  MoreArgs = list(overwrite = TRUE))
 
