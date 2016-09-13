@@ -164,14 +164,14 @@ GPP                   = list(cols    = c('white',"#00F3CC","#00EE33",
 ## Full comparisons info ##
 BurntArea.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                          obsVarname    = "mfire_frac",
-                         obsLayers     = 1:180,
+                         obsLayers     = 1:156,
                          ComparisonFun = FullNME,
                          plotArgs      = BurntArea.Spatial,
                          ExtraArgs     = list(mnth2yr = TRUE))
 
 BurntArea.IA      = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                          obsVarname    = "mfire_frac",
-                         obsLayers     = 1:180,
+                         obsLayers     = 1:156,
                          ComparisonFun = FullNME,
                          plotArgs      = BurntArea.IA,
                          ExtraArgs     = list(byZ = TRUE, nZ = 12))
