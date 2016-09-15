@@ -83,7 +83,7 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                              c('Annual'   , 'Annual'       , 'Daily'  , "Annual"  )),
             ORCHIDEE = rbind(c("burntArea", "NULL"         , "NULL"   , "burntArea"),
                              c(100        , 1              , 1        , 1          ),
-                             c(1950       , 1              , 1        , 1996       ),
+                             c(1950       , 1              , 1950     , 1996       ),
                              c('Monthly'  , 'Annual'       , 'Daily'  , "Monthly" )))
 
 Model.plotting = rbind( #Title            #Colour
@@ -108,7 +108,7 @@ BurntArea.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                          limits  = c(0.001,.01,.02,.05,.1,.2),
                          dlimits = c(-0.2,-0.1,-0.5,-0.01,0.01,0.05,0.1, 0.2))
 
-BurntArea.IA      = list(x = 1997:2006)
+BurntArea.IA      = list(x = 1997:2009)
 
 
 ################################################################################
@@ -238,6 +238,6 @@ fAPAR.ia         = list(obsFile       = "SeaWiFs_fapar_annual.nc",
 
 ## Comparisons to be performed
 comparisonList <- named.list(BurntArea.IA, BurntArea.Spatial, BurntArea.Season)
-comparisonList <- named.list(GPP, BurntArea.IA, BurntArea.Spatial, BurntArea.Season)
+#comparisonList <- named.list(GPP, BurntArea.IA, BurntArea.Spatial, BurntArea.Season)
 
 runComparisons(comparisonList)
