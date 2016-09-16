@@ -7,7 +7,7 @@ process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex,
     files = list.files(dir, full.names = TRUE, recursive = TRUE)
 
     memSafeFile.initialise('temp/')
-        dat = rawInfo[[2]](files, varName = modInfo[1],
+        dat = rawInfo[[2]](files, varName = modInfo[1], levels = modInfo[5],
                            startYear = rawInfo[3], modLayers, layersIndex,
                            combine = varInfo[5])
 

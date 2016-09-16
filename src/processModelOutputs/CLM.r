@@ -1,4 +1,4 @@
-process.CLM <- function(files, varName, startYear,
+process.CLM <- function(files, varName, levels, startYear,
                         layers, layersIndex, combine) {
 
     file = findAfile(files, varName)
