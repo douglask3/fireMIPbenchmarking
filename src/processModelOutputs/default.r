@@ -1,4 +1,4 @@
-process.default <- function(files, varName, startYear,
+process.default <- function(files, varName, levels, startYear,
                         layers, layersIndex, combine) {
     file = findAfile(files, varName)
     if (is.null(file)) return(NULL)

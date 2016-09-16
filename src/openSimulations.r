@@ -45,7 +45,7 @@ Annual2Annual <- function(...) Monthly2Monthly(..., n = 1  )
 
 Monthly2Monthly <- function(layers, start, n = 12) {
     ModLayers = layers - n * (start - 1900) + 1
-    return(list(layers, ModLayers))
+    return(list(ModLayers, layers))
 }
 
 Monthly2Daily <- function(layers, start) {

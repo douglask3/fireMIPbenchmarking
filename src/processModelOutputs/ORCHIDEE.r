@@ -1,4 +1,4 @@
-process.orchidee <- function(files, varName, startYear,
+process.orchidee <- function(files, varName, levels, startYear,
                         layers, layersIndex, combine) {
     files0 = files
     files = findAfile(files, varName, '', FALSE)

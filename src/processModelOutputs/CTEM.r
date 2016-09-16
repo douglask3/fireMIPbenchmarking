@@ -1,4 +1,4 @@
-process.CTEM <- function(files, varName, startYear,
+process.CTEM <- function(files, varName, levels, startYear,
                         layers, layersIndex, combine,
                         vegVarN = 'landCoverFrac', tiles = 1:9) {
 
@@ -42,7 +42,7 @@ process.CTEM <- function(files, varName, startYear,
         dat = convert_pacific_centric_2_regular(dat)
         return(dat)
     }
-    dat = layer.apply(layers, combineLevels)    
+    dat = layer.apply(layers, combineLevels)
 
     dat = combineRawLayers(dat, layersIndex, combine)
     return(dat)

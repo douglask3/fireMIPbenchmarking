@@ -1,8 +1,8 @@
-process.CLM <- function(files, varName, startYear,
+process.CLM <- function(files, varName, levels, startYear,
                         layers, layersIndex, combine) {
 
     file = findAfile(files, varName)
-    
+
     if (noFileWarning(files, varName)) return(NULL)
 
     dat = brick.gunzip(file)
@@ -12,8 +12,7 @@ process.CLM <- function(files, varName, startYear,
                    nrows = nr, ncols = nlayers(dat))
 
     makeLayer <- function(i) {
-        layers = which(i == layersIndex)
-
+        layers = layers[which(i == layersIndex)]
         openLayer <- function(j) {
             layer[] = getValuesBlock(dat, row = 1, nrow = nr, col = j, ncol = 1)
             return(layer)
@@ -24,7 +23,6 @@ process.CLM <- function(files, varName, startYear,
         return(writeRaster(dat, memSafeFile(),
                overwrite = TRUE))
     }
-
     dat = layer.apply(unique(layersIndex), makeLayer)
 
     return(dat)
