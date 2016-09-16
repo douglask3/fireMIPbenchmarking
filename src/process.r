@@ -8,44 +8,46 @@ process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex,
     levels = findModelLevels(modInfo[5])
     
     memSafeFile.initialise('temp/')
-        dat = rawInfo[[2]](files, varName = modInfo[1], levels = modInfo[5],
+        dat = rawInfo[[2]](files, varName = modInfo[1], levels = levels,
                            startYear = rawInfo[3], modLayers, layersIndex,
                            combine = varInfo[5])
-
-        if (!is.null(dat)) dat = scaleMod(dat, varInfo[2], modInfo[2])
-        if (!is.null(dat)) dat = writeRaster(dat, outFile, overwrite = TRUE)
+        if (!is.null(dat)) {
+            dat = scaleMod(dat, varInfo[2], modInfo[2])
+            dat = writeRaster(dat, outFile, overwrite = TRUE)
+            #if (is.list(dat) && length(dat)) dat = dat[[1]]
+        }
     memSafeFile.remove()
 
     return(dat)
 }
 
 findModelLevels <- function(levels) {
-    
-    levels = strsplit(levels, ';')[[1]]#
-    
+    if (is.na(levels) || levels == 'NA' || levels == 'NaN') return(NaN)
+    levels = strsplit(levels, ';')[[1]]
+
     findRange <- function(j) {
         j = strsplit(j, ':')[[1]]
         j = as.numeric(j)
-        
+
         ln = length(j)
         if (ln > 3) warning('incorrect levels definition. Check your cfg file')
         if (ln > 1) j = j[1]:j[2]
-        
+
         return(j)
     }
-    
-    findItemLevels <- function(i) {   
+
+    findItemLevels <- function(i) {
         if (substr(i, 1, 1) == '-') {
             i = substr(i, 2, nchar(i))
             neg = TRUE
         } else neg = FALSE
-        
+
         i = strsplit(i, ',')[[1]]
         i = sapply(i, findRange)
         if (neg) i = -i
         return(i)
     }
-    levels = lapply(levels, findModelLevels)
+    levels = lapply(levels, findItemLevels)
     return(levels)
 }
 

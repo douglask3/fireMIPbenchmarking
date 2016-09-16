@@ -34,9 +34,10 @@ beautifyOutScore <- function(scores) {
     } else if (ncol(scores) == 5) {
         colnames(scores) = c('mean', 'random',
                              'step1', 'step2', 'step3')
+    } else if (ncol(scores) == 3){
+        colnames(scores) = c('mean', 'random', 'model')
     } else {
-        print('MM colnames')
-        browser()
+        warning('unknow amount of column scores. Column names not added')
     }
     return(scores)
 }
