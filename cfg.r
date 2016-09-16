@@ -41,7 +41,11 @@ Model.RAW = list(      #DIR                 #Processing
             LPJblze  = c('LPJ-GUESS-BLAZE'   , process.default ),
             MC2      = c('MC2'               , process.default ),
             ORCHIDEE = c('ORCHIDEE'          , process.orchidee))
-
+#Burnt area
+# EMmission
+# Carbon
+# Production
+# Veg Cover
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("BurntArea", "lifeForm"     , "GPP"    , "ModelMask"),
                              c(1          , 100            , 1/1000   , 1          ),
@@ -89,11 +93,11 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                              c(1901       , 1              , 1        , 1996       ),
                              c('Annual'   , 'Annual'       , 'Daily'  , "Annual"   ),
                              c(NA         , 1              , NA       , NA        )),
-            ORCHIDEE = rbind(c("burntArea", "NULL"         , "NULL"   , "burntArea"),
+            ORCHIDEE = rbind(c("burntArea", "landCoverFrac", "NULL"   , "burntArea"),
                              c(100        , 1              , 1        , 1          ),
-                             c(1950       , 1              , 1950     , 1996       ),
+                             c(1950       , 1700           , 1950     , 1996       ),
                              c('Monthly'  , 'Annual'       , 'Daily'  , "Monthly"  ),
-                             c(NA         , 1              , NA       , NA        )))
+                             c(NA         , '2:9;10:13'    , NA       , NA        )))
 
 Model.plotting = rbind( #Title            #Colour
             CLM      = c('CLM'               , 'red'        ),
