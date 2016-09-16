@@ -11,9 +11,9 @@ runComparison <- function(info, name) {
 
     varnN = which( Model.Variable[[1]][1,] == componentID(name)[1])
     obsTemporalRes = Model.Variable[[1]][3, varnN]
-
+    if (is.null(info$obsLayers)) obsLayers = 1 else obsLayers = info$obsLayers
     simLayers = layersFrom1900(Model.Variable[[1]][4,varnN],
-                               obsTemporalRes, info$obsLayers)
+                               obsTemporalRes, obsLayers)
 
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
     mod   = openSimulations(name, varnN, simLayers)
@@ -21,7 +21,6 @@ runComparison <- function(info, name) {
     mask  = loadMask(obs, mod, name)
     c(obs, mod) := remask(obs, mod, mask, name)
     scores = comparison(mod, obs, name, info)
-
     #comparisonOutput(scores, name)
     return(scores)
 }
@@ -78,7 +77,6 @@ layersFrom1900 <- function(start, res, layers) {
          if (res == "Annual" ) diff
     else if (res == "Monthly") diff = diff * 12
     else if (res == "Dailys" ) diff = diff * 365
-
     return(layers + diff)
 }
 
