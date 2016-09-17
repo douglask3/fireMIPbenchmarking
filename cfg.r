@@ -47,7 +47,7 @@ Model.RAW = list(      #DIR                 #Processing
 # Production
 # Veg Cover
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
-            varname  = rbind(c("GFEDv4"   , "lifeForm"     , "GPP"    , "ModelMask"),
+            varname  = rbind(c("GFED4"    , "lifeForm"     , "GPP"    , "ModelMask"),
                              c(1          , 100            , 1/1000   , 1          ),
                              c('Monthly'  , 'Annual'       , 'Annual' , "Monthly"  ),
                              c(1996       , 1992           , 1997     , 1996       ),
