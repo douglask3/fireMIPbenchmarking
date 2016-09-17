@@ -1,8 +1,72 @@
-#Burnt area
+###########################################################
+## Burnt area                                            ##
+###########################################################
+
+
+Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
+            varname  = rbind(c("GFAS"      ,"BurntArea_GFED4","BurntArea_GFED4s","meris","BurntArea_MCD45", "lifeForm"     , "GPP"    , "NPP"    , "cveg"   , "ModelMask"),
+                             c(1           ,1                ,1                 ,1                ,1                , 100            , 2592000000  , 2592000000   , 1        , 1          ),
+                             c('Monthly'   ,'Monthly'        ,'Monthly'         ,'Monthly'        ,'Monthly'        , 'Annual'       , 'Annual' , 'Annual' , 'Annual' , "Monthly"  ),
+                             c(2000        ,1998             ,1998              ,2006             ,2001             , 1992           , 1997     , 1997     , 1997     , 1996       ),
+                             c('mean'      ,'mean'           ,'mean'            ,'mean'           ,'mean'           , 'sum'          , "sum"    , "sum"    , "mean"   , "sum"      )),
+
+daily_pc = 100/30.4167
+sec_frac = 1/(60*60*24*30)
+
+                             
+Model.Variable.fire  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
+            varname  = rbind(c("GFED4"    , "GFED4s"   , "meris"    , "MCD45"    , "GFAS"    ),
+                             c(1          , 1          , 1          , 1          , 1         ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , 'Monthly' ),
+                             c(1996       , 1996       , 2006       , 2001       , 2000      ),
+                             c('mean'     , 'mean'     , "mean"     , "mean"     , "mean"    )),
+            CLM      = rbind(c("BAF"      , "BAF"      , "BAF"      , "BAF"      , "CFFIRE"  ),
+                             c(daily_pc   , daily_pc   , daily_pc   , daily_pc   , 1         ),
+                             c(1700       , 1700       , 1700       , 1700       , 1700      ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
+            CTEM     = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFirepft"),
+                             c(100        , 100        , 100        , 100        , 1         ),
+                             c(1859       , 1859       , 1859       , 1859       , 1861      ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
+            INFERNO  = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFirepft"),
+                             c(sec_frac   , sec_frac   , sec_frac   , sec_frac   , 1         ),
+                             c(1700       , 1700       , 1700       , 1700       , 1700      ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
+            JSBACH   = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFirepft"),
+                             c(1          , 1          , 1          , 1          , 1         ),
+                             c(1700       , 1700       , 1700       , 1700       , 1700      ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
+            LPJglob  = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFire"   ),
+                             c(100        , 100        , 100        , 100        , 1         ),
+                             c(1700       , 1700       , 1700       , 1700       , 1700      ),
+                             c('Monthly'  , "Monthly"  , 'Monthly'  , "Monthly"  , "Annual"  )),
+            LPJspit  = rbind(c("burntAreaMonthly",
+                                            "burntAreaMonthly", 
+                                                             "burntAreaMonthly",
+                                                                          "burntAreaMonthly",
+                                                                                   "fFirepft"),
+                             c(100        , 100        , 100        , 100        , 1         ),
+                             c(1700       , 1700       , 1700       , 1700       , 1700      ),
+                             c('Monthly'  , "Monthly"  , 'Monthly'  , "Monthly"  , "Monthly" )),
+            LPJblze  = rbind(c("BA"       , "BA"       , "BA"       , "BA"       , "cfire"   ),
+                             c(100        , 100        , 100        , 100        , 1         ),
+                             c(1700       , 1          , 1          , 1996       , 1700      ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
+            MC2      = rbind(c("BA"       , "BA"       , "BA"       , "BA"       , "cfire"   ),
+                             c(100        , 1          , 1          , 1          , 1         ),
+                             c(1901       , 1          , 1          , 1996       , 1901      ),
+                             c('Annual'   , 'Annual'   , 'Annual'   , "Annual"   , "Annual"  )),
+            ORCHIDEE = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFire"   ),
+                             c(daily_pc   , daily_pc   , daily_pc   , daily_pc   , 1         ),
+                             c(1950       , 1950       , 1950       , 1950       , 1950      ),
+                             c('Monthly'  , 'Annual'   , 'Daily'    , "Monthly"  , "Monthly" )))
+
+  
 # EMmission
 # Carbon
 # Production
 # Veg Cover
+
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("GFED4"    , "lifeForm"     , "GPP"    , "ModelMask"),
                              c(1          , 100            , 1/1000   , 1          ),
