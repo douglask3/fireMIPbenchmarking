@@ -1,18 +1,23 @@
-process.CTEM <- function(files, varName, levels, startYear,
+process.CTEM <- function(files, varName, levels, ...)
+   dat = layer.apply(levels, process.CTEM.level, files, varName, ...)
+
+process.CTEM.level <- function(levels, files, varName, startYear,
                         layers, layersIndex, combine,
                         vegVarN = 'landCoverFrac', tiles = 1:9) {
 
+    if (is.na(levels)) levels = tiles
     brickLevels <- function()
-        lapply(tiles, function(i) brick.gunzip(file, level = i, nl = max(layers)))
-
+        lapply(levels, function(i) brick.gunzip(file, level = i, nl = max(layers)))
 
     ## Open variable
     file = findAfile(files, varName)
     if (noFileWarning(files, varName)) return(NULL)
+
     dat0 = brickLevels()
 
     ## Open frac cover
-    if (!is.null(vegVarN)) {
+    openFrac_test = !is.null(vegVarN) && varName != vegVarN
+    if (openFrac_test) {
         file = findAfile(files, vegVarN)
         veg0 = brickLevels()
     }
@@ -20,7 +25,7 @@ process.CTEM <- function(files, varName, levels, startYear,
     mask = is.na(dat0[[1]][[1]])
     for (i in 2:length(dat0)) mask = mask + is.na(dat0[[i]][[1]])
 
-    test = mask == 10
+    test = mask == length(levels)
     mask[ test] = NaN
     mask[!test] = 1
 
@@ -31,11 +36,11 @@ process.CTEM <- function(files, varName, levels, startYear,
 
     combineLevels <- function(i) {
         cat(i, ' ')
-        if (is.null(vegVarN)) v1 = 1  else v1 = veg0[[1]][[i]]
+        if (openFrac_test) v1 = veg0[[1]][[i]] else v1 = 1
 
         dat = noNaN(dat0[[1]][[i]]) * v1
-        for (j in tiles[-1]) {
-            if (is.null(vegVarN)) v2 = 1 else v2 = veg0[[j]][[i]]
+        for (j in 2:(length(levels))) {
+            if (!openFrac_test) v2 = 1 else v2 = veg0[[j]][[i]]
             dat = dat + noNaN(dat0[[j]][[i]]) * v2
         }
         dat[is.na(mask)] = NaN
@@ -43,7 +48,7 @@ process.CTEM <- function(files, varName, levels, startYear,
         return(dat)
     }
     dat = layer.apply(layers, combineLevels)
-
+    
     dat = combineRawLayers(dat, layersIndex, combine)
     return(dat)
 }

@@ -18,7 +18,7 @@ FullMM <- function(obs, mod, name, plotArgs = NULL, extraItem = NULL,
 
     names(obs) = itemNames
     names(mod) = itemNames
-
+    
     score   = MM (obs, mod, weights)
     null    = null.MM(obs, w =  weights, n = nRRs)
 
