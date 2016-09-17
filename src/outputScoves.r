@@ -3,18 +3,35 @@ outputScores <- function(comp, name, info) {
     MPD_test = !sapply(comp, is.null)
     MPD_test = sapply(comp[MPD_test],
                       function(i) grepl('MPD', i[[1]]$call[1]))
-    if (length(MPD_test) !=0 && MPD_test[1]) n = c(6,4)
-        else n = c(2,3)
+    if (length(MPD_test) !=0 && MPD_test[1]) n = c(6,4, 4)
+        else n = c(2,3,4)
 
     extractScore <- function(FUN, n = 2) {
         null = rep('N/A', n)
         sapply(comp, function(i) {if(is.null(i)) return(null); FUN(i)})
     }
+    nn = n
     null = extractScore(nullScores , n[1])
     mods = extractScore(modelScores, n[2])
+    mnvr = extractScore(meanVariance, n[3])
 
     scores =  t(rbind(null, mods))
     scores = beautifyOutScore(scores)
+
+    scores = cbind(t(mnvr), scores)
+
+    if (nrow(mnvr) == 12) {
+        colnames(scores)[1:12] = c('obs mean phase'  , 'obs var phase'  ,
+                                   'obs mean conc'   , 'obs var conc'   ,
+                                   'sim mean phase'  , 'sim var phase'  ,
+                                   'sim mean conc'   , 'sim var conc'   ,
+                                   'ratio mean phase', 'ratio var phase',
+                                   'ratio mean conc' , 'ratio var conc' )
+    } else {
+        colnames(scores)[1:6 ] = c('obs mean', 'obs var',
+                                   'sim mean', 'sim var',
+                                   'mean ratio', 'var ratio')
+    }
 
     file   = paste(outputs_dir, name, '.csv', sep = '-')
     write.csv(scores, file)
@@ -59,3 +76,18 @@ nullScores <- function(comp) {
 
 modelScores <- function(comp)
     standard.round(score(comp[[1]]))
+
+meanVariance <- function(comp) {
+    summ = summary(comp[[1]])
+    if (summ[[1]] == "Phase & Concentration") {
+        Phase = summ[[4]]; Conc = summ[[3]]
+        tab = rbind(Phase[2:4], Phase[5:7],
+                    Conc [2:4], Conc [5:7])
+        colnames(tab) = c('x','y','x:y')
+        rownames(tab) = c('phase.mean', 'phase.var', 'conc.mean', 'conc.var')
+    } else {
+        tab = rbind(mean     = summ[2:4],
+                    variance = summ[5:7])
+    }
+    return(tab)
+}
