@@ -47,7 +47,7 @@ Model.RAW = list(      #DIR                 #Processing
 # Production
 # Veg Cover
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
-            varname  = rbind(c("BurntArea", "lifeForm"     , "GPP"    , "ModelMask"),
+            varname  = rbind(c("GFEDv4"   , "lifeForm"     , "GPP"    , "ModelMask"),
                              c(1          , 100            , 1/1000   , 1          ),
                              c('Monthly'  , 'Annual'       , 'Annual' , "Monthly"  ),
                              c(1996       , 1992           , 1997     , 1996       ),
@@ -115,13 +115,13 @@ Model.plotting = rbind( #Title            #Colour
 ################################################################################
 
 ## Plotting ##
-BurntArea.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
+GFED4.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                          dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
                                         '#FFD793', "#F07700", "#AA0000"),
                          limits  = c(0.001,.01,.02,.05,.1,.2),
                          dlimits = c(-0.2,-0.1,-0.5,-0.01,0.01,0.05,0.1, 0.2))
 
-BurntArea.IA      = list(x = 1997:2009)
+GFED4.IA      = list(x = 1997:2009)
 
 
 ################################################################################
@@ -175,21 +175,21 @@ GPP                   = list(cols    = c('white',"#00F3CC","#00EE33",
 
 ##################################################################################
 ## Full comparisons info ##
-BurntArea.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
+GFED4.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                          obsVarname    = "mfire_frac",
                          obsLayers     = 1:156,
                          ComparisonFun = FullNME,
-                         plotArgs      = BurntArea.Spatial,
+                         plotArgs      = GFED4.Spatial,
                          ExtraArgs     = list(mnth2yr = TRUE))
 
-BurntArea.IA      = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
+GFED4.IA      = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                          obsVarname    = "mfire_frac",
                          obsLayers     = 1:156,
                          ComparisonFun = FullNME,
-                         plotArgs      = BurntArea.IA,
+                         plotArgs      = GFED4.IA,
                          ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
-BurntArea.Season  = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
+GFED4.Season  = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                          obsVarname    = "mfire_frac",
                          obsLayers     = 8:127,
                          ComparisonFun = FullSeasonal,
@@ -250,7 +250,7 @@ fAPAR.ia         = list(obsFile       = "SeaWiFs_fapar_annual.nc",
 
 
 ## Comparisons to be performed
-comparisonList <- named.list(BurntArea.Season, BurntArea.IA, BurntArea.Spatial)
-#comparisonList <- named.list(GPP, BurntArea.IA, BurntArea.Spatial, BurntArea.Season)
+comparisonList <- named.list(GFED4.Season, GFED4.IA, GFED4.Spatial)
+#comparisonList <- named.list(GPP, GFED4.IA, GFED4.Spatial, GFED4.Season)
 
 runComparisons(comparisonList)
