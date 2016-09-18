@@ -3,8 +3,8 @@ outputScores <- function(comp, name, info) {
     MPD_test = !sapply(comp, is.null)
     MPD_test = sapply(comp[MPD_test],
                       function(i) grepl('MPD', i[[1]]$call[1]))
-    if (length(MPD_test) !=0 && MPD_test[1]) n = c(6,4, 4)
-        else n = c(2,3,4)
+    if (length(MPD_test) !=0 && MPD_test[1]) n = c(6,4, 12)
+        else n = c(2,3,6)
 
     extractScore <- function(FUN, n = 2) {
         null = rep('N/A', n)
