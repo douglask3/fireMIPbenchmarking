@@ -49,7 +49,7 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                              c('Annual'   , 'Annual'   , 'Annual'   , "Annual"   , "Annual"  )),
             ORCHIDEE = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFire"   ),
                              c(daily_pc   , daily_pc   , daily_pc   , daily_pc   , 1         ),
-                             c(1950       , 1950       , 1950       , 1950       , 1950      ),
+                             c(1950       , 1950       , 1950       , 1950       , 1700      ),
                              c('Monthly'  , 'Annual'   , 'Daily'    , "Monthly"  , "Monthly" )))
 
 ################################################################################
