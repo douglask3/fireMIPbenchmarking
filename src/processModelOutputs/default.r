@@ -1,7 +1,14 @@
-process.default <- function(files, varName, levels, startYear,
+process.default <- function(files, varName, levels, ...)
+   dat = layer.apply(levels, process.CTEM.level, files, varName, ...)
+
+
+process.default.level <- function(levels, files, varName, startYear,
                         layers, layersIndex, combine) {
     file = findAfile(files, varName)
     if (is.null(file)) return(NULL)
+
+    if (is.na(levels)) dat = brick.gunzip(file)
+        else dat = lapply(levels, function(i) brick.gunzip(file, level = i))
 
     dat = brick.gunzip(file)
     dat = dat[[layers]]
