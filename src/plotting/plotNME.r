@@ -74,7 +74,7 @@ plotNME.site <- function (x, y, obs, mod, score, name, cols, limits, nRRs = 2,
 plotNME.InterAnnual <- function(obs, mod, name, x) {
 
     figName = setupPlot(name, 1, 1, scaleWidth = 10)
-    x = x[[1]]
+    x = x[[1]][1:length(obs)]
     plot (range(x), range(c(obs, mod)), xlab = 'year', ylab = '', type = 'n')
 
     lines(x, obs, col = 'blue')
