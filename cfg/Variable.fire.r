@@ -1,3 +1,57 @@
+daily_pc = 100/30.4167
+sec_frac = 1/(60*60*24*30)
+
+###########################################################
+## Burnt area                                            ##
+###########################################################
+
+Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
+            varname  = rbind(c("GFED4"    , "GFED4s"   , "meris"    , "MCD45"    , "GFAS"    ),
+                             c(1          , 1          , 1          , 1          , 1         ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , 'Monthly' ),
+                             c(1996       , 1996       , 2006       , 2001       , 2000      ),
+                             c('mean'     , 'mean'     , "mean"     , "mean"     , "mean"    )),
+            CLM      = rbind(c("BAF"      , "BAF"      , "BAF"      , "BAF"      , "CFFIRE"  ),
+                             c(daily_pc   , daily_pc   , daily_pc   , daily_pc   , 1         ),
+                             c(1700       , 1700       , 1700       , 1700       , 1700      ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
+            CTEM     = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFirepft"),
+                             c(100        , 100        , 100        , 100        , 1         ),
+                             c(1859       , 1859       , 1859       , 1859       , 1861      ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
+            INFERNO  = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFirepft"),
+                             c(sec_frac   , sec_frac   , sec_frac   , sec_frac   , 1         ),
+                             c(1700       , 1700       , 1700       , 1700       , 1700      ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
+            JSBACH   = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFirepft"),
+                             c(1          , 1          , 1          , 1          , 1         ),
+                             c(1700       , 1700       , 1700       , 1700       , 1700      ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
+            LPJglob  = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFire"   ),
+                             c(100        , 100        , 100        , 100        , 1         ),
+                             c(1700       , 1700       , 1700       , 1700       , 1700      ),
+                             c('Monthly'  , "Monthly"  , 'Monthly'  , "Monthly"  , "Annual"  )),
+            LPJspit  = rbind(c("burntAreaMonthly",
+                                            "burntAreaMonthly",
+                                                             "burntAreaMonthly",
+                                                                          "burntAreaMonthly",
+                                                                                   "fFirepft"),
+                             c(100        , 100        , 100        , 100        , 1         ),
+                             c(1700       , 1700       , 1700       , 1700       , 1700      ),
+                             c('Monthly'  , "Monthly"  , 'Monthly'  , "Monthly"  , "Monthly" )),
+            LPJblze  = rbind(c("BA"       , "BA"       , "BA"       , "BA"       , "cfire"   ),
+                             c(100        , 100        , 100        , 100        , 1         ),
+                             c(1700       , 1          , 1          , 1996       , 1700      ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
+            MC2      = rbind(c("BA"       , "BA"       , "BA"       , "BA"       , "cfire"   ),
+                             c(100        , 1          , 1          , 1          , 1         ),
+                             c(1901       , 1          , 1          , 1996       , 1901      ),
+                             c('Annual'   , 'Annual'   , 'Annual'   , "Annual"   , "Annual"  )),
+            ORCHIDEE = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFire"   ),
+                             c(daily_pc   , daily_pc   , daily_pc   , daily_pc   , 1         ),
+                             c(1950       , 1950       , 1950       , 1950       , 1950      ),
+                             c('Monthly'  , 'Annual'   , 'Daily'    , "Monthly"  , "Monthly" )))
+
 ################################################################################
 ## Plotting Info                                                              ##
 ################################################################################
@@ -39,52 +93,6 @@ GFAS = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
             dlimits = c(-0.2,-0.1,-0.5,-0.01,0.01,0.05,0.1, 0.2))
 
 
-## Carbon
-Carbon                = list(cols    = c('white',"#CCCC11","#999900",
-                                         "#001100"),
-                             dcols   = c('#220044','#AA02AA','#FF99FF','white',
-                                         '#FFFF99',"#AAAA02","#224400"),
-                             limits  = c(0, 500, 1000, 5000, 10000),
-                             dlimits = c(-10000, -5000, -1000, 1000, 5000, 10000))
-
-Height                = list(cols    = c('white',"#BBBB00","#CCCC00",
-                                         "#111100"),
-                             dcols   = c('#000099','#0000FF','#CCCCFF','white',
-                                        '#FFFF00',"#CCCC00","#444400"),
-                             limits  = c(0.1, 1, 2, 5, 10)*2,
-                             dlimits = c(-20, -10, -5, -2, 2, 5, 10, 20))
-
-fAPAR.Spatial         = list(cols    = c('white',"#AAFFAA","#00FF00",
-                                         "#001100"),
-                             dcols   = c('#0000AA','#9302FF','#D0C0FF','white',
-                                        '#D7FF93',"#77F000","#00AA00"),
-                             limits  = c(.05, .1, .2, .4, .6),
-                             dlimits = c(-0.4,-0.2,-0.1,0.1,0.2,0.4))
-
-fAPAR.ia              = list(x = 1998:2005)
-
-VegComparison         = list(cols    = c('white',"#88EE11","#00FF00",
-                                         "#001100"),
-                             dcols   = c('#AA0000','#FF9320','#FFD0C0','white',
-                                        '#D7FF93',"#77F000","#00AA00"),
-                             limits  = c(1, 2, 5, 10, 20, 50),
-                             dlimits = c(-20,-10,-5, 5, 10, 20))
-
-NPP                   = list(cols    = c('white',"#DDDD00","#33EE00",
-                                         "#001100"),
-                             limits  = c(100, 200, 400, 600, 1000),
-                             xlab    = 'observed NPP (gC/m2)',
-                             ylab    = 'simulated NPP (gC/m2)')
-
-GPP                   = list(cols    = c('white',"#00F3CC","#00EE33",
-                                         "#001100"),
-                             limits  = c(200, 400, 600, 1000, 1500, 2000),
-                             xlab    = 'observed GPP (gC/m2)',
-                             ylab    = 'simulated GPP (gC/m2)')
-
-
-
-
 ################################################################################
 ## Full comparisons info                                                      ##
 ################################################################################
@@ -107,7 +115,7 @@ GFED4.Season  = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                          obsLayers     = 8:127,
                          ComparisonFun = FullSeasonal,
                          plotArgs      = TRUE)
-                         
+
                          GFAS = list(obsFile       = "GFAS.nc",
                                obsVarname    = "cfire",
                                obsLayers     = 1:120,
@@ -156,55 +164,3 @@ MCD45.Spatial = list(obsFile       = "MCD45.nc",
                                 ComparisonFun = FullNME,
                                 plotArgs      = MCD45.Spatial,
                                 ExtraArgs     = list(mnth2yr = TRUE))
-
-
-lifeForm          = list(obsFile       = "veg_cont_fields_CRU.nc",
-                         obsVarname    = c("Tree_cover", "Herb"),
-                         ComparisonFun = FullMM,
-                         plotArgs      = VegComparison,
-                         ExtraArgs     = list(extraItem = 100,
-                                              itemNames = c('Tree', 'Herb', 'Bare')))
-
-
-## Height
-Height            = list(obsFile       = "height_Simard.nc",
-                         obsVarname    = "height",
-                         ComparisonFun = FullNME,
-                         plotArgs      = Height)
-
-## NPP
-NPP               = list(obsFile       = "NPP.csv",
-                         obsVarname    = "csv",
-                         obsLayers     = 1:9,
-                         ComparisonFun = FullNME.site,
-                         plotArgs      = NPP)
-
-## GPP
-GPP               = list(obsFile       = "GPP6.csv",
-                         obsVarname    = "csv",
-                         obsLayers     = 1:9,
-                         ComparisonFun = FullNME.site,
-                         plotArgs      = GPP)
-
-
-## Fapar
-fAPAR.Spatial     = list(obsFile       = "SeaWiFs_fapar_annual.nc",
-                         obsVarname    = "fapar",
-                         obsLayers     = 1:8,
-                         ComparisonFun = FullNME,
-                         plotArgs      = fAPAR.Spatial)
-
-fAPAR.season     = list(obsFile       = 'SeaWiFS_fapar_monthly.nc',
-                        obsVarname    = "fapar",
-                        obsLayers     = NULL,
-                        ComparisonFun = FullSeasonal,
-                        plotArgs      = TRUE)
-
-
-
-fAPAR.ia         = list(obsFile       = "SeaWiFs_fapar_annual.nc",
-                        obsVarname    = "fapar",
-                        obsLayers     = 1:8,
-                        ComparisonFun = FullNME,
-                        plotArgs      = fAPAR.ia,
-                        ExtraArgs     = list(byZ = TRUE))

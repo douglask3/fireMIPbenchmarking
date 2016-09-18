@@ -11,4 +11,5 @@ library(mapdata)
 library(plotrix)
 
 sourceAllLibs('src')
-sourceAllLibs('cfg')
+source('cfg/params.r')
+source('cfg/modelInfo.r')
