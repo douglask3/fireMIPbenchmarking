@@ -50,7 +50,7 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
             ORCHIDEE = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFire"   ),
                              c(daily_pc   , daily_pc   , daily_pc   , daily_pc   , 1         ),
                              c(1950       , 1950       , 1950       , 1950       , 1700      ),
-                             c('Monthly'  , 'Annual'   , 'Daily'    , "Monthly"  , "Monthly" )))
+                             c('Monthly'  , 'Monthly'   , 'Monthly'   , "Monthly"   , "Monthly" )))
 
 ################################################################################
 ## Plotting Info                                                              ##
@@ -164,7 +164,7 @@ meris.Spatial  = list(obsFile       = "meris.nc",
 ## MCD45
 MCD45.Spatial  = list(obsFile       = "MCD45.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:108,
+                      obsLayers     = 1:96,
                       obsStart      = 2001,
                       ComparisonFun = FullNME,
                       plotArgs      = MCD45.Spatial,
