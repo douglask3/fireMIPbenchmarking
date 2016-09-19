@@ -3,6 +3,7 @@
 # Production
 # Veg Cover
 
+#per second
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("GPP"    , "NPP"     , "cveg"   ),
                              c(1/1000   , 1/1000    , 1        ),
@@ -28,15 +29,15 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
             LPJglob  = rbind(c("gpp"    , "npp"     ,  "cVeg"),
                              c(1        , 1         ,  1),
                              c(1950     , 1950      ,  1950),
-                             c('Monthly', "Monthly" ,  "Monthly")),
+                             c('Monthly', "Monthly" ,  "Annual")),
             LPJspit  = rbind(c("gpp"   , "npp"      ,  "cVeg"),
                              c(1        , 1         ,  1),
                              c(1950     , 1950      ,  1950),
-                             c('Monthly', "Monthly" ,  "Monthly")),
+                             c('Monthly', "Monthly" ,  "Annual")),
             LPJblze  = rbind(c("gpp"    , "npp"     ,  "cVeg"),
                              c(1        , 1         ,  1),
                              c(1950     , 1950      ,  1950),
-                             c('Monthly', "Monthly" ,  "Monthly")),
+                             c('Monthly', "Monthly" ,  "Annual")),
             MC2      = rbind(c("gpp"    , "npp"     ,  "cVeg"),
                              c(1        , 1         ,  1),
                              c(1950     , 1950      ,  1950),
