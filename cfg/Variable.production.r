@@ -4,12 +4,14 @@
 # Veg Cover
 
 #per second
+annual2persec = 60 * 60 * 24 * 365.24
+
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("GPP"    , "NPP"     , "cveg"   ),
-                             c(1/1000   , 1/1000    , 1        ),
+                             c(annual2persec/1000   , annual2persec/1000    , 1        ),
                              c('Annual' , "Annual"  , "Monthly"),
                              c(1997     , 1997      , 1997     ),
-                             c("sum"    , "sum"     , "mean"   )),
+                             c("mean"   , "mean"     , "mean"   )),
             CLM      = rbind(c("gpp"    , "npp"     , "cVeg"   ),
                              c(1        , 1         , 1        ),
                              c(1950     , 1950      , 1950     ),
