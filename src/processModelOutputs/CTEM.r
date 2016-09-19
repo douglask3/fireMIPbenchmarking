@@ -48,7 +48,7 @@ process.CTEM.level <- function(levels, files, varName, startYear,
         return(dat)
     }
     dat = layer.apply(layers, combineLevels)
-    
+
     dat = combineRawLayers(dat, layersIndex, combine)
     return(dat)
 }
