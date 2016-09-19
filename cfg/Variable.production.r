@@ -89,7 +89,6 @@ NPP_EMDI          = list(obsFile       = "EMDI_NPP.csv",
                          obsLayers     = 1:9,
                          ComparisonFun = FullNME.site,
                          plotArgs      = NPP)
-                         plotArgs      = NPP)
 
 NNP_Michaletz     = list(obsFile       = "NNP_Michaletz_2014_single.csv",
                          obsVarname    = "csv",
