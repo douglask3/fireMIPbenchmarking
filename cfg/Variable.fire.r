@@ -24,18 +24,18 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                              c(1700       , 1700       , 1700       , 1700       , 1700      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
             JSBACH   = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFirepft"),
-                             c(1          , 1          , 1          , 1          , 1         ),
+                             c(rep(100/30.1467, 4)                                , 1         ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
             LPJglob  = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFire"   ),
-                             c(100        , 100        , 100        , 100        , 1         ),
+                             c(rep(100*12   , 4)                                   , 1         ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      ),
                              c('Annual'   , "Annual"   , 'Annual'   , "Annual"   , "Annual"  )),
             LPJspit  = rbind(c("burntAreaMonthly",
                                             "burntAreaMonthly",
                                                              "burntAreaMonthly",
                                                                           "burntAreaMonthly",
-                                                                                   "fFirepft"),
+                                                                                   "fFire"),
                              c(100        , 100        , 100        , 100        , 1         ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      ),
                              c('Monthly'  , "Monthly"  , 'Monthly'  , "Monthly"  , "Monthly" )),
@@ -44,13 +44,13 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                              c(1700       , 1700       , 1700       , 1700       , 1700      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
             MC2      = rbind(c("BA"       , "BA"       , "BA"       , "BA"       , "Cfire"   ),
-                             c(100        , 1          , 1          , 1          , 1         ),
+                             c(rep(100*12   , 4)                                   , 1       ),
                              c(1901       , 1901       , 1901       , 1901       , 1901      ),
                              c('Annual'   , 'Annual'   , 'Annual'   , "Annual"   , "Annual"  )),
             ORCHIDEE = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFire"   ),
                              c(daily_pc   , daily_pc   , daily_pc   , daily_pc   , 1         ),
                              c(1950       , 1950       , 1950       , 1950       , 1700      ),
-                             c('Monthly'  , 'Monthly'   , 'Monthly'   , "Monthly"   , "Monthly" )))
+                             c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"   , "Monthly" )))
 
 ################################################################################
 ## Plotting Info                                                              ##
@@ -136,7 +136,7 @@ GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
                       plotArgs      = GFED4s.IA,
                       ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
-GFED4s.Season  = list(obsFile = "GFED4_v2.nc",
+GFED4s.Season  = list(obsFile = "GFED4s_v2.nc",
                       obsVarname    = "variable",
                       obsLayers     = 1:144,
                       obsStart      = 1998,
