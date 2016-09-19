@@ -8,7 +8,7 @@ annual2persec = 60 * 60 * 24 * 365.24
 annualg2perseckg = annual2persec/1000
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("GPP_Kelley2013", "NPP_Kelley2013", "NPP_EMDI"      , "NNP_Michaletz" , "cveg"  ),
-                             c(annualg2perseckg, annualg2perseckg, annualg2perseckg, annualg2perseckg,         ),
+                             c(annualg2perseckg, annualg2perseckg, annualg2perseckg, annualg2perseckg, annualg2perseckg),
                              c('Annual'        , "Annual"        , "Annual"        , "Annual"        ,"Monthly"),
                              c(1997            , 1997            , 1997            , 1997            , 1997    ),
                                "mean"),
@@ -108,4 +108,4 @@ cveg            = list(obsFile       = "avitabile_carbon_veg_05.nc",
                        obsVarname    = "test2",
                        ComparisonFun = FullNME,
                        obsLayers     = 1:9,
-                       plotArgs      = veg)
+                       plotArgs      = cVeg)
