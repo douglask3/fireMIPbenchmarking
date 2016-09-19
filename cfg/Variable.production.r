@@ -7,7 +7,7 @@
 annual2persec = 60 * 60 * 24 * 365.24
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
-            varname  = rbind(c("GPP"    , "NPP"     , "cveg"   ),
+            varname  = rbind(c("GPP_Kelley2013"    , "NPP_Kelley2013"     , "cveg"   ),
                              c(annual2persec/1000   , annual2persec/1000    , 1        ),
                              c('Annual' , "Annual"  , "Monthly"),
                              c(1997     , 1997      , 1997     ),
@@ -78,14 +78,14 @@ cVeg                  = list(cols    = c('white',"#BBBB00","#CCCC00",
 ## Full comparisons info                                                      ##
 ################################################################################
 ## NPP
-NPP               = list(obsFile       = "NPP.csv",
+NPP_Kelley2013    = list(obsFile       = "NPP.csv",
                          obsVarname    = "csv",
                          obsLayers     = 1:9,
                          ComparisonFun = FullNME.site,
                          plotArgs      = NPP)
 
 ## GPP
-GPP               = list(obsFile       = "GPP6.csv",
+GPP_Kelley2013    = list(obsFile       = "GPP6.csv",
                          obsVarname    = "csv",
                          obsLayers     = 1:9,
                          ComparisonFun = FullNME.site,
