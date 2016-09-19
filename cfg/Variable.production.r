@@ -108,4 +108,4 @@ cveg            = list(obsFile       = "avitabile_carbon_veg_05.nc",
                        obsVarname    = "test2",
                        ComparisonFun = FullNME,
                        obsLayers     = 1:9,
-                       plotArgs      = veg
+                       plotArgs      = veg)
