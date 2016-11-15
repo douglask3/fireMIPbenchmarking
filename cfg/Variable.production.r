@@ -5,10 +5,10 @@
 
 #per second
 annual2persec = 60 * 60 * 24 * 365.24
-annualg2perseckg = annual2persec/1000
+annualg2perseckg = annual2persec*1000
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("GPP_Kelley2013", "NPP_Kelley2013", "NPP_EMDI"      , "NNP_Michaletz" , "cveg"  ),
-                             c(annualg2perseckg, annualg2perseckg, annualg2perseckg, annualg2perseckg, annualg2perseckg),
+                             c(annualg2perseckg , annualg2perseckg, annualg2perseckg, annualg2perseckg, 10),
                              c('Annual'        , "Annual"        , "Annual"        , "Annual"        ,"Monthly"),
                              c(1997            , 1997            , 1997            , 1997            , 1997    ),
                                "mean"),
@@ -30,22 +30,22 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                                "Monthly"),
             LPJglob  = rbind(c("gpp"           ,  rep("npp", 3)                                      , "cVeg"   ),
                                1,
-                               1950,
-                               "Monthly"),
+                               c(rep(1950, 4)                                                        , 1700),
+                               c(rep("Monthly", 4)                                                   , "Annual")),
             LPJspit  = rbind(c("gpp"           ,  rep("npp", 3)                                      , "cVeg"   ),
                                1,
-                               1700,
-                               "Monthly"),
+                               c(rep(1950, 4)                                                        , 1700),
+                               c(rep("Monthly", 4)                                                   , "Annual")),
             LPJblze  = rbind(c("gpp"           ,  rep("npp", 3)                                      , "cVeg"   ),
                                1,
-                               1950,
-                               "Monthly"),
+                             c(rep(1950, 4)                                                        , 1700),
+                             c(rep("Monthly", 4)                                                   , "Annual")),
             MC2      = rbind(c("gpp"           ,  rep("npp", 3)                                      , "cVeg"   ),
                                1,
                                1900,
                                "Annual"),
             ORCHIDEE = rbind(c("gpp"           ,  rep("npp", 3)                                      , "cVeg"   ),
-                               1,
+                               12,
                                1950,
                                "Monthly"))
 

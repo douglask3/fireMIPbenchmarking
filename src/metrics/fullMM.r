@@ -7,7 +7,7 @@ FullMM <- function(obs, mod, name, plotArgs = NULL, extraItem = NULL,
 	}
 
 	addExtraItem <- function(dat, maxval)
-		addLayer(dat, maxval - sumRasterNoWarn(dat))
+		addLayer(dat, sumRasterNoWarn(dat)[[1]] * -1 + maxval)
 
     if (!is.null(extraItem))
         c(obs, mod) := lapply(c(obs, mod), addExtraItem, extraItem)
@@ -18,7 +18,7 @@ FullMM <- function(obs, mod, name, plotArgs = NULL, extraItem = NULL,
 
     names(obs) = itemNames
     names(mod) = itemNames
-    
+
     score   = MM (obs, mod, weights)
     null    = null.MM(obs, w =  weights, n = nRRs)
 

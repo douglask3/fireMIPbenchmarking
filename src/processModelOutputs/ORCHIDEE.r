@@ -27,12 +27,12 @@ process.orchidee.levels <- function(levels, files, varName, startYear,
         for (i in levels[-1]) dat = dat + openLevel(i)
         return(dat)
     }
-    
+
     dat = lapply(files, brickLevels)
 
     dat = mapply(function(i, j) i[[j]], dat, lyersIndex)
     dat = layer.apply(dat, function(i) i)
-
+    
     dat = combineRawLayers(dat, layersIndex, combine)
     return(dat)
 }

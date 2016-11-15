@@ -1,6 +1,7 @@
-process.default <- function(files, varName, levels, ...)
-   dat = layer.apply(levels, process.default.level, files, varName, ...)
-
+process.default <- function(files, varName, levels, ...) {
+    #browser()
+    dat = layer.apply(levels, process.default.level, files, varName, ...)
+}
 
 process.default.level <- function(levels, files, varName, startYear,
                         layers, layersIndex, combine) {
@@ -8,13 +9,13 @@ process.default.level <- function(levels, files, varName, startYear,
     file = findAfile(files, varName)
     if (is.null(file)) return(NULL)
 
-    if (is.na(levels)) dat = brick.gunzip(file)
-        else dat = lapply(levels, function(i) brick.gunzip(file, level = i))
+    if (is.na(levels)) dat = brick.gunzip(file)[[layers]]
+        else dat = lapply(levels, function(i) brick.gunzip(file, level = i)[[layers]])
 
-    dat = brick.gunzip(file)
+    #dat = brick.gunzip(file)
+    browser()
 
-    dat = dat[[layers]]
-    dat = combineRawLayers(dat, layersIndex, combine)
+    dat = layer.apply(dat, combineRawLayers, layersIndex, combine)
 
     return(dat)
 }

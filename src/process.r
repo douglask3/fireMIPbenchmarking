@@ -6,7 +6,7 @@ process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex,
     dir   = paste(data_dir.ModelOutputs, rawInfo[[1]], experiment, sep = '/')
     files = list.files(dir, full.names = TRUE, recursive = TRUE)
     levels = findModelLevels(modInfo[5])
-    
+
     memSafeFile.initialise('temp/')
         dat = rawInfo[[2]](files, varName = modInfo[1], levels = levels,
                            startYear = rawInfo[3], modLayers, layersIndex,
@@ -43,7 +43,7 @@ findModelLevels <- function(levels) {
         } else neg = FALSE
 
         i = strsplit(i, ',')[[1]]
-        i = sapply(i, findRange)
+        i = unlist(lapply(i, findRange))
         if (neg) i = -i
         return(i)
     }
@@ -60,7 +60,6 @@ scaleMod <- function(dat, obs, mod) {
         mod = 1
     }
     scale = as.numeric(obs)/as.numeric(mod)
-
     if (scale != 1) {
         scaleMod <- function(i)
             writeRaster(i * scale, file = memSafeFile())

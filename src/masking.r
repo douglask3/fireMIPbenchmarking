@@ -11,7 +11,11 @@ loadMask <- function(obs, mod, varnN) {
             obs = raster(ncol = 720, nrow = 360)
             obs[] = 1
         }
-    mod = layer.apply(mod, function(i) raster::resample(i, obs))
+    mod = layer.apply(mod, function(i) {
+                if (nlayers(i) == 1) i = i[[1]]
+                raster::resample(i, obs)
+            })
+    if (nlayers(obs) == 1) obs = obs[[1]]
     mask = sum(mod) + obs
 
     mask = is.na(mask)
@@ -50,7 +54,7 @@ remask <- function(obs, mod0, mask, varnN) {
         if (remask) i[mask == 1] = NaN
         return(i)
     }
-    
+
 
     mod = lapply(mod, memSafeFunction, resample)
 
