@@ -13,7 +13,7 @@ process.default.level <- function(levels, files, varName, startYear,
         else dat = lapply(levels, function(i) brick.gunzip(file, level = i)[[layers]])
 
     #dat = brick.gunzip(file)
-    browser()
+    #browser()
 
     dat = layer.apply(dat, combineRawLayers, layersIndex, combine)
 
@@ -27,6 +27,7 @@ combineRawLayers <- function(dat, layersIndex, combine) {
         dat = combineLayers(dat, combine)
         return(dat)
     }
+    if (nlayers(dat) == 1) return(dat)
     dat = layer.apply(unique(layersIndex), makeLayer)
     return(dat)
 }
