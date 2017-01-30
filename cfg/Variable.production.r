@@ -25,7 +25,7 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                                1700,
                                "Monthly"),
             JSBACH   = rbind(c("gpppft"           ,  rep("npppft", 3)                                      , "cVeg"   ),
-                               1,
+                              c(1                 , 1                                                   , 1000      ),
                                1950,
                                "Monthly"),
             LPJglob  = rbind(c("gpp"           ,  rep("npp", 3)                                      , "cVeg"   ),
