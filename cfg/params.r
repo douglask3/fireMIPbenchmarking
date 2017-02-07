@@ -10,5 +10,5 @@ nRRs = 2
 ################################################################################
 setupProjectStructure()
 data_dir.ModelOutputs  = 'data/ModelOutputs'
-data_dir.BenchmarkData = '~/Documents2/lpxBenchmarking/data/benchmarkData/'
+data_dir.BenchmarkData = 'data/benchmarkData/'
 outputs_dir.modelMasks = paste(outputs_dir, 'modelMasks', sep = '/')

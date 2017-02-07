@@ -6,7 +6,7 @@ Model.RAW = list(      #DIR                 #Processing
             CLM      = c('CLM'               , process.CLM     ),
             CTEM     = c('CTEM'              , process.CTEM    ),
             INFERNO  = c('Inferno'           , process.INFERNO ),
-            JSBACH   = c('JSBACH'            , process.default ),
+            JSBACH   = c('JSBACH'            , process.JSBACH ),
             LPJglob  = c('LPJ-GUESS-GlobFIRM', process.default ),
             LPJspit  = c('LPJ-GUESS-SPITFIRE', process.default ),
             LPJblze  = c('LPJ-GUESS-BLAZE'   , process.default ),
@@ -16,6 +16,7 @@ Model.RAW = list(      #DIR                 #Processing
 ################################################################################
 ## Model plotting                                                             ##
 ################################################################################
+
 Model.plotting = rbind( #Title            #Colour
             CLM      = c('CLM'               , 'red'        ),
             CTEM     = c('CTEM'              , 'green'      ),

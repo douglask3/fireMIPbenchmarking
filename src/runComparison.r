@@ -14,7 +14,7 @@ runComparison <- function(info, name) {
     if (is.null(info$obsLayers)) obsLayers = 1 else obsLayers = info$obsLayers
     simLayers = layersFrom1900(Model.Variable[[1]][4,varnN],
                                obsTemporalRes, obsLayers)
-
+    
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
     mod   = openSimulations(name, varnN, simLayers)
 

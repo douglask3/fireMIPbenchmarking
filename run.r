@@ -1,6 +1,19 @@
 source('cfg.r')
 
-comparisonList <- named.list(GFED4.Season, GFED4.IA, GFED4.Spatial)
-#comparisonList <- named.list(GPP, GFED4.IA, GFED4.Spatial, GFED4.Season)
+runNamedComparison <- function(name, comps_name = NULL, ...) {
+    fname = paste('cfg/Variable.', name, '.r', sep = "")
+    source(fname); source(fname, local = TRUE)
 
-runComparisons(comparisonList)
+    if (is.null(comps_name)) {
+        comps_name = Model.Variable[[1]][1,]
+        comps_name = ls()[apply(sapply(comps_name, grepl, ls()),1, any)]
+    }
+    comparisonList = lapply(comps_name, get)
+    names(comparisonList) = comps_name
+    #comparisonList = named.list(comps, ...)
+    runComparisons(comparisonList)
+}
+
+if (!exists('comparisons') || is.null(comparisons)) comparisons = list(NULL)
+
+mapply(runNamedComparison, names, comparisons)

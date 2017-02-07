@@ -1,10 +1,13 @@
 outputScores <- function(comp, name, info) {
 
-    MPD_test = !sapply(comp, is.null)
-    MPD_test = sapply(comp[MPD_test],
-                      function(i) grepl('MPD', i[[1]]$call[1]))
-    if (length(MPD_test) !=0 && MPD_test[1]) n = c(6,4, 4)
-        else n = c(2,3,4)
+    MET_test = !sapply(comp, is.null)
+    TYP_test <- function(TYP) sapply(comp[MET_test],
+                      function(i) grepl(TYP, i[[1]]$call[1]))
+    MPD_test = TYP_test('MPD')
+    MM__test = TYP_test('MM' )
+    if (length(MET_test) !=0 && MPD_test[1]) n = c(6,4, 12)
+    else if (length(MET_test) !=0 && MM__test[1]) n = c(2,1,6)
+    else n = c(2,3,6)
 
     extractScore <- function(FUN, n = 2) {
         null = rep('N/A', n)
@@ -18,21 +21,22 @@ outputScores <- function(comp, name, info) {
     scores =  t(rbind(null, mods))
     scores = beautifyOutScore(scores)
 
-    scores = cbind(t(mnvr), scores)
+    if (!is.list(mnvr[1,1])) {
+        scores = cbind(t(mnvr), scores)
 
-    if (nrow(mnvr) == 12) {
-        colnames(scores)[1:12] = c('obs mean phase'  , 'obs var phase'  ,
-                                   'obs mean conc'   , 'obs var conc'   ,
-                                   'sim mean phase'  , 'sim var phase'  ,
-                                   'sim mean conc'   , 'sim var conc'   ,
-                                   'ratio mean phase', 'ratio var phase',
-                                   'ratio mean conc' , 'ratio var conc' )
-    } else {
-        colnames(scores)[1:6 ] = c('obs mean', 'obs var',
-                                   'sim mean', 'sim var',
-                                   'mean ratio', 'var ratio')
+        if (nrow(mnvr) == 12) {
+            colnames(scores)[1:12] = c('obs mean phase'  , 'obs var phase'  ,
+                                       'obs mean conc'   , 'obs var conc'   ,
+                                       'sim mean phase'  , 'sim var phase'  ,
+                                       'sim mean conc'   , 'sim var conc'   ,
+                                       'ratio mean phase', 'ratio var phase',
+                                       'ratio mean conc' , 'ratio var conc' )
+        } else {
+            colnames(scores)[1:6 ] = c('obs mean', 'obs var',
+                                       'sim mean', 'sim var',
+                                       'mean ratio', 'var ratio')
+        }
     }
-
     file   = paste(outputs_dir, name, '.csv', sep = '-')
     write.csv(scores, file)
     return(scores)

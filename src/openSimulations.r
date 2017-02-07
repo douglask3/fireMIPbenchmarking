@@ -5,6 +5,7 @@ openSimulations <- function(name, varnN,  ...)
 
 openSimulation <- function(modInfo, rawInfo, name, varnN, layers) {
     varInfo = Model.Variable[[1]][,varnN]
+    if (varnN > ncol(modInfo)) varnN = ncol(modInfo)
     modInfo = modInfo[,varnN]
     dat = openModel(varInfo, modInfo, rawInfo, layers)
     return(dat)

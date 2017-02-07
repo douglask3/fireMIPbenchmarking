@@ -1,6 +1,3 @@
-################################################################################
-## Install Packages                                                           ##
-################################################################################
 library(benchmarkMetrics)
 library(gitBasedProjects)
 library(raster)
@@ -11,4 +8,5 @@ library(mapdata)
 library(plotrix)
 
 sourceAllLibs('src')
-sourceAllLibs('cfg')
+source('cfg/params.r')
+source('cfg/modelInfo.r')
