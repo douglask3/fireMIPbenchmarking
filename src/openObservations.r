@@ -20,6 +20,7 @@ openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL,
     if (is.null(varname)) varname = ""
 
     fname = paste(dir, file, sep="")
+    
     dat = layer.apply(varname, function(i) brick(fname, varname = i))
 
     if (nlayers(dat) > 1 && !is.null(layerID)) {
