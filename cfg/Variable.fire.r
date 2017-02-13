@@ -31,10 +31,10 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                              c(rep(100*12   , 4)                                   , 1         ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      ),
                              c('Annual'   , "Annual"   , 'Annual'   , "Annual"   , "Annual"  )),
-            LPJspit  = rbind(c("burntAreaMonthly",
-                                            "burntAreaMonthly",
-                                                             "burntAreaMonthly",
-                                                                          "burntAreaMonthly",
+            LPJspit  = rbind(c("burntArea",
+                                            "burntArea",
+                                                             "burntArea",
+                                                                          "burntArea",
                                                                                    "fFire"),
                              c(100        , 100        , 100        , 100        , 1         ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      ),
@@ -49,7 +49,7 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                              c('Annual'   , 'Annual'   , 'Annual'   , "Annual"   , "Annual"  )),
             ORCHIDEE = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFire"   ),
                              c(daily_pc   , daily_pc   , daily_pc   , daily_pc   , 12         ),
-                             c(1950       , 1950       , 1950       , 1950       , 1700      ),
+                             c(1700       , 1700       , 1700       , 1700       , 1700      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )))
 
 ################################################################################
