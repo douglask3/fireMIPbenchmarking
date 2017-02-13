@@ -68,8 +68,8 @@ plotNME.site <- function (x, y, obs, mod, score, name, cols, limits, nRRs = 2,
     plot(score)
     dev.off.annotate(name)
 	##metric map1
-	browser()
-    return(figName)
+	
+    return(list(figName,"NaN"))
 }
 
 
@@ -81,10 +81,10 @@ plotNME.InterAnnual <- function(obs, mod, name, x) {
 
     lines(x, obs, col = 'blue')
     lines(x, mod, col = 'red')
-
+	NMEs = abs(mod-obs)/sum(abs(obs - mean(obs)))
     legend('bottom', c('obs', 'mod'), col = c('blue','red'), lty = 1, bty = 'n')
     dev.off.annotate(name, y = 1.03)
 	##metric map1
-	browser()
-    return(figName)
+	
+    return(list(figName, NMEs))
 }

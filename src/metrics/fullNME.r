@@ -61,7 +61,7 @@ FullNME.InterAnnual <- function(obs, mod, name, plotArgs = NULL, nZ = 1,
     null  = null.NME(obs, n = nRRs)
 
     if (!is.null(plotArgs))
-        figName = do.call(plotNME.InterAnnual, list(obs, mod, name, plotArgs, ...))
+        c(figName, metricMap) := do.call(plotNME.InterAnnual, list(obs, mod, name, plotArgs, ...))
 
     return(list(score, null, figName, metricMap))
 }
