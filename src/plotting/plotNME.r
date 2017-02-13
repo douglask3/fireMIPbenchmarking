@@ -8,14 +8,14 @@ plotNME.spatial <- function(obs, mod, ...) {
 		return(wgthdMean(x))
 	}
 
-    f1 = plotNME.spatial.stepN(obs, mod, 1, ...)
+    c(f1, map1) := plotNME.spatial.stepN(obs, mod, 1, ...)
 
     mod = mod * wgthdMean(obs) / wgthdMean(mod)
-    f2 = plotNME.spatial.stepN(obs, mod, 2, ...)
+    c(f2, map2) := plotNME.spatial.stepN(obs, mod, 2, ...)
 
     mod = mod * wgthdVar(obs) / wgthdVar(mod)
-    f3 = plotNME.spatial.stepN(obs, mod, 3, ...)
-    return(c(f1, f2, f3))
+    c(f3, map3) := plotNME.spatial.stepN(obs, mod, 3, ...)
+    return(list(c(f1, f2, f3), c(map1, map2, map3)))
 }
 
 plotNME.spatial.stepN <- function(obs, mod, step, name, cols, dcols,
@@ -36,7 +36,7 @@ plotNME.spatial.stepN <- function(obs, mod, step, name, cols, dcols,
     plotStandardMetricMap(NMEs, paste('NME realtive contributions -', stepN))
 
     dev.off.annotate(paste(name, stepN))
-    return(figName)
+    return(c(figName, NMEs))
 }
 
 
@@ -67,6 +67,8 @@ plotNME.site <- function (x, y, obs, mod, score, name, cols, limits, nRRs = 2,
     par(mar = mar)
     plot(score)
     dev.off.annotate(name)
+	##metric map1
+	browser()
     return(figName)
 }
 
@@ -82,5 +84,7 @@ plotNME.InterAnnual <- function(obs, mod, name, x) {
 
     legend('bottom', c('obs', 'mod'), col = c('blue','red'), lty = 1, bty = 'n')
     dev.off.annotate(name, y = 1.03)
+	##metric map1
+	browser()
     return(figName)
 }

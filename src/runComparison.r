@@ -100,8 +100,10 @@ comparison <- function(mod, obs, name, info) {
         }
 
         comp[index] = mapply(FUN, mod[index], names(mod)[index], SIMPLIFY = FALSE)
+		
     }
     if (is.null(comp)) return(NULL)
     scores =  outputScores(comp, name, info)
+              mapMetricScores(comp, name, info)
     return(scores)
 }

@@ -13,11 +13,12 @@ FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ...) {
     score   = NME (obs, mod, weights)
 
     if (!is.null(plotArgs))
-        figNames = do.call(plotNME.spatial, c(obs, mod, name, plotArgs, ...))
-    else figNames = NULL
+        c(figNames, metricMap) := do.call(plotNME.spatial, c(obs, mod, name, plotArgs, ...))
+    else {figNames = NULL; metricMap =  NULL}
 
     null    = null.NME(obs, w = weights, n = nRRs)
-    return(list(score, null, figNames))
+	
+    return(list(score, null, figNames, metricMap))
 }
 
 FullNME.site <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
@@ -34,11 +35,11 @@ FullNME.site <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
     score = NME (obs, mod)
 
     if (!is.null(plotArgs))
-        figName = do.call(plotNME.site, c(list(x), list(y), list(obs), rmod,
-                           list(score), name, plotArgs, ...))
+        c(figName, metricMap) := do.call(plotNME.site, c(list(x), list(y), list(obs), rmod,
+                                         list(score), name, plotArgs, ...))
 
     null    = null.NME(obs, n = nRRs)
-    return(list(score, null, figName))
+    return(list(score, null, figName, metricMap))
 }
 
 FullNME.InterAnnual <- function(obs, mod, name, plotArgs = NULL, nZ = 1,
@@ -62,5 +63,5 @@ FullNME.InterAnnual <- function(obs, mod, name, plotArgs = NULL, nZ = 1,
     if (!is.null(plotArgs))
         figName = do.call(plotNME.InterAnnual, list(obs, mod, name, plotArgs, ...))
 
-    return(list(score, null, figName))
+    return(list(score, null, figName, metricMap))
 }
