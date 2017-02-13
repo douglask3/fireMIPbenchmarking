@@ -3,15 +3,15 @@
 ################################################################################
 
 Model.RAW = list(      #DIR                 #Processing
-            CLM      = c('CLM'               , process.CLM     ),
-            CTEM     = c('CTEM'              , process.CTEM    ),
-            INFERNO  = c('Inferno'           , process.INFERNO ),
-            JSBACH   = c('JSBACH'            , process.JSBACH ),
-            LPJglob  = c('LPJ-GUESS-GlobFIRM', process.default ),
-            LPJspit  = c('LPJ-GUESS-SPITFIRE', process.default ),
-            LPJblze  = c('LPJ-GUESS-BLAZE'   , process.default ),
-            MC2      = c('MC2'               , process.default ),
-            ORCHIDEE = c('ORCHIDEE'          , process.orchidee))
+            CLM      = c('CLM'                    , process.CLM     ),
+            CTEM     = c('CTEM'                   , process.CTEM    ),
+            INFERNO  = c('Inferno'                , process.INFERNO ),
+            JSBACH   = c('JSBACH'                 , process.JSBACH ),
+            LPJglob  = c('LPJ-GUESS-GlobFIRM'     , process.default ),
+            LPJspit  = c('LPJ-GUESS-SPITFIRE'     , process.default ),
+            LPJblze  = c('LPJ-GUESS-SIMFIRE-BLAZE', process.default ),
+            MC2      = c('MC2'                    , process.default ),
+            ORCHIDEE = c('ORCHIDEE'               , process.orchidee))
 
 ################################################################################
 ## Model plotting                                                             ##
