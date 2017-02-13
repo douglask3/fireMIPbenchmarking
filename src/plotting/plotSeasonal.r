@@ -1,10 +1,11 @@
 plotSeasonal <- function(obs, mod, ...) {
     obs = PolarConcentrationAndPhase(obs, phase_units = "months")
     mod = PolarConcentrationAndPhase(mod, phase_units = "months")
-
-    #f1 = plotSeasonal.phse(obs[[1]], mod[[1]], ...)
-    #f2 = plotSeasonal.conc(obs[[2]], mod[[2]], ...)
-    #return(c(f1, f2))
+	
+    f1 = plotSeasonal.phse(obs[[1]], mod[[1]], ...)
+    f2 = plotSeasonal.conc(obs[[2]], mod[[2]], ...)
+	
+    return(c(f1, f2))
 }
 
 plotSeasonal.conc <- function(obs, mod, name, score, ...) {
