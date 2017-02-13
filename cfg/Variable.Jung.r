@@ -4,7 +4,7 @@ sec_frac = 1/(60*60*24*30)
 ###########################################################
 ## Burnt area                                            ##
 ###########################################################
-
+sec2mon2kg = 1/(60 * 60 * 24 * 1000)
 Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
     varname  = rbind(c("ANN_GPP_HB", "ANN_GPP", "ANN_TER_HB", "ANN_TER", "MARS_GPP_HB", "MARS_GPP", "MARS_TER_HB", "MARS_TER", "RF_GPP_HB", "RF_GPP", "RF_TER_HB", "RF_TER"),
                     1,
@@ -12,31 +12,31 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                     1980,
                     'mean'),
     CLM      = rbind(rep("gpp"   , 12),
-                    1,
+                    sec2mon2kg,
                     1950,
                     'Monthly'),
     CTEM     = rbind(rep("gpppft", 12),
-                    1,
+                    sec2mon2kg,
                     1860,
                     "Monthly"),
     INFERNO  = rbind(rep("gpp"   , 12),
-                    1,
+                    sec2mon2kg,
                     1700,
                     "Monthly"),
     JSBACH   = rbind(rep("gpppft", 12),
-                    1,
+                    sec2mon2kg,
                     1950,
                     "Monthly"),
     LPJglob  = rbind(rep("gpp"   , 12),
-                    1,
+                    sec2mon2kg,
                     1950,
                     "Monthly"),
     LPJspit  = rbind(rep("gpp"   , 12),
-                    1,
+                    sec2mon2kg,
                     1950,
                     "Monthly"),
     LPJblze  = rbind(rep("gpp"   , 12),
-                    1,
+                    sec2mon2kg,
                     1950,
                     "Monthly"),
     MC2      = rbind(rep("gpp"   , 12),
@@ -44,7 +44,7 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                     1900,
                     "Annual"),
     ORCHIDEE = rbind(rep("gpp", 12),
-                    12,
+                    sec2mon2kg,
                     1950,
                     "Monthly"))
 
