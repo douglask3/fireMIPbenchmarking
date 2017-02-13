@@ -20,6 +20,8 @@ runComparison <- function(info, name) {
 
     mask  = loadMask(obs, mod, name)
     c(obs, mod) := remask(obs, mod, mask, name)
+	
+	mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(Model.Variable[[1]], varnN))
     scores = comparison(mod, obs, name, info)
     #comparisonOutput(scores, name)
     return(scores)

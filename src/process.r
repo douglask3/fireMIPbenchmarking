@@ -6,16 +6,15 @@ process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex,
     dir   = paste(data_dir.ModelOutputs, rawInfo[[1]], experiment, sep = '/')
     files = list.files(dir, full.names = TRUE, recursive = TRUE)
     levels = findModelLevels(modInfo[5])
-
+	
     memSafeFile.initialise('temp/')
         dat = rawInfo[[2]](files, varName = modInfo[1], levels = levels,
                            startYear = rawInfo[3], modLayers, layersIndex,
                            combine = varInfo[5])
-        if (!is.null(dat)) {
-            dat = scaleMod(dat, varInfo[2], modInfo[2])
+        if (!is.null(dat)) 
             dat = writeRaster(dat, outFile, overwrite = TRUE)
             #if (is.list(dat) && length(dat)) dat = dat[[1]]
-        }
+        
     memSafeFile.remove()
 
     return(dat)
@@ -54,17 +53,26 @@ findModelLevels <- function(levels) {
 ################################################################################
 ## Scaling Funs                                                               ##
 ################################################################################
-scaleMod <- function(dat, obs, mod) {
+scaleMod <- function(dat, mod, obs, varnN) {
+	if (is.null(dat)) return(dat)
+	mod = mod[2, varnN]; obs = obs[2, varnN]
+	
     if (mod == "Ha") {
         dat = covertFromHa2Frac(dat)
         mod = 1
     }
     scale = as.numeric(obs)/as.numeric(mod)
+	
+	fname = strsplit(filename.noPath(dat[[1]]), ".nc")[[1]][1]
+	fname = paste(temp_dir, fname, scale, '.nc', sep = "")
+	if (file.exists(fname)) return(stack(fname))
+	
     if (scale != 1) {
         scaleMod <- function(i)
             writeRaster(i * scale, file = memSafeFile())
         dat = layer.apply(dat, scaleMod)
     }
+	dat = writeRaster(dat, fname, overwrite = TRUE)
     return(dat)
 }
 
