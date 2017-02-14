@@ -37,6 +37,7 @@ mapMetricScores.lines <- function(fname, nmetric, dat, scores, info){
 mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {
 	
 	mapMetricScore <- function(i, pltLegend = FALSE) {
+		stepn = i
 		dat   = select2ndCommonItem(dat  , i)
 		score = select2ndCommonItem(scores, i)
 		dat   = mapply('/', dat, score)
@@ -52,7 +53,10 @@ mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {
 		cutPlt[] = 0.0	
 		cols = c()
 		p = 0
-		if (pltLegend) plot.new()
+		if (pltLegend) {
+			par(mar = c(0, 6, 0, 6))
+			plot.new()
+		}
 		for (i in 1:length(mn_lims)) for (j in length(vr_lims):1) {
 			p = p + 1
 			ml = mn_lims[i]; vl = vr_lims[j]
@@ -67,7 +71,11 @@ mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {
 			
 			x = 1 - (i - 0.5)/length(mn_lims)
 			y = 1 - (j - 0.5)/length(vr_lims)
-			if (pltLegend) points(x, y, pch = 15, col = cols[p], cex = 5)
+			if (pltLegend) {
+				
+				points(x, y, pch = 15, col = cols[p], cex = 7)
+				
+			}
 		}
 		if (pltLegend) {
 			lines(c(0,0), c(0,1))
@@ -77,16 +85,19 @@ mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {
 			text(0.2, 0.9, 'All model perform well')
 			text(0.8, 0.9, 'All model perform poorly')
 			text(0.5, 0.1, 'Some models perform well')
+			par(mar = rep(0,4))
 		}
 		cutPlt[is.na(mn)] = NaN
 		plot_raster_from_raster(cutPlt, limit = 1:p, cols = cols, y_range = c(-60, 90),
 								readyCut = TRUE, add_legend = FALSE)
+		mtext(side = 3, paste("step", stepn))
 								
 	}
 	pdf(fname, height = 2.5 * (nmetric + 1), width = 5)
 		layout(c((1:nmetric)+1, 1))
-		par(mar = rep(0,4))
-		mapply(mapMetricScore, 1:nmetric, c(T, rep(F, nmetric - 1)), MoreArgs = list(dat, scores))
+		par(mar = rep(0,4), oma = c(0,0,3,0))
+		mapply(mapMetricScore, 1:nmetric, c(T, rep(F, nmetric - 1)))
+		browser()
 	dev.off.gitWatermarkStandard()
 }
 
