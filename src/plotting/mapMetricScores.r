@@ -45,7 +45,7 @@ mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {
 		
 		mn      = mean(dat)	
 		mn_lims = quantile(mn, seq(0.1, 0.9, 0.1))
-		vr      = sd.raster(dat, FALSE)
+		vr      = sd.raster(dat, FALSE) / sqrt(mn)
 		vr[is.na(mn)] = NaN
 		vr_lims = quantile(vr, seq(0.1, 0.9, 0.1))
 		
@@ -62,20 +62,18 @@ mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {
 			ml = mn_lims[i]; vl = vr_lims[j]
 			b = (i-1)/(length(mn_lims) - 1)
 			r = (1 - b)
-			g = ((j - 1)/(length(vr_lims) - 1)) ^ 3
-			r = r + (1 - r) * g
-			b = b + (1 - b) * g
+			g = ((j - 1)/(length(vr_lims) - 1))# ^ 3
+			r = r * (1-g); b = b * (1-g)
+			tot = b + r + g
+			
 			cols[p] = hex(RGB(r,g,b))
 			test = mn < ml & vr < vl;
 			cutPlt[test] = cutPlt[test] + 1	
 			
 			x = 1 - (i - 0.5)/length(mn_lims)
 			y = 1 - (j - 0.5)/length(vr_lims)
-			if (pltLegend) {
-				
+			if (pltLegend)				
 				points(x, y, pch = 15, col = cols[p], cex = 7)
-				
-			}
 		}
 		if (pltLegend) {
 			lines(c(0,0), c(0,1))
@@ -88,6 +86,7 @@ mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {
 			par(mar = rep(0,4))
 		}
 		cutPlt[is.na(mn)] = NaN
+		browser()
 		plot_raster_from_raster(cutPlt, limit = 1:p, cols = cols, y_range = c(-60, 90),
 								readyCut = TRUE, add_legend = FALSE)
 		mtext(side = 3, paste("step", stepn))
@@ -97,7 +96,6 @@ mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {
 		layout(c((1:nmetric)+1, 1))
 		par(mar = rep(0,4), oma = c(0,0,3,0))
 		mapply(mapMetricScore, 1:nmetric, c(T, rep(F, nmetric - 1)))
-		browser()
 	dev.off.gitWatermarkStandard()
 }
 
