@@ -35,6 +35,7 @@ mapMetricScores.lines <- function(fname, nmetric, dat, scores, info){
 
 
 mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {	
+	nmodels = length(dat)
 	mapMetricScore <- function(i) {
 		stepn = i
 		dat   = select2ndCommonItem(dat  , i)
@@ -42,37 +43,23 @@ mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {
 		dat   = mapply('/', dat, score)
 		dat   = list2layers(dat)
 		
-		mn      = mean(dat)	
-		mn_lims = quantile(mn, 0.33)
-		vr      = sd.raster(dat, FALSE) / sqrt(mn)
-		vr[is.na(mn)] = NaN
-		vr_lims = quantile(vr, 0.5)
-		
 		cutPlt = sum(dat < 1)
-		
-		#plot_raster_from_raster(cutPlt, limits = (1:10) - 0.5, cols = c('red', 'white', 'green'))
-		
-		test1 = mn < mn_lims
-		test2 = (vr > vr_lims) & !test1
-		test3 = (!test2) & (!test1)
-		cutPlt[test1] = 1
-		cutPlt[test2] = 2
-		cutPlt[test3] = 3
-		
-		cutPlt = sum(dat < 1)
-		plot_raster_from_raster(cutPlt, limits = 0.5:8.5, cols = c('red', 'white', 'green'),
+		plot_raster_from_raster(cutPlt, limits = 0.5:(nmodels - 0.5), cols = c('red', 'white', 'green'),
 							    y_range = c(-60, 90), add_legend = FALSE)
-		#plot_raster_from_raster(cutPlt, limits = (1:3) - 0.5, cols = c('blue', 'white', 'red'), y_range = c(-60, 90),
-		#						readyCut = TRUE, add_legend = FALSE)
 		mtext(side = 3, paste("step", stepn))
 								
 	}
 	pdf(fname, height = 2.5 * (nmetric + 0.3), width = 5)
+		## setup
 		layout(1:(nmetric + 1), heights = c(rep(1, nmetric), 0.3))
 		par(mar = rep(0,4), oma = c(0,0,3,0))
+		
+		## plot maps
 		lapply(1:nmetric, mapMetricScore)
-		limits = seq(0.5, 8.5, 0.5)
-		labels = as.character(c(limits, 9))
+		
+		## plot legend
+		limits = seq(0.5, nmodels - 0.5, 0.5)
+		labels = as.character(c(limits, nmodels))
 		labels[seq(1, length(labels), by = 2)] = ""
 		cols = rep(make_col_vector(c("red", "white", "green"), limits=0.5:8.5, whiteAt0=F), each = 2)
 		add_raster_legend2(cols = cols, limits = limits, transpose = FALSE, labelss = labels,
@@ -88,85 +75,6 @@ mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {
 	dev.off.gitWatermarkStandard()
 }
 
-
-mapMetricScores.rasterA <- function(fname, nmetric, dat, scores, info) {	
-	mapMetricScore <- function(i, pltLegend = FALSE) {
-		stepn = i
-		dat   = select2ndCommonItem(dat  , i)
-		score = select2ndCommonItem(scores, i)
-		dat   = mapply('/', dat, score)
-		dat   = list2layers(dat)
-		
-		mn      = mean(dat)	
-		mn_lims = quantile(mn, seq(0.1, 0.9, 0.1))
-		vr      = sd.raster(dat, FALSE) / sqrt(mn)
-		vr[is.na(mn)] = NaN
-		vr_lims = quantile(vr, seq(0.1, 0.9, 0.1))
-		
-		cutPlt = mn
-		cutPlt[] = 0.0	
-		cols = c()
-		p = 0
-		if (pltLegend) {
-			par(mar = c(0, 6, 0, 6))
-			plot.new()
-		}
-		for (i in 1:length(mn_lims)) for (j in length(vr_lims):1) {
-			p = p + 1
-			ml = mn_lims[i]; vl = vr_lims[j]
-			b = (i-1)/(length(mn_lims) - 1)
-			r = (1 - b)
-			g = ((j - 1)/(length(vr_lims) - 1))# ^ 3
-			r = r * (1-g); b = b * (1-g)
-			tot = b + r + g
-			
-			cols[p] = hex(RGB(r,g,b))
-			test = mn < ml & vr < vl;
-			cutPlt[test] = cutPlt[test] + 1	
-			
-			x = 1 - (i - 0.5)/length(mn_lims)
-			y = 1 - (j - 0.5)/length(vr_lims)
-			if (pltLegend)				
-				points(x, y, pch = 15, col = cols[p], cex = 7)
-		}
-		if (pltLegend) {
-			lines(c(0,0), c(0,1))
-			lines(c(1,1), c(0,1))
-			lines(c(0,1), c(0,0))
-			lines(c(0,1), c(1,1))
-			text(0.2, 0.9, 'All model perform well')
-			text(0.8, 0.9, 'All model perform poorly')
-			text(0.5, 0.1, 'Some models perform well')
-			par(mar = rep(0,4))
-		}
-		cutPlt[is.na(mn)] = NaN
-		plot_raster_from_raster(cutPlt, limit = 1:p, cols = cols, y_range = c(-60, 90),
-								readyCut = TRUE, add_legend = FALSE)
-		mtext(side = 3, paste("step", stepn))
-								
-	}
-	pdf(fname, height = 2.5 * (nmetric + 1), width = 5)
-		layout(c((1:nmetric)+1, 1))
-		par(mar = rep(0,4), oma = c(0,0,3,0))
-		mapply(mapMetricScore, 1:nmetric, c(T, rep(F, nmetric - 1)))
-	dev.off.gitWatermarkStandard()
-}
-
 select2ndCommonItem <- function(lst, i) lapply(lst, function(j) j[[i]])
 list2layers <- function(lst) layer.apply(lst, function(i) i)
 
-sd.raster <- function(ldata,pmean=TRUE) {
-    llayers=nlayers(ldata)
-    ones=rep(1,llayers)
-    lmean=stackApply(ldata,ones,'mean',na.rm=TRUE)
-    ldelt=ldata-lmean
-
-    ldelt=ldelt*ldelt
-
-    lvarn=stackApply(ldelt,ones,'sum',na.rm=TRUE)/llayers
-
-    lvarn=sqrt(lvarn)
-    if (pmean) lvarn=lvarn/abs(lmean)
-    return(lvarn)
-
-}
