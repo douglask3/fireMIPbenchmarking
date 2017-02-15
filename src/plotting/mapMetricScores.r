@@ -34,8 +34,62 @@ mapMetricScores.lines <- function(fname, nmetric, dat, scores, info){
 }
 
 
-mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {
-	
+mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {	
+	mapMetricScore <- function(i) {
+		stepn = i
+		dat   = select2ndCommonItem(dat  , i)
+		score = select2ndCommonItem(scores, i)
+		dat   = mapply('/', dat, score)
+		dat   = list2layers(dat)
+		
+		mn      = mean(dat)	
+		mn_lims = quantile(mn, 0.33)
+		vr      = sd.raster(dat, FALSE) / sqrt(mn)
+		vr[is.na(mn)] = NaN
+		vr_lims = quantile(vr, 0.5)
+		
+		cutPlt = sum(dat < 1)
+		
+		#plot_raster_from_raster(cutPlt, limits = (1:10) - 0.5, cols = c('red', 'white', 'green'))
+		
+		test1 = mn < mn_lims
+		test2 = (vr > vr_lims) & !test1
+		test3 = (!test2) & (!test1)
+		cutPlt[test1] = 1
+		cutPlt[test2] = 2
+		cutPlt[test3] = 3
+		
+		cutPlt = sum(dat < 1)
+		plot_raster_from_raster(cutPlt, limits = 0.5:8.5, cols = c('red', 'white', 'green'),
+							    y_range = c(-60, 90), add_legend = FALSE)
+		#plot_raster_from_raster(cutPlt, limits = (1:3) - 0.5, cols = c('blue', 'white', 'red'), y_range = c(-60, 90),
+		#						readyCut = TRUE, add_legend = FALSE)
+		mtext(side = 3, paste("step", stepn))
+								
+	}
+	pdf(fname, height = 2.5 * (nmetric + 0.3), width = 5)
+		layout(1:(nmetric + 1), heights = c(rep(1, nmetric), 0.3))
+		par(mar = rep(0,4), oma = c(0,0,3,0))
+		lapply(1:nmetric, mapMetricScore)
+		limits = seq(0.5, 8.5, 0.5)
+		labels = as.character(c(limits, 9))
+		labels[seq(1, length(labels), by = 2)] = ""
+		cols = rep(make_col_vector(c("red", "white", "green"), limits=0.5:8.5, whiteAt0=F), each = 2)
+		add_raster_legend2(cols = cols, limits = limits, transpose = FALSE, labelss = labels,
+		                   ylabposScling = 0, add = FALSE, plot_loc = c(0.05, 0.95, 0.55, 0.75))
+		
+		arrows(0.35, 1, 0.05, 1, lwd = 2, length = 0.1, xpd = NA)
+		text('Models perform poorly', x = 0.2, y = 1.2, xpd = NA)
+		
+		arrows(0.65, 1, 0.95, 1, lwd = 2, length = 0.1, xpd = NA)
+		text('Models perform well', x = 0.8, y = 1.2, xpd = NA)
+		
+		text('No. of model "worse than mean"', x = 0.5, y = 0.15, xpd = NA)
+	dev.off.gitWatermarkStandard()
+}
+
+
+mapMetricScores.rasterA <- function(fname, nmetric, dat, scores, info) {	
 	mapMetricScore <- function(i, pltLegend = FALSE) {
 		stepn = i
 		dat   = select2ndCommonItem(dat  , i)
@@ -86,7 +140,6 @@ mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {
 			par(mar = rep(0,4))
 		}
 		cutPlt[is.na(mn)] = NaN
-		browser()
 		plot_raster_from_raster(cutPlt, limit = 1:p, cols = cols, y_range = c(-60, 90),
 								readyCut = TRUE, add_legend = FALSE)
 		mtext(side = 3, paste("step", stepn))
