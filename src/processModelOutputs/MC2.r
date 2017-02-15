@@ -4,6 +4,5 @@ process.MC2 <- function(...) {
 		i[is.na(i)] = 0.0
 	}
 	dat = memSafeFunction(dat, removeNaN)
-	browser()
 	return(dat)
 }
