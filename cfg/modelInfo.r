@@ -10,7 +10,7 @@ Model.RAW = list(      #DIR                 #Processing
             LPJglob  = c('LPJ-GUESS-GlobFIRM'     , process.default ),
             LPJspit  = c('LPJ-GUESS-SPITFIRE'     , process.default ),
             LPJblze  = c('LPJ-GUESS-SIMFIRE-BLAZE', process.default ),
-            MC2      = c('MC2'                    , process.default ),
+            MC2      = c('MC2'                    , process.MC2     ),
             ORCHIDEE = c('ORCHIDEE'               , process.orchidee))
 
 ################################################################################
