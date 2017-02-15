@@ -1,7 +1,5 @@
-process.default <- function(files, varName, levels, ...) {
-    #browser()
+process.default <- function(files, varName, levels, ...) 
     dat = layer.apply(levels, process.default.level, files, varName, ...)
-}
 
 process.default.level <- function(levels, files, varName, startYear,
                         layers, layersIndex, combine) {
@@ -12,11 +10,8 @@ process.default.level <- function(levels, files, varName, startYear,
     if (is.na(levels)) dat = brick.gunzip(file)[[layers]]
         else dat = lapply(levels, function(i) brick.gunzip(file, level = i)[[layers]])
 
-    #dat = brick.gunzip(file)
-    #browser()
-
     dat = layer.apply(dat, combineRawLayers, layersIndex, combine)
-
+	
     return(dat)
 }
 
@@ -30,4 +25,15 @@ combineRawLayers <- function(dat, layersIndex, combine) {
     if (nlayers(dat) == 1) return(dat)
     dat = layer.apply(unique(layersIndex), makeLayer)
     return(dat)
+}
+
+
+process.MC2 <- function(...) {
+	dat = process.default(...)
+	removeNaN <- function(i) {
+		i[is.na(i)] = 0.0
+	}
+	dat = memSafeFunction(dat, removeNaN)
+	browser()
+	return(dat)
 }

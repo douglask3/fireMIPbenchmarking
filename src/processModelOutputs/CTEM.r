@@ -21,13 +21,8 @@ process.CTEM.level <- function(levels, files, varName, startYear,
         file = findAfile(files, vegVarN)
         veg0 = brickLevels()
     }
-
-    mask = is.na(dat0[[1]][[1]])
-    for (i in 2:length(dat0)) mask = mask + is.na(dat0[[i]][[1]])
-
-    test = mask == length(levels)
-    mask[ test] = NaN
-    mask[!test] = 1
+	
+    mask = !is.na(veg0[[1]][[1]])
 
     noNaN <- function(dat) {
         dat[is.na(dat)] = 0
@@ -50,5 +45,6 @@ process.CTEM.level <- function(levels, files, varName, startYear,
     dat = layer.apply(layers, combineLevels)
 
     dat = combineRawLayers(dat, layersIndex, combine)
+	
     return(dat)
 }
