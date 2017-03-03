@@ -40,7 +40,7 @@ mapMetricScores.raster <- function(fname, nmetric, dat, scores, info) {
 		stepn = i
 		dat   = select2ndCommonItem(dat  , i)
 		score = select2ndCommonItem(scores, i)
-		dat   = mapply('/', dat, score)
+		#dat   = mapply('/', dat, score)
 		dat   = list2layers(dat)
 		
 		cutPlt = sum(dat < 1)
