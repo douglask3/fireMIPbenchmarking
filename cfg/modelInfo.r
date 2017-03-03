@@ -3,7 +3,7 @@
 ################################################################################
 
 Model.RAW = list(      #DIR                 #Processing
-            CLM      = c('CLM'                    , process.CLM     ),
+            CLM      = c('CLM2'                   , process.CLM     ),
             CTEM     = c('CTEM'                   , process.CTEM    ),
             INFERNO  = c('Inferno'                , process.INFERNO ),
             JSBACH   = c('JSBACH'                 , process.JSBACH ),

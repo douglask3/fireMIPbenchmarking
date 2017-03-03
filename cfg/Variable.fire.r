@@ -13,7 +13,7 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                              c('mean'     , 'mean'     , "mean"     , "mean"     , "mean"    )),
             CLM      = rbind(c("BAF"      , "BAF"      , "BAF"      , "BAF"      , "CFFIRE"  ),
                              c(daily_pc   , daily_pc   , daily_pc   , daily_pc   , 1         ),
-                             c(1700       , 1700       , 1700       , 1700       , 1700      ),
+                             c(1850       , 1850       , 1850       , 1850       , 1850      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" )),
             CTEM     = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFirepft"),
                              c(100        , 100        , 100        , 100        , 1         ),
