@@ -39,9 +39,10 @@ remask <- function(obs, mod0, mask, varnN) {
         filename_obs = c()
     filename_mod = paste(temp_dir, sapply(mod, filename.noPath, TRUE), 'modRemasked.nc', sep = '-')
     filenames    = c(filename_obs, filename_mod)
-
+	
     if (files.exist(filenames)) {
         mod0[present] = lapply(filename_mod, stack)
+		obs = stack(filename_obs)
         return(list(obs, mod0))
     }
 
@@ -54,7 +55,6 @@ remask <- function(obs, mod0, mask, varnN) {
         if (remask) i[mask == 1] = NaN
         return(i)
     }
-
 
     mod = lapply(mod, memSafeFunction, resample)
 
