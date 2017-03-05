@@ -39,7 +39,7 @@ process.CLM.default <- function(files, varName, startYear,
                         layers, layersIndex, combine) {
 
     file = findAfile(files, varName)
-    if (noFileWarning(files, varName)) return(NULL)
+    if (noFileWarning(file, varName)) return(NULL)
 
     dat = brick.gunzip(file)
     nr = nrow(dat)

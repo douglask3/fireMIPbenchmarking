@@ -11,7 +11,7 @@ process.CTEM.level <- function(levels, files, varName, startYear,
 
     ## Open variable
     file = findAfile(files, varName)
-    if (noFileWarning(files, varName)) return(NULL)
+    if (noFileWarning(file, varName)) return(NULL)
 
     dat0 = brickLevels()
 
