@@ -1,5 +1,6 @@
 process.MC2 <- function(...) {
 	dat = process.default(...)
+	if (is.null(dat)) return(dat)
 	removeNaN <- function(i) {
 		i[is.na(i)] = 0.0
 		return(i)
