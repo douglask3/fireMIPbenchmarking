@@ -50,6 +50,8 @@ process.CLM.default <- function(files, varName, startYear,
     makeLayer <- function(i) {
         layers = layers[which(i == layersIndex)]
         openLayer <- function(j) {
+			if (j > ncol(dat)) stop("looking for a time-slide outside time dimesion.\n",
+			                         "Have you set the start/end years correctly for CLM?")
             layer[] = getValuesBlock(dat, row = 1, nrow = nr, col = j, ncol = 1)
             return(layer)
         }
