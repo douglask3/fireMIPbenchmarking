@@ -7,6 +7,7 @@ process.default.level <- function(levels, files, varName, startYear,
     file = findAfile(files, varName)
     if (is.null(file)) return(NULL)
 
+	if (max(layers) > nlayers(stack(file))) stop('layers exceed file length', file)	
     if (is.na(levels)) dat = brick.gunzip(file)[[layers]]
         else dat = lapply(levels, function(i) brick.gunzip(file, level = i)[[layers]])
 
