@@ -114,7 +114,7 @@ mnVar.raster <- function(x, lengthNotConc = TRUE) {
 	nmods = sum(!is.na(x))
 	
 	C = sqrt(Lx ^ 2 + Ly ^ 2) / nmods
-	if (lengthNotConc) C = (1 - C) * 2
+	if (lengthNotConc) C = (1 / C) -1
 	return(C)
 }
 
