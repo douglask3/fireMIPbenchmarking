@@ -171,7 +171,7 @@ MCD45.Spatial  = list(obsFile       = "MCD45.nc",
                       plotArgs      = MCD45.Spatial,
                       ExtraArgs     = list(mnth2yr = TRUE))
 					  
-NRfire        = list(obsFile       = "NRfire-nr_100km2.nc",
+NRfire        = list(obsFile       = "NRfire-nr_fire.nc",
                      obsLayers     = 1:9,
                      ComparisonFun = FullNME,
                      plotArgs      = NRfire)
