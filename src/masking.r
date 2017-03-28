@@ -42,7 +42,7 @@ remask <- function(obs, mod0, mask, varnN) {
 	
     if (files.exist(filenames)) {
         mod0[present] = lapply(filename_mod, stack)
-		obs = stack(filename_obs)
+		if (is.raster(obs)) obs = stack(filename_obs)
         return(list(obs, mod0))
     }
 
