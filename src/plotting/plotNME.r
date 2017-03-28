@@ -8,34 +8,46 @@ plotNME.spatial <- function(obs, mod, ...) {
 		return(wgthdMean(x))
 	}
 
-    c(f1, map1) := plotNME.spatial.stepN(obs, mod, 1, ...)
+    c(f1, map1) := plotNME.spatial.stepN(mod, obs, 1, ...)
 
     mod = mod * wgthdMean(obs) / wgthdMean(mod)
-    c(f2, map2) := plotNME.spatial.stepN(obs, mod, 2, ...)
+    c(f2, map2) := plotNME.spatial.stepN(mod, obs, 2, ...)
 
     mod = mod * wgthdVar(obs) / wgthdVar(mod)
-    c(f3, map3) := plotNME.spatial.stepN(obs, mod, 3, ...)
+    c(f3, map3) := plotNME.spatial.stepN(mod, obs, 3, ...)
     return(list(c(f1, f2, f3), c(map1, map2, map3)))
 }
 
-plotNME.spatial.stepN <- function(obs, mod, step, name, cols, dcols,
-                                  limits, dlimits, ...) {
+plotNME.spatial.stepN <- function(mod, obs, step, name, cols, dcols, NMEcols = NMEmap_cols, 
+                                  limits, dlimits, NMElims = NULL, 
+								  figOut = TRUE, plotObs = TRUE, ...) {
 
     stepN   = paste("step", step, sep = '')
-    figName = setupPlotStandardMap(paste(name, stepN, sep = '-'), 2, 2)
-
-    mapply(plotStandardMap, c(obs, mod), c('obs','mod'), MoreArgs = list(limits, cols))
-    plotStandardMap(mod - obs, 'mod - obs', dlimits, dcols)
+    if (figOut) { 
+		figName = setupPlotStandardMap(paste(name, stepN, sep = '-'), 2, 2)
+		labs = c('obs', 'mod', 'mod - obs', paste('NME relative contributions -', stepN))
+		add_legend = TRUE
+	} else {
+		labs = rep('', 4)
+		add_legend = FALSE
+	}
+	
+	if(plotObs) plotStandardMap(obs, labs[1], limits, cols, add_legend = add_legend)
+    plotStandardMap( mod, labs[2], limits, cols, add_legend = add_legend)
+	if (!figOut) mtext(name, side = 2, line = -1)
+    plotStandardMap(mod - obs, labs[3], dlimits, dcols, add_legend = add_legend)
+	
 
     mnObs = sum(values(mod*area(mod)), na.rm = TRUE) /
             sum(values(area(mod,na.rm = TRUE)), na.rm = TRUE)
 
     NMEs  = abs(mod - obs) / abs(obs - mnObs)
+	
 
-    stepN = paste("step", step, sep = ' ')
-    plotStandardMetricMap(NMEs, paste('NME realtive contributions -', stepN))
+    plotStandardMetricMap(NMEs, labs[4], NMElims, cols = NMEcols, add_legend = add_legend)
 
-    dev.off.annotate(paste(name, stepN))
+    if (figOut) dev.off.annotate(paste(name, stepN))
+	else figName = NULL
     return(c(figName, NMEs))
 }
 

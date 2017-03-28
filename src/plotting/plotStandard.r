@@ -7,9 +7,14 @@ plotStandardMap <- function(x, txt, limits, cols, ...) {
 }
 
 
-plotStandardMetricMap <- function(x, txt, limits, cols, ...) {
-    plotStandardMap(x, txt, limits = quantile(x, seq(0.2,0.8,0.2)),
-                    cols = c('white', 'black'), labelss = seq(0,1,0.2)*100)
+plotStandardMetricMap <- function(x, txt, limits  = NULL, qunatiles = NMEmap_qunatiles, cols = NMEmap_cols, ...) {
+    if (is.null(limits)) {
+		limits = quantile(x, qunatiles)
+		labelss = qunatiles * 100
+	} else labelss = limits
+	
+	plotStandardMap(x, txt, limits = limits,
+                    cols = cols, labelss = labelss, ...)
 }
 
 setupPlotStandardMap <- function(name, x, y, ...)

@@ -88,7 +88,6 @@ comparison <- function(mod, obs, name, info) {
                        c(obs, list(mod), name, list(info$plotArgs),
                          info$ExtraArgs))
     } else { # or each model individually
-		try(plotVarAgreement(mod, obs, name, info))
         index = !(sapply(mod, is.null))
 
         if (!is.raster(obs)) obs = list(obs)
@@ -100,10 +99,12 @@ comparison <- function(mod, obs, name, info) {
         }
 
         comp[index] = mapply(FUN, mod[index], names(mod)[index], SIMPLIFY = FALSE)
-		
     }
     if (is.null(comp)) return(NULL)
     scores =  outputScores(comp, name, info)
-       try(mapMetricScores(comp, name, info))
+	
+	plotVarAgreement(mod, obs, name, info, scores)
+    try(mapMetricScores(comp, name, info))
+	
     return(scores)
 }
