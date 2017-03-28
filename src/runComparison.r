@@ -103,7 +103,7 @@ comparison <- function(mod, obs, name, info) {
     if (is.null(comp)) return(NULL)
     scores =  outputScores(comp, name, info)
 	
-	plotVarAgreement(mod, obs, name, info, scores)
+	try(plotVarAgreement(mod, obs, name, info, scores))
     try(mapMetricScores(comp, name, info))
 	
     return(scores)

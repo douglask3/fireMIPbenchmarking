@@ -18,8 +18,8 @@ plotNME.spatial <- function(obs, mod, ...) {
     return(list(c(f1, f2, f3), c(map1, map2, map3)))
 }
 
-plotNME.spatial.stepN <- function(mod, obs, step, name, cols, dcols, NMEcols = NMEmap_cols, 
-                                  limits, dlimits, NMElims = NULL, 
+plotNME.spatial.stepN <- function(mod, obs, step, name, cols, dcols, metricCols = NMEmap_cols, 
+                                  limits, dlimits, metricLimits = NULL, 
 								  figOut = TRUE, plotObs = TRUE, ...) {
 
     stepN   = paste("step", step, sep = '')
@@ -44,7 +44,7 @@ plotNME.spatial.stepN <- function(mod, obs, step, name, cols, dcols, NMEcols = N
     NMEs  = abs(mod - obs) / abs(obs - mnObs)
 	
 
-    plotStandardMetricMap(NMEs, labs[4], NMElims, cols = NMEcols, add_legend = add_legend)
+    plotStandardMetricMap(NMEs, labs[4], metricLimits, cols = metricCols, add_legend = add_legend)
 
     if (figOut) dev.off.annotate(paste(name, stepN))
 	else figName = NULL

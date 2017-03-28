@@ -1,52 +1,60 @@
 plotSeasonal <- function(obs, mod, ...) {
-    obs = PolarConcentrationAndPhase(obs, phase_units = "months")
-    mod = PolarConcentrationAndPhase(mod, phase_units = "months")
+    obs = PolarConcentrationAndPhase.memStore(obs)
+    mod = PolarConcentrationAndPhase.memStore(mod)
 	
-    f1 = plotSeasonal.phse(obs[[1]], mod[[1]], ...)
-    f2 = plotSeasonal.conc(obs[[2]], mod[[2]], ...)
+    c(f1, mm1) := plotSeasonal.phse(mod[[1]], obs[[1]], ...)
+    c(f2, mm2) := plotSeasonal.conc(mod[[2]], obs[[2]], ...)
 	
-    return(c(f1, f2))
+    return(list(c(f1, f2), c(mm1, mm2)))
 }
 
-plotSeasonal.conc <- function(obs, mod, name, score, ...) {
 
-    cols    = c('white', 'black')
-    dcols   = c('green', 'white', 'red')
-    limits  = c(0, 0.2, 0.4, 0.6, 0.8)
-    dlimits = c(-0.2, -0.1, -0.05, 0.05, 0.1, 0.2)
+plotSeasonal.conc <- function(mod, obs, name, ...) {
 
-    plotNME.spatial(obs, mod, name, cols, dcols, limits, dlimits, ...)
+    cols    = SeasonConcCols
+    dcols   = SeasonConcDcols
+    limits  = SeasonLimits
+    dlimits = SeasonDlimits
+
+    plotNME.spatial(obs, mod, name, cols, dcols,
+			        limits = limits, dlimits = dlimits, ...)
 }
 
-plotSeasonal.phse <- function(obs, mod, name, score, ...) {
+plotSeasonal.phse <- function(mod, obs, step, name,
+							  cols = SeasonPhaseCols, dcols = SeasonPhaseDcols, metricCols = MPDmap_cols, 
+						      limits = SeasonPhaseLimits, dlimits = SeasonPhaseDlimits, 
+							  metricLimits = NULL,
+						      figOut = TRUE, plotObs = TRUE, ...) {
 
-    figName = setupPlotStandardMap(name, 2, 3, width = c(0.1, 1, 1))
-
-    limits      = list(  0:11,
-                       c(-5.5:5.5))
-    cols        = list(c('blue','cyan','red', 'orange', 'blue'),
-                       c("#660066","#0000FF",'white','#FF0000', "#660066"))
-
-    #c(obs, mod) := lapply(c(obs, mod), {function(i) i[i<0] = i[i<0] + 12; i})
-    SeasonLegend(limits[[1]], cols[[1]], dat = obs)
-
-    mapply(plotStandardMap, c(obs, mod), c('obs','mod'),
-           MoreArgs = list(limits[[1]], cols[[1]], add_legend = FALSE))
-
+    if (figOut) {
+		figName = setupPlotStandardMap(name, 2, 3, width = c(0.1, 1, 1))	
+		SeasonLegend(limits[[1]], cols[[1]], dat = obs)
+		labs = c('obs', 'mod', 'mod - obs', 'MPD relative contributions')
+		add_legend = TRUE
+	} else {
+		labs = rep('', 4)
+		figName= NULL
+		add_legend = FALSE
+	}
+	
+	if (plotObs) plotStandardMap(obs, labs[1], limits, cols, add_legend = FALSE)
+	
+	plotStandardMap(mod, labs[2], limits, cols, add_legend = FALSE)
+	if (!figOut) mtext(name, side = 2, line = -1)
     dif = mod = mod - obs
 
     mod[mod < (-6)] = mod[mod <(-6)] + 6
     mod[mod >   6 ] = mod[mod >  6 ] - 6
 
-    SeasonLegend(limits[[2]], cols[[2]], dat = mod)
+    if (add_legend) SeasonLegend(limits[[2]], cols[[2]], dat = mod)
 
-    plotStandardMap(mod,  'mod - obs', limits[[2]], cols[[2]],
-                 add_legend = FALSE)
+    plotStandardMap(mod,  labs[3], dlimits, dcols, add_legend = FALSE)
 
     dif = acos(cos(dif))
 
-    plotStandardMetricMap(dif, 'MPD realtive contributions')
+    plotStandardMetricMap(dif, labs[4], metricLimits, cols = metricCols, add_legend = add_legend)
 
-    dev.off.annotate(name)
-    return(figName)
+    if (figOut) dev.off.annotate(name)
+	
+	return(list(figName, dif))
 }
