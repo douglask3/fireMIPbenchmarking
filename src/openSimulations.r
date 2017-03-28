@@ -17,9 +17,9 @@ openModel <- function(varInfo, modInfo, rawInfo, layers) {
     c(modLayers, layersIndex) :=
         calculateLayersFromOpening(varInfo, modInfo, layers, modInfo[3])
 	
-    tempFile = paste(c(temp_dir, '/processed', rawInfo[[1]], modInfo[1], 1, modInfo[-(1:2)],
+    tempFile = paste(c(temp_dir, '/processed', '-', varInfo[1], '-', rawInfo[[1]], modInfo[1], 1, modInfo[-(1:2)],
                      min(layers), '-', max(layers), '.nc'), collapse = '')
-
+	
     if (file.exists(tempFile)) dat = brick(tempFile)
     else dat = process.RAW(rawInfo, varInfo, modInfo,
                            modLayers, layersIndex, tempFile)
