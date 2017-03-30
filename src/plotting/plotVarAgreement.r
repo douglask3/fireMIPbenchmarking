@@ -21,7 +21,6 @@ plotVarAgreement <- function(mod, obs, name, info, scores) {
 						plotSeasonal.phse, SeasonLegend,
 						eFun = mnVar.raster)
 		
-		browser()
 		cmod = ithLayerFromList(mod, 2)	
 		
 		cols    = SeasonConcCols
