@@ -7,7 +7,7 @@ sec_frac = 1/(60*60*24*30)
 
 Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("GFED4"    , "GFED4s"   , "meris"    , "MCD45"    , "GFAS"    , "NRfire"  ),
-                             c(1          , 1          , 1          , 1          , 1         , 10000     ),
+                             c(1          , 1          , 1          , 1          , 1         , 1         ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , 'Monthly' , "Annual"  ),
                              c(1996       , 1996       , 2006       , 2001       , 2000      , 2002      ),
                              c('mean'     , 'mean'     , "mean"     , "mean"     , "mean"    , "mean"   )),
@@ -24,7 +24,7 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                              c(1700       , 1700       , 1700       , 1700       , 1700      , 1700      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly" )),
             JSBACH   = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFirepft", "nrfire"  ),
-                             c(rep(100/30.1467, 4)                                , 1        , 1         ),
+                             c(rep(100/30.1467, 4)                                , 1        , 1E-6      ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      , 1950      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly" )),
             LPJglob  = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "Cfire"   , "nrfire"  ),
@@ -32,7 +32,7 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                              c(1700       , 1700       , 1700       , 1700       , 1700      , 1700      ),
                              c('Annual'   , "Annual"   , 'Annual'   , "Annual"   , "Annual"  , "Annual" )),
             LPJspit  = rbind(c(rep("BA", 4)                                      , "fFire"   , "nrfire"  ),
-                             c(100        , 100        , 100        , 100        , 1         , 1         ),
+                             c(100        , 100        , 100        , 100        , 1         , 1E-6      ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      , 1700      ),
                              c('Monthly'  , "Monthly"  , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly" )),
             LPJblze  = rbind(c("BA"       , "BA"       , "BA"       , "BA"       , "Cfire"   , "nrfire"  ),
@@ -44,7 +44,7 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                              c(1901       , 1901       , 1901       , 1901       , 1901      , 1901      ),
                              c('Annual'   , 'Annual'   , 'Annual'   , "Annual"   , "Annual"  , "Annual"  )),
             ORCHIDEE = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFire"   , "nrfire"  ),
-                             c(daily_pc   , daily_pc   , daily_pc   , daily_pc   , 12        , 1         ),
+                             c(daily_pc   , daily_pc   , daily_pc   , daily_pc   , 12        , 1E-6/30   ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      , 1950      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly" )))
 
@@ -94,8 +94,8 @@ GFAS          = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
 NRfire        = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                      dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
                                  '#FFD793', "#F07700", "#AA0000"),
-                     limits  = c(.01,.02,.05,.1,.2, .5),
-                     dlimits = c(-0.2,-0.1,-0.5,0.05,0.1, 0.2))
+                     limits  = c(0.001,.01,.05,.1,.2,.5),
+                     dlimits = c(-0.2,-0.1,-0.5,-0.01,0.01,0.05,0.1, 0.2))
 ################################################################################
 ## Full comparisons info                                                      ##
 ################################################################################
