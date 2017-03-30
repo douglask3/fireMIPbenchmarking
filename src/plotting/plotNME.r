@@ -15,6 +15,7 @@ plotNME.spatial <- function(obs, mod, ...) {
 
     mod = mod * wgthdVar(obs) / wgthdVar(mod)
     c(f3, map3) := plotNME.spatial.stepN(mod, obs, 3, ...)
+	
     return(list(c(f1, f2, f3), c(map1, map2, map3)))
 }
 
@@ -37,17 +38,22 @@ plotNME.spatial.stepN <- function(mod, obs, step, name, cols, dcols, metricCols 
 	if (!figOut) mtext(name, side = 2, line = -1)
     plotStandardMap(mod - obs, labs[3], dlimits, dcols, add_legend = add_legend)
 	
+	Area = area(obs,na.rm = TRUE)
+    mnObs = sum(values(obs*area(obs)), na.rm = TRUE) /
+            sum(values(Area), na.rm = TRUE)
 
-    mnObs = sum(values(mod*area(mod)), na.rm = TRUE) /
-            sum(values(area(mod,na.rm = TRUE)), na.rm = TRUE)
-
-    NMEs  = abs(mod - obs) / abs(obs - mnObs)
+	denom = abs(obs - mnObs)
+	denom = denom * Area
+	denom = sum.raster(denom, na.rm = TRUE) / sum.raster(Area, na.rm = TRUE)
+	
+	
+    NMEs  = abs(mod - obs) / denom
 	
 
     plotStandardMetricMap(NMEs, labs[4], metricLimits, cols = metricCols, add_legend = add_legend)
 
     if (figOut) dev.off.annotate(paste(name, stepN))
-	else figName = NULL
+	else figName = NULL 
     return(c(figName, NMEs))
 }
 

@@ -29,14 +29,14 @@ plotVarAgreement <- function(mod, obs, name, info, scores) {
 		dlims   = SeasonConcDlimits
 		
 		name = paste(name, 'conc', sep = '-')
-		plotSepMods(cmod, obs[[2]], modNames, name, cols, dcols, lims, dlims,
+		plotSepMods(cmod, obs[[2]], modNames, name, info, cols, dcols, lims, dlims,
 				    scores[, c("mean.concentration2", "random.concentration")])
 		
 	} else {
 		mod = layer.apply(mod, mean)
 		obs = mean(obs)
 		
-		if (is.True(info$ExtraArgs['mnth2yr'])) {
+		if (is.True(info$ExtraArgs[['mnth2yr']])) {
 			mod = mod * 12
 			obs = obs * 12
 		}
@@ -45,18 +45,17 @@ plotVarAgreement <- function(mod, obs, name, info, scores) {
 		dcols = info$plotArgs$dcols
 		lims  = info$plotArgs$limits
 		dlims = info$plotArgs$dlimits
-	}
-	
-	plotSepMods(mod, obs, modNames, name, cols, dcols, lims, dlims, scores)
-	
+		
+		plotSepMods(mod, obs, modNames, name, info, cols, dcols, lims, dlims, scores)
+	}	
 }
 
 
-plotSepMods <- function(mod, obs, modNames, name, cols, dcols, lims, dlims, scores,
+plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims, scores,
 						    plotFun = plotNME.spatial.stepN, legendFun = add_raster_legend2, ...) {
 	MetricCols = c('white', 'green', 'yellow', 'orange', 'red', 'black')
 	MetricLabs = c('prefect', 'mean', 'RR low', 'RR', 'RR high')
-	MetricLims = nullScores_lims(scores)
+	c(MetricLims, MN, RR) := nullScores_lims(scores)
 	
 	if (MetricLims[2] > MetricLims[5]) {
 		MetricLims = MetricLims[-2]
@@ -68,23 +67,26 @@ plotSepMods <- function(mod, obs, modNames, name, cols, dcols, lims, dlims, scor
 	np = nmods*3 + 6
 	lmat  = t(matrix(rep(1:np, each = 2), nrow = 6))
 	lmat2 = t(matrix(rep(np + c(1, 3, 2, 4), each = 3), nrow = 6))
-	lmat  = rbind(lmat, lmat2) 
+	lmat3 = t(matrix(rep(np + c(5, 7, 6, 8), each = 3), nrow = 6))
+	lmat  = rbind(lmat, lmat2, lmat3) 
 	
 	fname =  paste(figs_dir, name, 'modObsNME', '.pdf', sep = '-')
-	pdf(fname, height = 3 * nmods + 1, width = 14)
-	layout(lmat, heights = c(0.1, rep(1, nrow(lmat)-4),0.5, 1, 0.7))
+	pdf(fname, height = 3 * (nmods + 2.2), width = 14)
+	layout(lmat, heights = c(0.1, rep(1, nrow(lmat)-4),0.5, 1, 0.7, 1, 0.15))
 	par(mar = rep(0,4), oma = c(0, 1, 0, 0))
 	mtextPN <- function(txt) {
 		plot.new()
 		mtext(txt, side = 3, line = -3)
 	}
 	
-	lapply(c('Simulated', 'Simulated - Observed', 'NME contribution'), mtextPN)
+	lapply(c('Simulated', 'Simulated - Observed', 'Metric contribution'), mtextPN)
 	
-	for (i in 1:nlayers(mod))
-		plotFun(mod[[i]],obs, 1, modNames[i], cols, dcols, metricCols = MetricCols,
-	                           lims, dlims, MetricLims, figOut = FALSE, plotObs = FALSE)
-	
+	out = c()
+	for (i in 1:nlayers(mod)) {
+		out[i] = 
+			plotFun(mod[[i]],obs, 1, modNames[i], cols, dcols, metricCols = MetricCols,
+								   lims, dlims, MetricLims, figOut = FALSE, plotObs = FALSE)
+	}
 	legendFun(cols =  cols, limits =  lims, transpose = FALSE, plot_loc = c(0.2, 0.8, 0.8, 0.9), add = FALSE, 
 	          mar = c(-0.5, 0, 0, 0))
 	legendFun(cols = dcols, limits = dlims, transpose = FALSE, plot_loc = c(0.2, 0.8, 0.8, 0.9), add = FALSE, mar = rep(0,4))
@@ -92,17 +94,28 @@ plotSepMods <- function(mod, obs, modNames, name, cols, dcols, lims, dlims, scor
 	                   transpose = FALSE, plot_loc = c(0.2, 0.8, 0.8, 0.9), add = FALSE)	
 	
 	plotComMods(mod, obs, name, cols, lims, newFig = FALSE, legendFun = legendFun, ...)
-	plotComMods(mod, obs, name, cols, lims, newFig = TRUE, legendFun = legendFun, ...)
 	
+	mapMetricScores.default(lapply(out,list), 1, info, score = MN)
+	mapMetricScores.default(lapply(out,list), 1, info, score = RR, nullModel = "Randomly-resampled")
 	dev.off.gitWatermarkStandard()
+	plotComMods(mod, obs, name, cols, lims, newFig = TRUE, legendFun = legendFun, ...)
 }
 
 
 nullScores_lims <- function(x) {
-	scores = strsplit(x[, 2], ' +/- ', fixed = TRUE)
-	scores = matrix(as.numeric(unlist(scores)), 2)
-	scores = rbind(as.numeric(x[,1]), scores)
-	return(c(0, scores[1], scores[2] - scores[3], scores[2], scores[2] + scores[3]))
+	rmNaN <- function(i)
+		if (i[1] == "N/A") invisible() else return(as.numeric(i))
+	RR = strsplit(x[, 2], ' +/- ', fixed = TRUE)
+	RR = lapply(RR, rmNaN)
+	RR = matrix(unlist(RR), 2)
+	
+	MN = lapply(x[,1], rmNaN)
+	MN = unlist(MN)
+	
+	scores = rbind(MN, matrix(RR, 2))
+	scores = apply(scores, 1, mean)
+	return(list(c(0, scores[1], scores[2] - scores[3], scores[2], scores[2] + scores[3]),
+	            scores[1], scores[2]))
 }
 
 mnVar.raster <- function(x, lengthNotConc = TRUE) {
@@ -139,9 +152,9 @@ plotComMods <- function(mod, obs, name, cols, lims, newFig = TRUE, legendFun = a
 		fname =  paste(figs_dir, name, 'modObsMean', '.pdf', sep = '-')
 		pdf(fname, height = 3.67, width = 7.5)
 		layout(cbind(1:2, 3:4), heights = c(1,0.5))
-	}
 		par(mar = rep(0,4))
-		
+	}		
+	
 	plot_raster_from_raster(obs, limits = lims, cols = cols, add_legend = FALSE, y_range = c(-60, 90))
 	mtext(paste(name, 'observations'), side = 3, line = -1)
 	
