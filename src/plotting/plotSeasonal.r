@@ -56,5 +56,5 @@ plotSeasonal.phse <- function(mod, obs, step, name,
 
     if (figOut) dev.off.annotate(name)
 	
-	return(list(figName, dif))
+	return(c(figName, dif))
 }

@@ -15,11 +15,11 @@ plotVarAgreement <- function(mod, obs, name, info, scores) {
 		lims    = SeasonPhaseLimits
 		dlims   = SeasonPhaseDlimits
 		
-		plotSepMods.MPD(pmod, obs[[1]], modNames, paste(name, 'phase', sep = '-'), 
-						cols, dcols, lims, dlims,
-					    scores[, c("mean.phase", "random.phase")],
-						plotSeasonal.phse, SeasonLegend,
-						eFun = mnVar.raster)
+		plotSepMods(pmod, obs[[1]], modNames, paste(name, 'phase', sep = '-'), info,
+					cols, dcols, lims, dlims,
+					scores[, c("mean.phase", "random.phase")],
+					plotSeasonal.phse, SeasonLegend,
+					eFun = mnVar.raster)
 		
 		cmod = ithLayerFromList(mod, 2)	
 		
@@ -32,6 +32,8 @@ plotVarAgreement <- function(mod, obs, name, info, scores) {
 		plotSepMods(cmod, obs[[2]], modNames, name, info, cols, dcols, lims, dlims,
 				    scores[, c("mean.concentration2", "random.concentration")])
 		
+	} else if (all(names(info$plotArgs) == 'x')) {
+		return(NULL)
 	} else {
 		mod = layer.apply(mod, mean)
 		obs = mean(obs)
@@ -71,8 +73,8 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 	lmat  = rbind(lmat, lmat2, lmat3) 
 	
 	fname =  paste(figs_dir, name, 'modObsNME', '.pdf', sep = '-')
-	pdf(fname, height = 3 * (nmods + 2.2), width = 14)
-	layout(lmat, heights = c(0.1, rep(1, nrow(lmat)-4),0.5, 1, 0.7, 1, 0.15))
+	pdf(fname, height = 3 * (nmods + 1.5), width = 14)
+	layout(lmat, heights = c(0.1, rep(1, nrow(lmat)-6),0.5, 1, 0.7, 1, 0.25))
 	par(mar = rep(0,4), oma = c(0, 1, 0, 0))
 	mtextPN <- function(txt) {
 		plot.new()
