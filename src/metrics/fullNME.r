@@ -37,7 +37,7 @@ FullNME.site <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
     if (!is.null(plotArgs) && plotModMetrics)
         c(figName, metricMap) := do.call(plotNME.site, c(list(x), list(y), list(obs), rmod,
                                          list(score), name, plotArgs, ...))
-	else figNames = metricMap =  NULL
+	else figName = metricMap =  NULL
 	
     null    = null.NME(obs, n = nRRs)
     return(list(score, null, figName, metricMap))
@@ -63,7 +63,7 @@ FullNME.InterAnnual <- function(obs, mod, name, plotArgs = NULL, nZ = 1,
 
     if (!is.null(plotArgs) && plotModMetrics)
         c(figName, metricMap) := do.call(plotNME.InterAnnual, list(obs, mod, name, plotArgs, ...))
-	else figNames = metricMap =  NULL
+	else figName = metricMap =  NULL
 	
     return(list(score, null, figName, metricMap))
 }
