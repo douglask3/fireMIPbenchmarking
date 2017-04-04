@@ -44,11 +44,14 @@ mapMetricScores.raster <- function(fname, nmetric, dat, info, score = 1, nullMod
 		stepn = i
 		dat   = select2ndCommonItem(dat  , i)
 		dat   = list2layers(dat)
+		nmsk = sum(is.na(dat))
 		
-		cutPlt = sum(dat < score)
+		cutPlt = sum(dat < score, na.rm = TRUE)
+		cutPlt = cutPlt * nlayers(dat) / (nlayers(dat) - nmsk)
+		cutPlt[nmsk == nlayers(dat)] = NaN
 		plot_raster_from_raster(cutPlt, limits = 0.5:(nmodels - 0.5), cols = c('red', 'white', 'green'),
 							    y_range = c(-60, 90), add_legend = FALSE)
-		mtext(side = 3, paste("step", stepn))
+		if (!is.null(fname)) mtext(side = 3, paste("step", stepn))
 								
 	}
 	

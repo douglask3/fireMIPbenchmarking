@@ -164,10 +164,13 @@ plotComMods <- function(mod, obs, name, cols, lims, newFig = TRUE, legendFun = a
 	legendFun(cols = cols, limits = lims, transpose = FALSE, plot_loc = c(0.2, 0.8, 0.8, 0.9), mar = c(-0.5, 0,0,0), add = FALSE)
 	
 	mmod = mean(mod, na.rm = TRUE)
-	mmod[is.na(obs)] = NaN
+	obsMask = is.na(obs)
+	mmod[obsMask] = NaN
+	emod = eFun(mod)
+	emod[obsMask] = NaN
 	
 	plot_raster_from_raster(mmod, limits = lims, cols = cols, add_legend = FALSE, y_range = c(-60, 90),
-							e = eFun(mod), limits_error = c(0.5, 1),  
+							e = emod, limits_error = c(0.5, 1),  
 							ePatternRes = 30,  ePatternThick = 0.2, e_polygon = FALSE)
 	mtext(paste('Model Ensemble'), side = 3, line = -1)
 	
