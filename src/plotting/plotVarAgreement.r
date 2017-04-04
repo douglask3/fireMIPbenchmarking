@@ -1,57 +1,116 @@
-
-plotVarAgreement <- function(mod, obs, name, info, scores) {
+plotVarAgreement <- function(mod, obs, name, info, scores,...) {
 	index = !sapply(mod, is.null)
 	mod = mod[index]
 	modNames = names(mod)
 	
-	if (is.True(info$plotArgs)) {
-		obs = PolarConcentrationAndPhase.memStore(obs)
-		mod = lapply(mod, PolarConcentrationAndPhase.memStore)
-		
-		pmod = ithLayerFromList(mod, 1)	
-		
-		cols    = SeasonPhaseCols
-		dcols   = SeasonPhaseDcols
-		lims    = SeasonPhaseLimits
-		dlims   = SeasonPhaseDlimits
-		
-		plotSepMods(pmod, obs[[1]], modNames, paste(name, 'phase', sep = '-'), info,
-					cols, dcols, lims, dlims,
-					scores[, c("mean.phase", "random.phase")],
-					plotSeasonal.phse, SeasonLegend,
-					eFun = mnVar.raster)
-		
-		cmod = ithLayerFromList(mod, 2)	
-		
-		cols    = SeasonConcCols
-		dcols   = SeasonConcDcols
-		lims    = SeasonConcLimits
-		dlims   = SeasonConcDlimits
-		
-		name = paste(name, 'conc', sep = '-')
-		plotSepMods(cmod, obs[[2]], modNames, name, info, cols, dcols, lims, dlims,
-				    scores[, c("mean.concentration2", "random.concentration")])
-		
-	} else if (all(names(info$plotArgs) == 'x')) {
-		return(NULL)
-	} else {
-		mod = layer.apply(mod, mean)
-		obs = mean(obs)
-		
-		if (is.True(info$ExtraArgs[['mnth2yr']])) {
-			mod = mod * 12
-			obs = obs * 12
-		}
+	if (is.True(info$plotArgs)) FUN = plotVarAgreement.seasonal
+	else if (all(names(info$plotArgs) == 'x')) FUN = plotVarAgreement.IA
+	else FUN = plotVarAgreement.spatial
 	
-		cols  = info$plotArgs$cols
-		dcols = info$plotArgs$dcols
-		lims  = info$plotArgs$limits
-		dlims = info$plotArgs$dlimits
-		
-		plotSepMods(mod, obs, modNames, name, info, cols, dcols, lims, dlims, scores)
-	}	
+	FUN(mod, obs, name, modNames, info, scores, ...)
 }
 
+plotVarAgreement.IA <- function(mod, obs, name, modNames, info, scores, comp, ...) {
+	mod = lapply(comp, function(i) i[[1]][[6]])
+	obs = lapply(comp, function(i) i[[1]][[5]])
+	x   = info$plotArgs$x
+	yrange = range(unlist(mod), obs)
+	
+	fname =  paste(figs_dir, name, 'modObsNME', '.pdf', sep = '-')
+	pdf(fname, height = 7.5, width = 7.5)
+	layout(c(1,3,2), heights = c(1, 0.3, 1))
+	par(oma = c(0, 0, 1, 0), mar = c(3, 3, 0, 3))	
+	
+	##################
+	## plot outputs	##
+	##################
+	plot(range(x), yrange, type = 'n', xlab = '', ylab ='')
+	plotModObsLines <- function(md, ob, col) {
+		lines(x, ob, lwd = 2)
+		lines(x, md, col = col, lwd = 2)
+		return(abs(md-ob)/sum(abs(ob - mean(ob))))
+	}
+	NMEs = mapply(plotModObsLines, mod, obs,  Model.plotting[, 2], SIMPLIFY = FALSE)
+	
+	##################
+	## plot metric	##
+	##################
+	yrange = range(unlist(NMEs))
+	plot(range(x), yrange, type = 'n', xlab = '', ylab ='')
+	mtext('metric contribution')
+	mapply(plotModObsLines, NMEs, NMEs,  Model.plotting[, 2])
+	
+	c(MetricLims, MN, RR) := nullScores_lims(scores)
+	RR = tail(MetricLims, 3)
+	
+	addNullModel <- function(sc, nm, adj, ...) {
+		lines(x, rep(sc, length(x)), ...)
+		text(x[1], sc, nm, adj = c(0.1, adj))
+	}
+	
+	addNullModel(MN   , 'mean'   ,  1)
+	addNullModel(RR[1], 'RR low' ,  1, lty = 2)
+	addNullModel(RR[2], 'RR'     , -1)
+	addNullModel(RR[3], 'RR high', -1, lty = 2)
+	
+	##################
+	## legend    	##
+	##################
+	plot.new()
+	par(mar = c(2, 0, 0, 0))
+	legTitle = c('Observations', Model.plotting[, 1])
+	legCol   = c('black', Model.plotting[, 2])
+	legend(x = "center", legend = legTitle, ncol = 4, lwd = 1, col = legCol)
+		
+	dev.off.gitWatermarkStandard()
+}
+
+plotVarAgreement.spatial <- function(mod, obs, name, modNames, info, scores, ...) {
+	mod = layer.apply(mod, mean)
+	obs = mean(obs)
+	
+	if (is.True(info$ExtraArgs[['mnth2yr']])) {
+		mod = mod * 12
+		obs = obs * 12
+	}
+
+	cols  = info$plotArgs$cols
+	dcols = info$plotArgs$dcols
+	lims  = info$plotArgs$limits
+	dlims = info$plotArgs$dlimits
+	
+	plotSepMods(mod, obs, modNames, name, info,
+				cols, dcols, lims, dlims, scores)
+}
+
+plotVarAgreement.seasonal <- function(mod, obs, name, modNames, info, scores, ...) {
+	obs = PolarConcentrationAndPhase.memStore(obs)
+	mod = lapply(mod, PolarConcentrationAndPhase.memStore)
+	
+	pmod = ithLayerFromList(mod, 1)	
+	
+	cols    = SeasonPhaseCols
+	dcols   = SeasonPhaseDcols
+	lims    = SeasonPhaseLimits
+	dlims   = SeasonPhaseDlimits
+	
+	plotSepMods(pmod, obs[[1]], modNames, paste(name, 'phase', sep = '-'), info,
+				cols, dcols, lims, dlims,
+				scores[, c("mean.phase", "random.phase")],
+				plotSeasonal.phse, SeasonLegend,
+				eFun = mnVar.raster)
+	
+	cmod = ithLayerFromList(mod, 2)	
+	
+	cols    = SeasonConcCols
+	dcols   = SeasonConcDcols
+	lims    = SeasonConcLimits
+	dlims   = SeasonConcDlimits
+	
+	name = paste(name, 'conc', sep = '-')
+	plotSepMods(cmod, obs[[2]], modNames, name, info, cols, dcols, lims, dlims,
+				scores[, c("mean.concentration2", "random.concentration")])
+}
 
 plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims, scores,
 						    plotFun = plotNME.spatial.stepN, legendFun = add_raster_legend2, ...) {
