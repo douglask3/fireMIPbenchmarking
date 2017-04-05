@@ -102,45 +102,45 @@ NRfire        = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
 ## GFED4
 GFED4.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                      obsVarname    = "mfire_frac",
-                     obsLayers     = 1:156,
+                     obsLayers     = 8:163,
                      ComparisonFun = FullNME,
                      plotArgs      = GFED4.Spatial,
                      ExtraArgs     = list(mnth2yr = TRUE))
 
 GFED4.IA      = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                      obsVarname    = "mfire_frac",
-                     obsLayers     = 1:156,
+                     obsLayers     = 8:163,
                      ComparisonFun = FullNME,
                      plotArgs      = GFED4.IA,
                      ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
 GFED4.Season  = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                      obsVarname    = "mfire_frac",
-                     obsLayers     = 8:127,
+                     obsLayers     = 8:163,
                      ComparisonFun = FullSeasonal,
                      plotArgs      = TRUE)
 
 ##GFED4s
 GFED4s.Spatial = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:144,
-                      obsStart      = 1998,
+                      obsLayers     = 1:156,
+                      obsStart      = 1997,
                       ComparisonFun = FullNME,
                       plotArgs      = GFED4s.Spatial,
                       ExtraArgs     = list(mnth2yr = TRUE))
 
 GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:144,
-                      obsStart      = 1998,
+                      obsLayers     = 1:156,
+                      obsStart      = 1997,
                       ComparisonFun = FullNME,
                       plotArgs      = GFED4s.IA,
                       ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
 GFED4s.Season  = list(obsFile = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:144,
-                      obsStart      = 1998,
+                      obsLayers     = 1:156,
+                      obsStart      = 1997,
                       ComparisonFun = FullSeasonal,
                       plotArgs      = TRUE)
 
