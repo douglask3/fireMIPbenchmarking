@@ -1,4 +1,4 @@
-process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex,
+process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex, scling,
                          outFile) {
     cat(paste('\nOpening raw data for', rawInfo[[1]], 'for',
               varInfo[[1]], 'comparison\n'))
@@ -11,10 +11,11 @@ process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex,
         dat = rawInfo[[2]](files, varName = modInfo[1], levels = levels,
                            startYear = rawInfo[3], modLayers, layersIndex,
                            combine = varInfo[5])
+		dat = memSafeFunction(dat, '*', scling) 
         if (!is.null(dat)) 
             dat = writeRaster(dat, outFile, overwrite = TRUE)
             #if (is.list(dat) && length(dat)) dat = dat[[1]]
-        
+		 
     memSafeFile.remove()
 
     return(dat)

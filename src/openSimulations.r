@@ -14,7 +14,7 @@ openSimulation <- function(modInfo, rawInfo, name, varnN, layers) {
 openModel <- function(varInfo, modInfo, rawInfo, layers) {
     if (modInfo[1] == "NULL") return(NULL)
 
-    c(modLayers, layersIndex) :=
+    c(modLayers, layersIndex, scling) :=
         calculateLayersFromOpening(varInfo, modInfo, layers, modInfo[3])
 	
     tempFile = paste(c(temp_dir, '/processed', '-', varInfo[1], '-', rawInfo[[1]], modInfo[1], 1, modInfo[-(1:2)],
@@ -22,8 +22,8 @@ openModel <- function(varInfo, modInfo, rawInfo, layers) {
 	
     if (file.exists(tempFile)) dat = brick(tempFile)
     else dat = process.RAW(rawInfo, varInfo, modInfo,
-                           modLayers, layersIndex, tempFile)
-
+                           modLayers, layersIndex, scling, tempFile)
+	
     return(dat)
 }
 
@@ -46,7 +46,7 @@ Annual2Annual <- function(...) Monthly2Monthly(..., n = 1  )
 
 Monthly2Monthly <- function(layers, start, n = 12) {
     ModLayers = layers - n * (start - 1900) + 1
-    return(list(ModLayers, layers))
+    return(list(ModLayers, layers, 1))
 }
 
 Monthly2Daily <- function(layers, start) {
@@ -67,7 +67,7 @@ Monthly2Daily <- function(layers, start) {
 
     ModLayers = ModLayers - 365 * (start - 1900)
 
-    return(list(ModLayers, ModLayersindex))
+    return(list(ModLayers, ModLayersindex, 30))
 }
 
 Monthly2Annual <- function(layers, start) {
@@ -75,7 +75,7 @@ Monthly2Annual <- function(layers, start) {
     ModLayers = floor(layers / 12)
     ModLayers = ModLayers - start + 1900 +1
 
-    return(list(ModLayers, layers))
+    return(list(ModLayers, layers, 1/12))
 }
 
 
@@ -93,7 +93,7 @@ Annual2Monthly <- function(layers, start) {
 
     ModLayers = ModLayers - 12 * (start - 1900)
 
-    return(list(ModLayers, ModLayersindex))
+    return(list(ModLayers, ModLayersindex, 12))
 }
 
 
