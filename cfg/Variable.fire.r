@@ -1,5 +1,7 @@
+
 daily_pc = 100/30.4167
 sec_frac = 1/(60*60*24*30)
+kgpersec = 1000 / sec_frac
 
 ###########################################################
 ## Burnt area                                            ##
@@ -7,44 +9,44 @@ sec_frac = 1/(60*60*24*30)
 
 Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("GFED4"    , "GFED4s"   , "meris"    , "MCD45"    , "GFAS"    , "NRfire"  ),
-                             c(1          , 1          , 1          , 1          , 1         , 1         ),
+                             c(1          , 1          , 1          , 1          , kgpersec  , 1         ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , 'Monthly' , "Annual"  ),
                              c(1996       , 1996       , 2006       , 2001       , 2000      , 2002      ),
                              c('mean'     , 'mean'     , "mean"     , "mean"     , "mean"    , "mean"   )),
             CLM      = rbind(c("BAF"      , "BAF"      , "BAF"      , "BAF"      , "CFFIRE"  , "nrfire"  ),
-                             c(rep(100, 4)                                       , 1         , 1         ),
+                             c(rep(100, 4)                                       , kgpersec         , 1         ),
                              c(1850       , 1850       , 1850       , 1850       , 1850      , 1850      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly")),
             CTEM     = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFirepft", "nrfire"  ),
-                             c(100        , 100        , 100        , 100        , 1         , 1         ),
+                             c(100        , 100        , 100        , 100        , kgpersec  , 1         ),
                              c(1859       , 1859       , 1859       , 1859       , 1861      , 1859      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly" )),
             INFERNO  = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFirepft", "nfire"   ),
-                             c(sec_frac   , sec_frac   , sec_frac   , sec_frac   , 1         , 1         ),
+                             c(sec_frac   , sec_frac   , sec_frac   , sec_frac   , kgpersec  , 1         ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      , 1700      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly" )),
             JSBACH   = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFirepft", "nrfire"  ),
-                             c(rep(100/30.1467, 4)                                , 1        , 1E-6      ),
+                             c(rep(daily_pc, 4)                                  , kgpersec  , 1E-6      ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      , 1950      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly" )),
             LPJglob  = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "Cfire"   , "nrfire"  ),
-                             c(rep(100, 4)                                       , 1       , 1         ),
+                             c(rep(100, 4)                                       , kgpersec  , 1         ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      , 1700      ),
                              c('Annual'   , "Annual"   , 'Annual'   , "Annual"   , "Annual"  , "Annual" )),
             LPJspit  = rbind(c(rep("BA", 4)                                      , "fFire"   , "nrfire"  ),
-                             c(100        , 100        , 100        , 100        , 1         , 1E-6      ),
+                             c(100        , 100        , 100        , 100        , kgpersec  , 1E-6      ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      , 1700      ),
                              c('Monthly'  , "Monthly"  , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly" )),
             LPJblze  = rbind(c("BA"       , "BA"       , "BA"       , "BA"       , "Cfire"   , "nrfire"  ),
-                             c(100        , 100        , 100        , 100        , 1         , 1         ),
+                             c(100        , 100        , 100        , 100        , kgpersec  , 1         ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      , 1700      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly" )),
             MC2      = rbind(c("BA"       , "BA"       , "BA"       , "BA"       , "Cfire"   , "nnfire"  ),
-                             c(rep(100, 4)                                       , 1         , 1         ),
+                             c(rep(100, 4)                                       , kgpersec  , 1         ),
                              c(1901       , 1901       , 1901       , 1901       , 1901      , 1901      ),
                              c('Annual'   , 'Annual'   , 'Annual'   , "Annual"   , "Annual"  , "Annual"  )),
             ORCHIDEE = rbind(c("burntArea", "burntArea", "burntArea", "burntArea", "fFire"   , "nrfire"  ),
-                             c(daily_pc   , daily_pc   , daily_pc   , daily_pc   , 12        , 1E-6/30   ),
+                             c(daily_pc   , daily_pc   , daily_pc   , daily_pc   , 12*kgpersec, 1E-6/30   ),
                              c(1700       , 1700       , 1700       , 1700       , 1700      , 1950      ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly" )))
 
@@ -86,9 +88,9 @@ MCD45.Spatial = meris.Spatial
 GFAS          = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                      dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
                                  '#FFD793', "#F07700", "#AA0000"),
-                     limits  = c(0.00000000001, 0.0000000001,
-                                 0.000000005,0.000000001,0.00000005,0.00000001),
-                     dlimits = c(-0.2,-0.1,-0.5,-0.01,0.01,0.05,0.1, 0.2))
+                     limits  = c(0.01, 0.1,
+                                 0.5,01,5,10),
+                     dlimits = c(-1, -0.5, -0.1, -0.01 ,0.01, 0.1, 0.5, 1 ))
 
 ## NR
 NRfire        = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
