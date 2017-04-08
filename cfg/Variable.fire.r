@@ -1,7 +1,7 @@
 
 daily_pc = 100/30.4167
 sec_frac = 1/(60*60*24*30)
-kgpersec = 1000 / sec_frac
+kgpersec =  sec_frac/1000
 
 ###########################################################
 ## Burnt area                                            ##
@@ -88,9 +88,8 @@ MCD45.Spatial = meris.Spatial
 GFAS          = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                      dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
                                  '#FFD793', "#F07700", "#AA0000"),
-                     limits  = c(0.01, 0.1,
-                                 0.5,01,5,10),
-                     dlimits = c(-1, -0.5, -0.1, -0.01 ,0.01, 0.1, 0.5, 1 ))
+                     limits  = c(0.01, 0.1, 1, 10, 100),
+                     dlimits = c(-100, -10, -1, -0.1, -0.01 ,0.01, 0.1, 1, 10, 100 ))
 
 ## NR
 NRfire        = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
