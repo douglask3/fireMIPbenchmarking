@@ -18,7 +18,6 @@ openCsvInputs <- function(file, layerID = NULL, scaling = NULL, dir) {
 
 openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL, dir) {
     if (is.null(varname)) varname = ""
-
     fname = paste(dir, file, sep="")
     
     dat = layer.apply(varname, function(i) brick(fname, varname = i))
@@ -28,8 +27,6 @@ openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL,
             dat = layer.apply(layerID, function(i) mean(dat[[i]]))
         else dat = dat[[layerID]]
     }
-
     if (!is.null(scaling)) dat = scaling(dat)
-
     return(dat)
 }

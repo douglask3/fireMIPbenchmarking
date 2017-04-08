@@ -18,11 +18,12 @@ runComparison <- function(info, name) {
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
     mod   = openSimulations(name, varnN, simLayers)
 	
-    mask  = loadMask(obs, mod, name)
-	
+    mask  = loadMask(obs, mod, name)	
     c(obs, mod) := remask(obs, mod, mask, name)
 	
-	mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(Model.Variable[[1]], varnN))
+	obs = scaleMod(obs, Model.Variable[[1]], varnN)
+	mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(varnN))
+	
     scores = comparison(mod, obs, name, info)
     return(scores)
 }
@@ -83,6 +84,7 @@ layersFrom1900 <- function(start, res, layers) {
 }
 
 comparison <- function(mod, obs, name, info) {
+	print(name)
     if (is.True(info$allTogether)) { # Does this comparison require all models to be passed at the same time
         comp = do.call(info$ComparisonFun,
                        c(obs, list(mod), name, list(info$plotArgs),
@@ -103,7 +105,7 @@ comparison <- function(mod, obs, name, info) {
     if (is.null(comp)) return(NULL)
     scores =  outputScores(comp, name, info)
 	
-	try(plotVarAgreement(mod, obs, name, info, scores))
+	plotVarAgreement(mod, obs, name, info, scores, comp)
     try(mapMetricScores(comp, name, info))
 	
     return(scores)

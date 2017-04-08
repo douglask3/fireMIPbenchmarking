@@ -56,15 +56,17 @@ findModelLevels <- function(levels) {
 ################################################################################
 ## Scaling Funs                                                               ##
 ################################################################################
-scaleMod <- function(dat, mod, obs, varnN) {
+scaleMod <- function(dat, modInfo, varnN, obsInfo = NULL) {
 	if (is.null(dat)) return(dat)
-	mod = mod[2, varnN]; obs = obs[2, varnN]
+	modInfo = modInfo[2, varnN]
+	if (is.null(obsInfo)) obsInfo = 1 else obsInfo = obsInfo[2, varnN] 
 	
-    if (mod == "Ha") {
+    if (modInfo == "Ha") {
         dat = covertFromHa2Frac(dat)
-        mod = 1
+        modInfo = 1
     }
-    scale = as.numeric(obs)/as.numeric(mod)
+	
+    scale = as.numeric(obsInfo)/as.numeric(modInfo)
 	
 	fname = strsplit(filename.noPath(dat[[1]]), ".nc")[[1]][1]
 	fname = paste(temp_dir, fname, scale, '.nc', sep = "")
