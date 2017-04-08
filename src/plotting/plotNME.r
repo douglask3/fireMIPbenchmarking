@@ -1,19 +1,26 @@
+wgthdMean.raster <- function(x)
+	sum(values(x * raster::area(x)), na.rm = TRUE) /
+		sum(values(raster::area(x, na.rm = TRUE)), na.rm = TRUE)
+
+wgthdVar.raster   <- function(x) {
+	x = abs(x - wgthdMean.raster(x))
+	return(wgthdMean.raster(x))
+}
+
+removeMean.raster <- function(mod, obs)
+	mod * wgthdMean.raster(obs) / wgthdMean.raster(mod)
+
+removeVar.raster <- function(mod, obs)
+	mod * wgthdVar.raster(obs) / wgthdVar.raster(mod)
+
 plotNME.spatial <- function(obs, mod, ...) {
-	wgthdMean <- function(x)
-		sum(values(x * area(x)), na.rm = TRUE) /
-			sum(values(area(x, na.rm = TRUE)), na.rm = TRUE)
-
-	wgthdVar  <- function(x) {
-		x = abs(x - wgthdMean(x))
-		return(wgthdMean(x))
-	}
-
+	
     c(f1, map1) := plotNME.spatial.stepN(mod, obs, 1, ...)
 
-    mod = mod * wgthdMean(obs) / wgthdMean(mod)
+    mod = removeMean.raster(mod, obs)
     c(f2, map2) := plotNME.spatial.stepN(mod, obs, 2, ...)
 
-    mod = mod * wgthdVar(obs) / wgthdVar(mod)
+    mod = removeVar.raster(mod, obs)
     c(f3, map3) := plotNME.spatial.stepN(mod, obs, 3, ...)
 	
     return(list(c(f1, f2, f3), c(map1, map2, map3)))
@@ -65,7 +72,7 @@ plotNME.site <- function (x, y, obs, mod, score, name, cols, limits, nRRs = 2,
                         height2width = 0.5, scaleWidth = 6)
 
     plotStandardMap(mod, 'mod', limits, cols)
-
+	
     limits = quantile(obs, seq(20,80,20)/100)
     robs   = cut_results(obs, limits)
     pch    = c(25, 6, 21, 2, 24)
@@ -91,17 +98,23 @@ plotNME.site <- function (x, y, obs, mod, score, name, cols, limits, nRRs = 2,
 }
 
 
-plotNME.InterAnnual <- function(obs, mod, name, x) {
+plotNME.InterAnnual <- function(obs, mod, name, x, plotMe = TRUE, 
+                                ObsCol = 'blue', ModCol = 'red', ...) {
 
-    figName = setupPlot(name, 1, 1, scaleWidth = 10)
+    if (plotMe)
+		figName = setupPlot(name, 1, 1, scaleWidth = 10)
+	else figName = NULL
+	
     x = x[[1]][1:length(obs)]
-    plot (range(x), range(c(obs, mod)), xlab = 'year', ylab = '', type = 'n')
+    if (plotMe) plot (range(x), range(c(obs, mod)), xlab = 'year', ylab = '', type = 'n')
 
-    lines(x, obs, col = 'blue')
-    lines(x, mod, col = 'red')
+    lines(x, obs, col = ObsCol)
+    lines(x, mod, col = ModCol)
 	NMEs = abs(mod-obs)/sum(abs(obs - mean(obs)))
-    legend('bottom', c('obs', 'mod'), col = c('blue','red'), lty = 1, bty = 'n')
-    dev.off.annotate(name, y = 1.03)
+    if (plotMe){
+		legend('bottom', c('obs', 'mod'), col = c('blue','red'), lty = 1, bty = 'n')
+		dev.off.annotate(name, y = 1.03)
+	}
 	##metric map1
 	
     return(list(figName, NMEs))

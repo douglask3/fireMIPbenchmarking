@@ -67,7 +67,7 @@ plotVarAgreement.IA <- function(mod, obs, name, modNames, info, scores, comp, ..
 
 plotVarAgreement.spatial <- function(mod, obs, name, modNames, info, scores, ...) {
 	mod = layer.apply(mod, mean)
-	obs = mean(obs)
+	obs = mean(stack(obs))
 	
 	if (is.True(info$ExtraArgs[['mnth2yr']])) {
 		mod = mod * 12
@@ -79,8 +79,8 @@ plotVarAgreement.spatial <- function(mod, obs, name, modNames, info, scores, ...
 	lims  = info$plotArgs$limits
 	dlims = info$plotArgs$dlimits
 	
-	plotSepMods(mod, obs, modNames, name, info,
-				cols, dcols, lims, dlims, scores)
+	plotSepMods.3step(mod, obs, modNames, name, info,
+					  cols, dcols, lims, dlims, scores)
 }
 
 plotVarAgreement.seasonal <- function(mod, obs, name, modNames, info, scores, ...) {
@@ -108,8 +108,18 @@ plotVarAgreement.seasonal <- function(mod, obs, name, modNames, info, scores, ..
 	dlims   = SeasonConcDlimits
 	
 	name = paste(name, 'conc', sep = '-')
-	plotSepMods(cmod, obs[[2]], modNames, name, info, cols, dcols, lims, dlims,
+	plotSepMods.3step(cmod, obs[[2]], modNames, name, info, cols, dcols, lims, dlims,
 				scores[, c("mean.concentration2", "random.concentration")])
+}
+
+plotSepMods.3step <- function(mod, obs, modNames, name, ...) {
+	stepN <- function(FUN, title)  {
+		if (!is.null(FUN)) mod = layer.apply(mod, FUN, obs)
+		Name = paste(name, title, sep = '-')
+		plotSepMods(mod, obs, modNames, Name, ...)
+	}
+	
+	mapply(stepN, list(NULL, removeMean.raster, removeVar.raster), paste('step', 1:3))
 }
 
 plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims, scores,
