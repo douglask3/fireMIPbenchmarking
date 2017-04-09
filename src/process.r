@@ -68,16 +68,19 @@ scaleMod <- function(dat, modInfo, varnN, obsInfo = NULL) {
 	
     scale = as.numeric(obsInfo)/as.numeric(modInfo)
 	
-	fname = strsplit(filename.noPath(dat[[1]]), ".nc")[[1]][1]
-	fname = paste(temp_dir, fname, scale, '.nc', sep = "")
-	if (file.exists(fname)) return(stack(fname))
+	if (is.raster(dat)) {
+		fname = strsplit(filename.noPath(dat[[1]]), ".nc")[[1]][1]
+		fname = paste(temp_dir, fname, scale, '.nc', sep = "")
+		if (file.exists(fname)) return(stack(fname))
+	}
 	
     if (scale != 1) {
         scaleMod <- function(i)
             writeRaster(i * scale, file = memSafeFile())
         dat = layer.apply(dat, scaleMod)
     }
-	dat = writeRaster(dat, fname, overwrite = TRUE)
+	if (is.raster(dat))
+		dat =  writeRaster.gitInfo(dat, fname, overwrite = TRUE)
     return(dat)
 }
 
