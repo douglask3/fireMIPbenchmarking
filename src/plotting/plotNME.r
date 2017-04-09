@@ -8,7 +8,7 @@ wgthdVar.raster   <- function(x) {
 }
 
 removeMean.raster <- function(mod, obs)
-	mod * wgthdMean.raster(obs) / wgthdMean.raster(mod)
+	mod - wgthdMean.raster(mod) + wgthdMean.raster(obs)
 
 removeVar.raster <- function(mod, obs)
 	mod * wgthdVar.raster(obs) / wgthdVar.raster(mod)
