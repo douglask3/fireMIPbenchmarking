@@ -12,7 +12,7 @@ process.default.level <- function(levels, files, varName, startYear,
         else dat = lapply(levels, function(i) brick.gunzip(file, level = i)[[layers]])
 
     dat = layer.apply(dat, combineRawLayers, layersIndex, combine)
-	
+	dat = convert_pacific_centric_2_regular(dat)
     return(dat)
 }
 
