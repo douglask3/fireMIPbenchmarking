@@ -7,6 +7,7 @@
 annual2persec = 60 * 60 * 24 * 365.24
 annualg2perseckg = annual2persec*1000
 perseckg2annualg = 1/annualg2perseckg
+perseckg2Mnthg = perseckg2annualg * 12
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("GPP_Kelley2013", "NPP_all"       , "NPP_Kelley2013", "NPP_EMDI"      , "NNP_Michaletz" , "cveg"  ),
                              c(1               , 1               , 1               , 1               , 1               , 1       ),
@@ -14,19 +15,19 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                              c(1997            , 1997            , 1997            , 1997            , 1997            , 1997    ),
                                "mean"),
             CLM      = rbind(c("gpp"           , rep("npp", 4)                                                         , "cVeg"  ),
-                             c(rep(perseckg2annualg, 5)                                                                , 1       ),                   
+                             c(rep(perseckg2Mnthg, 5)                                                                , 1       ),                   
                                1950,
                                'Monthly'),
             CTEM     = rbind(c("gpppft"           , rep("npppft", 4)                                       , "cVeg"   ),
-                             c(rep(perseckg2annualg, 5)                                                                , 1       ),                   
+                             c(rep(perseckg2Mnthg, 5)                                                                , 1       ),                   
                                1860,
                                "Monthly"),
             INFERNO  = rbind(c("gpp"           ,  rep("npp", 4)                                      , "cVeg"   ),
-                             c(rep(perseckg2annualg, 5)                                                                , 1       ),                   
+                             c(rep(perseckg2Mnthg, 5)                                                                , 1       ),                   
                                1700,
                                "Monthly"),
             JSBACH   = rbind(c("gpppft"           ,  rep("npppft", 4)                                      , "cVeg"   ),
-                             c(rep(perseckg2annualg, 5)                                                                , 1000     ),                   
+                             c(rep(perseckg2Mnthg, 5)                                                                , 1000     ),                   
                                1950,
                                "Monthly"),
             LPJglob  = rbind(c("gpp"           ,  rep("npp", 4)                                      , "cVeg"   ),
@@ -46,7 +47,7 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                                1900,
                                "Annual"),
             ORCHIDEE = rbind(c("gpp"           ,  rep("npp", 4)                                      , "cVeg"   ),
-                             c(rep(perseckg2annualg, 5)                                                                , 1       ),                   
+                             c(rep(perseckg2Mnthg * 12, 5)                                                                , 1       ),                   
                                1950,
                                "Monthly"))
 
@@ -57,13 +58,13 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
 
 NPP                   = list(cols    = c('white',"#DDDD00","#33EE00",
                                          "#001100"),
-                             limits  = c(100, 200, 400, 600, 1000),
+                             limits  = c(10, 50, 100, 200, 400, 600, 1000),
                              xlab    = 'observed NPP (gC/m2)',
                              ylab    = 'simulated NPP (gC/m2)')
 
 GPP                   = list(cols    = c('white',"#00F3CC","#00EE33",
                                          "#001100"),
-                             limits  = c(200, 400, 600, 1000, 1500, 2000),
+                             limits  = c(10, 100, 200, 400, 600, 1000, 1500, 2000),
                              xlab    = 'observed GPP (gC/m2)',
                              ylab    = 'simulated GPP (gC/m2)')
 
