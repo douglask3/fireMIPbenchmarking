@@ -29,9 +29,9 @@ FullNME.site <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
     obs   = obs[,3]
 
     rmod  = mod
-    mod   = mean (mod)
+    mod   = mean(mod)	
     mod   = mod[cellFromXY(mod, cbind(x,y))]
-
+	
     score = NME (obs, mod)
 
     if (!is.null(plotArgs) && plotModMetrics)
