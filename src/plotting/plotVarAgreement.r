@@ -1,13 +1,77 @@
-plotVarAgreement <- function(mod, obs, name, info, scores,...) {
+plotVarAgreement <- function(mod, obs, name, info, scores, ...) {
 	index = !sapply(mod, is.null)
 	mod = mod[index]
 	modNames = names(mod)
 	
-	if (is.True(info$plotArgs)) FUN = plotVarAgreement.seasonal
+	if (info$obsVarname  == "csv") FUN = plotVarAgreement.site
+	else if (is.True(info$plotArgs)) FUN = plotVarAgreement.seasonal
 	else if (all(names(info$plotArgs) == 'x')) FUN = plotVarAgreement.IA
 	else FUN = plotVarAgreement.spatial
 	
 	FUN(mod, obs, name, modNames, info, scores, ...)
+}
+
+plotVarAgreement.site <- function(mod, obs, name, modNames, info, scores, comp, ...) {
+	cols  = info$plotArgs$cols
+	lims  = info$plotArgs$limits
+	nmods = length(mod)
+	
+	x     = obs[[1]][,2]
+	y     = obs[[1]][,1]
+	z     = obs[[1]][,3]
+	
+	index= c(1, 2, 2, 2, 3, 3, 3)
+	lmat = index
+	for (i in 1:(nmods)) lmat = rbind(lmat, index + (i * 3))
+	lmat = lmat -1
+	
+	spoint = max(lmat) + 1
+	lmat = rbind(lmat, spoint)
+	lmat = rbind(lmat, spoint + 1)
+	
+	nxtLine = c(spoint, rep((spoint + 1):(spoint + 3), each = 2))
+	lmat = rbind(lmat, nxtLine + 2, nxtLine + 6,  nxtLine + 10)
+	
+	pdf('yay.pdf',  height = 3 * (nmods + 1.5), width = 14)
+	layout(lmat, heights = c(0.1, rep(1, nmods), 1.5, 0.5, 1), widths = c(0.1, rep(1, 6)))
+	par(mar = rep(0,4), oma = c(0, 1, 0, 1))
+	plot.new(); mtext('')
+	plot.new(); mtext('')
+	
+	plotComp <- function(modName, dat, comp, addLegend) {
+		plot.new(); mtext(modName, side = 2, line = -1)
+		plotNME.site(x, y, z, dat, comp[[1]], name, cols, lims,
+		             figOut = FALSE, addLegend = addLegend, ...)
+		par(mar = rep(0,4))
+	}
+	
+	mapply(plotComp, modNames, mod, comp, c(rep(FALSE, nmods -1), TRUE))
+	
+	mod = layer.apply(mod, mean)
+	
+	plotComMods.mod(mod, lims, cols, annotateFun = plotNME.site.points, annotateFunArgs = list(x, y, z))
+	
+	plot.new()
+	par(mar = c(0, 0, 3, 3))
+	#for (i in 1:3) plot(0)
+	lapply(1:3, plotComMods.site, comp, cols)
+	browser()
+}
+
+plotComMods.site <- function(step, comp, cols) {
+	obsMod = c()
+	for (i in comp) obsMod = rbind(cbind(i[[1]]$x,i[[1]]$y123[, step]))
+	density =  kde2d(obsMod[,1], obsMod[,2], n = 100)
+	density$z = density$z / max(density$z)
+	
+	limits = c(0, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1)
+	cols =  make_col_vector(cols, ncols = length(limits) - 1)
+	filled.contour.custom(density, col = cols, levels = limits)
+	mtext(paste('step', step))
+	lines(c(0,0), c(9E9, 9E9))
+	
+	if (step == 2) mtext(side = 1, 'observed')
+	if (step == 1) mtext(side = 2, 'simulates')
 }
 
 plotVarAgreement.IA <- function(mod, obs, name, modNames, info, scores, comp, ...) {
@@ -216,8 +280,38 @@ sd.raster.missing <- function(x, pmean = TRUE) {
     return(lvarn)
 }
 
+plotComMods.obs <- function(obs, lims, cols, name) {
+	plot_raster_from_raster(obs, limits = lims, cols = cols, add_legend = FALSE, y_range = c(-60, 90))
+	mtext(paste(name, 'observations'), side = 3, line = -1)
+	
+	legendFun(cols = cols, limits = lims, transpose = FALSE, plot_loc = c(0.2, 0.8, 0.8, 0.9), mar = c(-0.5, 0,0,0), add = FALSE)
+	
+}
 
-plotComMods <- function(mod, obs, name, cols, lims, newFig = TRUE, legendFun = add_raster_legend2, eFun = sd.raster.missing) {	
+plotComMods.mod <- function(mod, lims, cols, obs = NULL,
+                            legendFun = add_raster_legend2, eFun = sd.raster.missing,
+							annotateFun = NULL, annotateFunArgs) {
+	mmod = mean(mod, na.rm = TRUE)
+	if (!is.null(obs)) {
+		obsMask = is.na(obs)
+		mmod[obsMask] = NaN
+	}
+	emod = eFun(mod)
+	if (!is.null(obs)) emod[obsMask] = NaN
+	
+	plot_raster_from_raster(mmod, limits = lims, cols = cols, add_legend = FALSE, y_range = c(-60, 90),
+							e = emod, limits_error = c(0.5, 1),  
+							ePatternRes = 30,  ePatternThick = 0.2, e_polygon = FALSE)
+	mtext(paste('Model Ensemble'), side = 3, line = -1)
+	
+	if (!is.null(annotateFun)) do.call(annotateFun, annotateFunArgs)
+	
+	legendFun(cols = cols, limits = lims, transpose = FALSE,
+	                   plot_loc = c(0.2, 0.8, 0.55, 0.87), e_lims = c(0.5, 1), mar = c(-0.5, 0,0,0), add = FALSE)
+
+}
+
+plotComMods <- function(mod, obs, name, cols, lims, newFig = TRUE, ...) {	
 	
 	if (newFig) {
 		fname =  paste(figs_dir, name, 'modObsMean', '.pdf', sep = '-')
@@ -225,26 +319,9 @@ plotComMods <- function(mod, obs, name, cols, lims, newFig = TRUE, legendFun = a
 		layout(cbind(1:2, 3:4), heights = c(1,0.5))
 		par(mar = rep(0,4))
 	}		
+	plotComMods.obs(obs, lims, cols, name)
+	plotComMods.mod(mod, lims, cols, obs, ...)
 	
-	plot_raster_from_raster(obs, limits = lims, cols = cols, add_legend = FALSE, y_range = c(-60, 90))
-	mtext(paste(name, 'observations'), side = 3, line = -1)
-	
-	
-	legendFun(cols = cols, limits = lims, transpose = FALSE, plot_loc = c(0.2, 0.8, 0.8, 0.9), mar = c(-0.5, 0,0,0), add = FALSE)
-	
-	mmod = mean(mod, na.rm = TRUE)
-	obsMask = is.na(obs)
-	mmod[obsMask] = NaN
-	emod = eFun(mod)
-	emod[obsMask] = NaN
-	
-	plot_raster_from_raster(mmod, limits = lims, cols = cols, add_legend = FALSE, y_range = c(-60, 90),
-							e = emod, limits_error = c(0.5, 1),  
-							ePatternRes = 30,  ePatternThick = 0.2, e_polygon = FALSE)
-	mtext(paste('Model Ensemble'), side = 3, line = -1)
-	
-	legendFun(cols = cols, limits = lims, transpose = FALSE,
-	                   plot_loc = c(0.2, 0.8, 0.55, 0.87), e_lims = c(0.5, 1), mar = c(-0.5, 0,0,0), add = FALSE)
 	
 	if (newFig) dev.off.gitWatermarkStandard()
 }

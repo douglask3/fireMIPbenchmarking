@@ -65,36 +65,48 @@ plotNME.spatial.stepN <- function(mod, obs, step, name, cols, dcols, metricCols 
 }
 
 
-plotNME.site <- function (x, y, obs, mod, score, name, cols, limits, nRRs = 2,
-                          ...) {
+plotNME.site <- function (x, y, obs, mod, score, name, cols, limits,
+                          figOut = TRUE, addLegend = TRUE, ...) {
 
-    figName = setupPlot(name, 1, 2, mar = c(0,0,0,0), oma = c(2,0,0,0),
-                        height2width = 0.5, scaleWidth = 6)
-
-    plotStandardMap(mod, 'mod', limits, cols)
+    if (figOut) {
+		figName = setupPlot(name, 1, 2, mar = c(0,0,0,0), oma = c(2,0,0,0),
+                            height2width = 0.5, scaleWidth = 6)
+		labs = c('mod')
+	} else {
+		figName = NULL
+		labs = c('')
+	}
 	
-    limits = quantile(obs, seq(20,80,20)/100)
-    robs   = cut_results(obs, limits)
-    pch    = c(25, 6, 21, 2, 24)
-
-    for (i in sort(unique(robs))) {
-        test = robs==i
-        xi   = x[test]
-        yi   = y[test]
-        pchi = pch[i]
-        points(xi, yi, pch = pchi, bg = 'black')
-    }
-    legend(x = 'bottomleft', title = 'obs qunatile', pch = pch, pt.bg = 'black',
-           c('0-20%', '20-40%', '40-60%', '60-80%', '80-100%'))
-
+    plotStandardMap(mod, labs, limits, cols, add_Legend = addLegend)
+	
+	plotNME.site.points(x, y, obs, addLegend)
+	
     mar = par("mar")
     mar[2] = mar[2] + 2
+	if (!figOut) mar[c(1,4)] = mar[c(1,4)] + 3
     par(mar = mar)
-    plot(score)
-    dev.off.annotate(name)
-	##metric map1
 	
+	if (addLegend) xaxt = 's' else xaxt = 'n'
+    plot(score, xaxt = xaxt)
+	
+    if (figOut) dev.off.annotate(name)
     return(list(figName,"NaN"))
+}
+
+plotNME.site.points <- function(x, y, obs, addLegend = TRUE,
+	                            limits = quantile(obs, seq(20,80,20)/100), pch = c(25, 6, 21, 2, 24)) {
+	robs   = cut_results(obs, limits)
+
+	for (i in sort(unique(robs))) {
+		test = robs==i
+		xi   = x[test]
+		yi   = y[test]
+		pchi = pch[i]
+		points(xi, yi, pch = pchi, bg = 'black')
+	}
+	if (addLegend)
+		legend(x = 'bottomleft', title = 'obs qunatile', pch = pch, pt.bg = 'black',
+			   c('0-20%', '20-40%', '40-60%', '60-80%', '80-100%'))
 }
 
 
