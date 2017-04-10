@@ -76,7 +76,7 @@ plotNME.site <- function (x, y, obs, mod, score, name, cols, limits,
 		figName = NULL
 		labs = c('')
 	}
-	
+	mod = mean(mod)
     plotStandardMap(mod, labs, limits, cols, add_Legend = addLegend)
 	
 	plotNME.site.points(x, y, obs, addLegend)
