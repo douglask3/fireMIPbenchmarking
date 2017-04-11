@@ -280,7 +280,7 @@ sd.raster.missing <- function(x, pmean = TRUE) {
     return(lvarn)
 }
 
-plotComMods.obs <- function(obs, lims, cols, name, legendFun = add_raster_legend2) {
+plotComMods.obs <- function(obs, lims, cols, name, legendFun = add_raster_legend2, ...) {
 	plot_raster_from_raster(obs, limits = lims, cols = cols, add_legend = FALSE, y_range = c(-60, 90))
 	mtext(paste(name, 'observations'), side = 3, line = -1)
 	
@@ -290,7 +290,7 @@ plotComMods.obs <- function(obs, lims, cols, name, legendFun = add_raster_legend
 
 plotComMods.mod <- function(mod, lims, cols, obs = NULL,
                             legendFun = add_raster_legend2, eFun = sd.raster.missing,
-							annotateFun = NULL, annotateFunArgs) {
+							annotateFun = NULL, annotateFunArgs, ...) {
 	mmod = mean(mod, na.rm = TRUE)
 	if (!is.null(obs)) {
 		obsMask = is.na(obs)
