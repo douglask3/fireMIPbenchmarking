@@ -7,7 +7,7 @@ FullNME <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
 FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ...) {
     obs     = mean.nlayers(obs)
     mod     = mean.nlayers(mod)
-    weights = area(obs)
+    weights = raster::area(obs)
 
     if (mnth2yr) {obs = obs * 12; mod = mod * 12}
     score   = NME (obs, mod, weights)
@@ -46,7 +46,7 @@ FullNME.site <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
 FullNME.InterAnnual <- function(obs, mod, name, plotArgs = NULL, nZ = 1,
                                 nRRs = 2, ...) {
     ## Convert brick layers to ts
-    calAnnual <- function(i) sum.raster(i * area(i), na.rm = TRUE)
+    calAnnual <- function(i) sum.raster(i * raster::area(i), na.rm = TRUE)
     calIAV <- function(x) unlist(layer.apply(x, calAnnual))
 
     c(obs, mod) := lapply(list(obs, mod), calIAV)
