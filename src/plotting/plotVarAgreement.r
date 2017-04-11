@@ -3,7 +3,7 @@ plotVarAgreement <- function(mod, obs, name, info, scores, ...) {
 	mod = mod[index]
 	modNames = names(mod)
 	
-	if (info$obsVarname  == "csv") FUN = plotVarAgreement.site
+	if (info$obsVarname  == "csv") return()#FUN = plotVarAgreement.site
 	else if (is.True(info$plotArgs)) FUN = plotVarAgreement.seasonal
 	else if (all(names(info$plotArgs) == 'x')) FUN = plotVarAgreement.IA
 	else FUN = plotVarAgreement.spatial
@@ -280,7 +280,7 @@ sd.raster.missing <- function(x, pmean = TRUE) {
     return(lvarn)
 }
 
-plotComMods.obs <- function(obs, lims, cols, name) {
+plotComMods.obs <- function(obs, lims, cols, name, legendFun = add_raster_legend2) {
 	plot_raster_from_raster(obs, limits = lims, cols = cols, add_legend = FALSE, y_range = c(-60, 90))
 	mtext(paste(name, 'observations'), side = 3, line = -1)
 	
@@ -319,7 +319,7 @@ plotComMods <- function(mod, obs, name, cols, lims, newFig = TRUE, ...) {
 		layout(cbind(1:2, 3:4), heights = c(1,0.5))
 		par(mar = rep(0,4))
 	}		
-	plotComMods.obs(obs, lims, cols, name)
+	plotComMods.obs(obs, lims, cols, name, ...)
 	plotComMods.mod(mod, lims, cols, obs, ...)
 	
 	
