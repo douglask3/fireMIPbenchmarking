@@ -81,8 +81,8 @@ plotVarAgreement.IA <- function(mod, obs, name, modNames, info, scores, comp, ..
 	yrange = range(unlist(mod), obs)
 	
 	fname =  paste(figs_dir, name, 'modObsNME', '.pdf', sep = '-')
-	pdf(fname, height = 7.5, width = 7.5)
-	layout(c(1,3,2), heights = c(1, 0.3, 1))
+	pdf(fname, height = 13.5, width = 7.5)
+	layout(c(1,5,2:4), heights = c(1, 0.3, 1, 1, 1))
 	par(oma = c(0, 0, 1, 0), mar = c(3, 3, 0, 3))	
 	
 	##################
@@ -92,30 +92,37 @@ plotVarAgreement.IA <- function(mod, obs, name, modNames, info, scores, comp, ..
 	plotModObsLines <- function(md, ob, col) {
 		lines(x, ob, lwd = 2)
 		lines(x, md, col = col, lwd = 2)
-		return(abs(md-ob)/sum(abs(ob - mean(ob))))
 	}
-	NMEs = mapply(plotModObsLines, mod, obs,  Model.plotting[, 2], SIMPLIFY = FALSE)
-	
-	##################
-	## plot metric	##
-	##################
-	yrange = range(unlist(NMEs))
-	plot(range(x), yrange, type = 'n', xlab = '', ylab ='')
-	mtext('metric contribution')
-	mapply(plotModObsLines, NMEs, NMEs,  Model.plotting[, 2])
-	
-	c(MetricLims, MN, RR) := nullScores_lims(scores)
-	RR = tail(MetricLims, 3)
-	
-	addNullModel <- function(sc, nm, adj, ...) {
-		lines(x, rep(sc, length(x)), ...)
-		text(x[1], sc, nm, adj = c(0.1, adj))
+	mapply(plotModObsLines, mod, obs,  Model.plotting[, 2], SIMPLIFY = FALSE)
+		
+	plotStep <- function(FUN, stepN) {	
+		##################
+		## plot metric	##
+		##################
+		mod0 = mod
+		if (!is.null(FUN)) mod =  mapply(FUN, mod, obs, SIMPLIFY = FALSE)
+		
+		stepTitle = paste("metric contribution - step", stepN)
+		NMEs = mapply(function(md, ob) abs(md-ob)/mean(abs(ob - mean(ob))), mod, obs, SIMPLIFY = FALSE)
+		
+		yrange = range(unlist(NMEs))
+		plot(range(x), yrange, type = 'n', xlab = '', ylab ='')
+		mtext(stepTitle)
+		mapply(plotModObsLines, NMEs, NMEs,  Model.plotting[, 2])
+		
+		c(MetricLims, MN, RR) := nullScores_lims(scores)
+		RR = tail(MetricLims, 3)
+		addNullModel <- function(sc, nm, adj, ...) {	
+			lines(x, rep(sc, length(x)), ...)
+			text(x[1], sc, nm, adj = c(0.1, adj))
+		}
+		
+		addNullModel(MN   , 'mean'   ,  1)
+		addNullModel(RR[1], 'RR low' ,  1, lty = 2)
+		addNullModel(RR[2], 'RR'     , -1)
+		addNullModel(RR[3], 'RR high', -1, lty = 2)
 	}
-	
-	addNullModel(MN   , 'mean'   ,  1)
-	addNullModel(RR[1], 'RR low' ,  1, lty = 2)
-	addNullModel(RR[2], 'RR'     , -1)
-	addNullModel(RR[3], 'RR high', -1, lty = 2)
+	mapply(plotStep, list(NULL, removeMean, removeMeanVar), 1:3)
 	
 	##################
 	## legend    	##
@@ -183,7 +190,7 @@ plotSepMods.3step <- function(mod, obs, modNames, name, ...) {
 		plotSepMods(mod, obs, modNames, Name, ...)
 	}
 	
-	mapply(stepN, list(NULL, removeMean.raster, removeVar.raster), paste('step', 1:3))
+	mapply(stepN, list(NULL, removeMean, removeMeanVar), paste('step', 1:3))
 }
 
 plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims, scores,

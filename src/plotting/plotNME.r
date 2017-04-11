@@ -1,17 +1,4 @@
-wgthdMean.raster <- function(x)
-	sum(values(x * raster::area(x)), na.rm = TRUE) /
-		sum(values(raster::area(x, na.rm = TRUE)), na.rm = TRUE)
 
-wgthdVar.raster   <- function(x) {
-	x = abs(x - wgthdMean.raster(x))
-	return(wgthdMean.raster(x))
-}
-
-removeMean.raster <- function(mod, obs)
-	mod - wgthdMean.raster(mod) + wgthdMean.raster(obs)
-
-removeVar.raster <- function(mod, obs)
-	mod * wgthdVar.raster(obs) / wgthdVar.raster(mod)
 
 plotNME.spatial <- function(obs, mod, ...) {
 	
