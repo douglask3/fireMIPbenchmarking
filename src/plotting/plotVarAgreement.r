@@ -99,7 +99,6 @@ plotVarAgreement.IA <- function(mod, obs, name, modNames, info, scores, comp, ..
 		##################
 		## plot metric	##
 		##################
-		mod0 = mod
 		if (!is.null(FUN)) mod =  mapply(FUN, mod, obs, SIMPLIFY = FALSE)
 		
 		stepTitle = paste("metric contribution - step", stepN)
