@@ -71,18 +71,33 @@ compModelCatigory <- function(dat, addXaxis = FALSE, addYaxis = FALSE) {
 	## Plot Catigories 						      ##
 	################################################
 	plotCat <- function(info, x, ys, offset, boxLab = NULL) {
-		cats    = unique(info)
-		catCols = colourSelectFun(cats)
-		cols = sapply(info, function(i) catCols[which(cats == i)])
-		points(rep(x + offset, length(ys)), ys, col = cols, pch = 19)
-		if (!is.null(boxLab)) {
-			xbox = rep(c(x + offset - 0.1, x + offset + 0.1), each = 2)
-			xbox = c(xbox, xbox[1])
-			ybox = c(min(ys, na.rm = TRUE) -0.1, max(ys, na.rm = TRUE) + 0.1)
-			ybox = c(ybox, rev(ybox), ybox[1])			
-			lines(xbox, ybox)
-			text(boxLab, x = x + offset, y = min(ys, na.rm = TRUE) - 0.2)
+		cats = unique(info)
+		cols = colourSelectFun(cats)
+		x = x + offset
+		
+		catPnt <- function(FUN) sapply(cats, function(i) FUN(ys[info==i]))
+		catMean = catPnt(mean)
+		catMin  = catPnt(min)
+		catMax  = catPnt(max)
+		
+		
+		x = seq(x - 0.1, x + 0.1, length.out = length(cats))
+		points(x, catMean, col = cols, pch = 19)
+		
+		addLines <- function(x, mn, mx, col) {
+			lines(c(x, x), c(mn, mx), col = col)
+			lines(c(x - 0.002, x + 0.002), c(mn, mn), col = col)
+			lines(c(x - 0.002, x + 0.002), c(mx, mx), col = col)
 		}
+		
+		mapply(addLines, x, catMin, catMax, cols)
+		
+		#points(rep(, length(ys)), ys, col = cols, pch = 19)
+		
+		#cols = sapply(info, function(i) catCols[which(cats == i)])
+		
+		
+		
 	}
 	
 	plotStep <- function(stepN, offset) {		
@@ -171,7 +186,7 @@ addLegends <- function(cats, y, title) {
 	cols = colourSelectFun(cats)
 	
 	legend(x = 0.5, xjust = 0.5, y = y, legend = cats, title = title,
-	       horiz = TRUE, pch = 19, col = cols, xpd = TRUE, bty = 'n')
+	       horiz = TRUE, pch = 19, col = cols, xpd = TRUE, bty = 'n', lwd = 1, lty = 1)
 	
 }
 
