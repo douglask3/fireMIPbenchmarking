@@ -28,18 +28,6 @@ compModelCatigory <- function(dat, addLabs = FALSE) {
 	compName = dat[[1]]
 	scores   = dat[[2]]
 	
-	
-	################################################
-	## set up plot frame					      ##
-	################################################
-	plot(c(0, nAxis), c(0, maxY), type = 'n', xaxt = 'n', xlab = '')
-	mtext(compName)
-	if (addLabs) labels = names(ModelSplit) else labels = rep('', nAxis)
-	axis(1, at = 1:nAxis, labels = labels, las = 2)
-	
-	################################################
-	## Add Null Models 						      ##
-	################################################
 	nullMean =  mean(as.numeric(scores[, 1]), na.rm = TRUE)
 	nullRR   = scores[, 2]
 	nullRR   = strsplit(nullRR, ' +/- ', fixed = TRUE)
@@ -52,6 +40,24 @@ compModelCatigory <- function(dat, addLabs = FALSE) {
 	
 	nullRRMN = meanStr(nullRR, 1)
 	nullRRVR = meanStr(nullRR, 2)
+	
+	
+	allScores = c(sapply(scores[,-c(1:2)], as.numeric), nullMean, nullRRMN + nullRRVR)
+	minY = min(allScores, na.rm = TRUE)
+	maxY = max(allScores, na.rm = TRUE)
+	
+	if ((maxY - minY) > 2) log = 'y' else log = ''
+	################################################
+	## set up plot frame					      ##
+	################################################
+	plot(c(0, nAxis), c(minY, maxY), type = 'n', xaxt = 'n', xlab = '', log = log)
+	mtext(compName)
+	if (addLabs) labels = names(ModelSplit) else labels = rep('', nAxis)
+	axis(1, at = 1:nAxis, labels = labels, las = 2)
+	
+	################################################
+	## Add Null Models 						      ##
+	################################################
 	
 	nullLine <- function(y, ...) lines(c(0, nAxis), c(y, y), ...)
 	
@@ -78,8 +84,7 @@ compModelCatigory <- function(dat, addLabs = FALSE) {
 		}
 	}
 	
-	plotStep <- function(stepN, offset) {
-		
+	plotStep <- function(stepN, offset) {		
 		score = as.numeric(scores[, stepN])
 		mapply(plotCat, ModelSplit, 1:nAxis, MoreArgs = list(score, offset, NULL))
 	}
@@ -142,7 +147,7 @@ nAxis = length(ModelSplit)
 if (nplots > (nplotsX * nplotsY)) nplotsX = nplotsX + 1
 
 pdf("wow.pdf", height = nplotsY * 2.5, width = nplotsX * 2.5)
-par(mfrow = c(nplotsX, nplotsY), mar = c(1, 1, 1, 0))
+par(mfrow = c(nplotsX, nplotsY), mar = c(1, 1, 1, 0), oma = c(1, 2, 0,0))
 
 ##performs
 mapply(compModelCatigory, dat)
