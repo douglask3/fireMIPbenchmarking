@@ -1,3 +1,8 @@
+################################
+## cfg   				      ##
+################################
+source("cfg.r")
+
 #					  CLM    CTEM    INFERNO     JSBACH       LPJglob    LPJSpit,   Blaze    MC2         ORCHIDEE
 ModelSplit = list(
 	 VegModelGroup = c('CLM'       , 'CTEM' , 'JULES'    , 'JSBACH'  , 'LPJ'     ,   'LPJ'   , 'LPJ'    , 'MC2'    , 'ORCHIDEE'),
@@ -12,19 +17,26 @@ maxY = 2
 
 colourSelectFun <- function(cats)
 		rainbow(length(cats))
-####################
-## 	
-####################
-nAxis = length(ModelSplit)
 
+################################
+## plotting function	      ##
+################################
 compModelCatigory <- function(dat, addLabs = FALSE) {
+	################################################
+	## Grab params  						      ##
+	################################################
 	compName = dat[[1]]
 	scores   = dat[[2]]
 	
+	
+	################################################
+	## set up plot frame					      ##
+	################################################
 	plot(c(0, nAxis), c(0, maxY), type = 'n', xaxt = 'n', xlab = '')
 	mtext(compName)
 	if (addLabs) labels = names(ModelSplit) else labels = rep('', nAxis)
 	axis(1, at = 1:nAxis, labels = labels, las = 2)
+	
 	################################################
 	## Add Null Models 						      ##
 	################################################
@@ -48,6 +60,9 @@ compModelCatigory <- function(dat, addLabs = FALSE) {
 	nullLine(nullRRMN + nullRRVR, col = 'grey', lty = 2)
 	nullLine(nullRRMN, col = 'grey')	
 	
+	################################################
+	## Plot Catigories 						      ##
+	################################################
 	plotCat <- function(info, x, ys, offset, boxLab = NULL) {
 		cats    = unique(info)
 		catCols = colourSelectFun(cats)
@@ -106,48 +121,31 @@ openFile <- function(file) {
 	out = mapply(findMetricTypeScores, indexess, nms)
 	
 	return(out[!sapply(out, is.null)])
-	
-	#out = c()
-	#index = list(MN = grep( "mean", cats),
-	#			 RR = grep( "random", cats),
-	#			 S1 = grep("step1", cats),
-	#			 S2 = grep("step2", cats),
-	#			 S3 = grep("step3", cats))
-	#
-	#
-	#if (testIndexUnique(index)) {
-#		scores = scores[unlist(index)]
-#		browser()
-#		out = c(out, list(compName, scores))
-#	} else {
-#		index1 = list(MN = grep( "mean.phase", cats),
-#				 RR = grep( "random.phase", cats),
-#				 S1 = grep("models.phase", cats))
-#		
-#		#ut = c(
-#	}
-#	return(out)
 }
 
+#############################
+## Open                    ##
+#############################
+dat = c()
 files = list.files('outputs/',  full.names = TRUE)
 files = files[grep('.csv', files)]
-
-#dat = sapply(files, openFile)
-dat = c()
 for (i in files) dat = c(dat, openFile(i))
-#compNames = sapply(files, function(i) strsplit(i, 'outputs/')[[1]][2])
-#compNames = sapply(strsplit(compNames, '-'), function(i) i[2])
 
+#############################
+## plot                    ##
+#############################
+## setup
 nplots = length(dat)
-
 nplotsX = floor(sqrt(nplots))
 nplotsY = ceiling(sqrt(nplots))
+nAxis = length(ModelSplit)
 if (nplots > (nplotsX * nplotsY)) nplotsX = nplotsX + 1
 
 pdf("wow.pdf", height = nplotsY * 2.5, width = nplotsX * 2.5)
 par(mfrow = c(nplotsX, nplotsY), mar = c(1, 1, 1, 0))
 
+##performs
 mapply(compModelCatigory, dat)
 
+## turn off
 dev.off()
-browser()
