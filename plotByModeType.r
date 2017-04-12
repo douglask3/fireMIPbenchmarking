@@ -149,7 +149,12 @@ if (nplots > (nplotsX * nplotsY)) nplotsX = nplotsX + 1
 nplotsY = nplotsY + 1
 
 pdf("wow.pdf", height = nplotsX * 4, width = nplotsY * 2.5)
-par(mfrow = c(nplotsX, nplotsY), mar = c(1, 1, 2, 0), oma = c(1, 2, 1,0))
+
+lmat = t(matrix(1:(nplotsX *nplotsY), nrow = nplotsY))
+lmat[lmat > nplots] = 0.0
+lmat[nplotsX, ] = nplots + 1
+layout(lmat)
+par(mar = c(1, 1, 2, 0), oma = c(1, 2, 1,0))
 
 ##performs
 addYaxis = addXaxis = rep(FALSE, nplots)
@@ -159,4 +164,18 @@ addXaxis[(nplots - nplotsX):nplots] = TRUE
 mapply(compModelCatigory, dat, addXaxis, addYaxis)
 
 ## turn off
+
+
+addLegends <- function(cats, y, title) {
+	cats = unique(cats)
+	cols = colourSelectFun(cats)
+	
+	legend(x = 0.5, xjust = 0.5, y = y, legend = cats, title = title,
+	       horiz = TRUE, pch = 19, col = cols, xpd = TRUE, bty = 'n')
+	
+}
+
+plot.new()
+ys = seq(0.9, 0.1, length.out =length(ModelSplit))
+mapply(addLegends, ModelSplit, ys, names(ModelSplit))
 dev.off()
