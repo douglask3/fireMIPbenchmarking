@@ -148,7 +148,7 @@ nAxis = length(ModelSplit)
 if (nplots > (nplotsX * nplotsY)) nplotsX = nplotsX + 1
 nplotsY = nplotsY + 1
 
-pdf("wow.pdf", height = nplotsX * 4, width = nplotsY * 2.5)
+pdf("figs/catigoryScores.pdf", height = nplotsX * 4, width = nplotsY * 2.5)
 
 lmat = t(matrix(1:(nplotsX *nplotsY), nrow = nplotsY))
 lmat[lmat > nplots] = 0.0
@@ -178,4 +178,4 @@ addLegends <- function(cats, y, title) {
 plot.new()
 ys = seq(0.9, 0.1, length.out =length(ModelSplit))
 mapply(addLegends, ModelSplit, ys, names(ModelSplit))
-dev.off()
+dev.off.gitWatermarkStandard()
