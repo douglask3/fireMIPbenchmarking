@@ -32,7 +32,8 @@ plotVarAgreement.site <- function(mod, obs, name, modNames, info, scores, comp, 
 	nxtLine = c(spoint, rep((spoint + 1):(spoint + 3), each = 2))
 	lmat = rbind(lmat, nxtLine + 2, nxtLine + 6,  nxtLine + 10)
 	
-	pdf('yay.pdf',  height = 3 * (nmods + 1.5), width = 14)
+	fname =  paste(figs_dir, name, 'modObsMetric', '.png', sep = '-')
+	png(fname,  height = 3 * (nmods + 1.5), width = 14, res = 150, units = 'in')
 	layout(lmat, heights = c(0.1, rep(1, nmods), 1.5, 0.5, 1), widths = c(0.1, rep(1, 6)))
 	par(mar = rep(0,4), oma = c(0, 1, 0, 1))
 	plot.new(); mtext('')
@@ -80,8 +81,8 @@ plotVarAgreement.IA <- function(mod, obs, name, modNames, info, scores, comp, ..
 	x   = info$plotArgs$x
 	yrange = range(unlist(mod), obs)
 	
-	fname =  paste(figs_dir, name, 'modObsMetric', '.pdf', sep = '-')
-	pdf(fname, height = 13.5, width = 7.5)
+	fname =  paste(figs_dir, name, 'modObsMetric', '.png', sep = '-')
+	png(fname, height = 13.5, width = 7.5, res = 150, units = 'in')
 	layout(c(1,5,2:4), heights = c(1, 0.3, 1, 1, 1))
 	par(oma = c(0, 0, 1, 0), mar = c(3, 3, 0, 3))	
 	
@@ -211,8 +212,8 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 	lmat3 = t(matrix(rep(np + c(5, 7, 6, 8), each = 3), nrow = 6))
 	lmat  = rbind(lmat, lmat2, lmat3) 
 	
-	fname =  paste(figs_dir, name, 'modObsMetric', '.pdf', sep = '-')
-	pdf(fname, height = 3 * (nmods + 1.5), width = 14)
+	fname =  paste(figs_dir, name, 'modObsMetric', '.png', sep = '-')
+	png(fname, height = 3 * (nmods + 1.5), width = 14, res = 150, units = 'in')
 	layout(lmat, heights = c(0.1, rep(1, nrow(lmat)-6),0.5, 1, 0.7, 1, 0.25))
 	par(mar = rep(0,4), oma = c(0, 1, 0, 0))
 	mtextPN <- function(txt) {
@@ -320,8 +321,8 @@ plotComMods.mod <- function(mod, lims, cols, obs = NULL,
 plotComMods <- function(mod, obs, name, cols, lims, newFig = TRUE, ...) {	
 	
 	if (newFig) {
-		fname =  paste(figs_dir, name, 'modObsMean', '.pdf', sep = '-')
-		pdf(fname, height = 3.67, width = 7.5)
+		fname =  paste(figs_dir, name, 'modObsMean', '.png', sep = '-')
+		png(fname, height = 3.67, width = 7.5, res = 150, units = 'in')
 		layout(cbind(1:2, 3:4), heights = c(1,0.5))
 		par(mar = rep(0,4))
 	}		
