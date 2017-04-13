@@ -55,7 +55,7 @@ plotVarAgreement.site <- function(mod, obs, name, modNames, info, scores, comp, 
 	par(mar = c(0, 0, 3, 3))
 	#for (i in 1:3) plot(0)
 	lapply(1:3, plotComMods.site, comp, cols)
-	browser()
+	#browser()
 }
 
 plotComMods.site <- function(step, comp, cols) {
@@ -80,7 +80,7 @@ plotVarAgreement.IA <- function(mod, obs, name, modNames, info, scores, comp, ..
 	x   = info$plotArgs$x
 	yrange = range(unlist(mod), obs)
 	
-	fname =  paste(figs_dir, name, 'modObsNME', '.pdf', sep = '-')
+	fname =  paste(figs_dir, name, 'modObsMetric', '.pdf', sep = '-')
 	pdf(fname, height = 13.5, width = 7.5)
 	layout(c(1,5,2:4), heights = c(1, 0.3, 1, 1, 1))
 	par(oma = c(0, 0, 1, 0), mar = c(3, 3, 0, 3))	
@@ -211,7 +211,7 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 	lmat3 = t(matrix(rep(np + c(5, 7, 6, 8), each = 3), nrow = 6))
 	lmat  = rbind(lmat, lmat2, lmat3) 
 	
-	fname =  paste(figs_dir, name, 'modObsNME', '.pdf', sep = '-')
+	fname =  paste(figs_dir, name, 'modObsMetric', '.pdf', sep = '-')
 	pdf(fname, height = 3 * (nmods + 1.5), width = 14)
 	layout(lmat, heights = c(0.1, rep(1, nrow(lmat)-6),0.5, 1, 0.7, 1, 0.25))
 	par(mar = rep(0,4), oma = c(0, 1, 0, 0))
