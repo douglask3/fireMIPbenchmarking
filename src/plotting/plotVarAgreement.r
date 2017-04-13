@@ -3,7 +3,7 @@ plotVarAgreement <- function(mod, obs, name, info, scores, ...) {
 	mod = mod[index]
 	modNames = names(mod)
 	
-	if (info$obsVarname  == "csv") return()#FUN = plotVarAgreement.site
+	if (is.True(info$obsVarname  == "csv")) return()#FUN = plotVarAgreement.site
 	else if (is.True(info$plotArgs)) FUN = plotVarAgreement.seasonal
 	else if (all(names(info$plotArgs) == 'x')) FUN = plotVarAgreement.IA
 	else FUN = plotVarAgreement.spatial

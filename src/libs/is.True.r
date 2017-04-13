@@ -1,4 +1,6 @@
 is.True <- function(x) {
-    if (!is.logical(x)) return(FALSE)
+	test = is.logical(x)
+    if (!test) return(FALSE)
+	if(length(x) == 0) return(FALSE)
     return(x)
 }
