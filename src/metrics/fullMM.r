@@ -14,7 +14,7 @@ FullMM <- function(obs, mod, name, plotArgs = NULL, extraItem = NULL,
 
     obs = layer.apply(obs, function(i) {i[i<0]= NaN; i})
 
-    weights = area(obs)
+    weights = raster::area(obs)
 
     names(obs) = itemNames
     names(mod) = itemNames

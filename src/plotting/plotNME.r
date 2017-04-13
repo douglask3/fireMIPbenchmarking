@@ -32,8 +32,8 @@ plotNME.spatial.stepN <- function(mod, obs, step, name, cols, dcols, metricCols 
 	if (!figOut) mtext(name, side = 2, line = -1)
     plotStandardMap(mod - obs, labs[3], dlimits, dcols, add_legend = add_legend)
 	
-	Area = area(obs,na.rm = TRUE)
-    mnObs = sum(values(obs*area(obs)), na.rm = TRUE) /
+	Area = raster::area(obs,na.rm = TRUE)
+    mnObs = sum(values(obs*raster::area(obs)), na.rm = TRUE) /
             sum(values(Area), na.rm = TRUE)
 
 	denom = abs(obs - mnObs)
