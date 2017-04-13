@@ -11,7 +11,7 @@ ModelSplits = list(vegModel = list(
 	FireModelGroup = c('Li '       , 'CTEM' , 'INFERNO'  , 'SPITFIRE', 'GLOBFIRM', 'SPITFIRE', 'SIMFIRE', 'MC-fire', 'SPITFIRE'),
 	Empirical      = c('P'         , 'P'    , 'SP'       , 'P'       , 'E'       , 'P'       , 'E'      , 'SP'     , 'P'       )),
 				  fireControls = list(
-	HumanIgntions  = c('Fixed'    , 'Fixed', 'Fixed'     , ' Varying', 'Exc'     , 'Varying' , 'Exc'    , 'Exc'    , 'Fixed'   ), 
+	HumanIgntions  = c('Fixed'    , 'Fixed', 'Fixed'     , 'Varying', 'Exc'     , 'Varying' , 'Exc'    , 'Exc'    , 'Fixed'   ), 
 	NaturalIgntions= c('CG'       , 'CGEf' , 'CGEf'      , 'CGEf'    , 'Exc'     , 'CGEf'    , 'Exc'    , 'Exc'    , 'CGEf+'   ),
 	HumanSupression= c('Explict'  , 'Exc'  , 'Explict'   , 'Implict' , 'Exc'     , 'Implict' , 'Explict', 'Exc'    , 'Implict' )),	
 				  modelRes = list(
@@ -171,13 +171,13 @@ plotSpit <- function(ModelSplit, name) {
 	nplotsY = nplotsY + 1
 
 	fname = paste("figs/catigoryScores", name, "pdf", sep = '.')
-	pdf(fname, height = nplotsX * 4, width = nplotsY * 2.5)
+	pdf(fname, height = nplotsX * 4, width = nplotsY * 2.9)
 
 	lmat = t(matrix(1:(nplotsX *nplotsY), nrow = nplotsY))
 	lmat[lmat > nplots] = 0.0
 	lmat[nplotsX, ] = nplots + 1
 	layout(lmat)
-	par(mar = c(1, 1, 2, 0), oma = c(1, 2, 1,0))
+	par(mar = c(1, 3, 2, 0), oma = c(1, 2, 1,0))
 
 	#############################
 	## perform analysis        ##
@@ -185,6 +185,7 @@ plotSpit <- function(ModelSplit, name) {
 	addYaxis = addXaxis = rep(FALSE, nplots)
 	addYaxis[seq(1, nplots, nplotsY)] = TRUE
 	addXaxis[(nplots - nplotsX):nplots] = TRUE
+	addYaxis = TRUE
 
 	mapply(compModelCatigory, dat, addXaxis, addYaxis, MoreArgs = list(ModelSplit = ModelSplit))
 
