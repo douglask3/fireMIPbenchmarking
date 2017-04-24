@@ -27,7 +27,7 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                                1700,
                                "Monthly"),
             JSBACH   = rbind(c("gpppft"           ,  rep("npppft", 4)                                      , "cVeg"   ),
-                             c(rep(perseckg2Mnthg, 5)                                                                , 1000     ),                   
+                             c(rep(perseckg2Mnthg, 5)                                                                , 1     ),                   
                                1950,
                                "Monthly"),
             LPJglob  = rbind(c("gpp"           ,  rep("npp", 4)                                      , "cVeg"   ),
@@ -73,8 +73,8 @@ cVeg                  = list(cols    = c('white',"#BBBB00","#CCCC00",
                                          "#111100"),
                              dcols   = c('#000099','#0000FF','#CCCCFF','white',
                                         '#FFFF00',"#CCCC00","#444400"),
-                             limits  = c(0.1, 1, 2, 5, 10)*2,
-                             dlimits = c(-20, -10, -5, -2, 2, 5, 10, 20))
+                             limits  = c(0.01, 0.1, 1, 2, 5, 10, 20),
+                             dlimits = c(-20, -10, -5, -2,-1, 1, 2, 5, 10, 20))
 
 ################################################################################
 ## Full comparisons info                                                      ##
