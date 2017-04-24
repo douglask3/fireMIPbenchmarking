@@ -1,6 +1,7 @@
 plotVarAgreement <- function(mod, obs, name, info, scores, ...) {
-	index = !sapply(mod, is.null)
-	mod = mod[index]
+	
+	mod = remove_null_or_constant(mod)
+	
 	modNames = names(mod)
 	
 	if (is.True(info$obsVarname  == "csv")) return()#FUN = plotVarAgreement.site
@@ -9,6 +10,29 @@ plotVarAgreement <- function(mod, obs, name, info, scores, ...) {
 	else FUN = plotVarAgreement.spatial
 	
 	FUN(mod, obs, name, modNames, info, scores, ...)
+}
+
+remove_null_or_constant <- function(x) {
+
+	index = !sapply(x, is.null)
+	x = x[index]
+	
+	if(!is.raster(x)) return(x)
+	
+	testIfConstant <- function(i) {
+		testv = NaN
+		cells = sample(1:ncell(i), 1000, replace = FALSE)
+		for (cell in cells) {
+			v = i[[1]][cell]
+			if (is.na(testv)) testv = v
+			else if (!is.na(v) && v != testv) return(TRUE)
+		}
+		v = values(i)
+		testv = v[!is.na(v)][1]
+		if (all(v == testv)) return(FALSE) else return(TRUE)	
+	}
+	x = x[sapply(x, testIfConstant)]
+	return(x)
 }
 
 plotVarAgreement.site <- function(mod, obs, name, modNames, info, scores, comp, ...) {
@@ -33,7 +57,7 @@ plotVarAgreement.site <- function(mod, obs, name, modNames, info, scores, comp, 
 	lmat = rbind(lmat, nxtLine + 2, nxtLine + 6,  nxtLine + 10)
 	
 	fname =  paste(figs_dir, name, 'modObsMetric', '.png', sep = '-')
-	png(fname,  height = 3 * (nmods + 1.5), width = 14, res = 150, units = 'in')
+	png(fname,  height = 3 * (nmods + 1.5), width = 14, res = 300, units = 'in')
 	layout(lmat, heights = c(0.1, rep(1, nmods), 1.5, 0.5, 1), widths = c(0.1, rep(1, 6)))
 	par(mar = rep(0,4), oma = c(0, 1, 0, 1))
 	plot.new(); mtext('')
@@ -82,7 +106,7 @@ plotVarAgreement.IA <- function(mod, obs, name, modNames, info, scores, comp, ..
 	yrange = range(unlist(mod), obs)
 	
 	fname =  paste(figs_dir, name, 'modObsMetric', '.png', sep = '-')
-	png(fname, height = 13.5, width = 7.5, res = 150, units = 'in')
+	png(fname, height = 13.5, width = 7.5, res = 300, units = 'in')
 	layout(c(1,5,2:4), heights = c(1, 0.3, 1, 1, 1))
 	par(oma = c(0, 0, 1, 0), mar = c(3, 3, 0, 3))	
 	
@@ -104,7 +128,7 @@ plotVarAgreement.IA <- function(mod, obs, name, modNames, info, scores, comp, ..
 		
 		stepTitle = paste("metric contribution - step", stepN)
 		NMEs = mapply(function(md, ob) abs(md-ob)/mean(abs(ob - mean(ob))), mod, obs, SIMPLIFY = FALSE)
-		
+		browser()
 		yrange = range(unlist(NMEs))
 		plot(range(x), yrange, type = 'n', xlab = '', ylab ='')
 		mtext(stepTitle)
@@ -213,7 +237,7 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 	lmat  = rbind(lmat, lmat2, lmat3) 
 	
 	fname =  paste(figs_dir, name, 'modObsMetric', '.png', sep = '-')
-	png(fname, height = 3 * (nmods + 1.5), width = 14, res = 150, units = 'in')
+	png(fname, height = 3 * (nmods + 1.5), width = 14, res = 300, units = 'in')
 	layout(lmat, heights = c(0.1, rep(1, nrow(lmat)-6),0.5, 1, 0.7, 1, 0.25))
 	par(mar = rep(0,4), oma = c(0, 1, 0, 0))
 	mtextPN <- function(txt) {
@@ -229,11 +253,11 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 			plotFun(mod[[i]],obs, 1, modNames[i], cols, dcols, metricCols = MetricCols,
 								   lims, dlims, MetricLims, figOut = FALSE, plotObs = FALSE)
 	}
-	legendFun(cols =  cols, limits =  lims, transpose = FALSE, plot_loc = c(0.2, 0.8, 0.8, 0.9), add = FALSE, 
+	legendFun(cols =  cols, limits =  lims, transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), add = FALSE, 
 	          mar = c(-0.5, 0, 0, 0))
-	legendFun(cols = dcols, limits = dlims, transpose = FALSE, plot_loc = c(0.2, 0.8, 0.8, 0.9), add = FALSE, mar = rep(0,4))
+	legendFun(cols = dcols, limits = dlims, transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), add = FALSE, mar = rep(0,4))
 	add_raster_legend2(cols = MetricCols, limits = MetricLims, labelss = MetricLabs,
-	                   transpose = FALSE, plot_loc = c(0.2, 0.8, 0.8, 0.9), add = FALSE)	
+	                   transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), add = FALSE)	
 	
 	plotComMods(mod, obs, name, cols, lims, newFig = FALSE, legendFun = legendFun, ...)
 	
@@ -291,7 +315,7 @@ plotComMods.obs <- function(obs, lims, cols, name, legendFun = add_raster_legend
 	plot_raster_from_raster(obs, limits = lims, cols = cols, add_legend = FALSE, y_range = c(-60, 90))
 	mtext(paste(name, 'observations'), side = 3, line = -1)
 	
-	legendFun(cols = cols, limits = lims, transpose = FALSE, plot_loc = c(0.2, 0.8, 0.8, 0.9), mar = c(-0.5, 0,0,0), add = FALSE)
+	legendFun(cols = cols, limits = lims, transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), mar = c(-0.5, 0,0,0), add = FALSE)
 	
 }
 
@@ -308,13 +332,13 @@ plotComMods.mod <- function(mod, lims, cols, obs = NULL,
 	
 	plot_raster_from_raster(mmod, limits = lims, cols = cols, add_legend = FALSE, y_range = c(-60, 90),
 							e = emod, limits_error = c(0.5, 1),  
-							ePatternRes = 30,  ePatternThick = 0.2, e_polygon = FALSE)
+							ePatternRes = 15,  ePatternThick = 0.2, e_polygon = FALSE)
 	mtext(paste('Model Ensemble'), side = 3, line = -1)
 	
 	if (!is.null(annotateFun)) do.call(annotateFun, annotateFunArgs)
 	
 	legendFun(cols = cols, limits = lims, transpose = FALSE,
-	                   plot_loc = c(0.2, 0.8, 0.55, 0.87), e_lims = c(0.5, 1), mar = c(-0.5, 0,0,0), add = FALSE)
+	                   plot_loc = c(0.2, 0.3, 0.8, 0.87), e_lims = c(0.5, 1), mar = c(-0.5, 0,0,0), add = FALSE)
 
 }
 
