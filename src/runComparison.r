@@ -23,8 +23,8 @@ runComparison <- function(info, name) {
 	
 	obs = scaleMod(obs, Model.Variable[[1]], varnN)
 	mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(varnN))
-	
-    scores = comparison(mod, obs, name, info)
+    
+	scores = comparison(mod, obs, name, info)
     return(scores)
 }
 
