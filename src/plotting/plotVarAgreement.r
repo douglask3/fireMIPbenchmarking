@@ -313,7 +313,7 @@ sd.raster.missing <- function(x, pmean = TRUE) {
 
 plotComMods.obs <- function(obs, lims, cols, name, legendFun = add_raster_legend2, ...) {
 	plot_raster_from_raster(obs, limits = lims, cols = cols, add_legend = FALSE, y_range = c(-60, 90))
-	mtext(paste(name, 'observations'), side = 3, line = -1)
+	mtext(paste(name, 'observations'), side = 3, line = 1)
 	
 	legendFun(cols = cols, limits = lims, transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), mar = c(-0.5, 0,0,0), add = FALSE)
 	
@@ -333,7 +333,7 @@ plotComMods.mod <- function(mod, lims, cols, obs = NULL,
 	plot_raster_from_raster(mmod, limits = lims, cols = cols, add_legend = FALSE, y_range = c(-60, 90),
 							e = emod, limits_error = c(0.5, 1),  
 							ePatternRes = 15,  ePatternThick = 0.2, e_polygon = FALSE)
-	mtext(paste('Model Ensemble'), side = 3, line = -1)
+	mtext(paste('Model Ensemble'), side = 3, line = 1)
 	
 	if (!is.null(annotateFun)) do.call(annotateFun, annotateFunArgs)
 	

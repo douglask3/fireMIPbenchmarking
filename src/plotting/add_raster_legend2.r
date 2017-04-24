@@ -49,6 +49,7 @@ add_raster_legend2.regular <- function(cols, limits, plot_loc,
 		labelss = head(unlist(lapply(labelss, function(i) c(i, ""))),-1)
 		if (limits[1] == 0) labelss = labelss[c(1,3,2, 4:length(labelss))]
 	}
+	print(ylabposScling)
 	y = plot_loc[2]
 	text(x = x, y = y - 0.07 * ylabposScling, labels = labelss)
 	text(main_title,

@@ -70,7 +70,7 @@ mapMetricScores.raster <- function(fname, nmetric, dat, info, score = 1, nullMod
 		labels[seq(1, length(labels), by = 2)] = ""
 		cols = rep(make_col_vector(c("red", "white", "green"), limits=0.5:8.5, whiteAt0=F), each = 2)
 		add_raster_legend2(cols = cols, limits = limits, transpose = FALSE, labelss = labels,
-		                   ylabposScling = 0, add = FALSE, plot_loc = c(0.05, 0.95, 0.55, 0.75))
+		                   ylabposScling = 2, add = FALSE, plot_loc = c(0.05, 0.45, 0.95, 0.90))
 		
 		arrows(0.35, 1, 0.05, 1, lwd = 2, length = 0.1, xpd = NA)
 		text('Models perform poorly', x = 0.2, y = 1.2, xpd = NA)
