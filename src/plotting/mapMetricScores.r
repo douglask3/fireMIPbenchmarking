@@ -1,5 +1,5 @@
 mapMetricScores <- function(comp, name, info) {
-	if (length(comp[[1]]) < 4) return() # pragmatric fix to skip seasonal and mms
+	#if (length(comp[[1]]) < 4) return() # pragmatric fix to skip seasonal and mms
 	dat     = select2ndCommonItem(comp, 4)
 	nmetric =  max(sapply(dat, length), na.rm = TRUE)
 	
@@ -38,13 +38,17 @@ mapMetricScores.lines <- function(fname, nmetric, dat, info, score = 1, nullMode
 }
 
 
-mapMetricScores.raster <- function(fname, nmetric, dat, info, score = 1, nullModel = 'mean') {	
+mapMetricScores.raster <- function(fname, nmetric, dat, info, score = 1, nullModel = 'mean', scores = NULL) {	
 	nmodels = length(dat)
 	mapMetricScore <- function(i) {
 		stepn = i
 		dat   = select2ndCommonItem(dat  , i)
+		scores = as.numeric(scores)
+		scores =  scores[!is.na(scores)]
+		#dat   = mapply('/', dat, scores)
 		dat   = list2layers(dat)
-		nmsk = sum(is.na(dat))
+		#dat = layer.apply(dat, function(i) i/mean(values(i), na.rm = TRUE))
+		nmsk  = sum(is.na(dat))
 		
 		cutPlt = sum(dat < score, na.rm = TRUE)
 		cutPlt = cutPlt * nlayers(dat) / (nlayers(dat) - nmsk)

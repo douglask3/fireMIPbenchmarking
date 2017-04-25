@@ -208,20 +208,23 @@ plotVarAgreement.seasonal <- function(mod, obs, name, modNames, info, scores, ..
 }
 
 plotSepMods.3step <- function(mod, obs, modNames, name, ...) {
-	stepN <- function(FUN, title)  {
+	stepN <- function(FUN, stepN)  {
+		title = paste('step', stepN)
 		if (!is.null(FUN)) mod = layer.apply(mod, FUN, obs)
 		Name = paste(name, title, sep = '-')
-		plotSepMods(mod, obs, modNames, Name, ...)
+		plotSepMods(mod, obs, modNames, Name, stepN = stepN, ...)
 	}
 	
-	mapply(stepN, list(NULL, removeMean, removeMeanVar), paste('step', 1:3))
+	mapply(stepN, list(NULL, removeMean, removeMeanVar), 1:3)
 }
 
 plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims, scores,
-						    plotFun = plotNME.spatial.stepN, legendFun = add_raster_legend2, ...) {
+						plotFun = plotNME.spatial.stepN, legendFun = add_raster_legend2,
+					    stepN = NaN,...) {
 	MetricCols = c('white', 'green', 'yellow', 'orange', 'red', 'black')
 	MetricLabs = c('prefect', 'mean', 'RR low', 'RR', 'RR high')
 	c(MetricLims, MN, RR) := nullScores_lims(scores)
+	scores = scores[, stepN + 2]
 	
 	if (MetricLims[2] > MetricLims[5]) {
 		MetricLims = MetricLims[-2]
@@ -261,8 +264,8 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 	
 	plotComMods(mod, obs, name, cols, lims, newFig = FALSE, legendFun = legendFun, ...)
 	
-	mapMetricScores.default(lapply(out,list), 1, info, score = MN)
-	mapMetricScores.default(lapply(out,list), 1, info, score = RR, nullModel = "Randomly-resampled")
+	mapMetricScores.default(lapply(out,list), 1, info, score = MN, scores = scores)
+	mapMetricScores.default(lapply(out,list), 1, info, score = RR, scores = scores, nullModel = "Randomly-resampled")
 	dev.off.gitWatermarkStandard()
 	plotComMods(mod, obs, name, cols, lims, newFig = TRUE, legendFun = legendFun, ...)
 }
