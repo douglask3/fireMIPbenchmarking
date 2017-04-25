@@ -4,10 +4,10 @@ plotNME.spatial <- function(obs, mod, ...) {
 	
     c(f1, map1) := plotNME.spatial.stepN(mod, obs, 1, ...)
 
-    mod = removeMean.raster(mod, obs)
+    mod = removeMean(mod, obs)
     c(f2, map2) := plotNME.spatial.stepN(mod, obs, 2, ...)
 
-    mod = removeVar.raster(mod, obs)
+    mod = removeVar(mod, obs)
     c(f3, map3) := plotNME.spatial.stepN(mod, obs, 3, ...)
 	
     return(list(c(f1, f2, f3), c(map1, map2, map3)))
