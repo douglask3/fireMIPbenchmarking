@@ -83,6 +83,6 @@ add_raster_legend2.2d <- function(cols, limits, e_lims, plot_loc,...)  {
 	cexs = 0.5 * c(0.67 , 1, 1.5, 1.3, 1.3, 1 , 1 )[1:nl]
 	pchs = c(20, 20 , 16 , 16 , 16 , 16, 16)[1:nl]
 	
-	mapply(add_transp, head(ysplit, -1), pchs, cexs, cols, e_lims)
+	mapply(add_transp, head(ysplit, -1), pchs, cexs, cols, rev(e_lims))
 	text(plot_loc[1] - 0.05, mean(plot_loc[c(2,4)]), 'sd')
 }
