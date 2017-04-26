@@ -39,7 +39,7 @@ process.CLM.default <- function(files, varName, startYear,
                         layers, layersIndex, combine) {
 
     file = findAfile(files, varName)
-    if (noFileWarning(files, varName)) return(NULL)
+    if (noFileWarning(file, varName)) return(NULL)
 
     dat = brick.gunzip(file)
     nr = nrow(dat)
@@ -50,6 +50,8 @@ process.CLM.default <- function(files, varName, startYear,
     makeLayer <- function(i) {
         layers = layers[which(i == layersIndex)]
         openLayer <- function(j) {
+			if (j > ncol(dat)) stop("looking for a time-slide outside time dimesion.\n",
+			                         "Have you set the start/end years correctly for CLM?")
             layer[] = getValuesBlock(dat, row = 1, nrow = nr, col = j, ncol = 1)
             return(layer)
         }
