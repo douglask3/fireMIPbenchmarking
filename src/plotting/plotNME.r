@@ -27,8 +27,8 @@ plotNME.spatial.stepN <- function(obs, mod, step, name, cols, dcols,
     mapply(plotStandardMap, c(obs, mod), c('obs','mod'), MoreArgs = list(limits, cols))
     plotStandardMap(mod - obs, 'mod - obs', dlimits, dcols)
 
-    mnObs = sum(values(mod*area(mod)), na.rm = TRUE) /
-            sum(values(area(mod,na.rm = TRUE)), na.rm = TRUE)
+    mnObs = sum(values(obs*area(obs)), na.rm = TRUE) /
+            sum(values(area(obs,na.rm = TRUE)), na.rm = TRUE)
 
     NMEs  = abs(mod - obs) / abs(obs - mnObs)
 
