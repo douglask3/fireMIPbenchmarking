@@ -30,7 +30,7 @@ plotNME.spatial.stepN <- function(obs, mod, step, name, cols, dcols,
     mnObs = sum(values(obs*area(obs)), na.rm = TRUE) /
             sum(values(area(obs,na.rm = TRUE)), na.rm = TRUE)
 
-    NMEs  = abs(mod - obs) / abs(obs - mnObs)
+    NMEs  = abs(mod - obs) / mean(values(abs(obs - mnObs)), na.rm = TRUE)
 
     stepN = paste("step", step, sep = ' ')
     plotStandardMetricMap(NMEs, paste('NME realtive contributions -', stepN))
