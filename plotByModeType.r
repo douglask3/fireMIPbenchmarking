@@ -27,28 +27,18 @@ colourSelectFun <- function(cats)
 ################################
 ## plotting function	      ##
 ################################
+
 compModelCatigory <- function(dat, addXaxis = FALSE, addYaxis = FALSE, ModelSplit) {
+	
 	################################################
 	## Grab params  						      ##
 	################################################
 	compName = dat[[1]]
 	scores   = dat[[2]]
 	nAxis    = length(ModelSplit)
+	c(nullMean, nullRRMN, nullRRVR, modScores) := deconstruct.csv.outs(scores)
 	
-	nullMean =  mean(as.numeric(scores[, 1]), na.rm = TRUE)
-	nullRR   = scores[, 2]
-	nullRR   = strsplit(nullRR, ' +/- ', fixed = TRUE)
-	
-	meanStr <- function(x, i) {
-		x = sapply(x, function(j) j[i])
-		x = mean(as.numeric(x), na.rm = TRUE)
-		return(x)
-	}
-	
-	nullRRMN = meanStr(nullRR, 1)
-	nullRRVR = meanStr(nullRR, 2)
-	
-	allScores = c(sapply(scores[,-c(1:2)], as.numeric), nullMean, nullRRMN + nullRRVR)
+	allScores = c(modScores, nullMean, nullRRMN + nullRRVR)
 	minY = min(allScores, na.rm = TRUE)
 	maxY = max(allScores, na.rm = TRUE)
 	
@@ -121,36 +111,6 @@ compModelCatigory <- function(dat, addXaxis = FALSE, addYaxis = FALSE, ModelSpli
 	
 }
 
-openFile <- function(file) {
-	scores = read.csv(file, stringsAsFactors = FALSE)
-	cats   = colnames(scores)
-	
-	compName = strsplit(file, 'outputs/')[[1]][2]
-	compName = strsplit(compName, '-')[[1]][2]
-	
-	testIndexUnique <- function(index) all(sapply(index, length) == 1)
-	
-	findMetricTypeScores <- function(indexs,nm) {
-		index = lapply(indexs, grep, cats)
-		if (nm !="") compName = paste(compName, nm, sep = '.')
-		if (testIndexUnique(index))
-			return(list(compName, scores[unlist(index)]))
-		else invisible()
-	}
-	
-	indexess = list(c("mean", "random", "step1", "step2", "step3"),
-					c("mean", "random", "model"),
-					c("mean.phase", "random.phase", "models.phase"),
-					c("mean.concentration2", "random.concentration",
-					  "models.concentration1", "models.concentration2",
- 					  "models.concentration3"))
-		
-	nms = c("", "", "phase", "concentration")	
-	out = mapply(findMetricTypeScores, indexess, nms)
-	
-	return(out[!sapply(out, is.null)])
-}
-
 #############################
 ## Open                    ##
 #############################
@@ -158,6 +118,7 @@ dat = c()
 files = list.files('outputs/',  full.names = TRUE)
 files = files[grep('.csv', files)]
 for (i in files) dat = c(dat, openFile(i))
+
 
 plotSpit <- function(ModelSplit, name) {
 	#############################
@@ -175,7 +136,7 @@ plotSpit <- function(ModelSplit, name) {
 
 	lmat = t(matrix(1:(nplotsX *nplotsY), nrow = nplotsY))
 	lmat[lmat > nplots] = 0.0
-	lmat[nplotsX, ] = nplots + 1
+	lmat[nplotsX, ] = nplots
 	layout(lmat)
 	par(mar = c(1, 3, 2, 0), oma = c(1, 2, 1,0))
 
