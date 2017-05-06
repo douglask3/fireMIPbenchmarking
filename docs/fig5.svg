@@ -10,12 +10,12 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="325mm"
-   height="319mm"
-   viewBox="0 0 325 319"
+   width="300mm"
+   height="206mm"
+   viewBox="0 0 300 206"
    version="1.1"
    id="svg8"
-   sodipodi:docname="fig5.svg"
+   sodipodi:docname="fig5v2.svg"
    inkscape:version="0.92.1 r15371"
    inkscape:export-filename="C:\Users\dougl\Documents\work\fireMIPbenchmarking\docs\fig5.png"
    inkscape:export-xdpi="96"
@@ -146,6 +146,17 @@
          x="-29.506268"
          y="702.36633" />
     </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3784">
+      <rect
+         id="rect3786"
+         width="123.20396"
+         height="49.713871"
+         x="154.50162"
+         y="187.70833"
+         style="stroke-width:0.22821671" />
+    </clipPath>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -155,16 +166,21 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="713.63656"
-     inkscape:cy="413.86758"
+     inkscape:cx="783.47862"
+     inkscape:cy="435.07248"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
-     showgrid="false"
+     inkscape:current-layer="g406"
+     showgrid="true"
      inkscape:window-width="915"
      inkscape:window-height="696"
-     inkscape:window-x="442"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0" />
+     inkscape:window-x="377"
+     inkscape:window-y="11"
+     inkscape:window-maximized="0"
+     showguides="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid110" />
+  </sodipodi:namedview>
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -181,122 +197,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,22)">
-    <rect
-       style="fill:#ffffff;stroke-width:0.29470393"
-       id="rect4790"
-       width="323.3967"
-       height="318.23727"
-       x="3.1750004"
-       y="-17.92975"
-       inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96" />
-    <g
-       id="g4759"
-       transform="translate(198.09111,-470.96202)">
-      <image
-         clip-path="url(#clipPath4735)"
-         width="355.60001"
-         height="800.09998"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFAS-MNonly-step%201-modObsMetric-.png"
-         id="image4730"
-         x="-48.532146"
-         y="-17.249393"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFAS-MNonly-step 1-modObsMetric-.png" />
-      <rect
-         y="761.53271"
-         x="-21.166666"
-         height="5.2916665"
-         width="32.127975"
-         id="rect4739"
-         style="fill:#ffffff;stroke-width:0.31305921" />
-      <rect
-         y="760.81824"
-         x="73.4179"
-         height="5.2916665"
-         width="32.127975"
-         id="rect4739-4"
-         style="fill:#ffffff;stroke-width:0.31305924" />
-    </g>
-    <g
-       id="g4720"
-       transform="translate(3.2405128,-110.92474)">
-      <image
-         style="fill:#ffffff"
-         transform="translate(15.922882,-288.65778)"
-         clip-path="url(#clipPath4709)"
-         width="355.60001"
-         height="800.09998"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFAS-MNRR-step%201-modObsMetric-.png"
-         id="image4704"
-         x="-17.160122"
-         y="-89.064865"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFAS-MNRR-step 1-modObsMetric-.png" />
-      <rect
-         y="401.32144"
-         x="25.702381"
-         height="4.9136906"
-         width="28.726189"
-         id="rect4713"
-         style="fill:#ffffff;stroke-width:0.26458332" />
-      <rect
-         y="400.94345"
-         x="122.84225"
-         height="4.5357141"
-         width="28.726189"
-         id="rect4715"
-         style="fill:#ffffff;stroke-width:0.26458332" />
-    </g>
-    <rect
-       style="fill:#ffffff;stroke-width:0.26535133"
-       id="rect556"
-       width="323.3967"
-       height="251.65652"
-       x="3.1750004"
-       y="-17.92975"
-       inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96" />
-    <rect
-       id="rect31"
-       width="1.0690781"
-       height="0.26726952"
-       x="39.929272"
-       y="491.41217"
-       style="stroke-width:0.26458332" />
-    <g
-       id="g93"
-       transform="translate(15.875004,-10.583334)">
-      <image
-         transform="translate(-7.5595238,-154.97024)"
-         clip-path="url(#clipPath82)"
-         width="355.60001"
-         height="800.09998"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4s.Spatial-MNRR-step%201-modObsMetric-.png"
-         id="image51"
-         x="-6.9547653"
-         y="-565.69287"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4s.Spatial-MNRR-step 1-modObsMetric-.png" />
-      <rect
-         style="fill:#ffffff;stroke-width:0.26458332"
-         y="58.497021"
-         x="12.473214"
-         height="4.5357141"
-         width="30.238094"
-         id="rect86" />
-      <rect
-         y="56.607143"
-         x="109.99107"
-         height="7.1815472"
-         width="29.482143"
-         id="rect88"
-         style="fill:#ffffff;stroke-width:0.26458332" />
-    </g>
+     transform="translate(0,-91)">
     <g
        id="g107"
-       transform="translate(11.944362,-10.658925)">
+       transform="translate(-151.56867,98.651799)">
       <image
          transform="translate(124.88334,-173.49107)"
          clip-path="url(#clipPath96)"
@@ -323,11 +227,80 @@
          id="rect102"
          style="fill:#ffffff;stroke-width:0.26458332" />
     </g>
+    <g
+       id="g406"
+       transform="matrix(1.2240881,0,0,1.2240881,-39.898944,-130.67993)"
+       clip-path="url(#clipPath3784)"
+       mask="none">
+      <image
+         transform="translate(81.170054,-118.43618)"
+         clip-path="url(#clipPath395)"
+         style="fill:#000000"
+         width="355.60001"
+         height="342.89999"
+         preserveAspectRatio="none"
+         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-NRfire-MNonly-step%203-modObsMetric-.png"
+         id="image390"
+         x="42.938091"
+         y="27.654169"
+         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-NRfire-MNonly-step 3-modObsMetric-.png" />
+      <rect
+         ry="1.3229166"
+         y="234.45892"
+         x="152.22958"
+         height="4.203095"
+         width="28.444622"
+         id="rect399"
+         style="fill:#f9f9f9;stroke-width:0.26458332" />
+      <rect
+         ry="1.3229166"
+         y="235.26073"
+         x="251.7679"
+         height="4.0090466"
+         width="24.588791"
+         id="rect401"
+         style="fill:#f9f9f9;stroke-width:0.26458332" />
+    </g>
+    <g
+       id="g4759"
+       transform="translate(181.11084,-470.16821)">
+      <image
+         clip-path="url(#clipPath4735)"
+         width="355.60001"
+         height="800.09998"
+         preserveAspectRatio="none"
+         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFAS-MNonly-step%201-modObsMetric-.png"
+         id="image4730"
+         x="-48.532146"
+         y="-17.249393"
+         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFAS-MNonly-step 1-modObsMetric-.png" />
+      <rect
+         y="761.53271"
+         x="-21.166666"
+         height="5.2916665"
+         width="32.127975"
+         id="rect4739"
+         style="fill:#ffffff;stroke-width:0.31305921" />
+      <rect
+         y="760.81824"
+         x="73.4179"
+         height="5.2916665"
+         width="32.127975"
+         id="rect4739-4"
+         style="fill:#ffffff;stroke-width:0.31305924" />
+    </g>
+    <rect
+       id="rect31"
+       width="1.0690781"
+       height="0.26726952"
+       x="43.633442"
+       y="491.41217"
+       style="stroke-width:0.26458332" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot109"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       transform="matrix(0,-0.26458333,0.26458333,0,-98.332632,85.991051)"><flowRegion
+       transform="matrix(0.26458333,0,0,0.26458333,-28.017175,-10.631254)"><flowRegion
          id="flowRegion111"><rect
            id="rect113"
            width="261.42856"
@@ -335,33 +308,9 @@
            x="114.28571"
            y="381.09113" /></flowRegion><flowPara
          id="flowPara117"
-         style="font-size:32px;text-align:center;text-anchor:middle">Burnt Area GFED4</flowPara></flowRoot>    <flowRoot
-       xml:space="preserve"
-       id="flowRoot109-8"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       transform="matrix(0.26458333,0,0,0.26458333,-17.235397,-121.28048)"><flowRegion
-         id="flowRegion111-7"><rect
-           id="rect113-8"
-           width="554.28571"
-           height="107.14285"
-           x="140"
-           y="386.80539" /></flowRegion><flowPara
-         id="flowPara117-1"
-         style="font-size:32px;text-align:center;text-anchor:middle">vs Mean Score</flowPara></flowRoot>    <flowRoot
-       xml:space="preserve"
-       id="flowRoot109-8-9"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       transform="matrix(0.26458333,0,0,0.26458333,133.82561,-121.1426)"><flowRegion
-         id="flowRegion111-7-4"><rect
-           id="rect113-8-5"
-           width="554.28571"
-           height="107.14285"
-           x="140"
-           y="386.80539" /></flowRegion><flowPara
-         id="flowPara117-1-0"
-         style="font-size:32px;text-align:center;text-anchor:middle">vs Mean Model</flowPara></flowRoot>    <g
+         style="font-size:32px;text-align:start;text-anchor:start">Burnt Area</flowPara></flowRoot>    <g
        id="g199"
-       transform="matrix(1.0626746,0,0,1.0626746,-6.8853728,-312.99713)">
+       transform="matrix(1.0626746,0,0,1.0626746,-24.792674,-196.76588)">
       <image
          style="fill:#ffffff"
          clip-path="url(#clipPath188)"
@@ -392,7 +341,7 @@
        xml:space="preserve"
        id="flowRoot109-5"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       transform="matrix(0,-0.26458333,0.26458333,0,-98.248852,147.28927)"><flowRegion
+       transform="matrix(0.26458333,0,0,0.26458333,-32.311971,56.75445)"><flowRegion
          id="flowRegion111-2"><rect
            id="rect113-5"
            width="261.42856"
@@ -400,49 +349,34 @@
            x="114.28571"
            y="381.09113" /></flowRegion><flowPara
          id="flowPara117-4"
-         style="font-size:32px;text-align:center;text-anchor:middle">Season Phase GFED4</flowPara></flowRoot>    <g
-       id="g251"
-       transform="matrix(1.0696203,0,0,1.0696203,101.03783,-170.66639)">
-      <image
-         clip-path="url(#clipPath238)"
-         style="fill:#ffffff"
-         width="355.60001"
-         height="571.5"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFEDsSeason-phase-MNonly-modObsMetric-.png"
-         id="image233"
-         x="38.153774"
-         y="-291.2991"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFEDsSeason-phase-MNonly-modObsMetric-.png" />
-      <rect
-         y="259.58035"
-         x="62.36607"
-         height="4.913692"
-         width="32.88393"
-         id="rect244"
-         style="fill:#ffffff;stroke-width:0.26458332" />
-      <rect
-         y="261.84821"
-         x="164.04167"
-         height="3.7797618"
-         width="30.238094"
-         id="rect246"
-         style="fill:#ffffff;stroke-width:0.26458332" />
-    </g>
-    <flowRoot
+         style="font-size:32px;text-align:center;text-anchor:middle">Season Phase </flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot288"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       transform="matrix(0.26458333,0,0,0.26458333,15.875004,-10.583334)"><flowRegion
+       transform="matrix(0.26458333,0,0,0.26458333,19.579173,-10.583334)"><flowRegion
          id="flowRegion290"><rect
            id="rect292"
            width="30.304577"
            height="595.98999"
            x="343.45187"
            y="514.40784" /></flowRegion><flowPara
-         id="flowPara294"></flowPara></flowRoot>    <g
+         id="flowPara294" /></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot109-5-9-4"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="matrix(0.26458333,0,0,0.26458333,104.26728,-10.897576)"><flowRegion
+         id="flowRegion111-2-6-1"><rect
+           id="rect113-5-1-6"
+           width="261.42856"
+           height="135.08047"
+           x="114.28571"
+           y="381.09113" /></flowRegion><flowPara
+         id="flowPara117-4-1-0"
+         style="font-size:32px;text-align:center;text-anchor:middle">No. Fires</flowPara><flowPara
+         style="font-size:32px;text-align:center;text-anchor:middle"
+         id="flowPara554" /></flowRoot>    <g
        id="g345"
-       transform="matrix(1.0674561,0,0,1.0674561,160.68989,-121.12804)">
+       transform="matrix(1.0674561,0,0,1.0674561,144.80425,-64.564956)">
       <image
          clip-path="url(#clipPath322)"
          width="355.60001"
@@ -470,75 +404,11 @@
          id="rect332"
          style="fill:#ffffff;stroke-width:0.26458332" />
     </g>
-    <g
-       id="g380"
-       transform="matrix(1.067236,0,0,1.067236,16.192914,-29.96668)">
-      <image
-         style="fill:#ffffff"
-         transform="translate(-13.428688,-69.366048)"
-         clip-path="url(#clipPath298)"
-         width="355.60001"
-         height="571.5"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFEDsSeason-conc-MNRR-step%201-modObsMetric-.png"
-         id="image285"
-         x="-5.6784282"
-         y="-297.17905"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFEDsSeason-conc-MNRR-step 1-modObsMetric-.png" />
-      <rect
-         ry="1.6887375"
-         y="185.68602"
-         x="9.6383924"
-         height="3.5907736"
-         width="27.403273"
-         id="rect373"
-         style="fill:#ffffff;stroke-width:0.26458332" />
-      <rect
-         ry="1.3229159"
-         y="186.25298"
-         x="108.66816"
-         height="2.83482"
-         width="25.3244"
-         id="rect375"
-         style="fill:#ffffff;stroke-width:0.26458332" />
-    </g>
-    <g
-       id="g406"
-       transform="matrix(1.2240881,0,0,1.2240881,-24.512232,-59.89509)">
-      <image
-         transform="translate(81.170054,-118.43618)"
-         clip-path="url(#clipPath395)"
-         style="fill:#000000"
-         width="355.60001"
-         height="342.89999"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-NRfire-MNonly-step%203-modObsMetric-.png"
-         id="image390"
-         x="42.938091"
-         y="27.654169"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-NRfire-MNonly-step 3-modObsMetric-.png" />
-      <rect
-         ry="1.3229166"
-         y="234.45892"
-         x="152.22958"
-         height="4.203095"
-         width="28.444622"
-         id="rect399"
-         style="fill:#f9f9f9;stroke-width:0.26458332" />
-      <rect
-         ry="1.3229166"
-         y="235.26073"
-         x="251.7679"
-         height="4.0090466"
-         width="24.588791"
-         id="rect401"
-         style="fill:#f9f9f9;stroke-width:0.26458332" />
-    </g>
     <flowRoot
        xml:space="preserve"
        id="flowRoot109-5-9"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       transform="matrix(0,-0.26458333,0.26458333,0,-98.360262,215.67348)"><flowRegion
+       transform="matrix(0.26458333,0,0,0.26458333,114.57093,56.688363)"><flowRegion
          id="flowRegion111-2-6"><rect
            id="rect113-5-1"
            width="261.42856"
@@ -546,87 +416,19 @@
            x="114.28571"
            y="381.09113" /></flowRegion><flowPara
          id="flowPara117-4-1"
-         style="font-size:32px;text-align:center;text-anchor:middle">Season Conc. GFED4</flowPara></flowRoot>    <g
-       id="g371"
-       transform="matrix(1.2182738,0,0,1.2182738,4.6255703,-86.292725)">
-      <image
-         style="fill:#ffffff"
-         clip-path="url(#clipPath360)"
-         width="355.60001"
-         height="342.89999"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-NRfire-MNRR-step%203-modObsMetric-.png"
-         id="image355"
-         x="-18.29405"
-         y="-68.351784"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-NRfire-MNRR-step 3-modObsMetric-.png" />
-      <rect
-         ry="1.6887375"
-         y="257.7114"
-         x="13.640123"
-         height="3.7417762"
-         width="24.846689"
-         id="rect364"
-         style="fill:#ffffff;stroke-width:0.26458332" />
-      <rect
-         ry="1.6887375"
-         y="257.7114"
-         x="108.51143"
-         height="3.7417762"
-         width="26.34494"
-         id="rect366"
-         style="fill:#ffffff;stroke-width:0.26458332" />
-    </g>
-    <flowRoot
-       xml:space="preserve"
-       id="flowRoot109-5-9-4"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       transform="matrix(0,-0.26458333,0.26458333,0,-98.607739,274.94086)"><flowRegion
-         id="flowRegion111-2-6-1"><rect
-           id="rect113-5-1-6"
-           width="261.42856"
-           height="135.08047"
-           x="114.28571"
-           y="381.09113" /></flowRegion><flowPara
-         id="flowPara117-4-1-0"
-         style="font-size:32px;text-align:center;text-anchor:middle">No. Fires</flowPara><flowPara
-         style="font-size:32px;text-align:center;text-anchor:middle"
-         id="flowPara554" /></flowRoot>    <rect
-       style="fill:#000000;stroke-width:0.26458332"
-       id="rect4253"
-       width="46.869045"
-       height="0.37797621"
-       x="74.234528"
-       y="171.66393" />
-    <rect
-       style="fill:#000000;stroke-width:0.26458332"
-       id="rect4253-8"
-       width="46.869045"
-       height="0.37797621"
-       x="75.217255"
-       y="112.1334" />
-    <rect
-       style="fill:#000000;stroke-width:0.26458332"
-       id="rect4253-8-5"
-       width="46.869045"
-       height="0.37797621"
-       x="68.678276"
-       y="171.56953" />
-    <flowRoot
+         style="font-size:32px;text-align:center;text-anchor:middle">Season Conc. </flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot109-5-9-4-1"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       transform="matrix(0,-0.26458333,0.26458333,0,-98.420039,320.75451)"><flowRegion
+       transform="matrix(0.26458333,0,0,0.26458333,106.57154,124.34525)"><flowRegion
          id="flowRegion111-2-6-1-1"><rect
            id="rect113-5-1-6-2"
            width="261.42856"
            height="135.08047"
            x="114.28571"
            y="381.09113" /></flowRegion><flowPara
-         id="flowPara117-4-1-0-2"
-         style="font-size:32px;text-align:center;text-anchor:middle">Emissions</flowPara><flowPara
          style="font-size:32px;text-align:center;text-anchor:middle"
-         id="flowPara4788">GFAS</flowPara><flowPara
+         id="flowPara4788">Emissions</flowPara><flowPara
          style="font-size:32px;text-align:center;text-anchor:middle"
          id="flowPara554-3" /></flowRoot>  </g>
 </svg>
