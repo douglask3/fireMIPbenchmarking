@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="325mm"
+   height="319mm"
+   viewBox="0 0 325 319"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="fig5.svg"
+   inkscape:version="0.92.1 r15371"
+   inkscape:export-filename="C:\Users\dougl\Documents\work\fireMIPbenchmarking\docs\fig5.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath39">
+      <rect
+         id="rect41"
+         width="158.49083"
+         height="82.586288"
+         x="-60.135643"
+         y="469.12158"
+         style="stroke-width:0.26458332" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath82">
+      <rect
+         style="stroke-width:0.23608905"
+         y="153.74702"
+         x="7.9375"
+         height="63.5"
+         width="153.08035"
+         id="rect84" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath96">
+      <rect
+         style="stroke-width:0.22316013"
+         y="172.26785"
+         x="28.574993"
+         height="63.273205"
+         width="161.16905"
+         id="rect98" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath188">
+      <rect
+         style="fill:#000000;stroke-width:0.26458332"
+         id="rect190"
+         width="144.32553"
+         height="57.730194"
+         x="24.321527"
+         y="341.90128" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath238">
+      <rect
+         style="fill:#000000;stroke-width:1.08260047"
+         id="rect240"
+         width="140.60715"
+         height="58.586308"
+         x="62.36607"
+         y="205.90775" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath298">
+      <rect
+         style="fill:#000000;stroke-width:0.25674745"
+         id="rect300"
+         width="140.54095"
+         height="58.264759"
+         x="16.570711"
+         y="200.24843" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath322">
+      <rect
+         style="fill:#e6e6e6;stroke-width:0.32980812"
+         id="rect324"
+         width="140.08231"
+         height="59.333836"
+         x="5.87993"
+         y="215.75006"
+         ry="0" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath360">
+      <rect
+         style="fill:#000000;stroke-width:0.32061011"
+         id="rect362"
+         width="121.21624"
+         height="51.048477"
+         x="13.640123"
+         y="210.40468"
+         ry="1.688737" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath395">
+      <rect
+         style="fill:#000000;stroke-width:0.26458332"
+         id="rect397"
+         width="131.53571"
+         height="49.514877"
+         x="71.059525"
+         y="307.58331"
+         ry="1.3229166" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4709">
+      <rect
+         style="fill:#000000;stroke-width:0.26123825"
+         id="rect4711"
+         width="146.65475"
+         height="60.854164"
+         x="1.5119047"
+         y="633.3988" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4735">
+      <rect
+         style="fill:#000000;stroke-width:0.51052481"
+         id="rect4737"
+         width="146.77539"
+         height="63.702129"
+         x="-29.506268"
+         y="702.36633" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="713.63656"
+     inkscape:cy="413.86758"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="915"
+     inkscape:window-height="696"
+     inkscape:window-x="442"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,22)">
+    <rect
+       style="fill:#ffffff;stroke-width:0.29470393"
+       id="rect4790"
+       width="323.3967"
+       height="318.23727"
+       x="3.1750004"
+       y="-17.92975"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <g
+       id="g4759"
+       transform="translate(198.09111,-470.96202)">
+      <image
+         clip-path="url(#clipPath4735)"
+         width="355.60001"
+         height="800.09998"
+         preserveAspectRatio="none"
+         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFAS-MNonly-step%201-modObsMetric-.png"
+         id="image4730"
+         x="-48.532146"
+         y="-17.249393"
+         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFAS-MNonly-step 1-modObsMetric-.png" />
+      <rect
+         y="761.53271"
+         x="-21.166666"
+         height="5.2916665"
+         width="32.127975"
+         id="rect4739"
+         style="fill:#ffffff;stroke-width:0.31305921" />
+      <rect
+         y="760.81824"
+         x="73.4179"
+         height="5.2916665"
+         width="32.127975"
+         id="rect4739-4"
+         style="fill:#ffffff;stroke-width:0.31305924" />
+    </g>
+    <g
+       id="g4720"
+       transform="translate(3.2405128,-110.92474)">
+      <image
+         style="fill:#ffffff"
+         transform="translate(15.922882,-288.65778)"
+         clip-path="url(#clipPath4709)"
+         width="355.60001"
+         height="800.09998"
+         preserveAspectRatio="none"
+         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFAS-MNRR-step%201-modObsMetric-.png"
+         id="image4704"
+         x="-17.160122"
+         y="-89.064865"
+         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFAS-MNRR-step 1-modObsMetric-.png" />
+      <rect
+         y="401.32144"
+         x="25.702381"
+         height="4.9136906"
+         width="28.726189"
+         id="rect4713"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+      <rect
+         y="400.94345"
+         x="122.84225"
+         height="4.5357141"
+         width="28.726189"
+         id="rect4715"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+    </g>
+    <rect
+       style="fill:#ffffff;stroke-width:0.26535133"
+       id="rect556"
+       width="323.3967"
+       height="251.65652"
+       x="3.1750004"
+       y="-17.92975"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       id="rect31"
+       width="1.0690781"
+       height="0.26726952"
+       x="39.929272"
+       y="491.41217"
+       style="stroke-width:0.26458332" />
+    <g
+       id="g93"
+       transform="translate(15.875004,-10.583334)">
+      <image
+         transform="translate(-7.5595238,-154.97024)"
+         clip-path="url(#clipPath82)"
+         width="355.60001"
+         height="800.09998"
+         preserveAspectRatio="none"
+         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4s.Spatial-MNRR-step%201-modObsMetric-.png"
+         id="image51"
+         x="-6.9547653"
+         y="-565.69287"
+         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4s.Spatial-MNRR-step 1-modObsMetric-.png" />
+      <rect
+         style="fill:#ffffff;stroke-width:0.26458332"
+         y="58.497021"
+         x="12.473214"
+         height="4.5357141"
+         width="30.238094"
+         id="rect86" />
+      <rect
+         y="56.607143"
+         x="109.99107"
+         height="7.1815472"
+         width="29.482143"
+         id="rect88"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+    </g>
+    <g
+       id="g107"
+       transform="translate(11.944362,-10.658925)">
+      <image
+         transform="translate(124.88334,-173.49107)"
+         clip-path="url(#clipPath96)"
+         width="355.60001"
+         height="800.09998"
+         preserveAspectRatio="none"
+         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4s.Spatial-MNonly-step%201-modObsMetric-.png"
+         id="image68"
+         x="11.188091"
+         y="-547.54999"
+         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4s.Spatial-MNonly-step 1-modObsMetric-.png" />
+      <rect
+         y="58.119045"
+         x="163.28572"
+         height="4.1577382"
+         width="29.860117"
+         id="rect100"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+      <rect
+         y="58.119045"
+         x="262.69345"
+         height="4.5357141"
+         width="25.702381"
+         id="rect102"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot109"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="matrix(0,-0.26458333,0.26458333,0,-98.332632,85.991051)"><flowRegion
+         id="flowRegion111"><rect
+           id="rect113"
+           width="261.42856"
+           height="112.85711"
+           x="114.28571"
+           y="381.09113" /></flowRegion><flowPara
+         id="flowPara117"
+         style="font-size:32px;text-align:center;text-anchor:middle">Burnt Area GFED4</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot109-8"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="matrix(0.26458333,0,0,0.26458333,-17.235397,-121.28048)"><flowRegion
+         id="flowRegion111-7"><rect
+           id="rect113-8"
+           width="554.28571"
+           height="107.14285"
+           x="140"
+           y="386.80539" /></flowRegion><flowPara
+         id="flowPara117-1"
+         style="font-size:32px;text-align:center;text-anchor:middle">vs Mean Score</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot109-8-9"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="matrix(0.26458333,0,0,0.26458333,133.82561,-121.1426)"><flowRegion
+         id="flowRegion111-7-4"><rect
+           id="rect113-8-5"
+           width="554.28571"
+           height="107.14285"
+           x="140"
+           y="386.80539" /></flowRegion><flowPara
+         id="flowPara117-1-0"
+         style="font-size:32px;text-align:center;text-anchor:middle">vs Mean Model</flowPara></flowRoot>    <g
+       id="g199"
+       transform="matrix(1.0626746,0,0,1.0626746,-6.8853728,-312.99713)">
+      <image
+         style="fill:#ffffff"
+         clip-path="url(#clipPath188)"
+         width="355.60001"
+         height="571.5"
+         preserveAspectRatio="none"
+         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFEDsSeason-phase-MNRR-modObsMetric-.png"
+         id="image183"
+         x="2.8726161"
+         y="-155.81548"
+         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFEDsSeason-phase-MNRR-modObsMetric-.png" />
+      <rect
+         y="395.88971"
+         x="31.270535"
+         height="4.543582"
+         width="28.33057"
+         id="rect192"
+         style="fill:#ffffff;stroke-width:0.23805498" />
+      <rect
+         y="396.42426"
+         x="129.89299"
+         height="3.2072344"
+         width="26.192413"
+         id="rect194"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot109-5"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="matrix(0,-0.26458333,0.26458333,0,-98.248852,147.28927)"><flowRegion
+         id="flowRegion111-2"><rect
+           id="rect113-5"
+           width="261.42856"
+           height="112.85711"
+           x="114.28571"
+           y="381.09113" /></flowRegion><flowPara
+         id="flowPara117-4"
+         style="font-size:32px;text-align:center;text-anchor:middle">Season Phase GFED4</flowPara></flowRoot>    <g
+       id="g251"
+       transform="matrix(1.0696203,0,0,1.0696203,101.03783,-170.66639)">
+      <image
+         clip-path="url(#clipPath238)"
+         style="fill:#ffffff"
+         width="355.60001"
+         height="571.5"
+         preserveAspectRatio="none"
+         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFEDsSeason-phase-MNonly-modObsMetric-.png"
+         id="image233"
+         x="38.153774"
+         y="-291.2991"
+         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFEDsSeason-phase-MNonly-modObsMetric-.png" />
+      <rect
+         y="259.58035"
+         x="62.36607"
+         height="4.913692"
+         width="32.88393"
+         id="rect244"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+      <rect
+         y="261.84821"
+         x="164.04167"
+         height="3.7797618"
+         width="30.238094"
+         id="rect246"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot288"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="matrix(0.26458333,0,0,0.26458333,15.875004,-10.583334)"><flowRegion
+         id="flowRegion290"><rect
+           id="rect292"
+           width="30.304577"
+           height="595.98999"
+           x="343.45187"
+           y="514.40784" /></flowRegion><flowPara
+         id="flowPara294"></flowPara></flowRoot>    <g
+       id="g345"
+       transform="matrix(1.0674561,0,0,1.0674561,160.68989,-121.12804)">
+      <image
+         clip-path="url(#clipPath322)"
+         width="355.60001"
+         height="571.5"
+         preserveAspectRatio="none"
+         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFEDsSeason-conc-MNonly-step%201-modObsMetric-.png"
+         id="image310"
+         x="-17.438286"
+         y="-281.14285"
+         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFEDsSeason-conc-MNonly-step 1-modObsMetric-.png" />
+      <rect
+         ry="1.5119047"
+         y="267.13986"
+         x="9.4494047"
+         height="7.5595179"
+         width="31.75"
+         id="rect330"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+      <rect
+         ry="1.5119048"
+         y="271.29761"
+         x="109.23512"
+         height="3.0238097"
+         width="26.836309"
+         id="rect332"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+    </g>
+    <g
+       id="g380"
+       transform="matrix(1.067236,0,0,1.067236,16.192914,-29.96668)">
+      <image
+         style="fill:#ffffff"
+         transform="translate(-13.428688,-69.366048)"
+         clip-path="url(#clipPath298)"
+         width="355.60001"
+         height="571.5"
+         preserveAspectRatio="none"
+         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFEDsSeason-conc-MNRR-step%201-modObsMetric-.png"
+         id="image285"
+         x="-5.6784282"
+         y="-297.17905"
+         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFEDsSeason-conc-MNRR-step 1-modObsMetric-.png" />
+      <rect
+         ry="1.6887375"
+         y="185.68602"
+         x="9.6383924"
+         height="3.5907736"
+         width="27.403273"
+         id="rect373"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+      <rect
+         ry="1.3229159"
+         y="186.25298"
+         x="108.66816"
+         height="2.83482"
+         width="25.3244"
+         id="rect375"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+    </g>
+    <g
+       id="g406"
+       transform="matrix(1.2240881,0,0,1.2240881,-24.512232,-59.89509)">
+      <image
+         transform="translate(81.170054,-118.43618)"
+         clip-path="url(#clipPath395)"
+         style="fill:#000000"
+         width="355.60001"
+         height="342.89999"
+         preserveAspectRatio="none"
+         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-NRfire-MNonly-step%203-modObsMetric-.png"
+         id="image390"
+         x="42.938091"
+         y="27.654169"
+         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-NRfire-MNonly-step 3-modObsMetric-.png" />
+      <rect
+         ry="1.3229166"
+         y="234.45892"
+         x="152.22958"
+         height="4.203095"
+         width="28.444622"
+         id="rect399"
+         style="fill:#f9f9f9;stroke-width:0.26458332" />
+      <rect
+         ry="1.3229166"
+         y="235.26073"
+         x="251.7679"
+         height="4.0090466"
+         width="24.588791"
+         id="rect401"
+         style="fill:#f9f9f9;stroke-width:0.26458332" />
+    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot109-5-9"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="matrix(0,-0.26458333,0.26458333,0,-98.360262,215.67348)"><flowRegion
+         id="flowRegion111-2-6"><rect
+           id="rect113-5-1"
+           width="261.42856"
+           height="135.08047"
+           x="114.28571"
+           y="381.09113" /></flowRegion><flowPara
+         id="flowPara117-4-1"
+         style="font-size:32px;text-align:center;text-anchor:middle">Season Conc. GFED4</flowPara></flowRoot>    <g
+       id="g371"
+       transform="matrix(1.2182738,0,0,1.2182738,4.6255703,-86.292725)">
+      <image
+         style="fill:#ffffff"
+         clip-path="url(#clipPath360)"
+         width="355.60001"
+         height="342.89999"
+         preserveAspectRatio="none"
+         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-NRfire-MNRR-step%203-modObsMetric-.png"
+         id="image355"
+         x="-18.29405"
+         y="-68.351784"
+         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-NRfire-MNRR-step 3-modObsMetric-.png" />
+      <rect
+         ry="1.6887375"
+         y="257.7114"
+         x="13.640123"
+         height="3.7417762"
+         width="24.846689"
+         id="rect364"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+      <rect
+         ry="1.6887375"
+         y="257.7114"
+         x="108.51143"
+         height="3.7417762"
+         width="26.34494"
+         id="rect366"
+         style="fill:#ffffff;stroke-width:0.26458332" />
+    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot109-5-9-4"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="matrix(0,-0.26458333,0.26458333,0,-98.607739,274.94086)"><flowRegion
+         id="flowRegion111-2-6-1"><rect
+           id="rect113-5-1-6"
+           width="261.42856"
+           height="135.08047"
+           x="114.28571"
+           y="381.09113" /></flowRegion><flowPara
+         id="flowPara117-4-1-0"
+         style="font-size:32px;text-align:center;text-anchor:middle">No. Fires</flowPara><flowPara
+         style="font-size:32px;text-align:center;text-anchor:middle"
+         id="flowPara554" /></flowRoot>    <rect
+       style="fill:#000000;stroke-width:0.26458332"
+       id="rect4253"
+       width="46.869045"
+       height="0.37797621"
+       x="74.234528"
+       y="171.66393" />
+    <rect
+       style="fill:#000000;stroke-width:0.26458332"
+       id="rect4253-8"
+       width="46.869045"
+       height="0.37797621"
+       x="75.217255"
+       y="112.1334" />
+    <rect
+       style="fill:#000000;stroke-width:0.26458332"
+       id="rect4253-8-5"
+       width="46.869045"
+       height="0.37797621"
+       x="68.678276"
+       y="171.56953" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot109-5-9-4-1"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="matrix(0,-0.26458333,0.26458333,0,-98.420039,320.75451)"><flowRegion
+         id="flowRegion111-2-6-1-1"><rect
+           id="rect113-5-1-6-2"
+           width="261.42856"
+           height="135.08047"
+           x="114.28571"
+           y="381.09113" /></flowRegion><flowPara
+         id="flowPara117-4-1-0-2"
+         style="font-size:32px;text-align:center;text-anchor:middle">Emissions</flowPara><flowPara
+         style="font-size:32px;text-align:center;text-anchor:middle"
+         id="flowPara4788">GFAS</flowPara><flowPara
+         style="font-size:32px;text-align:center;text-anchor:middle"
+         id="flowPara554-3" /></flowRoot>  </g>
+</svg>
