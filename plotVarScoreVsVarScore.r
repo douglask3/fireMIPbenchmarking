@@ -8,6 +8,7 @@ maxY   = 2
 nplots = length(scores)
 
 vars2test = c('cveg', 'GFED4s', 'NPP_', 'GFAS', 'NRfire')
+stepN     = c(1     , 1       , 1     , 1     , 3       )
 #############################
 ## Open                    ##
 #############################
@@ -17,13 +18,17 @@ files = files[grep('.csv', files)]
 for (i in files) dat = c(dat, open.csvOutFile(i))
 scores = lapply(dat, function(i) deconstruct.csv.outs(i[[2]]))
 nmes   = sapply(dat, function(i) i[[1]])
-index = unique(unlist(lapply(vars2test, grep, nmes)))
-scores = scores[index]
-nmes = nmes[index]
 
-plotAvB <- function(A, Anm, nA, B, Bnm, nB) {
-	if (is.matrix(A[[4]])) A[[4]] = A[[4]][,1]
-	if (is.matrix(B[[4]])) B[[4]] = B[[4]][,1]
+index = lapply(vars2test, grep, nmes)
+
+stepN  = unlist(mapply(rep, stepN, sapply(index, length)))
+index  = unlist(index)
+scores = scores[index]
+nmes   = nmes[index]
+
+plotAvB <- function(A, Anm, stepA, nA, B, Bnm, stepB, nB) {
+	if (is.matrix(A[[4]])) A[[4]] = A[[4]][,min(stepA, ncol(A[[4]]))]
+	if (is.matrix(B[[4]])) B[[4]] = B[[4]][,min(stepB, ncol(B[[4]]))]
 	
 	scoresA = A[[4]]
 	scoresB = B[[4]]
@@ -61,10 +66,10 @@ plotAvB <- function(A, Anm, nA, B, Bnm, nB) {
 }
 
 
-plotB <- function(scoresB, nmesB, nB) {
-	mapply(plotAvB, scores, nmes, 1:nplots, MoreArgs = list(scoresB, nmesB, nB))
-}
+plotB <- function(scoresB, nmesB, nB, stepB)
+	mapply(plotAvB, scores, nmes, stepN, 1:nplots, MoreArgs = list(scoresB, nmesB, nB, stepB))
+
 pdf('yay.pdf', height = 3*nplots, width = 3*nplots)
 par(mfrow = c(nplots, nplots), mar = c(4, 4, 0, 0), oma = c(0, 0, 4, 4))
-mapply(plotB, scores, nmes, 1:nplots)
+mapply(plotB, scores, nmes, stepN, 1:nplots)
 dev.off()
