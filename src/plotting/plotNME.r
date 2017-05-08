@@ -15,7 +15,7 @@ plotNME.spatial <- function(obs, mod, ...) {
 
 plotNME.spatial.stepN <- function(mod, obs, step, name, cols, dcols, metricCols = NMEmap_cols, 
                                   limits, dlimits, metricLimits = NULL, 
-								  figOut = TRUE, plotObs = TRUE, ...) {
+								  figOut = TRUE, plotObs = TRUE, denomNormFun = sum.raster, ...) {
 
     stepN   = paste("step", step, sep = '')
     if (figOut) { 
@@ -38,7 +38,7 @@ plotNME.spatial.stepN <- function(mod, obs, step, name, cols, dcols, metricCols 
 
 	denom = abs(obs - mnObs)
 	denom = denom * Area
-	denom = sum.raster(denom, na.rm = TRUE) / sum.raster(Area, na.rm = TRUE)
+	denom = denomNormFun(denom, na.rm = TRUE) / denomNormFun(Area, na.rm = TRUE)
 	
 	
     NMEs  = abs(mod - obs) / denom

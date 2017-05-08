@@ -128,7 +128,7 @@ plotVarAgreement.IA <- function(mod, obs, name, modNames, info, scores, comp, ..
 		
 		stepTitle = paste("metric contribution - step", stepN)
 		NMEs = mapply(function(md, ob) abs(md-ob)/mean(abs(ob - mean(ob))), mod, obs, SIMPLIFY = FALSE)
-		browser()
+		
 		yrange = range(unlist(NMEs))
 		plot(range(x), yrange, type = 'n', xlab = '', ylab ='')
 		mtext(stepTitle)
@@ -189,11 +189,22 @@ plotVarAgreement.seasonal <- function(mod, obs, name, modNames, info, scores, ..
 	lims    = SeasonPhaseLimits
 	dlims   = SeasonPhaseDlimits
 	
-	plotSepMods(pmod, obs[[1]], modNames, paste(name, 'phase', sep = '-'), info,
-				cols, dcols, lims, dlims,
-				scores[, c("mean.phase", "random.phase")],
-				plotSeasonal.phse, SeasonLegend,
-				eFun = mnVar.raster)
+	FUN <- function(nme, nullScore) {
+		plotSepMods(pmod, obs[[1]], modNames, paste(name, 'phase', nme, sep = '-'), info,
+					cols, dcols, lims, dlims,
+					scores[, c("mean.phase", "random.phase")], nullScore = nullScore,
+					plotSeasonal.phse, SeasonLegend,
+					eFun = mnVar.raster)
+	}
+	obsMean = values(obs[[1]])
+	obsMean = obsMean[!is.na(obsMean)]
+	obsMean = obsMean * 2 * pi / 12
+
+	obsMean =  atans(sum(sin(obsMean)), sum(cos(obsMean)))
+	
+	dif = obsMean - obs[[1]]
+	dif = acos(cos(dif))
+	mapply(FUN, c('MNRR', 'MNonly'), list(NULL, dif))
 	
 	cmod = ithLayerFromList(mod, 2)	
 	
@@ -208,16 +219,20 @@ plotVarAgreement.seasonal <- function(mod, obs, name, modNames, info, scores, ..
 }
 
 plotSepMods.3step <- function(mod, obs, modNames, name, ...) {
-	stepN <- function(FUN, title)  {
-		if (!is.null(FUN)) mod = layer.apply(mod, FUN, obs)
-		Name = paste(name, title, sep = '-')
-		plotSepMods(mod, obs, modNames, Name, ...)
-	}
+	FUN <- function(nme, denomNormFun) {
+		stepN <- function(FUN, title)  {
 	
-	mapply(stepN, list(NULL, removeMean, removeMeanVar), paste('step', 1:3))
+			if (!is.null(FUN)) mod = layer.apply(mod, FUN, obs)
+			Name = paste(name, nme, title, sep = '-')
+			plotSepMods(mod, obs, modNames, Name, denomNormFun = denomNormFun, ...)
+		}
+	
+		mapply(stepN, list(NULL, removeMean, removeMeanVar), paste('step', 1:3))
+	}
+	mapply(FUN, c('MNRR', 'MNonly'), c(sum.raster, function(i, ...) return(i)))
 }
 
-plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims, scores,
+plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims, scores, nullScore = NULL,
 						    plotFun = plotNME.spatial.stepN, legendFun = add_raster_legend2, ...) {
 	MetricCols = c('white', 'green', 'yellow', 'orange', 'red', 'black')
 	MetricLabs = c('prefect', 'mean', 'RR low', 'RR', 'RR high')
@@ -251,7 +266,7 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 	for (i in 1:nlayers(mod)) {
 		out[i] = 
 			plotFun(mod[[i]],obs, 1, modNames[i], cols, dcols, metricCols = MetricCols,
-								   lims, dlims, MetricLims, figOut = FALSE, plotObs = FALSE)
+								   lims, dlims, MetricLims, figOut = FALSE, plotObs = FALSE, ...)
 	}
 	legendFun(cols =  cols, limits =  lims, transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), add = FALSE, 
 	          mar = c(-0.5, 0, 0, 0))
@@ -260,7 +275,7 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 	                   transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), add = FALSE)	
 	
 	plotComMods(mod, obs, name, cols, lims, newFig = FALSE, legendFun = legendFun, ...)
-	
+	if (!is.null(nullScore)) MN = nullScore
 	mapMetricScores.default(lapply(out,list), 1, info, score = MN)
 	mapMetricScores.default(lapply(out,list), 1, info, score = RR, nullModel = "Randomly-resampled")
 	dev.off.gitWatermarkStandard()
@@ -315,7 +330,8 @@ plotComMods.obs <- function(obs, lims, cols, name, legendFun = add_raster_legend
 	plot_raster_from_raster(obs, limits = lims, cols = cols, add_legend = FALSE, y_range = c(-60, 90))
 	mtext(paste(name, 'observations'), side = 3, line = 1)
 	
-	legendFun(cols = cols, limits = lims, transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), mar = c(-0.5, 0,0,0), add = FALSE)
+	legendFun(cols = cols, limits = lims, transpose = FALSE,
+	         plot_loc = c(0.2, 0.6, 0.8, 0.9), mar = c(-0.5, 0,0,0), add = FALSE)
 	
 }
 
