@@ -58,6 +58,7 @@ plotVarAgreement.site <- function(mod, obs, name, modNames, info, scores, comp, 
 	
 	fname =  paste(figs_dir, name, 'modObsMetric', '.png', sep = '-')
 	png(fname,  height = 3 * (nmods + 1.5), width = 14, res = 300, units = 'in')
+	
 	layout(lmat, heights = c(0.1, rep(1, nmods), 1.5, 0.5, 1), widths = c(0.1, rep(1, 6)))
 	par(mar = rep(0,4), oma = c(0, 1, 0, 1))
 	plot.new(); mtext('')
@@ -252,8 +253,10 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 	lmat  = rbind(lmat, lmat2, lmat3) 
 	
 	fname =  paste(figs_dir, name, 'modObsMetric', '.png', sep = '-')
-	png(fname, height = 3 * (nmods + 1.5), width = 14, res = 300, units = 'in')
-	layout(lmat, heights = c(0.1, rep(1, nrow(lmat)-6),0.5, 1, 0.7, 1, 0.25))
+	
+	heights = c(0.1, rep(1, nrow(lmat)-6),0.5, 1, 0.7, 1, 0.25)
+	png(fname, height = 2.5 * sum(heights), width = 14, res = 300, units = 'in')
+	layout(lmat, heights = heights)
 	par(mar = rep(0,4), oma = c(0, 1, 0, 0))
 	mtextPN <- function(txt) {
 		plot.new()
