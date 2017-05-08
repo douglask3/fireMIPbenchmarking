@@ -7,9 +7,7 @@ graphics.off()
 maxY   = 2
 nplots = length(scores)
 
-colourSelectFun <- function(cats)
-		rainbow(length(cats))
-		
+	
 #############################
 ## Open                    ##
 #############################
@@ -18,7 +16,7 @@ files = list.files('outputs/',  full.names = TRUE)
 files = files[grep('.csv', files)]
 for (i in files) dat = c(dat, open.csvOutFile(i))
 scores = lapply(dat, function(i) deconstruct.csv.outs(i[[2]]))
-nmes   = lapply(dat, function(i) i[[1]])
+nmes   = sapply(dat, function(i) i[[1]])
 
 
 plotAvB <- function(A, Anm, nA, B, Bnm, nB) {

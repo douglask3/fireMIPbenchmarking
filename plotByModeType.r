@@ -5,9 +5,6 @@ source("cfg.r")
 	
 maxY = 2
 
-colourSelectFun <- function(cats)
-		rainbow(length(cats))
-
 ################################
 ## plotting function	      ##
 ################################
