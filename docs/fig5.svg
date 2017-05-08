@@ -15,7 +15,7 @@
    viewBox="0 0 300 206"
    version="1.1"
    id="svg8"
-   sodipodi:docname="fig5v2.svg"
+   sodipodi:docname="fig5.svg"
    inkscape:version="0.92.1 r15371"
    inkscape:export-filename="C:\Users\dougl\Documents\work\fireMIPbenchmarking\docs\fig5.png"
    inkscape:export-xdpi="96"
@@ -157,6 +157,28 @@
          y="187.70833"
          style="stroke-width:0.22821671" />
     </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath188-6">
+      <rect
+         style="fill:#000000;stroke-width:0.26458332"
+         id="rect190-2"
+         width="144.32553"
+         height="57.730194"
+         x="24.321527"
+         y="341.90128" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath126">
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.24340065"
+         id="rect128"
+         width="150.5721"
+         height="19.830311"
+         x="-121.46793"
+         y="308.91968" />
+    </clipPath>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -166,15 +188,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="783.47862"
-     inkscape:cy="435.07248"
+     inkscape:cx="304.07667"
+     inkscape:cy="293.76509"
      inkscape:document-units="mm"
-     inkscape:current-layer="g406"
+     inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="915"
+     inkscape:window-width="1026"
      inkscape:window-height="696"
-     inkscape:window-x="377"
-     inkscape:window-y="11"
+     inkscape:window-x="266"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      showguides="true">
     <inkscape:grid
@@ -189,7 +211,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -232,6 +254,15 @@
        transform="matrix(1.2240881,0,0,1.2240881,-39.898944,-130.67993)"
        clip-path="url(#clipPath3784)"
        mask="none">
+      <rect
+         id="rect81"
+         width="246.40793"
+         height="168.59491"
+         x="32.59483"
+         y="180.79167"
+         style="fill:#f9f9f9;stroke-width:0.19834332"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
       <image
          transform="translate(81.170054,-118.43618)"
          clip-path="url(#clipPath395)"
@@ -430,5 +461,26 @@
          style="font-size:32px;text-align:center;text-anchor:middle"
          id="flowPara4788">Emissions</flowPara><flowPara
          style="font-size:32px;text-align:center;text-anchor:middle"
-         id="flowPara554-3" /></flowRoot>  </g>
+         id="flowPara554-3" /></flowRoot>    <g
+       id="g134"
+       transform="translate(132.29167,-34.395824)">
+      <image
+         clip-path="url(#clipPath126)"
+         width="355.60001"
+         height="800.09998"
+         preserveAspectRatio="none"
+         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4s.Spatial-MNonly-step%201-modObsMetric-.png"
+         id="image121"
+         x="-313.26666"
+         y="-471.34998"
+         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4s.Spatial-MNonly-step 1-modObsMetric-.png" />
+      <rect
+         y="307.05417"
+         x="-76.729164"
+         height="5.2916665"
+         width="29.104166"
+         id="rect130"
+         style="fill:#f9f9f9;stroke-width:0.26458332" />
+    </g>
+  </g>
 </svg>
