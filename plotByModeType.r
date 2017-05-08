@@ -99,7 +99,7 @@ compModelCatigory <- function(dat, addXaxis = FALSE, addYaxis = FALSE, ModelSpli
 dat = c()
 files = list.files('outputs/',  full.names = TRUE)
 files = files[grep('.csv', files)]
-for (i in files) dat = c(dat, openFile(i))
+for (i in files) dat = c(dat, open.csvOutFile(i))
 
 
 plotSpit <- function(ModelSplit, name) {
