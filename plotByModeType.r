@@ -11,9 +11,7 @@ colourSelectFun <- function(cats)
 ################################
 ## plotting function	      ##
 ################################
-
-compModelCatigory <- function(dat, addXaxis = FALSE, addYaxis = FALSE, ModelSplit) {
-	
+compModelCatigory <- function(dat, addXaxis = FALSE, addYaxis = FALSE, ModelSplit) {	
 	################################################
 	## Grab params  						      ##
 	################################################
