@@ -69,7 +69,7 @@ plotAvB <- function(A, Anm, stepA, nA, B, Bnm, stepB, nB) {
 plotB <- function(scoresB, nmesB, nB, stepB)
 	mapply(plotAvB, scores, nmes, stepN, 1:nplots, MoreArgs = list(scoresB, nmesB, nB, stepB))
 
-pdf('yay.pdf', height = 3*nplots, width = 3*nplots)
+pdf('figs/varVvar.pdf', height = 3*nplots, width = 3*nplots)
 par(mfrow = c(nplots, nplots), mar = c(4, 4, 0, 0), oma = c(0, 0, 4, 4))
 mapply(plotB, scores, nmes, stepN, 1:nplots)
-dev.off()
+dev.off.gitWatermarkStandard()
