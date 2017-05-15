@@ -1,23 +1,23 @@
 outputScores <- function(comp, name, info) {
-
+	
     MET_test = !sapply(comp, is.null)
     TYP_test <- function(TYP) sapply(comp[MET_test],
                       function(i) grepl(TYP, i[[1]]$call[1]))
     MPD_test = TYP_test('MPD')
     MM__test = TYP_test('MM' )
-    if (length(MET_test) !=0 && MPD_test[1]) n = c(6,4, 12)
-    else if (length(MET_test) !=0 && MM__test[1]) n = c(2,1,6)
-    else n = c(2,3,6)
+    if (length(MET_test) !=0 && MPD_test[1]) n = c(9,4, 12)
+    else if (length(MET_test) !=0 && MM__test[1]) n = c(3,1,6)
+    else n = c(3,3,6)
 
     extractScore <- function(FUN, n = 2) {
         null = rep('N/A', n)
         sapply(comp, function(i) {if(is.null(i)) return(null); FUN(i)})
     }
     nn = n
-    null = extractScore(nullScores , n[1])
-    mods = extractScore(modelScores, n[2])
+    null = extractScore(nullScores  , n[1])
+    mods = extractScore(modelScores , n[2])
     mnvr = extractScore(meanVariance, n[3])
-
+	
     scores =  t(rbind(null, mods))
     scores = beautifyOutScore(scores)
 
@@ -44,19 +44,20 @@ outputScores <- function(comp, name, info) {
 
 beautifyOutScore <- function(scores) {
     rownames(scores) = Model.plotting[,1]
-
-    if (ncol(scores) == 10) {
+	
+    if (ncol(scores) == 14) {
         cnames = paste('concentration',1:3, sep = '')
-        cnames = c(paste('mean'  , c('phase', cnames), sep = '.'),
+        cnames = c(paste('median'  , c('phase', cnames), sep = '.'),
+			       paste('mean'  , c('phase', cnames), sep = '.'),
                    paste('random', c('phase', 'concentration'), sep = '.'),
                    paste('models', c('phase', cnames), sep = '.'))
 
         colnames(scores) = cnames
-    } else if (ncol(scores) == 5) {
-        colnames(scores) = c('mean', 'random',
+    } else if (ncol(scores) == 6) {
+        colnames(scores) = c('median', 'mean', 'random',
                              'step1', 'step2', 'step3')
-    } else if (ncol(scores) == 3){
-        colnames(scores) = c('mean', 'random', 'model')
+    } else if (ncol(scores) == 4){
+        colnames(scores) = c('mediam', 'mean', 'random', 'model')
     } else {
         warning('unknow amount of column scores. Column names not added')
     }
@@ -68,11 +69,11 @@ nullScores <- function(comp) {
     comp = summary(comp[[2]])
     if (length(comp[[1]]) == 1) {
         comp = standard.round(comp)
-        comp[2] = paste(comp[2:3], collapse = ' +/- ')
-        comp = comp[1:2]
+        comp[3] = paste(comp[3:4], collapse = ' +/- ')
+        comp = comp[1:3]
     } else {
         comp = lapply(comp, standard.round)
-        comp = c(comp[[1]], paste(comp[[2]], '+/-', comp[[3]]))
+        comp = c(comp[[1]], comp[[2]], paste(comp[[3]], '+/-', comp[[4]]))
     }
     return(comp)
 }
