@@ -5,7 +5,7 @@ outputScores <- function(comp, name, info) {
                       function(i) grepl(TYP, i[[1]]$call[1]))
     MPD_test = TYP_test('MPD')
     MM__test = TYP_test('MM' )
-    if (length(MET_test) !=0 && MPD_test[1]) n = c(9,4, 12)
+    if (length(MET_test) !=0 && MPD_test[1]) n = c(10,4, 12)
     else if (length(MET_test) !=0 && MM__test[1]) n = c(3,1,6)
     else n = c(3,3,6)
 
@@ -14,7 +14,7 @@ outputScores <- function(comp, name, info) {
         sapply(comp, function(i) {if(is.null(i)) return(null); FUN(i)})
     }
     nn = n
-    null = extractScore(nullScores  , n[1])
+    null = extractScore(nullScores  , 10)
     mods = extractScore(modelScores , n[2])
     mnvr = extractScore(meanVariance, n[3])
 	
