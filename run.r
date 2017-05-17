@@ -16,4 +16,4 @@ runNamedComparison <- function(name, comps_name = NULL, ...) {
 
 if (!exists('comparisons') || is.null(comparisons)) comparisons = list(NULL)
 
-mapply(runNamedComparison, names, comparisons)
+out = mapply(runNamedComparison, names, comparisons)

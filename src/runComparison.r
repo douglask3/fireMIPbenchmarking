@@ -5,7 +5,6 @@ runComparisons <- function(comparisonList) {
 }
 
 runComparison <- function(info, name) {
-
     if(is.null(info$noMasking)) info$noMasking = FALSE
     componentID <- function(name) strsplit(name,'.', TRUE)[[1]]
 
@@ -25,7 +24,7 @@ runComparison <- function(info, name) {
 	mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(varnN))
     
 	scores = comparison(mod, obs, name, info)
-    return(scores)
+    return(list(scores, obs, mod))
 }
 
 comparisonOutput <- function(scores, name) {
@@ -84,14 +83,12 @@ layersFrom1900 <- function(start, res, layers) {
 }
 
 comparison <- function(mod, obs, name, info) {
-	print(name)
     if (is.True(info$allTogether)) { # Does this comparison require all models to be passed at the same time
         comp = do.call(info$ComparisonFun,
                        c(obs, list(mod), name, list(info$plotArgs),
                          info$ExtraArgs))
     } else { # or each model individually
         index = !(sapply(mod, is.null))
-
         if (!is.raster(obs)) obs = list(obs)
         comp = rep(list(NULL), length(mod))
         FUN = function(i, j) {
@@ -102,6 +99,7 @@ comparison <- function(mod, obs, name, info) {
 
         comp[index] = mapply(FUN, mod[index], names(mod)[index], SIMPLIFY = FALSE)
     }
+	
     if (is.null(comp)) return(NULL)
     scores =  outputScores(comp, name, info)
 	
