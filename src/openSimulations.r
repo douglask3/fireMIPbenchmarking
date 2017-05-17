@@ -6,16 +6,61 @@ openSimulations <- function(name, varnN,  ...)
 openSimulation <- function(modInfo, rawInfo, name, varnN, layers) {
     varInfo = Model.Variable[[1]][,varnN]
     if (varnN > ncol(modInfo)) varnN = ncol(modInfo)
-    modInfo = modInfo[,varnN]
-    dat = openModel(varInfo, modInfo, rawInfo, layers)
+    modInfoi = modInfo = modInfo[,varnN]
+	
+	operators = c('*', '%', '-', '+')
+	FUNs      = c(function(i, dats) dats[[1]][[i]] * dats[[2]][[i]],
+				  function(i, dats) dats[[1]][[i]] / dats[[2]][[i]],
+				  function(i, dats) dats[[1]][[i]] + dats[[2]][[i]],
+				  function(i, dats) dats[[1]][[i]] - dats[[2]][[i]])
+	testMultiVar = lapply(operators, grep, modInfoi[1], fixed = TRUE)
+	yayandwow = modInfo[1]
+	if (length(unlist(testMultiVar)) > 0) {
+		tempFile = paste(c(temp_dir, '/processed', '---', varInfo[1], '-', rawInfo[[1]], modInfo[1], 1, modInfo[-(1:2)],
+                     min(layers), '-', max(layers), '.nc'), collapse = '')
+		if (file.exists(tempFile)) dat = return(brick(tempFile))
+		else {
+			operateSim <- function(op, FUN) {
+				splitInfo <- function(info) {
+					if (is.character(info) && length(grep('&', info)) > 0)
+						info = strsplit(info, '&')[[1]]
+					return(info)
+				}
+				modVar   = strsplit(modInfoi[1], op, fixed = TRUE)[[1]]
+				if (length(modVar) == 1) return(NULL)
+				scling   = splitInfo(modInfoi[2])
+				yrstart  = splitInfo(modInfoi[3])
+				timestep = splitInfo(modInfoi[4])
+				
+				openDat <- function(mv, sc, ys, ts) {
+					modInfo[1] = mv
+					modInfo[2] = sc
+					modInfo[3] = ys
+					modInfo[4] = ts
+					dat = openModel(varInfo, modInfo, rawInfo, layers)
+					return(dat)
+				}
+				
+				dats = mapply(openDat, modVar, scling, yrstart, timestep)
+				dat = memSafeFunction(1:nlayers(dats[[1]]), FUN, dats)
+				dat = writeRaster(dat, filename = memSafeFile())
+				return(dat)
+			}
+			dat = mapply(operateSim, operators, FUNs)
+			dat = dat[!sapply(dat, is.null)][[1]]
+			dat = writeRaster.gitInfo(dat, tempFile)
+		}
+		
+	} else dat = openModel(varInfo, modInfo, rawInfo, layers)	
+    
     return(dat)
 }
 
 openModel <- function(varInfo, modInfo, rawInfo, layers) {
     if (modInfo[1] == "NULL") return(NULL)
-
+	
     c(modLayers, layersIndex, scling) :=
-        calculateLayersFromOpening(varInfo, modInfo, layers, modInfo[3])
+        calculateLayersFromOpening(varInfo, modInfo, layers, as.numeric(modInfo[3]))
 	
     tempFile = paste(c(temp_dir, '/processed', '-', varInfo[1], '-', rawInfo[[1]], modInfo[1], 1, modInfo[-(1:2)],
                      min(layers), '-', max(layers), '.nc'), collapse = '')
