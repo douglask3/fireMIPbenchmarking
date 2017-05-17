@@ -14,7 +14,7 @@ outputScores <- function(comp, name, info) {
         sapply(comp, function(i) {if(is.null(i)) return(null); FUN(i)})
     }
     nn = n
-    null = extractScore(nullScores  , 10)
+    null = extractScore(nullScores  , n[1])
     mods = extractScore(modelScores , n[2])
     mnvr = extractScore(meanVariance, n[3])
 	

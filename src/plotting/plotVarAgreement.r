@@ -289,7 +289,7 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 nullScores_lims <- function(x) {
 	rmNaN <- function(i)
 		if (i[1] == "N/A") invisible() else return(as.numeric(i))
-	RR = strsplit(x[, 2], ' +/- ', fixed = TRUE)
+	RR = strsplit(x[, 3], ' +/- ', fixed = TRUE)
 	RR = lapply(RR, rmNaN)
 	RR = matrix(unlist(RR), 2)
 	
