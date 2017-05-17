@@ -4,7 +4,7 @@ runComparisons <- function(comparisonList) {
     ## outputs all?
 }
 
-runComparison <- function(info, name) {
+runComparison <- function(info, name, mod = NULL) {
     if(is.null(info$noMasking)) info$noMasking = FALSE
     componentID <- function(name) strsplit(name,'.', TRUE)[[1]]
 
@@ -15,7 +15,8 @@ runComparison <- function(info, name) {
                                obsTemporalRes, obsLayers)
     
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
-    mod   = openSimulations(name, varnN, simLayers)
+    if (is.null(mod))
+		mod   = openSimulations(name, varnN, simLayers)
 	
     mask  = loadMask(obs, mod, name)	
     c(obs, mod) := remask(obs, mod, mask, name)

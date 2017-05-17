@@ -27,7 +27,21 @@ bntFrc = lapply(bntFrc, annualize)
 
 bntByNr <- function(i, j) {
 	i = raster::resample(i, j)
-	return(sum(i) / sum(j))
+	i = sum(i); j = sum(j)
+	k = i / j
+	k[i == 0] = 0.0
+	k[j == 0] = 0.0
+	return(k)
 }
 
-meanFire = mapply(bntByNr, bntFrc, NRfire)
+ModMeanFire = mapply(bntByNr, bntFrc, NRfire)
+ModMeanFire = lapply(ModMeanFire, function(i) i * raster::area(i) * 100)
+
+filenames = paste(outputs_dir, names(ModMeanFire), 'meanFire.nc', sep = '-')
+ModMeanFire = mapply(writeRaster.gitInfo, ModMeanFire, filenames, overwrite = TRUE)
+
+inp = out[3,][[1]]
+inp = lapply(inp, function(i) return(NULL))
+inp[ whichMods] = ModMeanFire
+
+runComparison(meanFire, 'meanFire', inp)
