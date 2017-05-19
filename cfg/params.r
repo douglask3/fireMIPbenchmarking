@@ -1,3 +1,5 @@
+ContactDetails = 'Douglas Kelley - douglas.i.kelley@gmail.com'
+
 ################################################################################
 ## Set Parameters                                                             ##
 ################################################################################
@@ -6,9 +8,11 @@ experiment   = ''
 mask_type    = 'common'
 nRRs = 2
 
-plotModMetrics   = FALSE
-NMEmap_cols      = c('white', 'black')
-NMEmap_qunatiles = seq(0.2,0.8,0.2)
+outputMetricFiles = TRUE
+
+plotModMetrics    = FALSE
+NMEmap_cols       = c('white', 'black')
+NMEmap_qunatiles  = seq(0.2,0.8,0.2)
 
 SeasonConcCols    = c('white', '#FF00FF', '#000022')
 SeasonConcDcols   = c('green', 'white', 'red')
