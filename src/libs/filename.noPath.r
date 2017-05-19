@@ -1,5 +1,6 @@
 filename.noPath <- function(r, noExtension = FALSE) {
     fname = filename(r)
+	if (fname == "") return(fname)
     fname = tail(strsplit(fname, '\\', fixed = TRUE)[[1]], 1)
     fname = tail(strsplit(fname, '/')[[1]], 1)
     if (noExtension)
