@@ -193,7 +193,7 @@ plotVarAgreement.seasonal <- function(mod, obs, name, modNames, info, scores, ..
 	FUN <- function(nme, nullScore) {
 		plotSepMods(pmod, obs[[1]], modNames, paste(name, 'phase', nme, sep = '-'), info,
 					cols, dcols, lims, dlims,
-					scores[, c("mean.phase", "random.phase")], nullScore = nullScore,
+					scores[, c("median.phase", "mean.phase", "random.phase")], nullScore = nullScore,
 					plotSeasonal.phse, SeasonLegend,
 					eFun = mnVar.raster)
 	}
@@ -216,7 +216,7 @@ plotVarAgreement.seasonal <- function(mod, obs, name, modNames, info, scores, ..
 	
 	name = paste(name, 'conc', sep = '-')
 	plotSepMods.3step(cmod, obs[[2]], modNames, name, info, cols, dcols, lims, dlims,
-				scores[, c("mean.concentration2", "random.concentration")])
+				scores[, c("median.concentration2", "mean.concentration2", "random.concentration")])
 }
 
 plotSepMods.3step <- function(mod, obs, modNames, name, ...) {
