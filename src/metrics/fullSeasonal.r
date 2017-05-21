@@ -18,14 +18,13 @@ FullSeasonal <- function(obs, mod, name,
 }
 
 FullSeasonal.outputFile <- function(obs, mod, score, name) {
-	outputFile <- function(r, extraName) {
-		fname0 = filename(r)
-		if (fname0 == "") fname0 = filename(r[[1]])
-		
-		outFname <- function(nm)		
-			fname  = paste(outputs_dir, extraName, '-', nm, '-fullSeasonal', '.nc', sep = '')
-		
-		comment = list(history = 
+
+	outFname <- function(nm)		
+			fname  = paste(outputs_dir, nm, '-fullSeasonal', '.nc', sep = '')
+			
+	
+	comment <- function(fname0) {
+				list(history = 
 						paste('Calculated from project temp file:' , fname0,
 		                      '. NOTE: this temp file may have been calculated in an early',
 							  ' git revision than the one stated here. Delete "', fname0,
@@ -34,30 +33,45 @@ FullSeasonal.outputFile <- function(obs, mod, score, name) {
 							  ' part of a chain of temp files, so deleting the individual file',
 							  ' wont do.'),
 					   Contact = ContactDetails)
-		writeNcOut <- function(...) writeRaster.gitInfo(..., comment = comment)
+	}
+	writeNcOut <- function(fname0, ...) writeRaster.gitInfo(..., comment = comment(fname0))
+	
+	individualClimPhaseConc <- function(r, extraName, FUN) {
+		fname0 = filename(r)
+		if (fname0 == "") fname0 = filename(r[[1]])
+		
+		outFnamei <- function(nm)		
+			outFname(paste(extraName, nm, sep = '-'))
+		
+		writeNcOuti <- function(...) writeNcOut(fname0, ...)
 		
 		## Climatology
-		fname = outFname('Climatology')
-		if (!file.exists(fname)) writeNcOut(r, fname)
+		fname = outFnamei('Climatology')
+		if (!file.exists(fname)) writeNcOuti(r, fname)
 		
-		fnameP = outFname('Phase')
-		fnameC = outFname('Concentration')
+		fnameP = outFnamei('Phase')
+		fnameC = outFnamei('Concentration')
 		
 		## Phase and concentration
 		if (any(!file.exists(fnameP, fnameC))) {
 			PC = PolarConcentrationAndPhase(r, phase_units='months')
-			writeNcOut(PC[[1]], fnameP)
-			writeNcOut(PC[[2]], fnameC)
+			writeNcOuti(PC[[1]], fnameP)
+			writeNcOuti(PC[[2]], fnameC)
 		} else  PC = layer.apply(c(fnameP, fnameC), raster)
 		
-		return(PC)
+		return(list(PC, fname0))
 	}
 	extraNames = strsplit(name, 'model-')[[1]]
 	extraNames = paste(extraNames, c('observation', 'simulation'), sep = '-')
-	obs = outputFile(obs, extraNames[1])
-	mod = outputFile(mod, extraNames[2])
+	c(obs, obsFname) := individualClimPhaseConc(obs, extraNames[1])
+	c(mod, modFname) := individualClimPhaseConc(mod, extraNames[2])
 	
 	
+	fname = outFname('MPD_map')
+	if (!file.exists(fname)) {
+		MPD = mapSeasonal.phse(mod[[1]], obs[[1]])[[2]]
+		writeNcOut(paste(obsFname, ' AND ', modFname), MPD, fname)
+	}
 	## MPD comparison
 	
 	## NME conc comparison

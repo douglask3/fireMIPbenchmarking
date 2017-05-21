@@ -20,6 +20,18 @@ plotSeasonal.conc <- function(mod, obs, name, ...) {
 			        limits = limits, dlimits = dlimits, ...)
 }
 
+mapSeasonal.phse <- function(mod, obs) {
+
+	dif.phase = dif.abs = mod - obs
+
+    dif.abs[dif.abs < (-6)] = dif.abs[dif.abs <(-6)] + 6
+    dif.abs[dif.abs >   6 ] = dif.abs[dif.abs >  6 ] - 6
+	
+	dif.phase = acos(cos(dif.phase))
+	
+	return(list(dif.abs, dif.phase))
+}
+
 plotSeasonal.phse <- function(mod, obs, step, name,
 							  cols = SeasonPhaseCols, dcols = SeasonPhaseDcols, metricCols = MPDmap_cols, 
 						      limits = SeasonPhaseLimits, dlimits = SeasonPhaseDlimits, 
@@ -41,20 +53,16 @@ plotSeasonal.phse <- function(mod, obs, step, name,
 	
 	plotStandardMap(mod, labs[2], limits, cols, add_legend = FALSE)
 	if (!figOut) mtext(name, side = 2, line = -1)
-    dif = mod = mod - obs
+	
+	c(dif.abs, dif.phase) := mapSeasonal.phse(mod, obs)
+    
+    if (add_legend) SeasonLegend(limits[[2]], cols[[2]], dat = dif.abs)
 
-    mod[mod < (-6)] = mod[mod <(-6)] + 6
-    mod[mod >   6 ] = mod[mod >  6 ] - 6
+    plotStandardMap(dif.abs,  labs[3], dlimits, dcols, add_legend = FALSE)
 
-    if (add_legend) SeasonLegend(limits[[2]], cols[[2]], dat = mod)
-
-    plotStandardMap(mod,  labs[3], dlimits, dcols, add_legend = FALSE)
-
-    dif = acos(cos(dif))
-
-    plotStandardMetricMap(dif, labs[4], metricLimits, cols = metricCols, add_legend = add_legend)
+    plotStandardMetricMap(dif.phase, labs[4], metricLimits, cols = metricCols, add_legend = add_legend)
 
     if (figOut) dev.off.annotate(name)
 	
-	return(c(figName, dif))
+	return(c(figName, dif.phase))
 }
