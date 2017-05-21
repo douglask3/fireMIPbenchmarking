@@ -27,11 +27,21 @@ plotNME.spatial.stepN <- function(mod, obs, step, name, cols, dcols, metricCols 
 		add_legend = FALSE
 	}
 	
+	NMEs = mapNME(mod, obs, denomNormFun)
+	
 	if(plotObs) plotStandardMap(obs, labs[1], limits, cols, add_legend = add_legend)
     plotStandardMap( mod, labs[2], limits, cols, add_legend = add_legend)
 	if (!figOut) mtext(name, side = 2, line = -1)
     plotStandardMap(mod - obs, labs[3], dlimits, dcols, add_legend = add_legend)
 	
+    plotStandardMetricMap(NMEs, labs[4], metricLimits, cols = metricCols, add_legend = add_legend)
+
+    if (figOut) dev.off.annotate(paste(name, stepN))
+	else figName = NULL 
+    return(c(figName, NMEs))
+}
+
+mapNME <- function(mod, obs, denomNormFun = sum.raster) {
 	Area = raster::area(obs,na.rm = TRUE)
     mnObs = sum(values(obs*raster::area(obs)), na.rm = TRUE) /
             sum(values(Area), na.rm = TRUE)
@@ -42,14 +52,9 @@ plotNME.spatial.stepN <- function(mod, obs, step, name, cols, dcols, metricCols 
 	
 	
     NMEs  = abs(mod - obs) / denom
-	
-
-    plotStandardMetricMap(NMEs, labs[4], metricLimits, cols = metricCols, add_legend = add_legend)
-
-    if (figOut) dev.off.annotate(paste(name, stepN))
-	else figName = NULL 
-    return(c(figName, NMEs))
+	return(NMEs)
 }
+
 
 
 plotNME.site <- function (x, y, obs, mod, score, name, cols, limits,

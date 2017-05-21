@@ -61,22 +61,25 @@ FullSeasonal.outputFile <- function(obs, mod, score, name) {
 		
 		return(list(PC, fname0))
 	}
-	extraNames = strsplit(name, 'model-')[[1]]
-	extraNames = paste(extraNames, c('observation', 'simulation'), sep = '-')
+	extraNames0 = strsplit(name, 'model-')[[1]]
+	extraNames  = paste(extraNames0, c('observation', 'simulation'), sep = '-')
+	extraNames  = paste(extraNames, 'mask', extraNames0[1], sep = '-')
 	c(obs, obsFname) := individualClimPhaseConc(obs, extraNames[1])
 	c(mod, modFname) := individualClimPhaseConc(mod, extraNames[2])
 	
-	
-	fname = outFname('MPD_map')
+	## MPD comparison
+	fname = outFname(paste(extraNames0[1], '_AND_', extraNames0[2], '-MPD_map', sep = ''))
 	if (!file.exists(fname)) {
 		MPD = mapSeasonal.phse(mod[[1]], obs[[1]])[[2]]
 		writeNcOut(paste(obsFname, ' AND ', modFname), MPD, fname)
 	}
-	## MPD comparison
 	
 	## NME conc comparison
-	
-
+	fname = outFname(paste(extraNames0[1], '_AND_', extraNames0[2], '-NME_concentration_map', sep = ''))
+	if (!file.exists(fname)) {
+		NME = mapNME(mod[[2]], obs[[2]])
+		writeNcOut(paste(obsFname, ' AND ', modFname), NME, fname)
+	}	
 }
 
 
