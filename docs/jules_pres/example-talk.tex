@@ -1,0 +1,104 @@
+\documentclass[12pt]{beamer}
+
+\usetheme{Air}
+\usepackage{thumbpdf}
+\usepackage{wasysym}
+\usepackage{ucs}
+\usepackage[utf8]{inputenc}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{verbatim}
+
+\usepackage{gitinfo2}
+\usepackage{tikz}
+\usepackage{subfig}
+
+\usepackage[absolute,overlay]{textpos}
+\usepackage{graphicx}
+
+\usetikzlibrary{fadings}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows, matrix}
+
+\makeatletter
+\newbox\@backgroundblock
+\newenvironment{backgroundblock}[2]{%
+  \global\setbox\@backgroundblock=\vbox\bgroup%
+    \unvbox\@backgroundblock%
+    \vbox to0pt\bgroup\vskip#2\hbox to0pt\bgroup\hskip#1\relax%
+}{\egroup\egroup\egroup}
+\addtobeamertemplate{background}{\box\@backgroundblock}{}
+\makeatother
+
+
+
+\pdfinfo
+{
+  /Title       (What limits fire, where and when?)
+  /Creator     (CEH)
+  /Author      (Douglas Kelley - douglas.i.kelley@gmail.com)
+}
+
+\title{What limits fire, where and when?}
+\subtitle{Sensitivity of burnt area to different controls}
+\author{Douglas Kelley, Rhys Whitley, Ioannis Bistinas, Chantelle Burton, Toby Marthews}
+\date{17th March 2017}
+
+\titlegraphic{\includegraphics[width=2.0cm]{logos/cehlogo945}\hspace*{0.15cm}~%
+              \includegraphics[width=1.5cm]{logos/Met_Office.png}\hspace*{0.2cm}~%
+              \includegraphics[width=1.5cm]{logos/ukesm-logo}\hspace*{0.2cm}~%
+              \includegraphics[width=1.5cm]{logos/suncorp.png}\hspace*{0.2cm}~%
+              \includegraphics[width=1.5cm]{logos/VU.png}\hspace*{0.15cm}~%
+              \includegraphics[width=2.0cm]{logos/nerc-long-logo-large}
+
+              %\tiny{url: https://github.com/douglask3/LimFIRE ---
+              %      revision no: \gitAbbrevHash}
+             }
+
+\begin{document}
+
+\frame{\titlepage}
+
+%\section*{}
+%\begin{frame}
+%  \frametitle{Outline}
+%  \tableofcontents[section=1,hidesubsections]
+%\end{frame}
+
+%\AtBeginSection[]
+{
+  \pgfdeclareimage[width=1.0\paperwidth]{header-image}{header_images/fire}
+%  \frame<handout:0>
+%  {
+%    \frametitle{Outline}
+%    \tableofcontents[currentsection,hideallsubsections]
+%  }
+}
+
+%\AtBeginSubsection[]
+%{
+%  \frame<handout:0>
+%  {
+%    \frametitle{Outline}
+%    \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
+%  }
+%}\textsl{}
+
+\newcommand<>{\highlighton}[1]{%
+  \alt#2{\structure{#1}}{{#1}}
+}
+
+\newcommand{\icon}[1]{\pgfimage[height=1em]{#1}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Content starts here %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{sections/introduction}
+\input{sections/methods}
+\input{sections/ignitions}
+\input{sections/fragmentation}
+\input{sections/conclusion}
+%\input{sections/examples}
+
+\end{document}
