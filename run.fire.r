@@ -1,3 +1,3 @@
 names = 'fire'
-comparisons = NULL#list(c("meris.Spatial"    , "MCD45.Spatial"))
+comparisons = list(c("GFED4s.Spatial", "GFAS"))
 source('run.r')
