@@ -11,7 +11,7 @@ prFname = paste('../LimFIRE/data/cru_ts3.23/cru_ts3.23.',
 prStart = 85
 binSize = c(MAP = 100 , MMX = 100 , conc = 0.05)
 maxBin  = c(MAP = 2600, MMX = 2000, conc = 1.00)
-sampleIndex = 1:24
+sampleIndex = NULL
 
 
 
