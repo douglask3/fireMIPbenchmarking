@@ -9,7 +9,9 @@ prStart = 85
 
 sampleIndex = 1:12
 
-bins = seq(0, 2600, 100)
+binSize = 100
+
+bins = seq(0, 2600, binSize)
 
 
 if (file.exists(fname)) {
@@ -42,7 +44,7 @@ mod = lapply(mod, mean12)
 fireInMod <- function(x) {
 	fireInBin <- function(b1, b2) {
 		test = pr > b1 & pr <= b2
-		barea = sum(x[test] * Area[test], na.rm = TRUE) #/ sum(Area[test], na.rm = TRUE)
+		barea = sum(x[test] * Area[test], na.rm = TRUE) / binSize#/ sum(Area[test], na.rm = TRUE)
 		return(barea)
 	}
 
@@ -60,8 +62,9 @@ bins =  bins[-1] - diff(bins)/2
 addPoly <- function(p, col = make.transparent('black', 0.5)) 
 	polygon(c(bins, rev(bins)), c(p, rep(0, length(p))), border = NA, col = col)
 
-plotModel <- function(i, name) {
-	plot(range(bins), c(0, ymax), type = 'n', xlab = '', ylab = '')
+plotModel <- function(i, name, xaxt = 'n', yaxt = 'n') {
+	plot(range(bins), c(0, ymax), type = 'n',
+	     xlab = '', ylab = '', xaxt = xaxt, yaxt = yaxt)
 	lapply(mbin[-i], addPoly)
 
 	addPoly(mbin[[i]], col = make.transparent('red', 0.5))
@@ -69,6 +72,7 @@ plotModel <- function(i, name) {
 	mtext(name)
 }
 
-par(mfrow = c(3,3), mar = c(3, 2, 1, 1))
+par(mfrow = c(3,3), mar = c(2, 1, 0, 0), oma = c(3,3,2,1))
 
-mapply(plotModel, 1:length(mbin), names(mod))
+mapply(plotModel, 1:length(mbin), names(mod), 
+       c(rep('n', 6), rep('s', 3)), c('s', 'n', 'n'))
