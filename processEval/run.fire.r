@@ -1,6 +1,7 @@
 #########################################################################
 ## cfg 																   ##
 #########################################################################
+source('cfg.r')
 
 tempBAEfname = paste(temp_dir, 'BAGFAS', sep = '/')
 tempVEGfname = paste(temp_dir, 'VEGCBN', sep = '/')
@@ -10,8 +11,9 @@ prFname = paste('../LimFIRE/data/cru_ts3.23/cru_ts3.23.',
 				'.pre.dat.nc', sep = '')
 				
 prStart = 85
-binSize = c(MAP = 100 , MMX = 100 , conc = 0.05, veg = 1)
-maxBin  = c(MAP = 2600, MMX = 2000, conc = 1.00, veg = 20)
+binSize = c(MAP = 100 , MMX = 100 , conc = 0.05, veg = 0.5)
+maxBin  = c(MAP = 2600, MMX = 2000, conc = 1.00, veg = 6   )
+minBin  = c(MAP = 0   , MMX = 0   , conc = 0   , veg = -4  )
 sampleIndex = 1:12#NULL
 
 
@@ -19,8 +21,6 @@ sampleIndex = 1:12#NULL
 #########################################################################
 ## load  															   ##
 #########################################################################
-source('cfg.r')
-
 if (file.exists(tempBAEfname)) {
 	load(tempBAEfname)
 } else {
@@ -70,20 +70,32 @@ prClim = climateologize(pr0)
 maxmin = max(prClim) - min(prClim)
 conc   = PolarConcentrationAndPhase(prClim)[[2]]
 
-plotMetric <- function(Xdat, xName, binS, binM, normArea = TRUE) {
+extrapNaN <- function(x) {
+	test = is.na(x)
+	test[test > 1 && test < length(x)]
+	x[test] = (x[test - 1] + x[test + 1])/2
+	return(x)
+}
+
+plotMetric <- function(Xdat, xName, binS, binMin, binMax, normArea = TRUE, logX = FALSE) {
+	print(xName)
 	
-	bins = seq(0, binM, binS)
+	bins = seq(binMin, binMax, binS)
 	fireInMod <- function(x, Xdati) {
+		if (logX) Xdati = log(Xdati)
 		fireInBin <- function(b1, b2) {
 			test = Xdati > b1 & Xdati <= b2
 			
 			barea = sum(x[test] * Area[test], na.rm = TRUE) 
 			if (normArea) barea = barea / sum(Area[test], na.rm = TRUE)
 				else barea = barea / binS
-			if (is.na(barea)) barea = 0.0
+			
 			return(barea)
 		}
-		mapply(fireInBin, head(bins,-1), bins[-1])
+		barea = mapply(fireInBin, head(bins,-1), bins[-1])	
+		barea = extrapNaN(barea)
+		
+		return(barea)
 	}
 	
 	if (is.raster(Xdat)) Xdat = list(Xdat, lapply(1:length(mod), function(i) Xdat))
@@ -95,12 +107,16 @@ plotMetric <- function(Xdat, xName, binS, binM, normArea = TRUE) {
 
 
 	bins =  bins[-1] - diff(bins)/2
+	if (logX) {
+		bins = exp(bins)
+		plog = 'x'
+	} else plog = ''
 	addPoly <- function(p, col = make.transparent('black', 0.5)) 
 		polygon(c(bins, rev(bins)), c(p, rep(0, length(p))), border = NA, col = col)
 
 	plotModel <- function(i, name, xaxt = 'n', yaxt = 'n') {
 		plot(range(bins), c(0, ymax), type = 'n',
-			 xlab = '', ylab = '', xaxt = xaxt, yaxt = yaxt)
+			 xlab = '', ylab = '', xaxt = xaxt, yaxt = yaxt, log = plog)
 		lapply(mbin[-i], addPoly)
 
 		addPoly(mbin[[i]], col = make.transparent('red', 0.5))
@@ -118,5 +134,5 @@ plotMetric <- function(Xdat, xName, binS, binM, normArea = TRUE) {
 }
 
 
-mapply(plotMetric, list(pr, maxmin, conc, cveg),names(binSize), binSize, maxBin, c(F, T, T, T))
+mapply(plotMetric, list(pr, maxmin, conc, cveg),names(binSize), binSize, minBin, maxBin, c(F, T, T, T), c(F, F, F, T))
 
