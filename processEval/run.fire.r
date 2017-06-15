@@ -12,11 +12,13 @@ prFname = paste('../LimFIRE/data/cru_ts3.23/cru_ts3.23.',
 				
 prStart = 85
 binSize = c(MAP = 100 , MMX = 100 , conc = 0.05, veg = 0.5)
-maxBin  = c(MAP = 2600, MMX = 2000, conc = 1.00, veg = 6   )
-minBin  = c(MAP = 0   , MMX = 0   , conc = 0   , veg = -4  )
+maxBin  = c(MAP = 2600, MMX = 2000, conc = 1.00, veg = 6  )
+minBin  = c(MAP = 0   , MMX = 0   , conc = 0   , veg = -4 )
+units   = c('mm/yr'   , 'mm/month', ''         , 'gC/m2'  )
+ylab    = c('Burnt Area (km2)', rep('Burnt Fraction', 3))
 sampleIndex = 1:12#NULL
 
-
+options(scipen=999)
 
 #########################################################################
 ## load  															   ##
@@ -77,7 +79,8 @@ extrapNaN <- function(x) {
 	return(x)
 }
 
-plotMetric <- function(Xdat, xName, binS, binMin, binMax, normArea = TRUE, logX = FALSE) {
+plotMetric <- function(Xdat, xName, binS, binMin, binMax, normArea = TRUE,
+                       logX = FALSE, xlab = '', ylab = '') {
 	print(xName)
 	
 	bins = seq(binMin, binMax, binS)
@@ -114,11 +117,12 @@ plotMetric <- function(Xdat, xName, binS, binMin, binMax, normArea = TRUE, logX 
 	addPoly <- function(p, col = make.transparent('black', 0.5)) 
 		polygon(c(bins, rev(bins)), c(p, rep(0, length(p))), border = NA, col = col)
 
-	plotModel <- function(i, name, xaxt = 'n', yaxt = 'n') {
+	plotModel <- function(i, name, xaxt = 'n', yaxt = 'n', xlab = '', ylab = '') {
 		plot(range(bins), c(0, ymax), type = 'n',
-			 xlab = '', ylab = '', xaxt = xaxt, yaxt = yaxt, log = plog)
+			 xlab = xlab, ylab = ylab, xaxt = xaxt, yaxt = yaxt, log = plog)
 		lapply(mbin[-i], addPoly)
-
+		mtext(xlab, line = 2, side = 1, cex = 0.8)
+		mtext(ylab, line = 2, side = 2, cex = 0.8)
 		addPoly(mbin[[i]], col = make.transparent('red', 0.5))
 		lines(bins, obin, col = 'blue')
 		mtext(name)
@@ -128,11 +132,14 @@ plotMetric <- function(Xdat, xName, binS, binMin, binMax, normArea = TRUE, logX 
 		par(mfrow = c(3,3), mar = c(2, 1, 0, 0), oma = c(3,3,4,1))
 
 		mapply(plotModel, 1:length(mbin), names(mod), 
-			   c(rep('n', 6), rep('s', 3)), c('s', 'n', 'n'))
+			   c(rep('n', 6), rep('s', 3)), c('s', 'n', 'n'),
+			   c(rep('', 7), xlab, ''), 
+			   c(rep('', 3), ylab, rep('', 5)))
 		title(xName, outer = TRUE, line = 2)
 	dev.off.gitWatermarkStandard()
 }
 
 
-mapply(plotMetric, list(pr, maxmin, conc, cveg),names(binSize), binSize, minBin, maxBin, c(F, T, T, T), c(F, F, F, T))
+mapply(plotMetric, list(pr, maxmin, conc, cveg),names(binSize), binSize, minBin, maxBin,
+      c(F, T, T, T), c(F, F, F, T), units, ylab)
 
