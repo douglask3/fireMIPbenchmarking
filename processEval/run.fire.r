@@ -10,7 +10,7 @@ prFname = paste('../LimFIRE/data/cru_ts3.23/cru_ts3.23.',
 			    c('1991.2000', '2001.2010', '2011.2014'),
 				'.pre.dat.nc', sep = '')
 				
-figName = 'figs/burntArea_vs_'
+figName = 'figs/burntArea_INFERNO_vs_'
 				
 prStart = 85
 binSize = c(MAP = 100 , MMX = 100 , conc = 0.05, veg = 0.5)
