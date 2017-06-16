@@ -11,6 +11,7 @@ prFname = paste('../LimFIRE/data/cru_ts3.23/cru_ts3.23.',
 				'.pre.dat.nc', sep = '')
 				
 figName = 'figs/burntArea_INFERNO_vs_'
+figName = 'figs/burntArea_vs_'
 				
 prStart = 85
 binSize = c(MAP = 100 , MMX = 100 , conc = 0.05, veg = 0.5)
@@ -21,6 +22,7 @@ ylab    = c('Burnt Area (km2)', rep('Burnt Fraction', 3))
 sampleIndex = NULL
 
 modsSelect = 3
+modsSelect = NULL
 
 options(scipen=999)
 
@@ -48,6 +50,8 @@ if (file.exists(tempVEGfname)) {
 index = prStart:(nlayers(burntArea[[1]]) + prStart -1)
 
 pr0 = stack(prFname)[[index]]
+
+if (is.null(modsSelect)) modsSelect = 1:9
 
 #########################################################################
 ## Convert to matrices  															   ##
@@ -122,7 +126,7 @@ plotMetric <- function(Xdat, xName, binS, binMin, binMax, normArea = TRUE,
 		polygon(c(bins, rev(bins)), c(p, rep(0, length(p))), border = NA, col = col)
 
 	plotModel <- function(i, name, xaxt = 'n', yaxt = 'n', xlab = '', ylab = '') {
-		if (any(modsSelect != i)) return()
+		if (!is.null(modsSelect) && all(modsSelect != i)) return()
 		plot(range(bins), c(0, ymax), type = 'n',
 			 xlab = xlab, ylab = ylab, xaxt = xaxt, yaxt = yaxt, log = plog)
 		lapply(mbin[-i], addPoly)
