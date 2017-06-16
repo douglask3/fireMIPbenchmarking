@@ -10,6 +10,8 @@ prFname = paste('../LimFIRE/data/cru_ts3.23/cru_ts3.23.',
 			    c('1991.2000', '2001.2010', '2011.2014'),
 				'.pre.dat.nc', sep = '')
 				
+figName = 'figs/burntArea_vs_'
+				
 prStart = 85
 binSize = c(MAP = 100 , MMX = 100 , conc = 0.05, veg = 0.5)
 maxBin  = c(MAP = 2600, MMX = 2000, conc = 1.00, veg = 6  )
@@ -17,6 +19,8 @@ minBin  = c(MAP = 0   , MMX = 0   , conc = 0   , veg = -4 )
 units   = c('mm/yr'   , 'mm/month', ''         , 'gC/m2'  )
 ylab    = c('Burnt Area (km2)', rep('Burnt Fraction', 3))
 sampleIndex = 1:12#NULL
+
+modsSelect = 3
 
 options(scipen=999)
 
@@ -118,23 +122,27 @@ plotMetric <- function(Xdat, xName, binS, binMin, binMax, normArea = TRUE,
 		polygon(c(bins, rev(bins)), c(p, rep(0, length(p))), border = NA, col = col)
 
 	plotModel <- function(i, name, xaxt = 'n', yaxt = 'n', xlab = '', ylab = '') {
+		if (any(modsSelect != i)) return()
 		plot(range(bins), c(0, ymax), type = 'n',
 			 xlab = xlab, ylab = ylab, xaxt = xaxt, yaxt = yaxt, log = plog)
 		lapply(mbin[-i], addPoly)
-		mtext(xlab, line = 2, side = 1, cex = 0.8)
-		mtext(ylab, line = 2, side = 2, cex = 0.8)
+		mtext(xlab, line = 2, side = 1, cex = 0.9)
+		mtext(ylab, line = 2, side = 2, cex = 0.9)
 		addPoly(mbin[[i]], col = make.transparent('red', 0.5))
 		lines(bins, obin, col = 'blue')
 		mtext(name)
 	}
 	
-	pdf(paste('figs/burntArea_vs_', xName, '.pdf', sep = ''), height = 6, width = 6)
-		par(mfrow = c(3,3), mar = c(2, 1, 0, 0), oma = c(3,3,4,1))
+	if (!is.null(modsSelect)) {
+		npx = ceiling(sqrt(length(modsSelect))); npy = ceiling(length(modsSelect)/ npx)
+	} else npx = npy = 3
+	pdf(paste(figName, xName, '.pdf', sep = ''), height = 0.4 * npy + 4, width = 0.4 * npx + 4)
+		par(mfrow = c(npx,npy), mar = c(2, 1, 0, 0), oma = c(3,3,4,1))
 
 		mapply(plotModel, 1:length(mbin), names(mod), 
-			   c(rep('n', 6), rep('s', 3)), c('s', 'n', 'n'),
-			   c(rep('', 7), xlab, ''), 
-			   c(rep('', 3), ylab, rep('', 5)))
+			   c(rep('n', npx * (npy - 1)), rep('s', npy)), c('s', rep('n', length(modsSelect)-1)),
+			   c(rep('', max(length( modsSelect) - 2, 0)), xlab, ''), 
+			   c(rep('', npx + 1), ylab, rep('', length(modsSelect) - 1)))
 		title(xName, outer = TRUE, line = 2)
 	dev.off.gitWatermarkStandard()
 }
