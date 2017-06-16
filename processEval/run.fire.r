@@ -18,7 +18,7 @@ maxBin  = c(MAP = 2600, MMX = 2000, conc = 1.00, veg = 6  )
 minBin  = c(MAP = 0   , MMX = 0   , conc = 0   , veg = -4 )
 units   = c('mm/yr'   , 'mm/month', ''         , 'gC/m2'  )
 ylab    = c('Burnt Area (km2)', rep('Burnt Fraction', 3))
-sampleIndex = 1:12#NULL
+sampleIndex = NULL
 
 modsSelect = 3
 
