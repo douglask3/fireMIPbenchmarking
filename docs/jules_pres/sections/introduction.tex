@@ -1,52 +1,56 @@
 \section{Introduction}
 \pgfdeclareimage[width=1.0\paperwidth]{header-image}{header_images/fire2}
 
-\begin{frame}
-    \frametitle{It burns where it rains \small{(a bit)}}
-    \framesubtitle{Uni-modal relationship with moisture}
 
+% Fire is important - why
+% However, changes in fire are uncertain - fireMIP and Gittas paper.
+% fireMIP
+% JULES model type
+% JULES performance
+%  - best model of type
+%  - best with prescribed veg
+%  - veg model evaluation
+%  - fire model evaultatrion
+% Human fires
+% Human suppression
+%    From scores
+%    From other studies
+% Conclusions
+% Slide to leave up: Other areas of fireMIP
+
+% Slide 1: Burnt area; Areas of effected plants; Emissions; Radiative forcing
+% Slide 2: FireMIP; Gittas model comp; Gittas benchmarking
+% Slide 3: Firemip slide
+
+\begin{frame}
+	\frametitle{Fire In the Earth System}
+	\framesubtitle{Areas affected}
 	
-	\begin{textblock*}{14cm}(-0.5cm,1.5cm)
-		\begin{tikzpicture}
 	
-    \foreach \x in {1, 2, 3, 4, 5} {
-        \visible<\x-> {
-        
-	        \node[anchor=south west,inner sep=0] (image) at (0,0) {
-            \includegraphics[width=13.7cm]{images/unimodal/p\x.png}%images/unimodal/p\x.png}
-			};}}
-			\visible<6-> {
-				% Sahel
-				\draw[red, line width = 0.25mm] (3.2,5.25) -- (4.0,5.25) -- (4.0,5.4) -- (3.2,5.4) -- (3.2,5.25);
-				
-				\draw[red, line width = 0.25mm] (3.2,2.05) -- (4.0,2.05) -- (4.0,1.9) -- (3.2,1.9) -- (3.2,2.05);
-				
-				\draw[red, line width = 0.25mm] (3.6,5.0) -- (4.1,5.0) -- (4.1,4.7) -- (3.6,4.7) -- (3.6,5.0);
-				
-				\draw[red, line width = 0.25mm] (3.6,1.70) -- (4.1,1.70) -- (4.1,1.4) -- (3.6,1.4) -- (3.6,1.70);
-			}
+	%\begin{textblock*}{14cm}(-0.5cm,1.5cm)
+	%	\begin{tikzpicture}
+		\only<1> {
+			
+			%\node[anchor=south west,inner sep=0] (image) at (0,0) {
+				\includegraphics[width=10cm]{images/fireImportance}%images/unimodal/p\x.png}
+			}%;}
 		
-			\visible<7-> {
-				% India
-				\draw[blue, line width = 0.25mm] (4.6,5.2) -- (4.8,5.2) -- (4.8,5.6) -- (4.6,5.6) -- (4.6,5.2);
-				
-				\draw[blue, line width = 0.25mm] (4.6,1.85) -- (4.8,1.85) -- (4.8,2.25) -- (4.6,2.25) -- (4.6,1.85);
-				
-				\draw[blue, line width = 0.25mm] (5.6,4.5) -- (5.8,4.4) -- (6.0,4.7) -- (5.8,4.8) -- (5.6,4.5);
-				
-				\draw[blue, line width = 0.25mm] (5.6,1.15) -- (5.8,1.05) -- (6.0,1.35) -- (5.8,1.45) -- (5.6,1.15);
-			}
-		    \end{tikzpicture}
-    \end{textblock*}
-    
-    %Make clear we are talking about burnt area
+		\only<2> {
+			
+			%\node[anchor=south west,inner sep=0] (image) at (0,0cm) {
+				\includegraphics[width=10cm]{images/firePerBiome}%images/unimodal/p\x.png}
+			}%;}
+	%	\end{tikzpicture}
+	%\end{textblock*}
+	
+	%Make clear we are talking about burnt area
 \end{frame}
 
 
 
 \begin{frame}[label = intro]
-    \frametitle{What else controls fire?}
-    %\framesubtitle{Is it Ignitions? Is it people?}
+	\frametitle{What else controls fire?}
+	%\framesubtitle{Is it Ignitions? Is it people?}
 	\begin{itemize}
 		\huge{
 			\visible<1->{\item \hspace{2.39em}Is it ignitions?}
@@ -54,9 +58,9 @@
 			\visible<3->{\item \hspace{0.70em}Or, Is it something else?}
 		}
 	\end{itemize}
-\hspace{1.5cm} \only<4>{ (it's something else)}
-\visible<5->{(it's human suppression)}
-
+	\hspace{1.5cm} \only<4>{ (it's something else)}
+	\visible<5->{(it's human suppression)}
+	
 \end{frame}
 
 
