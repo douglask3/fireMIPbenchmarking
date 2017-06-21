@@ -24,58 +24,72 @@
 
 \begin{frame}
 	\frametitle{Fire In the Earth System}
-	\framesubtitle{Areas affected}
+	\only<1> {\framesubtitle{Carbon Cycle and Radiative Forcing}}
+	\only<2> {\framesubtitle{Areas affected}}
 	
 	
-	%\begin{textblock*}{14cm}(-0.5cm,1.5cm)
-	%	\begin{tikzpicture}
-		\only<1> {
+	\begin{textblock*}{14cm}(-0cm ,1.3cm)
+		\begin{tikzpicture}
+		\visible<1-> {
 			
-			%\node[anchor=south west,inner sep=0] (image) at (0,0) {
-				\includegraphics[width=10cm]{images/fireImportance}%images/unimodal/p\x.png}
-			}%;}
+			\node[anchor=south west,inner sep=0] (image) at (0,0) {
+				\includegraphics[width=4.80cm]{images/fireImportance}%images/unimodal/p\x.png}
+			};}
 		
-		\only<2> {
+		\visible<2> {
 			
-			%\node[anchor=south west,inner sep=0] (image) at (0,0cm) {
-				\includegraphics[width=10cm]{images/firePerBiome}%images/unimodal/p\x.png}
-			}%;}
-	%	\end{tikzpicture}
-	%\end{textblock*}
+			\node[anchor=south west,inner sep=0] (image) at (6.5cm,0cm) {
+				\includegraphics[width=6.05cm]{images/firePerBiome}%images/unimodal/p\x.png}
+			};}
+		\end{tikzpicture}
+	\end{textblock*}
 	
 	%Make clear we are talking about burnt area
 \end{frame}
 
-
-
 \begin{frame}[label = intro]
-	\frametitle{What else controls fire?}
+	\frametitle{Fire and carbon}
 	%\framesubtitle{Is it Ignitions? Is it people?}
-	\begin{itemize}
-		\huge{
-			\visible<1->{\item \hspace{2.39em}Is it ignitions?}
-			\visible<2->{\item If so, Is it people or natural?}
-			\visible<3->{\item \hspace{0.70em}Or, Is it something else?}
-		}
-	\end{itemize}
-	\hspace{1.5cm} \only<4>{ (it's something else)}
-	\visible<5->{(it's human suppression)}
+	\foreach \x in {1, 2, 3, 4, 5, 6} {
+		\only<\x> {
+			
+			%	\node[anchor=south west,inner sep=0] (image) at (0,0) {
+			\includegraphics[width=10cm]{images/fireCarbonBalance/pp\x.png}%images/unimodal/p\x.png}
+			%};
+	}}
 	
 \end{frame}
 
+\begin{frame}[label = intro]
+	\frametitle{fireMIP}
+	\framesubtitle{Fire Modelling Inter-comparison Project}
+	\begin{itemize}
+		%\huge{
+			\only<1-4> {
+				\visible<1->{\item Little agreement between models simulated fire}
+				\visible<2->{\item No systematic inter-model comparison of fire or fire drivers}
+				\visible<3->{\item No comparison of different model hindcasts and future projections, and their sensitivity to different drivers}
+				\visible<4->{\item fireMIP setup to address this}
+            }
+	        \only<5-> {
+		        \visible<5->{\item fireMIP model overview}
+		        \visible<6->{\item fireMIP benchmarking system}
+		        \visible<7->{\item Multi-model results}
+		        \visible<8->{\item JULES-INFERNO model performance}
+		        \visible<9->{\item Process evaluation}
+	        }
+	\end{itemize}
+\end{frame}
 
-%\begin{frame}
-%    \frametitle{What else controls fire?}
-%    \framesubtitle{Fire-limitation framework}
-%	\begin{itemize}
-%		\visible<2-> {\item Map the limitation and sensitivity of burnt area to}
-%        \begin{itemize}
-%            \visible<3-> {\item Fuel discontinuity}
-%            \visible<4-> {\item Fuel moisture and atmospheric drying potential}
-%            \visible<5-> {\item lightning and human ignitions}
-%            \visible<6-> {\item land use and human suppression}
-%        \end{itemize}00
-%		\visible<7-> {\item Controls are described from remote sensed and meteorological observations}
-%		\visible<8-> {\item optimized againstburnt area observations}00
-%	\end{itemize}
-%\end{frame}
+\begin{frame}[label = intro]
+	\frametitle{fireModels}
+	%\framesubtitle{Is it Ignitions? Is it people?}
+	\foreach \x in {1, 2, 3, 4} {
+		\only<\x> {
+			
+			%	\node[anchor=south west,inner sep=0] (image) at (0,0) {
+			\includegraphics[width=10cm]{images/fireModelTypes/pp\x.png}%images/unimodal/p\x.png}
+			%};
+	}}
+	
+\end{frame}
