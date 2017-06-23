@@ -127,6 +127,7 @@ plotMetric <- function(Xdat, xName, binS, binMin, binMax, normArea = TRUE,
 
 	plotModel <- function(i, name, xaxt = 'n', yaxt = 'n', xlab = '', ylab = '') {
 		if (!is.null(modsSelect) && all(modsSelect != i)) return()
+		print(name)
 		plot(range(bins), c(0, ymax), type = 'n',
 			 xlab = xlab, ylab = ylab, xaxt = xaxt, yaxt = yaxt, log = plog)
 		lapply(mbin[-i], addPoly)
@@ -142,11 +143,11 @@ plotMetric <- function(Xdat, xName, binS, binMin, binMax, normArea = TRUE,
 	} else npx = npy = 3
 	png(paste(figName, xName, '.png', sep = ''), height = 0.4 * npy + 4, width = 0.4 * npx + 4, units = 'in', res = 300)
 		par(mfrow = c(npx,npy), mar = c(2, 1, 0, 0), oma = c(3,3,4,1))
-
+		
 		mapply(plotModel, 1:length(mbin), names(mod), 
-			   c(rep('n', npx * (npy - 1)), rep('s', npy)), c('s', rep('n', length(modsSelect)-1)),
+			   c(rep('n', npx * (npy - 1)), rep('s', npy)), rep(c('s', rep('n', npx - 1)), npy),
 			   c(rep('', max(length( modsSelect) - 2, 0)), xlab, ''), 
-			   c(rep('', npx + 1), ylab, rep('', length(modsSelect) - 1)))
+			   c(rep('', npx), ylab, rep('', length(modsSelect) - 1 - npx)))
 		title(xName, outer = TRUE, line = 2)
 	dev.off.gitWatermarkStandard()
 }
