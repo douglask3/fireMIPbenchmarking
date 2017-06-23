@@ -1,14 +1,22 @@
 \section{fireMIP}
 \pgfdeclareimage[width=1.0\paperwidth]{header-image}{header_images/red_lightn}
 
-
-
 \begin{frame}[label = fireModels]
-	\frametitle{fireModels}
+	\frametitle{fire Models}
+	\framesubtitle{Types}
 	\foreach \x in {1, 2, 3, 4} {
 		\only<\x> {
 			\includegraphics[width=10cm]{images/fireModelTypes/pp\x.png}
 	}}
+	
+\end{frame}
+
+\addtocounter{framenumber}{-1}
+
+\begin{frame}[label = fireModels]
+	\frametitle{fire Models}
+	\framesubtitle{Participating Models}
+	
 	
 \end{frame}
 
@@ -17,6 +25,8 @@
 	\framesubtitle{Benchmark Datasets}
 	\includegraphics[width=10cm]{images/BenchmarkDatasets.JPG}
 \end{frame}
+
+\addtocounter{framenumber}{-1}
 
 \begin{frame}[label = newDatasets]
 	\frametitle{FireMIP benchmarking}
@@ -30,6 +40,8 @@
 	\includegraphics[width=10cm]{images/metrics/Metrics.png}
 \end{frame}
 
+\addtocounter{framenumber}{-1}
+
 \begin{frame}[label = MetricsNME]
 	\frametitle{FireMIP Metrics}
 	\framesubtitle{Normalised Mean Error}
@@ -39,6 +51,7 @@
 	}}
 \end{frame}
 
+\addtocounter{framenumber}{-1}
 
 \begin{frame}[label = MetricsMPD]
 	\frametitle{FireMIP Metrics}
@@ -49,6 +62,7 @@
 	}}
 \end{frame}
 
+\addtocounter{framenumber}{-1}
 
 \begin{frame}[label = NullModels]
 	\frametitle{FireMIP Null Models}
@@ -59,6 +73,7 @@
 	}}
 \end{frame}
 
+\addtocounter{framenumber}{-1}
 
 \begin{frame}[label = Scores]
 	\frametitle{FireMIP Null Models}
