@@ -140,7 +140,7 @@ plotMetric <- function(Xdat, xName, binS, binMin, binMax, normArea = TRUE,
 	if (!is.null(modsSelect)) {
 		npx = ceiling(sqrt(length(modsSelect))); npy = ceiling(length(modsSelect)/ npx)
 	} else npx = npy = 3
-	png(paste(figName, xName, '.pdf', sep = ''), height = 0.4 * npy + 4, width = 0.4 * npx + 4, units = 'in', res = 300)
+	png(paste(figName, xName, '.png', sep = ''), height = 0.4 * npy + 4, width = 0.4 * npx + 4, units = 'in', res = 300)
 		par(mfrow = c(npx,npy), mar = c(2, 1, 0, 0), oma = c(3,3,4,1))
 
 		mapply(plotModel, 1:length(mbin), names(mod), 
