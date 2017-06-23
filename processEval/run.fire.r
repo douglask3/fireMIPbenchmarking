@@ -143,11 +143,15 @@ plotMetric <- function(Xdat, xName, binS, binMin, binMax, normArea = TRUE,
 	} else npx = npy = 3
 	png(paste(figName, xName, '.png', sep = ''), height = 0.4 * npy + 4, width = 0.4 * npx + 4, units = 'in', res = 300)
 		par(mfrow = c(npx,npy), mar = c(2, 1, 0, 0), oma = c(3,3,4,1))
+
+		if (length( modsSelect) == 1) ylabIndex = ylab
+		else
+			ylabIndex = c(rep('', npx), ylab, rep('', length(modsSelect) - 1 - npx))
 		
 		mapply(plotModel, 1:length(mbin), names(mod), 
 			   c(rep('n', npx * (npy - 1)), rep('s', npy)), rep(c('s', rep('n', npx - 1)), npy),
 			   c(rep('', max(length( modsSelect) - 2, 0)), xlab, ''), 
-			   c(rep('', npx), ylab, rep('', length(modsSelect) - 1 - npx)))
+			   ylabIndex)
 		title(xName, outer = TRUE, line = 2)
 	dev.off.gitWatermarkStandard()
 }
