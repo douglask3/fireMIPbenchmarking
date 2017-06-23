@@ -12,14 +12,59 @@
 	
 \end{frame}
 
-\begin{frame}[label = intro]
+\begin{frame}[label = kelley2013Datasets]
 	\frametitle{FireMIP benchmarking}
 	\framesubtitle{Benchmark Datasets}
 	\includegraphics[width=10cm]{images/BenchmarkDatasets.JPG}
 \end{frame}
 
-\begin{frame}[label = intro]
+\begin{frame}[label = newDatasets]
 	\frametitle{FireMIP benchmarking}
 	\framesubtitle{Fire Benchmark Datasets}
 	\includegraphics[width=10cm]{images/BenchmarkDatasets.JPG}
+\end{frame}
+
+\begin{frame}[label = Metrics]
+	\frametitle{FireMIP Metrics}
+	\framesubtitle{All Metrics}
+	\includegraphics[width=10cm]{images/metrics/Metrics.png}
+\end{frame}
+
+\begin{frame}[label = MetricsNME]
+	\frametitle{FireMIP Metrics}
+	\framesubtitle{Normalised Mean Error}
+	\foreach \x in {1, 2, 3, 4} {
+		\only<\x> {
+			\includegraphics[width=10cm]{images/metrics/NME/NME\x.png}
+	}}
+\end{frame}
+
+
+\begin{frame}[label = MetricsMPD]
+	\frametitle{FireMIP Metrics}
+	\framesubtitle{Seasonal Comparisons}
+	\foreach \x in {1, 2, 3, 4, 5, 6, 7} {
+		\only<\x> {
+			\includegraphics[width=10cm]{images/metrics/MPD/MPD\x.png}
+	}}
+\end{frame}
+
+
+\begin{frame}[label = NullModels]
+	\frametitle{FireMIP Null Models}
+	%\framesubtitle{Seasonal Comparisons}
+	\foreach \x in {1, 2, 3, 4} {
+		\only<\x> {
+			\includegraphics[width=10cm]{images/metrics/NULL/NullModels\x.png}
+	}}
+\end{frame}
+
+
+\begin{frame}[label = Scores]
+	\frametitle{FireMIP Null Models}
+	%\framesubtitle{Seasonal Comparisons}
+	\foreach \x in {1, 2, 3} {
+		\only<\x> {
+			\includegraphics[width=10cm]{images/metrics/Scores/Scores\x.png}
+	}}
 \end{frame}
