@@ -11,7 +11,7 @@ prFname = paste('../LimFIRE/data/cru_ts3.23/cru_ts3.23.',
 				'.pre.dat.nc', sep = '')
 				
 figName = 'figs/burntArea_INFERNO_vs_'
-figName = 'figs/burntArea_vs_'
+#figName = 'figs/burntArea_vs_'
 				
 prStart = 85
 binSize = c(MAP = 100 , MMX = 100 , conc = 0.05, veg = 0.5)
@@ -22,7 +22,7 @@ ylab    = c('Burnt Area (km2)', rep('Burnt Fraction', 3))
 sampleIndex = NULL
 
 modsSelect = 3
-modsSelect = NULL
+#modsSelect = NULL
 
 options(scipen=999)
 
