@@ -14,9 +14,9 @@ figName = 'figs/burntArea_INFERNO_vs_'
 #figName = 'figs/burntArea_vs_'
 				
 prStart = 85
-binSize = c(MAP = 100 , MMX = 100 , conc = 0.05, veg = 0.5)
-maxBin  = c(MAP = 2600, MMX = 2000, conc = 1.00, veg = 6  )
-minBin  = c(MAP = 0   , MMX = 0   , conc = 0   , veg = -4 )
+binSize = c(MAP = 100 , MMX = 100 , Precip_seasonality = 0.05, veg = 0.5)
+maxBin  = c(MAP = 2600, MMX = 2000, Precip_seasonality = 1.00, veg = 6  )
+minBin  = c(MAP = 0   , MMX = 0   , Precip_seasonality = 0   , veg = -4 )
 units   = c('mm/yr'   , 'mm/month', ''         , 'gC/m2'  )
 ylab    = c('Burnt Area (km2)', rep('Burnt Fraction', 3))
 sampleIndex = NULL
@@ -142,7 +142,7 @@ plotMetric <- function(Xdat, xName, binS, binMin, binMax, normArea = TRUE,
 		npx = ceiling(sqrt(length(modsSelect))); npy = ceiling(length(modsSelect)/ npx)
 	} else npx = npy = 3
 	png(paste(figName, xName, '.png', sep = ''), height = 0.4 * npy + 4, width = 0.4 * npx + 4, units = 'in', res = 300)
-		par(mfrow = c(npx,npy), mar = c(2, 1, 0, 0), oma = c(3,3,4,1))
+		par(mfrow = c(npx,npy), mar = c(2, 1, 0, 0), oma = c(3,3,4,1), bg = make.transparent('white', 1))
 
 		if (length( modsSelect) == 1) ylabIndex = ylab
 		else
