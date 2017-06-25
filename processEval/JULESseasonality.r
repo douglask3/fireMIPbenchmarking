@@ -58,7 +58,7 @@ plot4Extent <- function(extent, name, norm) {
 	
 	
 	plotLines <- function(y, ymax = NULL, ...) {
-		if (is.null(ymax)) ymax = sum(y) / 3
+		if (is.null(ymax)) ymax = sum(y) * 0.3
 		y = y / ymax
 		lines(0:12, y, lwd = 2, ...)
 	}
@@ -82,23 +82,23 @@ plot4Extent <- function(extent, name, norm) {
 	plotLines(burntArea[[1]], baMax, col = 'red', lty = 2)
 	plotLines(burntArea[[4]], baMax, col = 'red')
 	
-	if (norm) baMax = 1
+	if (norm) baMax = 0.3
 	addAxis(baMax, 2)
 	
 	title(name, line  = -2)
 }
 
-normNoneNorm <- function(norm, name) {
+normNoneNorm <- function(norm, name, ylab) {
 	figName = paste(figName, name, '.png', sep = '')
 	png(figName, width = 7, height = 5, units = 'in', res = 300)
 		par(mfrow = c(2,2), mar = c(3,2,1,2), oma = c (0, 2, 0, 2))
 		mapply(plot4Extent, extents, names(extents), norm)
 
 		par(fig = c(0, 1, 0, 1))
-		mtext(side = 2, 'burnt area (%)', line = 2.5)
+		mtext(side = 2, ylab, line = 2.5)
 		mtext(side = 4, 'precip (mm)', line = 2.5)
 	dev.off.gitWatermark()
 }
 
-normNoneNorm(TRUE, '_normalised')
-normNoneNorm(FALSE, '')
+normNoneNorm(TRUE, '_normalised', 'burnt area (%)')
+normNoneNorm(FALSE, '', 'burnr area (% of model)')
