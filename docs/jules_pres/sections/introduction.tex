@@ -22,21 +22,37 @@
 % Slide 2: FireMIP; Gittas model comp; Gittas benchmarking
 % Slide 3: Firemip slide
 
+\addtocounter{framenumber}{-1}
 \begin{frame}
 	\frametitle{Fire In the Earth System}
-	\only<2> {\framesubtitle{Carbon Cycle and Radiative Forcing}}
-	\only<1> {\framesubtitle{Areas affected}}
+	\only<1> {\framesubtitle{Carbon Cycle and Radiative Forcing}}
+	\only<2-> {\framesubtitle{Areas affected}}
 	
 	
 	\begin{textblock*}{14cm}(-0cm ,1.3cm)
 		\begin{tikzpicture}
-		\visible<1-> {
+		\visible<1, 4-> {
 			
 			\node[anchor=south west,inner sep=0] (image) at (0,0) {
 				\includegraphics[width=4.80cm]{images/fireImportance}%images/unimodal/p\x.png}
 			};}
 		
-		\visible<2> {
+		\only<2-3> {
+			\node[anchor=south west,inner sep=0] (image) at (0cm,2cm) {
+				\adjincludegraphics[trim={0 {.53\height} 0 0},clip, width=12cm]{images/firePerBiome}%images/unimodal/p\x.png}
+			};}
+		\only<3>{
+				
+			\draw[blue, line width = 0.25mm] (5.2,5.65) -- (6.5,5.65) -- (6.5,6) -- (5.2,6) -- (5.2,5.65);
+			
+			\draw[blue, line width = 0.25mm] (5.6,4.8) -- (6.5,4.8) -- (6.5,5.3) -- (5.6,5.3) -- (5.6,4.8);
+			
+			\draw[blue, line width = 0.25mm] (9.5,4.5) -- (10.5,4.5) -- (10.5,5.0) -- (9.5,5.0) -- (9.5,4.5);
+			
+			\draw[blue, line width = 0.25mm] (2.7,4.8) -- (3.5,4.8) -- (3.5,5.3) -- (2.7,5.3) -- (2.7,4.8);
+		}		
+		
+		\visible<4> {
 			
 			\node[anchor=south west,inner sep=0] (image) at (6.5cm,0cm) {
 				\includegraphics[width=6.05cm]{images/firePerBiome}%images/unimodal/p\x.png}
@@ -68,7 +84,7 @@
 	\frametitle{fireMIP}
 	\framesubtitle{Fire Modelling Inter-comparison Project}
 	
-	\begin{textblock*}{14cm}(-0.1cm ,1cm)
+	\begin{textblock*}{14cm}(-0.0cm ,1cm)
 		%\begin{tikzpicture}
 			\foreach \x in {1, 2, 3, 4, 5} {
 				\only<\x> {
