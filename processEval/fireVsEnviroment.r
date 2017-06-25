@@ -1,15 +1,8 @@
 #########################################################################
 ## cfg 																   ##
 #########################################################################
-source('cfg.r')
+source("processEval/load_fire.r")
 
-tempBAEfname = paste(temp_dir, 'BAGFAS', sep = '/')
-tempVEGfname = paste(temp_dir, 'VEGCBN', sep = '/')
-
-prFname = paste('../LimFIRE/data/cru_ts3.23/cru_ts3.23.',
-			    c('1991.2000', '2001.2010', '2011.2014'),
-				'.pre.dat.nc', sep = '')
-				
 figName = 'figs/burntArea_INFERNO_vs_'
 #figName = 'figs/burntArea_vs_'
 				
@@ -26,37 +19,12 @@ modsSelect = 3
 
 options(scipen=999)
 
-#########################################################################
-## load  															   ##
-#########################################################################
-if (file.exists(tempBAEfname)) {
-	load(tempBAEfname)
-} else {
-	source("run.fire.r")
-	burntArea = list(obs = out[[2]], mod = out[[3]])
-	emissions = list(obs = out[[5]], mod = out[[6]])
 
-	save(burntArea, emissions, file = tempBAEfname)
-}
-
-if (file.exists(tempVEGfname)) {
-	load(tempVEGfname)
-} else {
-	source("run.production.r")
-	cveg = list(obs = out[[2]], mod = out[[3]])
-	save(cveg, file = tempVEGfname)
-}
-
-index = prStart:(nlayers(burntArea[[1]]) + prStart -1)
-
-pr0 = stack(prFname)[[index]]
-
-if (is.null(modsSelect)) modsSelect = 1:9
 
 #########################################################################
 ## Convert to matrices  															   ##
 #########################################################################
-
+if (is.null(modsSelect)) modsSelect = 1:9
 ## convert to annual average
 if (is.null(sampleIndex)) sampleIndex = 1:nlayers(pr0)
 mean12 <- function(i) mean(i[[sampleIndex]]) * 12
