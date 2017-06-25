@@ -3,7 +3,7 @@
 #########################################################################
 source("processEval/load_fire.r")
 				
-figName = 'figs/seasonality_JULES.png'
+figName = 'figs/seasonality_JULES'
 #figName = 'figs/burntArea_vs_'
 				
 
@@ -42,7 +42,7 @@ ceilingN <- function(x, n = 1) {
 	return(sc * ceiling(x/sc))
 }
 
-plot4Extent <- function(extent, name) {
+plot4Extent <- function(extent, name, norm) {
 	tempName = paste('temp/seasonality4', name, sep = '-')
 	if (file.exists(tempName)) {
 		load(tempName)
@@ -57,7 +57,8 @@ plot4Extent <- function(extent, name) {
 	axis(1, at = 0:12, labels = substr(month.abb[c(12,1:12)], 0, 1))
 	
 	
-	plotLines <- function(y, ymax, ...) {
+	plotLines <- function(y, ymax = NULL, ...) {
+		if (is.null(ymax)) ymax = sum(y) / 3
 		y = y / ymax
 		lines(0:12, y, lwd = 2, ...)
 	}
@@ -69,7 +70,8 @@ plot4Extent <- function(extent, name) {
 		
 	}
 	
-	baMax =  ceilingN(max(unlist(burntArea)))
+	if (norm) baMax = NULL
+		else baMax =  ceilingN(max(unlist(burntArea)))
 	lapply(burntArea[-1], plotLines, baMax, col = 'grey')
 	
 	prMax = ceilingN(max(pr))
@@ -77,19 +79,26 @@ plot4Extent <- function(extent, name) {
 	lines(0:12, pr, lwd = 2, col = 'blue')
 	addAxis(prMax, 4)
 	
-	
 	plotLines(burntArea[[1]], baMax, col = 'red', lty = 2)
 	plotLines(burntArea[[4]], baMax, col = 'red')
+	
+	if (norm) baMax = 1
 	addAxis(baMax, 2)
 	
 	title(name, line  = -2)
 }
 
-png(figName, width = 7, height = 5, units = 'in', res = 300)
-	par(mfrow = c(2,2), mar = c(3,2,1,2), oma = c (0, 2, 0, 2))
-	mapply(plot4Extent, extents, names(extents))
+normNoneNorm <- function(norm, name) {
+	figName = paste(figName, name, '.png', sep = '')
+	png(figName, width = 7, height = 5, units = 'in', res = 300)
+		par(mfrow = c(2,2), mar = c(3,2,1,2), oma = c (0, 2, 0, 2))
+		mapply(plot4Extent, extents, names(extents), norm)
 
-	par(fig = c(0, 1, 0, 1))
-	mtext(side = 2, 'burnt area (%)', line = 2.5)
-	mtext(side = 4, 'precip (mm)', line = 2.5)
-dev.off.gitWatermark()
+		par(fig = c(0, 1, 0, 1))
+		mtext(side = 2, 'burnt area (%)', line = 2.5)
+		mtext(side = 4, 'precip (mm)', line = 2.5)
+	dev.off.gitWatermark()
+}
+
+normNoneNorm(TRUE, '_normalised')
+normNoneNorm(FALSE, '')
