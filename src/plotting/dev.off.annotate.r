@@ -15,4 +15,5 @@ addPlotTitle <- function(txt, x = 0.5, y = -0.05, cex = 1.33,...) {
 }
 
 dev.off.gitWatermarkStandard <- function()
-    dev.off.gitWatermark(x = 0.7, y = 0.1, srt = 0)
+	dev.off()
+    #dev.off.gitWatermark(x = 0.7, y = 0.1, srt = 0)
