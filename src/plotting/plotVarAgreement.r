@@ -239,7 +239,7 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 	MetricLabs = c('prefect', 'mean', 'RR low', 'RR', 'RR high')
 	c(MetricLims, MN, RR) := nullScores_lims(scores)
 	
-	if (MetricLims[2] > MetricLims[5]) {
+	if (is.na(MetricLims[2]) || MetricLims[2] > MetricLims[5]) {
 		MetricLims = MetricLims[-2]
 		MetricLabs = MetricLabs[-2]
 		MetricCols = MetricCols[-2]
