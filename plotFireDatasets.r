@@ -36,20 +36,22 @@ colours= list(c('white', "#EE8811", "#FF0000", "#110000"),
 			  c('white', "#EE1188", "#F00099", "#110000"),
 			  c('white', "#BBBB00", "#CCCC00", "#111100"))
 
-limits = list(c(0.001,.01,.02,.05,.1,.2),
-		      c(0.001,.01,.02,.05,.1,.2),
-		      c(0.001,.01,.02,.05,.1,.2),
-		      c(0.001,.01,.02,.05,.1,.2),
+limits = list(c(0.001,.01,.02,.05,.1,.2) * 100,
+		      c(0.001,.01,.02,.05,.1,.2) * 100,
+		      c(0.001,.01,.02,.05,.1,.2) * 100,
+		      c(0.001,.01,.02,.05,.1,.2) * 100,
 			  c(0.01, 0.1, 1, 10, 100),
-		      c(0.001,.01,.05,.1,.2,.5),
-			  c(0.001,.01,.05,.1,.2,.5) * 10000,
+		      c(0.001,.01,.05,.1,.2,.5) * 10000,
+			  c(0.001,.01,.05,.1,.2,.5),
 			  c(0.01, 0.1, 1, 2, 5, 10, 20) * 10)
 
-scaling = c(1, 1, 1, 1, 60 * 60 * 24 * 30 * 1000, 1, 1, 1)		
+scaling = c(1, 1, 1, 1, 60 * 60 * 24 * 30 * 1000, 1, 1, 1)	
+
+units = c('%', '%', '%', '%', 'gC/m2', 'hectare', '/km2')
 
 mask = NULL	  
 
-plotDataset <- function(name, path, seasonal, scale, lims, cols) {
+plotDataset <- function(name, unit, path, seasonal, scale, lims, cols) {
 	print(lims)
 	path = paste(data_dir.BenchmarkData, path, sep = '/')
 	dat = stack(path)
@@ -67,6 +69,7 @@ plotDataset <- function(name, path, seasonal, scale, lims, cols) {
 	if (seasonal) aatitle = paste(name, 'Annual Average', sep = '\n')
 		else aatitle = name
 	mtext(aatitle, line = 0)#
+	mtext(unit, cex = 0.8, side = 1, line = -1)
 	
 	par(mar = c(1, 0, 0, 0))
 	add_raster_legend2(cols = cols, limits = lims, transpose = FALSE,
@@ -99,7 +102,7 @@ lmat = rbind(c(1 , 5 ,  9, 13, 17),
 layout(lmat, heights = c(1, 0.3, 1, 1, 1, 0.3))
 par(mar = mar0, oma = c(0,0,2,0))
 
-mapply(plotDataset, names(datasets), datasets, Seasonal, scaling, limits, colours)
+mapply(plotDataset, names(datasets), units, datasets, Seasonal, scaling, limits, colours)
  
 
 par(mar = c(0,0,0, 20))
