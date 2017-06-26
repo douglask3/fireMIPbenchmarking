@@ -7,23 +7,18 @@
 	\foreach \x in {1, 2, 3, 4} {
 		\only<\x> {
 			\includegraphics[width=10cm]{images/fireModelTypes/pp\x.png}
-	}}
-	
+	}}	
 \end{frame}
 
-\addtocounter{framenumber}{-1}
-
-\begin{frame}[label = fireModels]
-	\frametitle{fire Models}
-	\framesubtitle{Participating Models}
-	
-	
-\end{frame}
+%\addtocounter{framenumber}{-1}
 
 \begin{frame}[label = kelley2013Datasets]
 	\frametitle{FireMIP benchmarking}
 	\framesubtitle{Benchmark Datasets}
 	\includegraphics[width=10cm]{images/BenchmarkDatasets.JPG}
+	\visible<2-> {
+		Plus some new ones
+	}
 \end{frame}
 
 \addtocounter{framenumber}{-1}
@@ -53,7 +48,7 @@
 
 \addtocounter{framenumber}{-1}
 
-\begin{frame}[label = MetricsMPD]
+\begin{frame}<2->[label = MetricsMPD]
 	\frametitle{FireMIP Metrics}
 	\framesubtitle{Seasonal Comparisons}
 	\foreach \x in {1, 2, 3, 4, 5, 6, 7} {
@@ -64,10 +59,10 @@
 
 \addtocounter{framenumber}{-1}
 
-\begin{frame}[label = NullModels]
+\begin{frame}<4>[label = NullModels]
 	\frametitle{FireMIP Null Models}
 	%\framesubtitle{Seasonal Comparisons}
-	\foreach \x in {1, 2, 3, 4} {
+	\foreach \x in {1,2,3,4} {
 		\only<\x> {
 			\includegraphics[width=10cm]{images/metrics/NULL/NullModels\x.png}
 	}}
@@ -75,7 +70,7 @@
 
 \addtocounter{framenumber}{-1}
 
-\begin{frame}[label = Scores]
+\begin{frame}<1-2>[label = Scores]
 	\frametitle{FireMIP Null Models}
 	%\framesubtitle{Seasonal Comparisons}
 	\foreach \x in {1, 2, 3} {
