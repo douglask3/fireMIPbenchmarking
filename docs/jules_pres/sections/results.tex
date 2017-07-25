@@ -1,9 +1,8 @@
-\section{fireMIP}
-\pgfdeclareimage[width=1.0\paperwidth]{header-image}{header_images/kata_tjuta}
-
-\begin{frame}[label = kelley2013Datasets]
-	\frametitle{ Multi-model scores}
-	\framesubtitle{Model scores}
+\section{Results}
+\pgfdeclareimage[width=1.0\paperwidth]{header-image}{header_images/Sierra_Calderona}
+\begin{frame}<1-3>[label = ModelScores]
+	\frametitle{Model Scores}
+	%\framesubtitle{Model scores}
 	
 	% Smileys
 	\foreach \x in {1, 2, 3, 4, 5, 6, 7} {
@@ -13,40 +12,31 @@
 	%Fire and veg
 \end{frame}
 
+
+\addtocounter{framenumber}{-1}
+\againframe<3->{ModelScores}
+
 \begin{frame}[label = kelley2013Datasets]
 	\frametitle{JULES-INFERNO v obs}
-	\framesubtitle{Model scores}
+	\framesubtitle{Overall fire performance}
 	
 	\begin{textblock*}{8cm}(11cm ,1.3cm)
-		\includegraphics[width=7.5cm]{images/Smileys/BAvegCFireC.png}
+		\includegraphics[width=7.5cm]{images/Smileys/BA.png}
 	\end{textblock*}
-	
-	\only<2-> {
-		\includegraphics[width=10cm]{images/julesPerformance/FireMapsSpatial.png}
-	}
+	\begin{textblock*}{8cm}(0.5cm ,1.6cm)
+		\only<2-> {
+			\adjincludegraphics[trim={0 {.6\height} 0 0},clip, width=10cm]{images/julesPerformance/FireMapsSpatial.png}
+		}
+	\end{textblock*}
 \end{frame}
 
-\begin{frame}[label = kelley2013Datasets]
-	\frametitle{Multi-model scores}
-	\framesubtitle{Model scores}
-	
-	\begin{textblock*}{8cm}(11cm ,1.3cm)
-		\includegraphics[width=7.5cm]{images/Smileys/BAvegC.png}
-	\end{textblock*}
-	
-	\foreach \x in {1, 2} {
-		\only<\x> {
-			\includegraphics[width=10cm]{images/fireVsVegScores/pp\x.png}
-	}}
-
-\end{frame}
-
-\pgfdeclareimage[width=1.0\paperwidth]{header-image}{header_images/Sierra_Calderona}
-
-\begin{frame}
+\begin{frame}<1-3>[label = fireControls]
 	\frametitle{It burns where it rains \small{(a bit)}}
 	\framesubtitle{Uni-modal relationship with moisture}
-	
+	\begin{textblock*}{8cm}(11cm ,1.3cm)
+		\only<1-3>{\includegraphics[width=7.5cm]{images/Smileys/BAvegC.png}}
+		\only<4->{\includegraphics[width=7.5cm]{images/Smileys/BA.png}}
+	\end{textblock*}
 	
 	\begin{textblock*}{14cm}(-0.5cm,1.5cm)
 		\begin{tikzpicture}
@@ -64,34 +54,95 @@
 	%Make clear we are talking about burnt area
 \end{frame}
 
-\begin{frame}
+\begin{frame}<1-3>[label = JULEScontrols]
 	\frametitle{INFERNO Fire Controls}
-	%\framesubtitle{Geographic controls}
+	\only<1-3>{\framesubtitle{Vegetation}}
+	\only<4->{\framesubtitle{Moisture}}
+	
+	\begin{textblock*}{8cm}(11cm ,1.3cm)
+		\only<1-3>{\includegraphics[width=7.5cm]{images/Smileys/BAvegC.png}}
+		\only<4->{\includegraphics[width=7.5cm]{images/Smileys/BA.png}}
+	\end{textblock*}
+
+	\foreach \x in {2,3} {
+		\only<\x-> {
+			\begin{textblock*}{14cm}(0.3cm,1.4cm)
+				\includegraphics[width=4.8cm]{images/fireVsVegScores/pp\x.png}
+			\end{textblock*}
+		}
+	}
+
 	\only<1->{
-		\begin{textblock*}{14cm}(0.3cm,1.2cm)
-			\includegraphics[width=4.8cm]{../../figs/burntArea_INFERNO_vs_MAP.png}	
-		\end{textblock*}
-	}
-	\only<2->{
 		\begin{textblock*}{14cm}(6.5cm,1.2cm)
-			\includegraphics[width=4.8cm]{../../figs/burntArea_INFERNO_vs_Precip_seasonality.png}	
+			\includegraphics[width=4.5cm]{../../figs/burntArea_INFERNO_vs_veg.png}		
 		\end{textblock*}
 	}
-	\only<3->{
-		\begin{textblock*}{14cm}(3.4cm,4.5cm)
-			\includegraphics[width=4.8cm]{../../figs/burntArea_INFERNO_vs_veg.png}		
+
+
+	
+	\only<4->{
+		\begin{textblock*}{14cm}(0.3cm,5cm)
+			\includegraphics[width=4.5cm]{../../figs/burntArea_INFERNO_vs_MAP.png}	
 		\end{textblock*}
 	}
+		
+	\only<5->{
+		\begin{textblock*}{14cm}(6.5cm,5cm)
+			\includegraphics[width=4.5cm]{../../figs/burntArea_INFERNO_vs_Precip_seasonality.png}	
+		\end{textblock*}
+	}
+	
 	%\begin{textblock*}{14cm}(6.5cm,5.3cm)
 	%	\includegraphics[width=5.78cm]{../diagrams/Logistic_fun.png}		
 	%\end{textblock*}
 \end{frame}
+\addtocounter{framenumber}{-1}
+%\begin{frame}[label = kelley2013Datasets]
+%	\frametitle{Multi-model scores}
+%	\framesubtitle{Model scores}
+%	
+%	\begin{textblock*}{8cm}(11cm ,1.3cm)
+%		\includegraphics[width=7.5cm]{images/Smileys/BAvegC.png}
+%	
+%	\foreach \x in {1, 2} {
+%		\only<\x> {
+%			\includegraphics[width=5cm]{images/fireVsVegScores/pp\x.png}
+%	}}
+%
+%	\only<3->{
+%		\begin{textblock*}{14cm}(6.5cm,3.3cm)
+%			\includegraphics[width=4.8cm]{../../figs/burntArea_INFERNO_vs_veg.png}		
+%		\end{textblock*}
+%	}
+%	
+%\end{frame}
+
+\begin{frame}[label = kelley2013Datasets]
+	\frametitle{JULES-INFERNO v obs}
+	\framesubtitle{Fire Emissions}
+	
+	\begin{textblock*}{8cm}(11cm ,1.3cm)
+		\includegraphics[width=7.5cm]{images/Smileys/BAvegCFireC.png}
+	\end{textblock*}
+	
+	\only<1-> {
+		\includegraphics[width=10cm]{images/julesPerformance/FireMapsSpatial.png}
+	}
+\end{frame}
+
+
+\againframe<3-4>{JULEScontrols}
+\addtocounter{framenumber}{-1}
+\againframe<5->{fireControls}
+\addtocounter{framenumber}{-1}
+\againframe<5->{JULEScontrols}
+
 
 \pgfdeclareimage[width=1.0\paperwidth]{header-image}{header_images/Mirador_de_Garbi}
 
 \begin{frame}[label = kelley2013Datasets]
 	\frametitle{JULES-INFERNO v obs}
-	\framesubtitle{Model scores}
+	\framesubtitle{Seasonality}
 	
 	\begin{textblock*}{8cm}(11cm ,1.3cm)
 		\includegraphics[width=7.5cm]{images/Smileys/BAFireCseason.png}
@@ -103,13 +154,13 @@
 
 \begin{frame}[label = kelley2013Datasets]
 	\frametitle{JULES-INFERNO v obs}
-	\framesubtitle{Model scores}
+	\framesubtitle{Seasonality}
 	
 	\begin{textblock*}{8cm}(11cm ,1.3cm)
 		\includegraphics[width=7.5cm]{images/Smileys/BAseason.png}
 	\end{textblock*}
 	
-	\begin{textblock*}{14cm}(0.5cm,2cm)
+	\begin{textblock*}{14cm}(1.5cm,4cm)
 		\adjincludegraphics[trim={0 {.5\height} 0 0},clip, width=10cm]{../../figs/seasonality_JULES_normalised.png}
 	\end{textblock*}
 \end{frame}

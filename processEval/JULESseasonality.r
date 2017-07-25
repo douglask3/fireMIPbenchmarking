@@ -110,7 +110,7 @@ normNoneNorm <- function(norm, name, ylab) {
 		par(fig = c(0, 1, 0, 1))
 		mtext(side = 2, ylab, line = 2.5)
 		mtext(side = 4, 'precip (mm)', line = 2.5)
-	dev.off.gitWatermark()
+	dev.off()
 }
 
 normNoneNorm(TRUE, '_normalised', 'burnt area (% of annual burnt area)')
