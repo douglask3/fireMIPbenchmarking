@@ -1,7 +1,7 @@
 \section{fireMIP}
 \pgfdeclareimage[width=1.0\paperwidth]{header-image}{header_images/red_lightn}
 
-\begin{frame}[label = fireModels]
+\begin{frame}<3-4>[label = fireModels]
 	\frametitle{fire Models}
 	\framesubtitle{Types}
 	\foreach \x in {1, 2, 3, 4} {
@@ -11,13 +11,16 @@
 \end{frame}
 
 %\addtocounter{framenumber}{-1}
+\pgfdeclareimage[width=1.0\paperwidth]{header-image}{header_images/kata_tjuta}
 
 \begin{frame}[label = kelley2013Datasets]
 	\frametitle{FireMIP benchmarking}
 	\framesubtitle{Benchmark Datasets}
-	\includegraphics[width=10cm]{images/BenchmarkDatasets.JPG}
-	\visible<2-> {
-		Plus some new ones
+	\includegraphics[width=11.5cm]{images/BenchmarkDatasets.png}
+	\visible<1-2> {
+		\begin{center}
+			Plus some new ones
+		\end{center}
 	}
 \end{frame}
 
@@ -26,18 +29,18 @@
 \begin{frame}[label = newDatasets]
 	\frametitle{FireMIP benchmarking}
 	\framesubtitle{Fire Benchmark Datasets}
-	\includegraphics[width=10cm]{../../figs/burntAreaProducts.png}
+	\includegraphics[width=11.5cm]{../../figs/burntAreaProducts.png}
 \end{frame}
 
-\begin{frame}[label = Metrics]
+\begin{frame}<1,1>[label = Metrics]
 	\frametitle{FireMIP Metrics}
 	\framesubtitle{All Metrics}
-	\includegraphics[width=10cm]{images/metrics/Metrics.png}
+	\includegraphics[width=11.5cm]{images/metrics/Metrics.png}
 \end{frame}
 
 \addtocounter{framenumber}{-1}
 
-\begin{frame}[label = MetricsNME]
+\begin{frame}<4>[label = MetricsNME]
 	\frametitle{FireMIP Metrics}
 	\framesubtitle{Normalised Mean Error}
 	\foreach \x in {1, 2, 3, 4} {
