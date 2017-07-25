@@ -5,7 +5,6 @@ source("cfg.r")
 graphics.off()
 	
 maxY   = 2
-nplots = length(scores)
 
 vars2test = c('cveg', 'GFED4s', 'NPP_', 'GFAS', 'NRfire')
 stepN     = c(1     , 1       , 1     , 1     , 3       )
@@ -17,6 +16,8 @@ files = list.files('outputs/',  full.names = TRUE)
 files = files[grep('.csv', files)]
 for (i in files) dat = c(dat, open.csvOutFile(i))
 scores = lapply(dat, function(i) deconstruct.csv.outs(i[[2]]))
+
+nplots = length(scores)
 nmes   = sapply(dat, function(i) i[[1]])
 
 index = lapply(vars2test, grep, nmes)
@@ -40,6 +41,8 @@ plotAvB <- function(A, Anm, stepA, nA, B, Bnm, stepB, nB) {
 	
 	xrange = range(c(scoresA, MNA, mnRRA, mxRRA), na.rm = TRUE)
 	yrange = range(c(scoresB, MNB, mnRRB, mxRRB), na.rm = TRUE)
+	xrange = range(c(scoresA), na.rm = TRUE)
+	yrange = range(c(scoresB), na.rm = TRUE)
 	
 	plot(xrange, yrange, type = 'n', xlab = '', ylab = '')	
 	
