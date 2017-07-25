@@ -3,36 +3,87 @@
 \pgfdeclareimage[width=1.0\paperwidth]{header-image}{header_images/post_fire}
 
 \begin{frame}
-    \frametitle{Some Conclusions}
-    \framesubtitle{Areas for INFERNO to improve on}
+    \frametitle{Some things to work on...}
+    \framesubtitle{Areas for JULES-INFERNO to improve on}
+    
+    \begin{textblock*}{8cm}(11cm ,1.3cm)
+    	\includegraphics[width=7.5cm]{images/Smileys/All.png}
+    \end{textblock*}
+    
 	\begin{itemize}
 		\large{
-			\item Too little peak burnt area in seasonal humid areas.
-			\item Inclusion of Human suppression and land use fragmentation
-			\item Increase in seasonality of fire. (through increase in peak season fire)
+			\item Burnt area in seasonal humid areas.
+			\item Delay fire season onset
+			\item Include land use fragmentation
 		}
 	\end{itemize}
-	\visible<2->{
+	%\visible<2->{
+	%	
+	%	\framesubtitle{Other things we could test}
+	%	\begin{itemize}
+	%		\large{
+	%		    \item INFERNO ``offline'' to test impact of veg model coupling (specially on moisture)
+	%			\item UKESM-JULES to test impact on simulated climate
+	%			\item Some way to test Seasonality problem
+	%		}
+	%	\end{itemize}
+	%}
+\end{frame}
+
+\begin{frame}[label = intro]
+	\frametitle{fireMIP}
+	\framesubtitle{Fire Modelling Inter-comparison Project}
+	\begin{textblock*}{14cm}(-0.0cm ,1cm)
+		\only<2-> {\includegraphics[width=11.7cm]{images/fireMIP/pp-grey.png}}
+	\end{textblock*}
+	\begin{textblock*}{14cm}(-0.0cm ,1cm)
+		%\begin{tikzpicture}
+	
+				%				\node[anchor=south west,inner sep=0] (image) at (0,0) {
+				\includegraphics[width=11.7cm]{images/fireMIP/pp5.png}
+				%				};
+			
 		
-		\framesubtitle{Other things we could test}
+	\end{textblock*}
+	\begin{textblock*}{5.5cm}(7.2cm ,2.5cm)
+		%		\node[anchor=south west,inner sep=0] (image) at (6.5cm,0cm) {
 		\begin{itemize}
-			\large{
-			    \item INFERNO ``offline'' to test impact of veg model coupling (specially on moisture)
-				\item UKESM-JULES to test impact on simulated climate
-				\item Some way to test Seasonality problem
-			}
+			\small{
+			\item World without fire. 
+			\item Pre-industrial fire regime. 
+			\item Pre-industrial atmospheric CO2. 
+			\item Fixed 1700 human population density.
+			\item Fixed 1901-1920 lightning. 
+			\item Fixed 1901-1920 climate.
+			\item Fixed 1700 land use.}
 		\end{itemize}
-	}
+		%		};
+		%	\end{tikzpicture}
+	\end{textblock*}
+	
+	%	\includegraphics[width=6.05cm]{images/firePerBiome}%images/unimodal/p\x.png}
+	%};
+	%}}
 \end{frame}
 
 
 
+%\begin{frame}
+%    \frametitle{Questions and suggestion..?}
+%    \begin{itemize}
+%    	\huge{
+%    		\item douglas.i.kelley@gmail.com
+%    		\item UKESM-FIRE: tomorrow, 2:30pm 
+%    	}
+%    \end{itemize}
+%\end{frame}
 \begin{frame}
-    \frametitle{Questions and suggestion..?}
-    \begin{itemize}
-    	\huge{
-    		\item douglas.i.kelley@gmail.com
-    		\item UKESM-FIRE: tomorrow, 2:30pm 
-    	}
-    \end{itemize}
+    \frametitle{Post-fire recovery}
+    \includegraphics[width=12cm]{images/post-fireRec}%images/unimodal/p\x.png}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Pre-fire resilience}
+	\includegraphics[width=12cm]{images/BTvsDBH}%images/unimodal/p\x.png}
 \end{frame}
