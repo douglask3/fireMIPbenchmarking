@@ -25,7 +25,7 @@ compModelCatigory <- function(dat, addXaxis = FALSE, addYaxis = FALSE, ModelSpli
 	################################################
 	## set up plot frame					      ##
 	################################################
-	plot(c(0.8, nAxis + 0.2), c(minY, maxY), type = 'n', yaxt = 'n', xaxt = 'n', xlab = '', log = log)
+	plot(c(0.75, nAxis + 0.2), c(minY, maxY), type = 'n', yaxt = 'n', xaxt = 'n', xlab = '', log = log)
 	mtext(compName)
 	if (addXaxis) labels = names(ModelSplit) else labels = rep('', nAxis)
 	axis(1, at = 1:nAxis, labels = labels, las = 2)
@@ -107,7 +107,7 @@ plotSpit <- function(ModelSplit, name) {
 	nplotsX = floor(sqrt(nplots))
 	nplotsY = ceiling(sqrt(nplots))
 	
-	if (nplots > (nplotsX * nplotsY)) nplotsX = nplotsX + 1
+	if (nplots >= (nplotsX * nplotsY)) nplotsX = nplotsX + 1
 	nplotsY = nplotsY + 1
 
 	fname = paste("figs/catigoryScores", name, "pdf", sep = '.')
