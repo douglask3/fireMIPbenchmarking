@@ -1,6 +1,6 @@
 runComparisons <- function(comparisonList) {
     try(memSafeFile.remove(), silent = TRUE)
-    outs = mapply(runComparison, comparisonList, names(comparisonList))
+    outs = mapply(runComparison, comparisonList, names(comparisonList), SIMPLIFY = FALSE)
     ## outputs all?
 }
 
@@ -24,6 +24,8 @@ runComparison <- function(info, name, mod = NULL) {
 	obs = scaleMod(obs, Model.Variable[[1]], varnN)
 	mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(varnN))
     
+	if (openOnly) return(list(obs, mod))
+	
 	scores = comparison(mod, obs, name, info)
     return(list(scores, obs, mod))
 }
