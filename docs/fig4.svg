@@ -10,13 +10,16 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="300mm"
+   width="320mm"
    height="445mm"
-   viewBox="0 0 300 445"
+   viewBox="0 0 320 445"
    version="1.1"
    id="svg142"
    inkscape:version="0.92.1 r15371"
-   sodipodi:docname="fig4.svg">
+   sodipodi:docname="fig4.svg"
+   inkscape:export-filename="C:\Users\dougl\Documents\work\fireMIPbenchmarking\docs\fig4.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs136">
     <clipPath
@@ -302,9 +305,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.24748737"
-     inkscape:cx="192.58104"
-     inkscape:cy="967.59836"
+     inkscape:zoom="0.175"
+     inkscape:cx="1691.7827"
+     inkscape:cy="1009.1018"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -314,7 +317,7 @@
      inkscape:window-width="1128"
      inkscape:window-height="695"
      inkscape:window-x="229"
-     inkscape:window-y="0"
+     inkscape:window-y="1"
      inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
@@ -337,174 +340,254 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,148)">
-    <g
-       id="g4350"
-       transform="translate(-7.9375004,-141.8167)">
-      <image
-         transform="translate(-67.204169,-87.31251)"
-         clip-path="url(#clipPath4025)"
-         width="355.60001"
-         height="796.88269"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4s.Spatial-MNonly-step%201-modObsMetric-.png"
-         id="image4016"
-         x="52.765469"
-         y="-516.45923"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4s.Spatial-MNonly-step 1-modObsMetric-.png" />
-      <image
-         transform="translate(61.383342,58.208333)"
-         clip-path="url(#clipPath4042)"
-         width="355.60001"
-         height="796.88269"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4s.Spatial-MNonly-step%201-modObsMetric-.png"
-         id="image4037"
-         x="-101.82679"
-         y="-661.98004"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4s.Spatial-MNonly-step 1-modObsMetric-.png" />
-      <image
-         transform="translate(-58.208328,-274.63748)"
-         clip-path="url(#clipPath4070)"
-         width="355.60001"
-         height="796.88269"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4s.Spatial-MNRR-step%201-modObsMetric-.png"
-         id="image4065"
-         x="-67.808929"
-         y="-338.81039"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4s.Spatial-MNRR-step 1-modObsMetric-.png" />
-      <image
-         transform="translate(-24.341666,-134.93753)"
-         clip-path="url(#clipPath4102)"
-         width="355.60001"
-         height="415.88266"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-NRfire-MNRR-step%203-modObsMetric-.png"
-         id="image4093"
-         x="15.168596"
-         y="2.4633431"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-NRfire-MNRR-step 3-modObsMetric-.png" />
-      <image
-         transform="translate(100.01246,-5.2916705)"
-         clip-path="url(#clipPath4119)"
-         width="355.60001"
-         height="415.88266"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-NRfire-MNRR-step%203-modObsMetric-.png"
-         id="image4114"
-         x="-135.46667"
-         y="-127.52168"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-NRfire-MNRR-step 3-modObsMetric-.png" />
-      <image
-         transform="translate(-1.5874899,-35.454167)"
-         clip-path="url(#clipPath4136)"
-         width="355.60001"
-         height="415.88266"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-NRfire-MNRR-step%203-modObsMetric-.png"
-         id="image4131"
-         x="-123.7494"
-         y="-106.73299"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-NRfire-MNRR-step 3-modObsMetric-.png" />
-      <image
-         transform="translate(-101.07084,-295.27508)"
-         clip-path="url(#clipPath4153)"
-         width="355.60001"
-         height="796.88269"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4.Season-phase-MNRR-modObsMetric-.png"
-         id="image4148"
-         x="91.607681"
-         y="-128.1683"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4.Season-phase-MNRR-modObsMetric-.png" />
-      <image
-         transform="translate(-209.55009,-227.5417)"
-         clip-path="url(#clipPath4170)"
-         width="355.60001"
-         height="796.88269"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4.Season-phase-MNRR-modObsMetric-.png"
-         id="image4165"
-         x="174.85178"
-         y="-196.31337"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4.Season-phase-MNRR-modObsMetric-.png" />
-      <image
-         transform="translate(-207.43335,-293.15836)"
-         clip-path="url(#clipPath4187)"
-         width="355.60001"
-         height="796.88269"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4.Season-phase-MNRR-modObsMetric-.png"
-         id="image4182"
-         x="114.75357"
-         y="-164.18539"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4.Season-phase-MNRR-modObsMetric-.png" />
-      <image
-         transform="translate(-143.93334,-39.158338)"
-         clip-path="url(#clipPath4220)"
-         width="355.60001"
-         height="606.38269"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFEDsSeason-conc-MNRR-step%201-modObsMetric-.png"
-         id="image4210"
-         x="134.90535"
-         y="-126.46262"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFEDsSeason-conc-MNRR-step 1-modObsMetric-.png" />
-      <image
-         transform="translate(-163.51254,-150.81248)"
-         clip-path="url(#clipPath4237)"
-         width="355.60001"
-         height="606.38269"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFEDsSeason-conc-MNRR-step%201-modObsMetric-.png"
-         id="image4232"
-         x="129.11667"
-         y="-14.506822"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFEDsSeason-conc-MNRR-step 1-modObsMetric-.png" />
-      <image
-         transform="translate(-67.733323,-298.97906)"
-         clip-path="url(#clipPath4254)"
-         width="355.60001"
-         height="796.88269"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFAS-MNRR-step%201-modObsMetric-.png"
-         id="image4249"
-         x="57.679165"
-         y="34.252106"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFAS-MNRR-step 1-modObsMetric-.png" />
-      <image
-         transform="translate(-135.99587,-342.9)"
-         clip-path="url(#clipPath4275)"
-         width="355.60001"
-         height="796.88269"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4.Season-conc-MNRR-step%201-modObsMetric-.png"
-         id="image4266"
-         x="10.810116"
-         y="-20.932417"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4.Season-conc-MNRR-step 1-modObsMetric-.png" />
-      <image
-         transform="translate(66.145839,-165.62915)"
-         clip-path="url(#clipPath4314)"
-         width="355.60001"
-         height="796.88269"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFAS-MNonly-step%201-modObsMetric-.png"
-         id="image4309"
-         x="-100.82637"
-         y="-99.303192"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFAS-MNonly-step 1-modObsMetric-.png" />
-      <image
-         transform="translate(-141.81669,-277.28331)"
-         clip-path="url(#clipPath4331)"
-         width="355.60001"
-         height="796.88269"
-         preserveAspectRatio="none"
-         xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFAS-MNonly-step%201-modObsMetric-.png"
-         id="image4326"
-         x="16.857735"
-         y="7.4157977"
-         sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFAS-MNonly-step 1-modObsMetric-.png" />
-    </g>
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4s.Spatial-MNonly-step 1-modObsMetric-.png"
+       y="-516.45923"
+       x="52.765469"
+       id="image4016"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4s.Spatial-MNonly-step%201-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="796.88269"
+       width="355.60001"
+       clip-path="url(#clipPath4025)"
+       transform="translate(-56.091668,-229.12921)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4s.Spatial-MNonly-step 1-modObsMetric-.png"
+       y="-661.98004"
+       x="-101.82679"
+       id="image4037"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4s.Spatial-MNonly-step%201-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="796.88269"
+       width="355.60001"
+       clip-path="url(#clipPath4042)"
+       transform="translate(72.495843,-83.608367)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4s.Spatial-MNRR-step 1-modObsMetric-.png"
+       y="-338.81039"
+       x="-67.808929"
+       id="image4065"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4s.Spatial-MNRR-step%201-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="796.88269"
+       width="355.60001"
+       clip-path="url(#clipPath4070)"
+       transform="translate(-47.095827,-416.45418)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-NRfire-MNRR-step 3-modObsMetric-.png"
+       y="2.4633431"
+       x="15.168596"
+       id="image4093"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-NRfire-MNRR-step%203-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="415.88266"
+       width="355.60001"
+       clip-path="url(#clipPath4102)"
+       transform="translate(-17.462501,-276.75423)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-NRfire-MNRR-step 3-modObsMetric-.png"
+       y="-127.52168"
+       x="-135.46667"
+       id="image4114"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-NRfire-MNRR-step%203-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="415.88266"
+       width="355.60001"
+       clip-path="url(#clipPath4119)"
+       transform="translate(107.42077,-147.10837)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-NRfire-MNRR-step 3-modObsMetric-.png"
+       y="-106.73299"
+       x="-123.7494"
+       id="image4131"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-NRfire-MNRR-step%203-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="415.88266"
+       width="355.60001"
+       clip-path="url(#clipPath4136)"
+       transform="translate(9.5250111,-177.27087)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4.Season-phase-MNRR-modObsMetric-.png"
+       y="-128.1683"
+       x="91.607681"
+       id="image4148"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4.Season-phase-MNRR-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="796.88269"
+       width="355.60001"
+       clip-path="url(#clipPath4153)"
+       transform="translate(-89.958339,-437.09178)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4.Season-phase-MNRR-modObsMetric-.png"
+       y="-196.31337"
+       x="174.85178"
+       id="image4165"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4.Season-phase-MNRR-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="796.88269"
+       width="355.60001"
+       clip-path="url(#clipPath4170)"
+       transform="translate(-198.43759,-369.3584)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4.Season-phase-MNRR-modObsMetric-.png"
+       y="-164.18539"
+       x="114.75357"
+       id="image4182"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4.Season-phase-MNRR-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="796.88269"
+       width="355.60001"
+       clip-path="url(#clipPath4187)"
+       transform="translate(-196.32085,-434.97506)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFEDsSeason-conc-MNRR-step 1-modObsMetric-.png"
+       y="-126.46262"
+       x="134.90535"
+       id="image4210"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFEDsSeason-conc-MNRR-step%201-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="606.38269"
+       width="355.60001"
+       clip-path="url(#clipPath4220)"
+       transform="translate(-132.82084,-180.97504)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFEDsSeason-conc-MNRR-step 1-modObsMetric-.png"
+       y="-14.506822"
+       x="129.11667"
+       id="image4232"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFEDsSeason-conc-MNRR-step%201-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="606.38269"
+       width="355.60001"
+       clip-path="url(#clipPath4237)"
+       transform="translate(-152.40004,-292.62918)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFAS-MNRR-step 1-modObsMetric-.png"
+       y="34.252106"
+       x="57.679165"
+       id="image4249"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFAS-MNRR-step%201-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="796.88269"
+       width="355.60001"
+       clip-path="url(#clipPath4254)"
+       transform="translate(-56.620822,-440.79576)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFED4.Season-conc-MNRR-step 1-modObsMetric-.png"
+       y="-20.932417"
+       x="10.810116"
+       id="image4266"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFED4.Season-conc-MNRR-step%201-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="796.88269"
+       width="355.60001"
+       clip-path="url(#clipPath4275)"
+       transform="translate(-124.88337,-484.7167)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFAS-MNonly-step 1-modObsMetric-.png"
+       y="-99.303192"
+       x="-100.82637"
+       id="image4309"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFAS-MNonly-step%201-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="796.88269"
+       width="355.60001"
+       clip-path="url(#clipPath4314)"
+       transform="translate(77.25834,-307.44585)" />
+    <image
+       sodipodi:absref="C:\Users\dougl\Documents\work\fireMIPbenchmarking\figs\-GFAS-MNonly-step 1-modObsMetric-.png"
+       y="7.4157977"
+       x="16.857735"
+       id="image4326"
+       xlink:href="file:///C:/Users/dougl/Documents/work/fireMIPbenchmarking/figs/-GFAS-MNonly-step%201-modObsMetric-.png"
+       preserveAspectRatio="none"
+       height="796.88269"
+       width="355.60001"
+       clip-path="url(#clipPath4331)"
+       transform="translate(-130.70419,-419.10001)" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332;text-anchor:middle;text-align:center;"
+       x="103.14821"
+       y="15.795413"
+       id="text4354"
+       transform="rotate(-90)"><tspan
+         sodipodi:role="line"
+         id="tspan4352"
+         x="75.770035"
+         y="15.795413"
+         style="stroke-width:0.26458332;text-anchor:middle;text-align:center;">Burnt Area</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332;text-anchor:middle;text-align:center;"
+       x="10.793115"
+       y="15.795335"
+       id="text4354-1"
+       transform="rotate(-90)"><tspan
+         sodipodi:role="line"
+         id="tspan4352-3"
+         x="-17.892471"
+         y="15.795335"
+         style="stroke-width:0.26458332;text-anchor:middle;text-align:center;">No. of Fires</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="-74.122673"
+       y="15.795408"
+       id="text4354-5"
+       transform="rotate(-90)"><tspan
+         sodipodi:role="line"
+         id="tspan4352-6"
+         x="-74.122673"
+         y="15.795408"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332">Season Phase</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="-155.08485"
+       y="15.795413"
+       id="text4354-7"
+       transform="rotate(-90)"><tspan
+         sodipodi:role="line"
+         id="tspan4352-32"
+         x="-155.08485"
+         y="15.795413"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332">Season Conc.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="-236.57692"
+       y="15.795413"
+       id="text4354-56"
+       transform="rotate(-90)"><tspan
+         sodipodi:role="line"
+         id="tspan4352-8"
+         x="-236.57692"
+         y="15.795413"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332">Emissions</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="95.055679"
+       y="-136.44334"
+       id="text4354-73"><tspan
+         sodipodi:role="line"
+         id="tspan4352-0"
+         x="95.055679"
+         y="-136.44334"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332">Observed</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="245.86826"
+       y="-136.44333"
+       id="text4354-73-6"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         sodipodi:role="line"
+         id="tspan4352-0-0"
+         x="245.86826"
+         y="-136.44333"
+         style="text-align:center;text-anchor:middle;stroke-width:0.26458332">Model Ensemble</tspan></text>
   </g>
 </svg>
