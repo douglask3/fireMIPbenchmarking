@@ -23,7 +23,7 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                                1860,
                                "Monthly"),
             INFERNO  = rbind(c("gpp"           ,  rep("npp", 4)                                      , "cVeg"   ),
-                             c(rep(perseckg2Mnthg, 5)                                                                , 0.1       ),                   
+                             c(rep(perseckg2Mnthg, 5)                                                                , 1       ),                   
                                1700,
                                "Monthly"),
             JSBACH   = rbind(c("gpppft"           ,  rep("npppft", 4)                                      , "cVeg"   ),
