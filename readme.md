@@ -8,11 +8,11 @@ The projects code and version history is accessible from github:
 [github.com/douglask3/fireMIPbenchmarking](https://github.com/douglask3/fireMIPbenchmarking)
 
 1. Clone the git repo. In command line, this is:
-> git clone https://github.com/douglask3/fireMIPbenchmarking.git
->  cd fireMIPbenchmarking
+>	git clone https://github.com/douglask3/fireMIPbenchmarking.git
+> 	cd fireMIPbenchmarking
 
 To update:
-> git pull 
+>	git pull 
 
 
 ### Gradding Data
@@ -23,17 +23,17 @@ Model output should be downloaded into 'data/ModelOutputs/' dir. By default, the
 
 If you want to have multiple experiments (i.e, SF1 and SF2/..) then setting the 'experiment' variable to the sub-dir within each model folder *should* open that experiment, although as of b486c8e, this is untested. For example, have the following structure:
 
-> data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF1/&#60;&#60;files&#62;&#62;
-> data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/WWF/&#60;&#60;files&#62;&#62;
-> data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/fixedCO2/&#60;&#60;files&#62;&#62;
+>	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF1/&#60;&#60;files&#62;&#62;
+>	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/WWF/&#60;&#60;files&#62;&#62;
+>	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/fixedCO2/&#60;&#60;files&#62;&#62;
 
 then setting:
 
-> experiment = 'SF1/'
+>	experiment = 'SF1/'
 
 should open SF1 data, and
 
-> experiment = 'SF2/WWF/
+>	experiment = 'SF2/WWF/
 
 should open world without fire experiments.
 
@@ -53,7 +53,7 @@ Most of the fire comparison paramters are already setup, so if might be able to 
 The 4th row is the start year of the comparison. The 5th row is how this should be converted for annual average over the full period. 'mean' means the mean of all years, while 'sum' is the sum of all years. If in doubt, this is normally set to 'mean'. 
 
 For example:
-> Model.Variable  = list(
+>	Model.Variable  = list(
 >            varname  = rbind(c("GFED4"    , "GFED4s"   , "GFEDsSeason", "meris"    , "MCD45"    , "GFAS"    , "GFASSeason", "NRfire"  , "meanFire" ),
 >                             c(1          , 1          , 1            , 1          , 1          , kgpersec  , kgpersec    , 1         , 1          ),
 >                             c('Monthly'  , 'Monthly'  , 'Monthly'    , 'Monthly'  , "Monthly"  , 'Monthly' , 'Monthly'   , "Annual"  , "Annual"   ),
