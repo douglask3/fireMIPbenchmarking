@@ -23,9 +23,9 @@ Model output should be downloaded into 'data/ModelOutputs/' dir. By default, the
 
 If you want to have multiple experiments (i.e, SF1 and SF2/..) then setting the 'experiment' variable to the sub-dir within each model folder *should* open that experiment, although as of b486c8e, this is untested. For example, have the following structure:
 
->	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF1/&#60;&#60;files&#62;&#62;
->	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/WWF/&#60;&#60;files&#62;&#62;
->	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/fixedCO2/&#60;&#60;files&#62;&#62;
+	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF1/&#60;&#60;files&#62;&#62;
+	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/WWF/&#60;&#60;files&#62;&#62;
+	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/fixedCO2/&#60;&#60;files&#62;&#62;
 
 then setting:
 
