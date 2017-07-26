@@ -19,7 +19,7 @@ To update:
 
 Benchmark data is on the fireMIP server. Contact [Stijn Hantson](http://www.imk-ifu.kit.edu/staff_2107.php) for info. Benchmark datasets should be copied straight from the sever into the projects 'data/benchmarkData/' dir.
 
-Model output should be downloaded into 'data/ModelOutputs/' dir. By default, the system is setup to have one lot of model output per model in a dir for the name provided in the first column of the "Model.RAW" table in 'cfg/modelInfo.r'. So, for example, copying all contents of 'SF1' for LPJglob into 'data/ModelOutputs/LPJ-GUESS-GlobFIRM/'. 
+Model output should be downloaded into *data/ModelOutputs/* dir. By default, the system is setup to have one lot of model output per model in a dir for the name provided in the first column of the ``Model.RAW`` table in *cfg/modelInfo.r*. So, for example, copying all contents of 'SF1' for LPJglob into *data/ModelOutputs/LPJ-GUESS-GlobFIRM/*. 
 
 If you want to have multiple experiments (i.e, SF1 and SF2/..) then setting the 'experiment' variable to the sub-dir within each model folder *should* open that experiment, although as of b486c8e, this is untested. For example, have the following structure:
 
@@ -41,18 +41,18 @@ should open world without fire experiments.
 
 This dir structure should be conistent across all models you wish to open (which I'm not sure it is on the fireMIP server).
 	
-If you wish to store data outside of the project, you can either use symbolic links or set the new path by altering 'data_dir.ModelOutputs' in 'cfg/params.r/'.
+If you wish to store data outside of the project, you can either use symbolic links or set the new path by altering ``data_dir.ModelOutputs`` in *cfg/params.r/*.
 
 
 ## Configuring masking and comparisons
 
-Most of the fire comparison paramters are already setup, so if might be able to skip this section. However, if you wish to correct, modify, or create new comparisons, then you will need to modify or create a new 'cfg/variable.xxx.r' file, where xxx is the comparison group. Using 'cfg/varibale.fire.r' as an example:
+Most of the fire comparison paramters are already setup, so if might be able to skip this section. However, if you wish to correct, modify, or create new comparisons, then you will need to modify or create a new *cfg/variable.xxx.r* file, where xxx is the comparison group. Using *cfg/varibale.fire.r* as an example:
 
 ### Model.Variable
 
-1. In ``Model.Variable``, the top row lists the names for the comparison. These can be named anything, and is used to reference that variable late in the cfg and when making benchmark outputs. The 2nd line are the unit size of the obsvered variable to be opened compared to some standard unit (the standard unit is normally SI in most of the pre-defined comparisons, but as long as your consitant, you can pick whatever unit you like). As 'GFED4xxx' are all fractional burnt area, the 2nd row are of size 1 compared to the standrd unit of fractional area. If they had been %, then this would be 100 (cos it would be 100 times bigger than the standard unit of franction area). If you wanted the standrd unit to be %, then these would all be changed to 0.01, cos there 0.01 x the size of the new standard unit. The 3rd line is the temporal resultion of the observed. At the moment, it will accept 'Annual', 'Monthly', or 'daily'.
+1. In ``Model.Variable``, the top row lists the names for the comparison. These can be named anything, and is used to reference that variable late in the cfg and when making benchmark outputs. The 2nd line are the unit size of the obsvered variable to be opened compared to some standard unit (the standard unit is normally SI in most of the pre-defined comparisons, but as long as your consitant, you can pick whatever unit you like). As ``GFED4xxx`` are all fractional burnt area, the 2nd row are of size 1 compared to the standrd unit of fractional area. If they had been %, then this would be 100 (cos it would be 100 times bigger than the standard unit of franction area). If you wanted the standrd unit to be %, then these would all be changed to 0.01, cos there 0.01 x the size of the new standard unit. The 3rd line is the temporal resultion of the observed. At the moment, it will accept ``'Annual'``, ``'Monthly'``, or ``'daily'``.
 
-The 4th row is the start year of the comparison. The 5th row is how this should be converted for annual average over the full period. 'mean' means the mean of all years, while 'sum' is the sum of all years. If in doubt, this is normally set to 'mean'. 
+The 4th row is the start year of the comparison. The 5th row is how this should be converted for annual average over the full period. ``mean`` means the mean of all years, while ``sum`` is the sum of all years. If in doubt, this is normally set to ``mean``. 
 
 For example:
 
@@ -69,12 +69,12 @@ The first four rows are repeated for each model, but in a slightly different ord
 This is reapeated for each model.
 
 For example:
->             ... )),
->            CLM      = rbind(c("BAF"      , "BAF"      , "BAF"        , "BAF"      , "BAF"      , "CFFIRE"  , "CFFIRE"    , "nrfire"  , "mean_fire"),
->                             c(rep(100, 5)                                                      , kgpersec  , kgpersec    , 1         , 1          ),
->                             c(1850       , 1850       , 1850         , 1850       , 1850       , 1850      , 1850        , 1850      , 1850       ),
->                             c('Monthly'  , 'Monthly'  , "Monthly"    , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly"   , "Monthly" , "Monthly" )),
->            CTEM     = rbind(...
+             ... )),
+            CLM      = rbind(c("BAF"      , "BAF"      , "BAF"        , "BAF"      , "BAF"      , "CFFIRE"  , "CFFIRE"    , "nrfire"  , "mean_fire"),
+                             c(rep(100, 5)                                                      , kgpersec  , kgpersec    , 1         , 1          ),
+                             c(1850       , 1850       , 1850         , 1850       , 1850       , 1850      , 1850        , 1850      , 1850       ),
+                             c('Monthly'  , 'Monthly'  , "Monthly"    , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly"   , "Monthly" , "Monthly" )),
+            CTEM     = rbind(...
 
 ### Full comparison info
 
@@ -85,7 +85,7 @@ The bit under **Full comparison info** provides model detail for each variable d
 * ***obsFile*** is the filename, relative to ``data_dir.BenchmarkData`` that the
   observation is contained in
 * *obsVarname* is the varname in if obsFile is a netcdf file. If not provided, the system will open the first spatial variable it finds in the nc file. For MM comparisons, where mltiple items are used in the calculation, a vector of variable names can be provided to either ``length(items)`` or ``length(items)-1`` if the ``extraItem`` is provided in ``ExtraArgs`` field (see below)
-* *ComparisonFun* the function which will be used to make the comparison.
+* **ComparisonFun** the function which will be used to make the comparison.
    Available functions include:
    
    - ``FullNME`` for Normalised Mean Error (NME) comparisons for gridded data
@@ -108,12 +108,12 @@ Normalised Mean Squared Error (NMSE) and Square Cord Difference (SCD) are not ye
 	
 For example:
 
-> GFED4.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
->                     obsVarname    = "mfire_frac",
->                     obsLayers     = 8:163,
->                     ComparisonFun = FullNME,
->                     plotArgs      = FractionBA.Spatial ,
->                     ExtraArgs     = list(mnth2yr = TRUE))
+	GFED4.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
+						obsVarname    = "mfire_frac",
+						obsLayers     = 8:163,
+						ComparisonFun = FullNME,
+						plotArgs      = FractionBA.Spatial ,
+						ExtraArgs     = list(mnth2yr = TRUE))
 	
 
 	
@@ -135,11 +135,11 @@ Some of the plotting arguments can be quiet long lists, so it is often worth def
 	
 For example:
 
-> NPP = list(cols    = c('white',"#DDDD00","#33EE00",
->  					   "#001100"),
->		   limits  = c(10, 50, 100, 200, 400, 600, 1000),
->           xlab    = 'observed NPP (gC/m2)',
->           ylab    = 'simulated NPP (gC/m2)')
+	NPP = list(cols    = c('white',"#DDDD00","#33EE00",
+						"#001100"),
+			limits  = c(10, 50, 100, 200, 400, 600, 1000),
+			xlab    = 'observed NPP (gC/m2)',
+			ylab    = 'simulated NPP (gC/m2)')
 	
 * For interannual NME comparisons:
 
@@ -159,9 +159,9 @@ These should then be followed by ``source('run.r')``, which will then run the co
 
 For example:
 
-> names = 'fire'
-> comparisons = list(c("GFEDsSeason", "GFASSeason"))
-> source('run.r')
+>	names = 'fire'
+>	comparisons = list(c("GFEDsSeason", "GFASSeason"))
+>	source('run.r')
 
 On windows machines, you may get warnings about not being able to create some directories. Ignore these, thats fine.
 
