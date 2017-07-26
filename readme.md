@@ -8,11 +8,11 @@ The projects code and version history is accessible from github:
 [github.com/douglask3/fireMIPbenchmarking](https://github.com/douglask3/fireMIPbenchmarking)
 
 1. Clone the git repo. In command line, this is:
->> > git clone https://github.com/douglask3/fireMIPbenchmarking.git
->> > cd fireMIPbenchmarking
+> git clone https://github.com/douglask3/fireMIPbenchmarking.git
+>  cd fireMIPbenchmarking
 
 To update:
->> git pull 
+> git pull 
 
 
 ### Gradding Data
@@ -23,9 +23,9 @@ Model output should be downloaded into 'data/ModelOutputs/' dir. By default, the
 
 If you want to have multiple experiments (i.e, SF1 and SF2/..) then setting the 'experiment' variable to the sub-dir within each model folder *should* open that experiment, although as of b486c8e, this is untested. For example, have the following structure:
 
-data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF1/<<files>>
-data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/WWF/<<files>>
-data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/fixedCO2/<<files>>
+> data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF1/<files>
+> data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/WWF/<files>
+> data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/fixedCO2/<files>
 
 This dir structure should be conistent across all models you wish to open (which I'm not sure it is on the fireMIP server).
 	
@@ -36,17 +36,36 @@ If you wish to store data outside of the project, you can either use symbolic li
 
 Most of the fire comparison paramters are already setup, so if might be able to skip this section. However, if you wish to correct, modify, or create new comparisons, then you will need to modify or create a new 'cfg/variable.xxx.r' file, where xxx is the comparison group. Using 'cfg/varibale.fire.r' as an example:
 
-1. In **Model.Variable**, the top row lists the names for the comparison. These can be named anything, and is used to reference that variable late in the cfg and when making benchmark outputs. The 2nd line are the unit size of the obsvered variable to be opened compared to some standard unit (the standard unit is normally SI in most of the pre-defined comparisons, but as long as your consitant, you can pick whatever unit you like). As 'GFED4xxx' are all fractional burnt area, the 2nd row are of size 1 compared to the standrd unit of fractional area. If they had been %, then this would be 100 (cos it would be 100 times bigger than the standard unit of franction area). If you wanted the standrd unit to be %, then these would all be changed to 0.01, cos there 0.01 x the size of the new standard unit. The 3rd line is the temporal resultion of the observed. At the moment, it will accept 'Annual', 'Monthly', or 'daily'.
+### Model.Variable
+
+1. In ``Model.Variable``, the top row lists the names for the comparison. These can be named anything, and is used to reference that variable late in the cfg and when making benchmark outputs. The 2nd line are the unit size of the obsvered variable to be opened compared to some standard unit (the standard unit is normally SI in most of the pre-defined comparisons, but as long as your consitant, you can pick whatever unit you like). As 'GFED4xxx' are all fractional burnt area, the 2nd row are of size 1 compared to the standrd unit of fractional area. If they had been %, then this would be 100 (cos it would be 100 times bigger than the standard unit of franction area). If you wanted the standrd unit to be %, then these would all be changed to 0.01, cos there 0.01 x the size of the new standard unit. The 3rd line is the temporal resultion of the observed. At the moment, it will accept 'Annual', 'Monthly', or 'daily'.
 
 The 4th row is the start year of the comparison. The 5th row is how this should be converted for annual average over the full period. 'mean' means the mean of all years, while 'sum' is the sum of all years. If in doubt, this is normally set to 'mean'. 
+
+For example:
+> Model.Variable  = list(
+>            varname  = rbind(c("GFED4"    , "GFED4s"   , "GFEDsSeason", "meris"    , "MCD45"    , "GFAS"    , "GFASSeason", "NRfire"  , "meanFire" ),
+>                             c(1          , 1          , 1            , 1          , 1          , kgpersec  , kgpersec    , 1         , 1          ),
+>                             c('Monthly'  , 'Monthly'  , 'Monthly'    , 'Monthly'  , "Monthly"  , 'Monthly' , 'Monthly'   , "Annual"  , "Annual"   ),
+>                             c(1996       , 1996       , 1996         , 2006       , 2001       , 2000      , 2000        , 2002      , 2002       ),
+>                             c('mean'     , 'mean'     , "mean"       , "mean"     , "mean"     , "mean"    , "mean"      , "mean"    , "mean"    )),
+>            CLM  = rbind(...
 
 The first four rows are repeated for each model, but in a slightly different order (I don't know why, and I need to fix that at some point). The 1st row is the variable name again, but this time it shoudl match the variable name in the model output. For most models, this is found either in the output filename or variable name within their nc file. The 2nd row is model output unit vs the same standard unit used for the observation (CLM for all burnt areas, for exmaple, is in % so is set to 100 as it's 100 times bigger than fractional area). Te 3rd row is the start year and the fourth is temporal resolution of the model output. This does not have to be the same as the observation, and if they are different, is used to interpolation or aggrigation to the obesvered timestep.
 
 This is reapeated for each model.
 
+For example:
+             ... )),
+>            CLM      = rbind(c("BAF"      , "BAF"      , "BAF"        , "BAF"      , "BAF"      , "CFFIRE"  , "CFFIRE"    , "nrfire"  , "mean_fire"),
+>                             c(rep(100, 5)                                                      , kgpersec  , kgpersec    , 1         , 1          ),
+>                             c(1850       , 1850       , 1850         , 1850       , 1850       , 1850      , 1850        , 1850      , 1850       ),
+>                             c('Monthly'  , 'Monthly'  , "Monthly"    , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly"   , "Monthly" , "Monthly" )),
+>            CTEM     = rbind(...
 
+### Full comparison info
 
-2. I'll skip the plotting info for a sec. 
+I'll skip the plotting info for a sec. See sub-section below
 
 The bit under **Full comparison info** provides model detail for each variable defined in the original table. Each list should be <<comparison name>>.extension. "extension" can be anything, but comparison name must match the name in the 1st row of the Model.Variable table I just described. There are a number of fields, some of which are optional. Complusary arguemnts are in bold.
 					 
@@ -76,14 +95,17 @@ Normalised Mean Squared Error (NMSE) and Square Cord Difference (SCD) are not ye
 	
 For example:
 
-GFED4.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
-                     obsVarname    = "mfire_frac",
-                     obsLayers     = 8:163,
-                     ComparisonFun = FullNME,
-                     plotArgs      = FractionBA.Spatial ,
-                     ExtraArgs     = list(mnth2yr = TRUE))
+> GFED4.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
+>                     obsVarname    = "mfire_frac",
+>                     obsLayers     = 8:163,
+>                     ComparisonFun = FullNME,
+>                     plotArgs      = FractionBA.Spatial ,
+>                     ExtraArgs     = list(mnth2yr = TRUE))
 	
-3. Plotting arguments
+
+	
+### Plotting arguments
+
 Some of the plotting arguments can be quiet long lists, so it is often worth defining these in sperate lists are setting ``plotArgs`` as equal to this list when defining  your ``<<comparison name>>.extension`` list. This is what is implemented in ``cfg\Variable.fire``. Plotting argemnts that can be provided depend on the comparison being performed:
 
 * For spatial NME and MM comparisons:
@@ -100,11 +122,11 @@ Some of the plotting arguments can be quiet long lists, so it is often worth def
 	
 For example:
 
-NPP = list(cols    = c('white',"#DDDD00","#33EE00",
-					   "#001100"),
-		   limits  = c(10, 50, 100, 200, 400, 600, 1000),
-           xlab    = 'observed NPP (gC/m2)',
-           ylab    = 'simulated NPP (gC/m2)')
+> NPP = list(cols    = c('white',"#DDDD00","#33EE00",
+>  					   "#001100"),
+>		   limits  = c(10, 50, 100, 200, 400, 600, 1000),
+>           xlab    = 'observed NPP (gC/m2)',
+>           ylab    = 'simulated NPP (gC/m2)')
 	
 * For interannual NME comparisons:
 
@@ -124,9 +146,9 @@ These should then be followed by ``source('run.r')``, which will then run the co
 
 For example:
 
->> names = 'fire'
->> comparisons = list(c("GFEDsSeason", "GFASSeason"))
->> source('run.r')
+> names = 'fire'
+> comparisons = list(c("GFEDsSeason", "GFASSeason"))
+> source('run.r')
 
 On windows machines, you may get warnings about not being able to create some directories. Ignore these, thats fine.
 
@@ -138,15 +160,15 @@ Once completed, you can see output in a number of places:
 - The 'outputs/' dir will have a load of comparison tables. These are a little messy still, but will be tidied at some point
 - If you are working in an R terminal, or if you want to add more anaylis code below your initial 3 lines in the r script, then regridded and remasked observations and model output, as well as comparison information and scores, are provided in a new, global r-variable call 'out'. In R-terminal, typing 'out' will give this:
 
-> out
-            fire  
-GFEDsSeason List,3
-GFASSeason  List,3
+>> print(out)
+>            fire  
+> GFEDsSeason List,3
+> GFASSeason  List,3
 
 where each list of length 3 provides:
-out[['GFEDsSeason', 'fire']][[1]] - comparison scores for null and model outputs
-out[['GFEDsSeason', 'fire']][[2]] - regridded, masked & interpolated observations
-out[['GFEDsSeason', 'fire']][[3]] - regridded, masked & interpolated model outputs
+> out[['GFEDsSeason', 'fire']][[1]] - comparison scores for null and model outputs
+> out[['GFEDsSeason', 'fire']][[2]] - regridded, masked & interpolated observations
+> out[['GFEDsSeason', 'fire']][[3]] - regridded, masked & interpolated model outputs
 
 
 ## Other things you can setup
@@ -154,9 +176,10 @@ out[['GFEDsSeason', 'fire']][[3]] - regridded, masked & interpolated model outpu
 * in *cfg/params.r*
 ``openOnly = TRUE`` Will skip all plotting and comparisons, and just open, regrid, interploate and re-mask the data. The 'out' variable will now look like this:
 
-            fire  
-GFEDsSeason List,2
-GFASSeason  List,2
+>> print(out)
+>            fire  
+> GFEDsSeason List,2
+> GFASSeason  List,2
 
 where the first item in the each list is the opened observed and the 2nd is a list with each opened model.
 
