@@ -23,9 +23,19 @@ Model output should be downloaded into 'data/ModelOutputs/' dir. By default, the
 
 If you want to have multiple experiments (i.e, SF1 and SF2/..) then setting the 'experiment' variable to the sub-dir within each model folder *should* open that experiment, although as of b486c8e, this is untested. For example, have the following structure:
 
-> data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF1/<files>
-> data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/WWF/<files>
-> data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/fixedCO2/<files>
+> data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF1/&#60;&#60;files&#62;&#62;
+> data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/WWF/&#60;&#60;files&#62;&#62;
+> data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/fixedCO2/&#60;&#60;files&#62;&#62;
+
+then setting:
+
+> experiment = 'SF1/'
+
+should open SF1 data, and
+
+> experiment = 'SF2/WWF/
+
+should open world without fire experiments.
 
 This dir structure should be conistent across all models you wish to open (which I'm not sure it is on the fireMIP server).
 	
@@ -56,7 +66,7 @@ The first four rows are repeated for each model, but in a slightly different ord
 This is reapeated for each model.
 
 For example:
-             ... )),
+>             ... )),
 >            CLM      = rbind(c("BAF"      , "BAF"      , "BAF"        , "BAF"      , "BAF"      , "CFFIRE"  , "CFFIRE"    , "nrfire"  , "mean_fire"),
 >                             c(rep(100, 5)                                                      , kgpersec  , kgpersec    , 1         , 1          ),
 >                             c(1850       , 1850       , 1850         , 1850       , 1850       , 1850      , 1850        , 1850      , 1850       ),
@@ -188,8 +198,8 @@ where the first item in the each list is the opened observed and the 2nd is a li
 Changing SeasonConcCols though to SeasonPahseDlimits will change the colormap for seasonal plots in a simular way to changing `cols`, trough to `dlimits` in plotting arguments for NME and MM spatial plots (see above)
 
 If you benchmark or model output data are stored outside the project or in none-standard paths, these can be set in:
-data_dir.ModelOutputs  = 'data/ModelOutputs/'
-data_dir.BenchmarkData = 'data/benchmarkData/'
+> data_dir.ModelOutputs  = 'data/ModelOutputs/'
+> data_dir.BenchmarkData = 'data/benchmarkData/'
 
 However, these dirs will assume the same structure as the ones outlined under 'Set-up'
 
