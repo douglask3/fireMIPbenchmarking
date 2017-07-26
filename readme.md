@@ -173,10 +173,10 @@ Once completed, you can see output in a number of places:
 - The 'outputs/' dir will have a load of comparison tables. These are a little messy still, but will be tidied at some point
 - If you are working in an R terminal, or if you want to add more anaylis code below your initial 3 lines in the r script, then regridded and remasked observations and model output, as well as comparison information and scores, are provided in a new, global r-variable call 'out'. In R-terminal, typing 'out' will give this:
 
->> print(out)
->            fire  
-> GFEDsSeason List,3
-> GFASSeason  List,3
+>>		print(out)
+>   		         fire  
+> 		GFEDsSeason List,3
+> 		GFASSeason  List,3
 
 where each list of length 3 provides:
 > out[['GFEDsSeason', 'fire']][[1]] - comparison scores for null and model outputs
@@ -189,10 +189,10 @@ where each list of length 3 provides:
 * in *cfg/params.r*
 ``openOnly = TRUE`` Will skip all plotting and comparisons, and just open, regrid, interploate and re-mask the data. The 'out' variable will now look like this:
 
->> print(out)
->            fire  
-> GFEDsSeason List,2
-> GFASSeason  List,2
+>> 		print(out)
+>       	     fire  
+> 		GFEDsSeason List,2
+> 		GFASSeason  List,2
 
 where the first item in the each list is the opened observed and the 2nd is a list with each opened model.
 
