@@ -53,6 +53,7 @@ Most of the fire comparison paramters are already setup, so if might be able to 
 The 4th row is the start year of the comparison. The 5th row is how this should be converted for annual average over the full period. 'mean' means the mean of all years, while 'sum' is the sum of all years. If in doubt, this is normally set to 'mean'. 
 
 For example:
+
 >	Model.Variable  = list(
 >            varname  = rbind(c("GFED4"    , "GFED4s"   , "GFEDsSeason", "meris"    , "MCD45"    , "GFAS"    , "GFASSeason", "NRfire"  , "meanFire" ),
 >                             c(1          , 1          , 1            , 1          , 1          , kgpersec  , kgpersec    , 1         , 1          ),
