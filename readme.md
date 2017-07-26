@@ -23,17 +23,19 @@ Model output should be downloaded into 'data/ModelOutputs/' dir. By default, the
 
 If you want to have multiple experiments (i.e, SF1 and SF2/..) then setting the 'experiment' variable to the sub-dir within each model folder *should* open that experiment, although as of b486c8e, this is untested. For example, have the following structure:
 
-	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF1/&#60;&#60;files&#62;&#62;
-	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/WWF/&#60;&#60;files&#62;&#62;
-	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/fixedCO2/&#60;&#60;files&#62;&#62;
+>	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF1/&#60;&#60;files&#62;&#62;
+
+>	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/WWF/&#60;&#60;files&#62;&#62;
+
+>	data/ModelOutputs/LPJ-GUESS-GlobFIRM/SF2/fixedCO2/&#60;&#60;files&#62;&#62;
 
 then setting:
 
->	experiment = 'SF1/'
+	experiment = 'SF1/'
 
 should open SF1 data, and
 
->	experiment = 'SF2/WWF/
+	experiment = 'SF2/WWF/
 
 should open world without fire experiments.
 
@@ -54,13 +56,13 @@ The 4th row is the start year of the comparison. The 5th row is how this should 
 
 For example:
 
->	Model.Variable  = list(
->            varname  = rbind(c("GFED4"    , "GFED4s"   , "GFEDsSeason", "meris"    , "MCD45"    , "GFAS"    , "GFASSeason", "NRfire"  , "meanFire" ),
->                             c(1          , 1          , 1            , 1          , 1          , kgpersec  , kgpersec    , 1         , 1          ),
->                             c('Monthly'  , 'Monthly'  , 'Monthly'    , 'Monthly'  , "Monthly"  , 'Monthly' , 'Monthly'   , "Annual"  , "Annual"   ),
->                             c(1996       , 1996       , 1996         , 2006       , 2001       , 2000      , 2000        , 2002      , 2002       ),
->                             c('mean'     , 'mean'     , "mean"       , "mean"     , "mean"     , "mean"    , "mean"      , "mean"    , "mean"    )),
->            CLM  = rbind(...
+	Model.Variable  = list(
+            varname  = rbind(c("GFED4"    , "GFED4s"   , "GFEDsSeason", "meris"    , "MCD45"    , "GFAS"    , "GFASSeason", "NRfire"  , "meanFire" ),
+                             c(1          , 1          , 1            , 1          , 1          , kgpersec  , kgpersec    , 1         , 1          ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'    , 'Monthly'  , "Monthly"  , 'Monthly' , 'Monthly'   , "Annual"  , "Annual"   ),
+                             c(1996       , 1996       , 1996         , 2006       , 2001       , 2000      , 2000        , 2002      , 2002       ),
+                             c('mean'     , 'mean'     , "mean"       , "mean"     , "mean"     , "mean"    , "mean"      , "mean"    , "mean"    )),
+            CLM  = rbind(...
 
 The first four rows are repeated for each model, but in a slightly different order (I don't know why, and I need to fix that at some point). The 1st row is the variable name again, but this time it shoudl match the variable name in the model output. For most models, this is found either in the output filename or variable name within their nc file. The 2nd row is model output unit vs the same standard unit used for the observation (CLM for all burnt areas, for exmaple, is in % so is set to 100 as it's 100 times bigger than fractional area). Te 3rd row is the start year and the fourth is temporal resolution of the model output. This does not have to be the same as the observation, and if they are different, is used to interpolation or aggrigation to the obesvered timestep.
 
