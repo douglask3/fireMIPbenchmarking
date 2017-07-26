@@ -159,9 +159,9 @@ These should then be followed by ``source('run.r')``, which will then run the co
 
 For example:
 
->	names = 'fire'
->	comparisons = list(c("GFEDsSeason", "GFASSeason"))
->	source('run.r')
+>		names = 'fire'
+>		comparisons = list(c("GFEDsSeason", "GFASSeason"))
+>		source('run.r')
 
 On windows machines, you may get warnings about not being able to create some directories. Ignore these, thats fine.
 
