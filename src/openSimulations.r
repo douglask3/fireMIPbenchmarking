@@ -13,8 +13,9 @@ openSimulation <- function(modInfo, rawInfo, name, varnN, layers) {
 				  function(i, dats) dats[[1]][[i]] / dats[[2]][[i]],
 				  function(i, dats) dats[[1]][[i]] + dats[[2]][[i]],
 				  function(i, dats) dats[[1]][[i]] - dats[[2]][[i]])
+	
 	testMultiVar = lapply(operators, grep, modInfoi[1], fixed = TRUE)
-	yayandwow = modInfo[1]
+	
 	if (length(unlist(testMultiVar)) > 0) {
 		tempFile = paste(c(temp_dir, '/processed', '---', varInfo[1], '-', rawInfo[[1]], modInfo[1], 1, modInfo[-(1:2)],
                      min(layers), '-', max(layers), '.nc'), collapse = '')
@@ -64,7 +65,7 @@ openModel <- function(varInfo, modInfo, rawInfo, layers) {
 	
     tempFile = paste(c(temp_dir, '/processed', '-', varInfo[1], '-', rawInfo[[1]], modInfo[1], 1, modInfo[-(1:2)],
                      min(layers), '-', max(layers), '.nc'), collapse = '')
-	
+	tempFile = gsub(':', '---', tempFile)
     if (file.exists(tempFile)) dat = brick(tempFile)
     else dat = process.RAW(rawInfo, varInfo, modInfo,
                            modLayers, layersIndex, scling, tempFile)

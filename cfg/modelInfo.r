@@ -7,9 +7,9 @@ Model.RAW = list(      #DIR                 #Processing
             CTEM     = c('CTEM'                   , process.CTEM    ),
             INFERNO  = c('Inferno'                , process.INFERNO ),
             JSBACH   = c('JSBACH'                 , process.JSBACH ),
-            LPJglob  = c('LPJ-GUESS-GlobFIRM'     , process.default ),
-            LPJspit  = c('LPJ-GUESS-SPITFIRE'     , process.default ),
-            LPJblze  = c('LPJ-GUESS-SIMFIRE-BLAZE', process.default ),
+            LPJglob  = c('LPJ-GUESS-GlobFIRM'     , process.LPJ ),
+            LPJspit  = c('LPJ-GUESS-SPITFIRE'     , process.LPJ ),
+            LPJblze  = c('LPJ-GUESS-SIMFIRE-BLAZE', process.LPJ ),
             MC2      = c('MC2'                    , process.MC2     ),
             ORCHIDEE = c('ORCHIDEE'               , process.orchidee))
 

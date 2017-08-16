@@ -1,29 +1,29 @@
 process.CLM <- function(files, varName, levels, ...) {
+	
     if (is.na(levels)) dat = process.CLM.default(files, varName, ...)
         else dat = layer.apply(levels, process.CLM.level, files, varName, ...)
 }
 
 process.CLM.level <- function(levels, files, varName, startYear,
-                        layers, layersIndex, combine) {
-
+                        layers, layersIndex, combine, nr = 96) {
+	
     brickLevels <- function()
-        lapply(1:96, function(i) brick.gunzip(file, level = i, nl = max(layers)))
+        lapply(1:nr, function(i) brick.gunzip(file, level = i, nl = max(layers)))
     file = findAfile(files, varName)
     if (noFileWarning(files, varName)) return(NULL)
 
     dat = brickLevels()
-
     nc = nlayers(dat[[1]])
-    nr = length(dat)
 
     r = raster(xmn = 0, xmx = 360, ymn = -90, ymx = 90,
                    nrows = nr, ncols = nc)
 
     buildCell <- function(lat, lon, layer, level)
-        getValuesBlock(dat[[lat]][[lon]], row = level, nrow = 1, col = layer, ncol = 1)
+		out = getValuesBlock(dat[[lat]][[lon]], row = level, nrow = 1, col = layer, ncol = 1)
 
     buildLayer <- function(...) {
         for (i in 1:nr) for (j in 1:nc) r[nr - i + 1, j] = buildCell(i, j, ...)
+		browser()
         return(r)
     }
     buildLevels <- function(i, ...)
@@ -31,7 +31,8 @@ process.CLM.level <- function(levels, files, varName, startYear,
 
     dat = layer.apply(levels, buildLevels)
     dat = combineLayers(dat, 'sum')
-    return(dat)
+    
+	return(dat)
 }
 
 

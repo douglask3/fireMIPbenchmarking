@@ -14,10 +14,12 @@ process.default.level <- function(levels, files, varName, startYear,
 
     dat = layer.apply(dat, combineRawLayers, layersIndex, combine)
 	dat = convert_pacific_centric_2_regular(dat)
+	
     return(dat)
 }
 
 combineRawLayers <- function(dat, layersIndex, combine) {
+
     makeLayer <- function(i) {
         layers = which(i == layersIndex)
 		

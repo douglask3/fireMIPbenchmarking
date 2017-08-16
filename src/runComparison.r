@@ -13,9 +13,10 @@ runComparison <- function(info, name, mod = NULL) {
     if (is.null(info$obsLayers)) obsLayers = 1 else obsLayers = info$obsLayers
     simLayers = layersFrom1900(Model.Variable[[1]][4,varnN],
                                obsTemporalRes, obsLayers)
-    
+	
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
-    if (is.null(mod))
+    
+	if (is.null(mod))
 		mod   = openSimulations(name, varnN, simLayers)
 	
     mask  = loadMask(obs, mod, name)	
@@ -24,7 +25,7 @@ runComparison <- function(info, name, mod = NULL) {
 	obs = scaleMod(obs, Model.Variable[[1]], varnN)
 	mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(varnN))
     
-	if (openOnly) return(list(obs, mod))
+	if (is.True(openOnly)) return(list(obs, mod))
 	
 	scores = comparison(mod, obs, name, info)
     return(list(scores, obs, mod))
