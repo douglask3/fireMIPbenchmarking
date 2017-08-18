@@ -28,6 +28,6 @@ SeasonPhaseDlimits = -5.5:5.5
 ################################################################################
 setupProjectStructure()
 graphics.off()
-data_dir.ModelOutputs  = 'data/ModelOutputs'
+data_dir.ModelOutputs  = 'data/ModelOutputs/'
 data_dir.BenchmarkData = 'data/benchmarkData/'
 outputs_dir.modelMasks = paste(outputs_dir, 'modelMasks', sep = '/')
