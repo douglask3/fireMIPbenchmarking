@@ -38,20 +38,16 @@ mapMetricScores.lines <- function(fname, nmetric, dat, info, score = 1, nullMode
 }
 
 
-mapMetricScores.raster <- function(fname, nmetric, dat, info, obs, nullModel = 'mean') {
-	
-	
-	nmodels = nlayers(dat)
+mapMetricScores.raster <- function(fname, nmetric, dat, info, score = 1, nullModel = 'mean') {
+    nmodels = length(dat)
+
 	mapMetricScore <- function(i) {
 		stepn = i
 		dat   = select2ndCommonItem(dat  , i)
 		dat   = list2layers(dat)
 		nmsk = sum(is.na(dat))
 		
-		obs_lower = obs * 0.8
-		obs_upper = obs * 1.2
-		browser()
-		cutPlt = sum(obs_lower < dat & dat < obs_upper, na.rm = TRUE)
+		cutPlt = sum(dat < score, na.rm = TRUE)
 		cutPlt = cutPlt * nlayers(dat) / (nlayers(dat) - nmsk)
 		cutPlt[nmsk == nlayers(dat)] = NaN
 		plot_raster_from_raster(cutPlt, limits = 0.5:(nmodels - 0.5), cols = c('red', 'white', 'green'),
