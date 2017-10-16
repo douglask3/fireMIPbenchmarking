@@ -9,6 +9,7 @@ The projects code and version history is accessible from github:
 
 1. Clone the git repo. In command line, this is:
 >	git clone https://github.com/douglask3/fireMIPbenchmarking.git
+
 > 	cd fireMIPbenchmarking
 
 To update:
