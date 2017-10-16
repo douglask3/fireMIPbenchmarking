@@ -279,8 +279,9 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 	
 	plotComMods(mod, obs, name, cols, lims, newFig = FALSE, legendFun = legendFun, ...)
 	if (!is.null(nullScore)) MN = nullScore
-	mapMetricScores.default(lapply(out,list), 1, info, score = MN)
-	mapMetricScores.default(lapply(out,list), 1, info, score = RR, nullModel = "Randomly-resampled")
+	browser()
+	mapMetricScores.default(mod, 1, info, obs = obs)
+	#mapMetricScores.default(lapply(out,list), 1, info, score = RR, nullModel = "Randomly-resampled")
 	dev.off.gitWatermarkStandard()
 	plotComMods(mod, obs, name, cols, lims, newFig = TRUE, legendFun = legendFun, ...)
 }
