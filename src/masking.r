@@ -19,12 +19,13 @@ loadMask <- function(obs, mod, res, varnN) {
     mask = sum(mod) + obs
 
     mask = is.na(mask)
-	fact =  res(mask) / res
+	fact =  res/res(mask)
 	if (any(fact != 1.0)) {
-		if (fact[1] == fact[2] && as.integer(fact) == fact) {
+		if (fact[1] == fact[2]) {
 			fact = fact[1]
-			if (fact > 1) mask = raster::aggregate(mask, fact = fact)
-				else mask = raster::disaggregate(mask, fact = fact)
+			if (fact > 1 && as.integer(fact) == fact) mask = raster::aggregate(mask, fact = fact)
+			else if (fact < 1 && as.integer(1/fact) == (1/fact)) mask = raster::disaggregate(mask, fact = 1/fact)
+			else browser()
 		} else {
 			browser()
 		}
@@ -34,21 +35,21 @@ loadMask <- function(obs, mod, res, varnN) {
     return(mask)
 }
 
-remask <- function(obs, mod0, mask, varnN) {
+remask <- function(obs, mod0, mask, res) {
     ## if no mask to apply, return as is
-	
+		
     if (is.null(mask) || (is.character(mask) && mask == "NULL"))
         return(list(obs, mod))
 
     ## if mask has been applied and stored in cache, return cache
     present = !sapply(mod0, is.null)
     mod = mod0[present]
-
+	
     if (is.raster(obs))
-        filename_obs = paste(temp_dir, filename.noPath(mask, TRUE), 'obsRemasked.nc', sep = '-')
+        filename_obs = paste(temp_dir, filename.noPath(mask, TRUE), 'obsRemasked', res, '.nc', sep = '-')
     else
         filename_obs = c()
-    filename_mod = paste(temp_dir, sapply(mod, filename.noPath, TRUE), 'modRemasked.nc', sep = '-')
+    filename_mod = paste(temp_dir, sapply(mod, filename.noPath, TRUE), 'modRemasked', res, '.nc', sep = '-')
     filenames    = c(filename_obs, filename_mod)
 	
     if (files.exist(filenames)) {
