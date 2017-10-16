@@ -53,36 +53,13 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
 ################################################################################
 ## Plotting Info                                                              ##
 ################################################################################
-
-## GFED4
-GFED4.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
+FractionBA.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                      dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
                                  '#FFD793', "#F07700", "#AA0000"),
                      limits  = c(0.001,.01,.02,.05,.1,.2),
                      dlimits = c(-0.2,-0.1,-0.5,-0.01,0.01,0.05,0.1, 0.2))
 
 GFED4.IA      = list(x = 1997:2009)
-
-##GFED4s
-GFED4s.Spatial= list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
-                     dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
-                                 '#FFD793', "#F07700", "#AA0000"),
-                     limits  = c(0.001,.01,.02,.05,.1,.2),
-                     dlimits = c(-0.2,-0.1,-0.5,-0.01,0.01,0.05,0.1, 0.2))
-
-GFED4s.IA     = list(x = 1997:2009)
-
-
-## meris
-meris.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
-                     dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
-                                 '#FFD793', "#F07700", "#AA0000"),
-                     limits  = c(0.001,.01,.05,.1,.2,.5),
-                     dlimits = c(-0.2,-0.1,-0.5,-0.01,0.01,0.05,0.1, 0.2))
-
-## MCD45
-MCD45.Spatial = meris.Spatial
-
 
 ## GFAS
 GFAS          = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
@@ -112,7 +89,7 @@ GFED4.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                      obsVarname    = "mfire_frac",
                      obsLayers     = 8:163,
                      ComparisonFun = FullNME,
-                     plotArgs      = GFED4.Spatial,
+                     plotArgs      = FractionBA.Spatial ,
                      ExtraArgs     = list(mnth2yr = TRUE))
 
 GFED4.IA      = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
@@ -134,7 +111,7 @@ GFED4s.Spatial = list(obsFile       = "GFED4s_v2.nc",
                       obsLayers     = 1:156,
                       obsStart      = 1997,
                       ComparisonFun = FullNME,
-                      plotArgs      = GFED4s.Spatial,
+                      plotArgs      = FractionBA.Spatial,
                       ExtraArgs     = list(mnth2yr = TRUE))
 
 GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
@@ -142,7 +119,7 @@ GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
                       obsLayers     = 1:156,
                       obsStart      = 1997,
                       ComparisonFun = FullNME,
-                      plotArgs      = GFED4s.IA,
+                      plotArgs      = GFED4.IA,
                       ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
 GFEDsSeason    = list(obsFile = "GFED4s_v2.nc",
@@ -175,7 +152,7 @@ meris.Spatial  = list(obsFile       = "meris.nc",
                       obsLayers     = 1:36,
                       obsStart      = 2006,
                       ComparisonFun = FullNME,
-                      plotArgs      = meris.Spatial,
+                      plotArgs      = FractionBA.Spatial,
                       ExtraArgs     = list(mnth2yr = TRUE))
 
 ## MCD45
@@ -184,7 +161,7 @@ MCD45.Spatial  = list(obsFile       = "MCD45.nc",
                       obsLayers     = 1:96,
                       obsStart      = 2001,
                       ComparisonFun = FullNME,
-                      plotArgs      = MCD45.Spatial,
+                      plotArgs      = FractionBA.Spatial,
                       ExtraArgs     = list(mnth2yr = TRUE))
 					  
 NRfire        = list(obsFile       = "NRfire-nr_fire.nc",
