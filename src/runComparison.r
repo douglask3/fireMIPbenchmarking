@@ -19,16 +19,25 @@ runComparison <- function(info, name, mod = NULL) {
 	if (is.null(mod))
 		mod   = openSimulations(name, varnN, simLayers)
 	
-    mask  = loadMask(obs, mod, name)	
-    c(obs, mod) := remask(obs, mod, mask, name)
+	runres <- function(r = NULL) {
+		if (!is.null(r)) name = paste(name,'__res-', r, sep = '')
+		mask  = loadMask(obs, mod, r, name)	
+		c(obs, mod) := remask(obs, mod, mask, name)
+		
+		obs = scaleMod(obs, Model.Variable[[1]], varnN)
+		mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(varnN))
+		
+		if (is.True(openOnly)) return(list(obs, mod))
+		
+		scores = comparison(mod, obs, name, info)
+		return(list(scores, obs, mod))
+	}
 	
-	obs = scaleMod(obs, Model.Variable[[1]], varnN)
-	mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(varnN))
-    
-	if (is.True(openOnly)) return(list(obs, mod))
-	
-	scores = comparison(mod, obs, name, info)
-    return(list(scores, obs, mod))
+	if (is.null(res)) {
+		return(runres())
+	} else {
+		return(lapply(res, runres))
+	}
 }
 
 comparisonOutput <- function(scores, name) {

@@ -1,4 +1,4 @@
-loadMask <- function(obs, mod, varnN) {
+loadMask <- function(obs, mod, res, varnN) {
     mod = mod[!sapply(mod, is.null)]
 
     filename = paste(c(temp_dir, varnN, names(mod), '.nc'), collapse = '-')
@@ -19,13 +19,24 @@ loadMask <- function(obs, mod, varnN) {
     mask = sum(mod) + obs
 
     mask = is.na(mask)
-
-    mask = writeRaster(mask, filename = filename)
+	fact =  res(mask) / res
+	if (any(fact != 1.0)) {
+		if (fact[1] == fact[2] && as.integer(fact) == fact) {
+			fact = fact[1]
+			if (fact > 1) mask = raster::aggregate(mask, fact = fact)
+				else mask = raster::disaggregate(mask, fact = fact)
+		} else {
+			browser()
+		}
+	}
+					
+	mask = writeRaster(mask, filename = filename)
     return(mask)
 }
 
 remask <- function(obs, mod0, mask, varnN) {
     ## if no mask to apply, return as is
+	
     if (is.null(mask) || (is.character(mask) && mask == "NULL"))
         return(list(obs, mod))
 
