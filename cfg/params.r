@@ -9,8 +9,9 @@ mask_type    = 'common'
 nRRs = 2
 
 outputMetricFiles = TRUE
-
+openOnly = FALSE
 plotModMetrics    = FALSE
+
 NMEmap_cols       = c('white', 'black')
 NMEmap_qunatiles  = seq(0.2,0.8,0.2)
 
