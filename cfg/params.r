@@ -9,7 +9,6 @@ mask_type    = 'common'
 nRRs = 2
 
 outputMetricFiles = TRUE
-openOnly = FALSE
 plotModMetrics    = FALSE
 
 NMEmap_cols       = c('white', 'black')
