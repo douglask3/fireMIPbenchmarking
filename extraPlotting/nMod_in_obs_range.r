@@ -8,8 +8,7 @@ titles       = list(c('a) Burnt Area',
 
 res = NULL
 openOnly = TRUE
-range = 1.2
-mnthRange =  6 * (1- 1/range)
+range = c(1.2, 2.0)
 
 limits = seq(10, 90, 10)
 cols   = c('#AA0000', '#FFFF55', '#008800')
@@ -23,7 +22,7 @@ plotAgreement <- function(x, txt) {
 }
 
 
-plotVariable <- function(dat, pltSeason, txt, index = NULL) {
+plotVariable <- function(dat, pltSeason, txt, index = NULL, range) {
 	if (nlayers(dat[[1]]) == 1) index = 1
 	else if (is.null(index)) index = 1:nlayers(dat[[1]])
 	
@@ -61,13 +60,19 @@ plotVariable <- function(dat, pltSeason, txt, index = NULL) {
 		plotAgreement(nmod, txt[3])
 	}
 }
-pdf('figs/nmodAgreement.pdf', height = 8, width = 10)
-lmat = rbind(cbind(1:3,c(4:5,0)), c(6,6))
-layout(lmat, heights = c(1,1,1,0.3))
-par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
-mapply(plotVariable, out, plotSeason, titles)
 
-add_raster_legend2(cols = cols, limits = limits, ylabposScling = 2,
+for (i in range) {
+	
+	mnthRange =  6 * (1- 1/i)
+	fname = paste('figs/nmodAgreement', '-R', i, '.pdf', sep = '')
+	pdf(fname, height = 8, width = 10)
+	lmat = rbind(cbind(1:3,c(4:5,0)), c(6,6))
+	layout(lmat, heights = c(1,1,1,0.3))
+	par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
+	mapply(plotVariable, out, plotSeason, titles, MoreArgs = list(range = i))
+
+	add_raster_legend2(cols = cols, limits = limits, ylabposScling = 2,
 	                   transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), add = FALSE)
 					   
-dev.off.gitWatermarkStandard()
+	dev.off.gitWatermarkStandard()
+}
