@@ -1,10 +1,10 @@
-names = 'fire'
-comparisons  = list(c("GFED4s.Spatial",  "GFAS", "NRfire"))
+names = c('fire', 'production')
+comparisons  = list(c("GFED4s.Spatial",  "GFAS"), c("cveg"))
 plotSeason   =      c(TRUE            ,  FALSE , FALSE)
 titles       = list(c('a) Burnt Area',
 					 'b) Seasonal phase',
 					 'c) Seasonal concentration'),
-										 'd) Emission', 'e) no. of fire')
+										 'd) Emission', 'e) Vegetation Carbon')
 
 res = NULL
 openOnly = TRUE
@@ -14,6 +14,7 @@ limits = seq(10, 90, 10)
 cols   = c('#AA0000', '#FFFF55', '#008800')
 
 source('run.r')
+if (length(names) > 1) out = unlist(out, recursive = FALSE)
 
 plotAgreement <- function(x, txt) {
 	plotStandardMap(x, '',  limits = limits, cols = cols,
@@ -33,6 +34,8 @@ plotVariable <- function(dat, pltSeason, txt, index = NULL, range) {
 
 	lower = obs / range
 	upper = obs * range
+	
+	upper[upper < 0.001] = 0.001
 
 	nmod = mean(mod >= lower & mod <= upper, na.rm = TRUE) * 100
 
@@ -61,14 +64,14 @@ plotVariable <- function(dat, pltSeason, txt, index = NULL, range) {
 	}
 }
 
-for (i in range) {
-	
+for (i in range) {	
 	mnthRange =  6 * (1- 1/i)
 	fname = paste('figs/nmodAgreement', '-R', i, '.pdf', sep = '')
 	pdf(fname, height = 8, width = 10)
 	lmat = rbind(cbind(1:3,c(4:5,0)), c(6,6))
 	layout(lmat, heights = c(1,1,1,0.3))
 	par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
+	
 	mapply(plotVariable, out, plotSeason, titles, MoreArgs = list(range = i))
 
 	add_raster_legend2(cols = cols, limits = limits, ylabposScling = 2,
