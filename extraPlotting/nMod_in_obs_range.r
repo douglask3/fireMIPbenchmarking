@@ -24,6 +24,7 @@ scale  = c(12, 12, 1)
 res = NULL
 openOnly = TRUE
 range = c(1.2, 2.0)
+e_lims = c(0.5, 1)
 
 nmodLims  = seq(10, 90, 10)
 nmodeCols = c('#AA0000', '#FFFF55', '#008800')
@@ -43,14 +44,14 @@ if (length(names) > 1) out = unlist(out, recursive = FALSE)
 plotAgreement <- function(x, txt, limits = nmodLims, cols = nmodeCols, ...) {
 	plotStandardMap(x, '',  limits = limits, cols = cols,
 					add_legend = FALSE, e_polygon = FALSE, ePatternRes = 30, 
-					ePatternThick = 0.2, limits_error = c(1, 2), ...)
+					ePatternThick = 0.2, limits_error = e_lims, ...)
 	mtext(txt, side = 3, adj = 0.1, line = -1)
 }
 
 plotLegend <- function(cols, limits, plot_loc = c(0.2, 0.3, 0.8, 0.99), ...) {
 	add_raster_legend2(cols = cols, limits = limits, ylabposScling = 2,
 						   transpose = FALSE, plot_loc = plot_loc, 
-						   add = FALSE, ...)
+						   add = FALSE, nx  = 1.75, ...)
 }
 
 plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale) {
@@ -67,7 +68,7 @@ plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale) {
 	nmod = mean(mod >= lower & mod <= upper, na.rm = TRUE) * 100
 
 	plotAgreement(nmod, txt[[1]][3])
-	plotLegend(cols, limits, e_lims = c(1, 2))
+	plotLegend(cols, limits, e_lims = e_lims)
 }
 
 
@@ -81,7 +82,7 @@ plotSeasonalNmod <- function(dat, txt, index, range) {
 	obsP = obs[[1]]
 	plotAgreement(obsP, txt[[2]][1], SeasonPhaseLimits, SeasonPhaseCols)
 	SeasonLegend(SeasonPhaseLimits, SeasonPhaseCols, dat = modPmean,
-				 mar = rep(0,4), add = TRUE, xp = 1.08, e_lims = c(1,2))
+				 mar = rep(0,4), add = TRUE, xp = 1.08, e_lims = e_lims)
 	
 	modP = layer.apply(mod, function(i) i[[1]])
 	
@@ -97,7 +98,7 @@ plotSeasonalNmod <- function(dat, txt, index, range) {
 	
 	plotAgreement(modPmean, txt[[2]][2], SeasonPhaseLimits, SeasonPhaseCols, e = modPsd / 3)
 	SeasonLegend(SeasonPhaseLimits, SeasonPhaseCols, dat = modPmean, mar = rep(0,4),
-				 add = TRUE, xp = 0.08, e_lims = c(1,2))
+				 add = TRUE, xp = 0.08, e_lims = e_lims)
 	
 	diff = abs(obsP - modP)
 	nmod = diff < mnthRange | diff > 12 - mnthRange	
@@ -113,7 +114,10 @@ plotSeasonalNmod <- function(dat, txt, index, range) {
 	modC  = layer.apply(mod, function(i) i[[2]])
 	modCm = mean(modC, na.rm = TRUE)
 	modCm[is.na(obsP)] = NaN
-	plotAgreement(modCm, txt[[3]][2], SeasonConcLimits, SeasonConcCols, e = sd.raster(modC))
+	sdC = sd.raster(modC, FALSE) / sqrt(vartrunc("norm", 0, 1))
+	sdC[is.na(obsP)] = NaN
+	
+	plotAgreement(modCm, txt[[3]][2], SeasonConcLimits, SeasonConcCols, e = sdC)
 	
 	lower = obsC ^ range
 	upper = obsC ^ (1/range)
@@ -121,7 +125,7 @@ plotSeasonalNmod <- function(dat, txt, index, range) {
 	nmod = mean(modC >= lower & modC <= upper, na.rm = TRUE) * 100
 	plotAgreement(nmod, txt[[3]][3])
 	
-	plotLegend(SeasonConcCols, SeasonConcLimits, e_lims = c(1, 2))
+	plotLegend(SeasonConcCols, SeasonConcLimits, e_lims = e_lims)
 }
 
 
@@ -139,7 +143,8 @@ plotVariable <- function(dat, pltSeason, txt,
 		plotSeasonalNmod(dat, txt, index, range)
 	}
 	
-	if (add_extra_leg) plotLegend(nmodeCols, nmodLims, plot_loc = c(0.2, 0.5, 0.8, 0.8))
+	if (add_extra_leg) plotLegend(nmodeCols, nmodLims, plot_loc = c(0.2, 0.5, 0.8, 0.8),
+								  labelss = c(0, nmodLims, 100))
 	else plot.new()
 }
 
@@ -157,6 +162,6 @@ for (r in range) {
 		layout(lmat, heights = c(1, 0.3, 1, 0.01, 1, 0.3, 1, 0.3, 1, 0.3))
 		par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
 		
-		mapply(plotVariable, out, plotSeason, titles, limits, cols, c(T, F, F), scale = scale, MoreArgs = list(range = r))			   
+		mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, F, T), scale = scale, MoreArgs = list(range = r))			   
 	dev.off.gitWatermarkStandard()
 }

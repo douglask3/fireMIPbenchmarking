@@ -7,6 +7,8 @@ library(rasterPlot)
 library(mapdata)
 library(plotrix)
 library(MASS)
+library(mapplots)
+library(truncdist)
 
 sourceAllLibs('src')
 sourceAllLibs('../benchmarkmetrics/benchmarkMetrics/')

@@ -58,12 +58,12 @@ add_raster_legend2.regular <- function(cols, limits, plot_loc,
 }
 
 
-add_raster_legend2.2d <- function(cols, limits, e_lims, plot_loc,...)  {
+add_raster_legend2.2d <- function(cols, limits, e_lims, plot_loc, nx = 1,...)  {
 	add_raster_legend2.regular(cols, limits, plot_loc, ...)
 	
 	cols = make.transparent("black", c(0.67, 0.33))
 	
-	dx = 3/360
+	dx = 3/(360 * nx)
 	dy = (par("pin")[1]/par("pin")[2]) * dx
 	
 	x = seq(plot_loc[1], plot_loc[3], by = dx)[-1]
