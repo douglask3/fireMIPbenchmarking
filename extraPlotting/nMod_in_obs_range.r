@@ -23,7 +23,7 @@ scale  = c(12, 12, 1)
 						   
 res = NULL
 openOnly = TRUE
-range = c(1.2, 2.0)
+range = c(1.2, 2.0, 3.0, 5.0)
 e_lims = list(c(0.5, 1), c(1, 2))
 
 nmodLims  = seq(10, 90, 10)
