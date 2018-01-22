@@ -24,7 +24,7 @@ process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex, scli
 }
 
 findModelLevels <- function(levels) {
-    if (is.na(levels) || levels == 'NA' || levels == 'NaN') return(NaN)
+    if (is.na(levels) || levels == 'NA' || levels == 'NaN' || levels == 'NULL') return(NaN)
     levels = strsplit(levels, ';')[[1]]
 
     findRange <- function(j) {
