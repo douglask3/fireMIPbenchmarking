@@ -33,7 +33,7 @@ runComparison <- function(info, name, mod = NULL) {
 		return(list(scores, obs, mod))
 	}
 	
-	if (is.null(res)) {
+	if (is.null(res) || class(res) != 'numeric') {
 		return(runres())
 	} else {
 		return(lapply(res, runres))
