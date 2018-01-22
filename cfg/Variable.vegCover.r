@@ -1,60 +1,65 @@
-# EMmission
+ # EMmission
 # Carbon
 # Production
 # Veg Cover
 
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
-            varname  = rbind(c("lifeForm"     , "TreeCover", "HerbCover", "LeafType", "Phenology"),
-                             100,
-                             'Annual',
-                             1992,
+            varname  = rbind(c("lifeForm", "TreeCover", "HerbCover", "LeafType", "Phenology", "LAImodis", "LAIavhrr"),
+                             c(rep(100, 5)													,	       1,          1),
+                             c(rep('Annual', 5)										        ,  "Monthly",  "Monthly"),	
+                             c(rep(1992, 5)													,   	2001, 		1983),
                              'mean'),
-            CLM      = rbind("landCoverFrac",
+            CLM      = rbind(c(rep("landCoverFrac", 5)                                      ,      "lai",      "lai"),
                              1,
-                             1900,
+                             c(rep(1990, 5) 												,		1950,       1950),
                              'Annual',
-                             c("9:16;2:8"    , "9:16"      , "2:8"    ,"10:14;15:16",  "17,16,14,13;15,12,11,10")),
-            CTEM     = rbind("landCoverFrac",
-                             12,
-                             1859,
+                             c("9:16;2:8"    , "9:16"      , "2:8"    ,"10:14;15:16",  "17,16,14,13;15,12,11,10",
+																								   "NULL",    "NULL")),
+            CTEM     = rbind(c(rep("landCoverFrac", 5)                                      ,      "lai",      "lai"),
+                             c(rep(12, 5),												  			   1,          1),	
+                             1860,
                              'Monthly',
-                             c('1:5;6:9'      , "1:5"      , "6:9"    ,"3:5;1:2",  "1,3;2,4:5")),
-            INFERNO  = rbind("LandCoverFrac",
+                             c('1:5;6:9'      , "1:5"      , "6:9"    ,"3:5;1:2",  "1,3;2,4:5",   "NULL",      "NULL")),
+            INFERNO  = rbind(c(rep("LandCoverFrac", 5)										  ,   "lai" ,      "lai" ),
                              12,
                              1700,
                              'Monthly',
-                             c("1:5;6:9"      , "1:5"       , "6:9"      , "1:3;4:5", "1,3,4;2,5"    )),
-            JSBACH   = rbind(c(rep("landCoverFrac", 3)                     , "NULL"   , "landCoverFrac"),
+                             c("1:5;6:9"      , "1:5"       , "6:9"      , "1:3;4:5", "1,3,4;2,5", "NULL",     "NULL")),
+            JSBACH   = rbind(c(rep("landCoverFrac", 3)                     , "NULL"   , "landCoverFrac",
+																								   "lai",       "lai"),
                              1,
-                             1700,
+                             c(rep(1700, 5)													,	   1950, 		1950),
                              'Annual',
-                             c("1:4;5:11"       , "1:4"       , "5:11"     , ""       , "1,3;2,4:6"    )),
-            LPJglob  = rbind("landCoverFrac",
+                             c("1:4;5:11"       , "1:4"       , "5:11"     , ""       , "1,3;2,4:6","NULL"     ,"NULL")),
+            LPJglob  = rbind(c(rep("landCoverFrac", 5)											   , "lai"     ,"lai"),
 							 1,
-                             1700,
+                             c(rep(1700, 5)														   , 1950      , 1950),
                              "Annual",
-                             c("3:11;1:2,12:19","3:11"       , "1:2,12:19", "6:11;3:5", "3:4,8:10;5:7,11")),
-            LPJspit  = rbind("landCoverFrac",
-                             10             ,
-                             1700              ,
+                             c("3:11;1:2,12:19","3:11"       , "1:2,12:19", "6:11;3:5", "3:4,8:10;5:7,11",
+																								    "NULL"     ,"NULL")),
+            LPJspit  = rbind(c(rep("landCoverFrac", 5)											   , "lai"     , "lai"),
+                             c(rep(10, 5)				             							   , 1         , 1    ),
+                             c(rep(1700, 5)    										               , 1950	   , 1950 ),
                              "Annual"       ,
-                             c("1:2,12:19;3:11", "1:2,12:19"      , "3:11", "6:11;3:5", "3:4,8:10;5:7,11")),
-            LPJblze  = rbind("landCoverFrac",
+                             c("1:2,12:19;3:11", "1:2,12:19"      , "3:11", "6:11;3:5", "3:4,8:10;5:7,11"
+																								   ,"NULL"     ,"NULL")),
+            LPJblze  = rbind(c(rep("landCoverFrac",	5)											   , "lai"     , "lai"),
                              1,
-                             1700,
+                             c(rep(1700, 5)														   , 1950      , 1950 ),
                              'Annual',
-                             c("3:11;1:2,12:19","3:11"       , "1:2,12:19", "6:11;3:5", "3:4,8:10;5:7,11")),
-            MC2      = rbind("NULL",
+                             c("3:11;1:2,12:19","3:11"       , "1:2,12:19", "6:11;3:5", "3:4,8:10;5:7,11",
+																					                "NULL"     ,"NULL")),
+            MC2      = rbind(c(rep("NULL", 5)													   , "lai"     , "lai"),
                              1,
-                             1,
+                             c(rep(1, 5)														   , 1901      , 1901 ),
                              'Annual',
-                             1),
-            ORCHIDEE = rbind("landCoverFrac",
+                             c(rep(1, 5)														   ,"NULL"     ,"NULL")),
+            ORCHIDEE = rbind(c(rep("landCoverFrac", 5)                                             ,"NULL"     ,"NULL"),
                              100,
                              1700,
                              'Annual',
-                             c('2:9;10:13'    , "2:9"       , "10:13", '2:9;10:13', '2:9;10:13')))
+                             c('2:9;10:13'    , "2:9"       , "10:13", '2:9;10:13', '2:9;10:13',   "NULL"     , "NULL")))
 
 
 ################################################################################
@@ -67,6 +72,13 @@ VegComparison         = list(cols    = c('white',"#88EE11","#00FF00",
                                         '#D7FF93',"#77F000","#00AA00"),
                              limits  = c(1, 2, 5, 10, 20, 50)/100,
                              dlimits = c(-20,-10,-5, 5, 10, 20)/100)
+							 
+LAI    = list(cols    = c('white',"#BBBB00","#CCCC00",
+                                         "#111100"),
+                             dcols   = c('#000099','#0000FF','#CCCCFF','white',
+                                        '#FFFF00',"#CCCC00","#444400"),
+                             limits  = c(0.01, 0.1, 1, 2, 5, 10, 20) * 10,
+                             dlimits = c(-20, -10, -5, -2,-1, 1, 2, 5, 10, 20) * 10)
 
 ################################################################################
 ## Full comparisons info                                                      ##
@@ -103,3 +115,11 @@ Phenology         = list(obsFile       = "veg_cont_fields_CRU.nc",
                          ComparisonFun = FullMM,
                          plotArgs      = VegComparison,
                          ExtraArgs     = list(itemNames = c('Evergreen', 'Decidous')))
+
+						 
+							 
+LAImodis          = list(obsFile       = "lai_0.5x0.5_2000-2005.nc",
+                         obsVarname    = "lai",
+                         ComparisonFun = FullNME,
+                         obsLayers     = 12:71,
+                         plotArgs      = LAI)
