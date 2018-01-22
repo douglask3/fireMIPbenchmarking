@@ -4,7 +4,7 @@ process.CTEM <- function(files, varName, levels, ...)
 process.CTEM.level <- function(levels, files, varName, startYear,
                         layers, layersIndex, combine,
                         vegVarN = 'landCoverFrac', tiles = 1:9) {
-
+	
     if (is.na(levels)) levels = tiles
     brickLevels <- function()
         lapply(levels, function(i) brick.gunzip(file, level = i, nl = max(layers)))
