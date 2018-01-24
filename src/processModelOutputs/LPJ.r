@@ -1,7 +1,7 @@
-	process.LPJ <- function(files, varName, levels, ...) {
-	if (varName == "lai") process.LPJ.LAI(files, varName, ...)
-		
-	if (all(is.na(levels))) dat = process.default(files, varName, levels, ...)
+process.LPJ <- function(files, varName, levels, ...) {
+	if (varName == "lai") dat = process.LPJ.LAI(files, varName, ...)
+		else if (all(is.na(levels)))
+			 dat = process.default(files, varName, levels, ...)
 		else dat = layer.apply(levels, process.LPJ.level, files, varName, ...)
 	return(dat)	
 }
@@ -10,8 +10,12 @@ process.LPJ.LAI <- function(files, varName, startYear, layers, ...) {
 	levels = 'all'
 	c(lai, nVtypes) := process.LPJ.level(levels, files, varName, startYear, layers, ...)
 	c(frac, nVtypes) := process.LPJ.level(levels, files, "landCoverFrac", startYear, layers, ...)
-	lai = lai * frac
 	
+	return(lai)
+}
+
+process.laiFracRelayers <- function(lai, frac, layers, nVtypes) {
+	lai = lai * frac
 	nlay = nlayers(lai) / nVtypes
 	
 	combineVtypes <- function(vn) sum(lai[[(1 + (vn - 1) * nVtypes):(vn*nVtypes)]])
@@ -21,6 +25,7 @@ process.LPJ.LAI <- function(files, varName, startYear, layers, ...) {
 	lai = layer.apply(index, function(i) lai[[i]])
 	return(lai)
 }
+	
 
 process.LPJ.level <- function(levels, files, varName, startYear,
                         layers, layersIndex, combine, nr = 360) {
