@@ -19,6 +19,7 @@ runComparison <- function(info, name, mod = NULL) {
 	if (is.null(mod))
 		mod   = openSimulations(name, varnN, simLayers)
 	
+	
 	runres <- function(r = NULL) {
 		if (!is.null(r)) name = paste(name,'__res-', r, sep = '')
 		mask  = loadMask(obs, mod, r, name)	
@@ -29,8 +30,8 @@ runComparison <- function(info, name, mod = NULL) {
 		
 		if (is.True(openOnly)) return(list(obs, mod))
 		
-		scores = comparison(mod, obs, name, info)
-		return(list(scores, obs, mod))
+		c(scores, comp) := comparison(mod, obs, name, info)
+		return(list(scores, obs, mod, comp))
 	}
 	
 	if (is.null(res) || class(res) != 'numeric') {
@@ -116,8 +117,8 @@ comparison <- function(mod, obs, name, info) {
     if (is.null(comp)) return(NULL)
     scores =  outputScores(comp, name, info)
 	
+	
 	plotVarAgreement(mod, obs, name, info, scores, comp)
     try(mapMetricScores(comp, name, info))
-	
-    return(scores)
+    return(list(score, comp))
 }
