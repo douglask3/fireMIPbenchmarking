@@ -1,15 +1,35 @@
 process.CLM <- function(files, varName, levels, ...) {
-    if (is.na(levels)) dat = process.CLM.default(files, varName, ...)
+	if (varName == 'lai')                 process.CLM.lai(files, varName, ...)
+		else if (is.na(levels)) dat = process.CLM.default(files, varName, ...)
         else dat = layer.apply(levels, process.CLM.level, files, varName, ...)
 	
 }
+
+process.CLM.lai <- function(files, varName, startYear, layers, layersIndex, combine, ...) {
+	nVtypes = 17
+	levels = 1:nVtypes
+	processLayers = unique(layers)
+	
+	runForLayer <- function(vname = varName) 
+		layer.apply(processLayers, function(i) process.CLM.level( levels, files, vname, 
+					startYear, i, layersIndex, combine = NULL, ...))
+	
+	lai = runForLayer()
+	lai[is.na(lai)] = 0.0
+	frac = runForLayer("landCoverFrac")
+	
+	lai = process.laiFracRelayers(lai, frac, layers, nVtypes)
+	lai = convert_pacific_centric_2_regular(lai)
+	return(lai)
+}
+
 
 process.CLM.level <- function(levels, files, varName, startYear,
                         layers, layersIndex, combine, nr = 96) {
 	
     brickLevels <- function()
         lapply(1:nr, function(i) brick.gunzip(file, level = i, nl = max(layers)))
-    file = findAfile(files, varName)
+    file = findAfile(files, varName) 	
     if (noFileWarning(files, varName)) return(NULL)
 
     dat = brickLevels()
@@ -26,11 +46,14 @@ process.CLM.level <- function(levels, files, varName, startYear,
         return(r)
     }
 	
-    buildLevels <- function(i, ...)
-        combineLayers(layer.apply(layers, buildLayer, i, ...), combine)
+    buildLevels <- function(i, ...) {
+		dat = layer.apply(layers, buildLayer, i, ...)
+        if (!is.null(combine)) dat = combineLayers(dat, combine)
+		return(dat)
+	}
 
     dat = layer.apply(levels, buildLevels)
-    dat = combineLayers(dat, 'sum')
+    if (!is.null(combine)) dat = combineLayers(dat, 'sum')
 	
 	return(dat)
 }
