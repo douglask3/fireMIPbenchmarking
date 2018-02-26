@@ -8,6 +8,7 @@ FullSeasonal <- function(obs, mod, name,
     score = MPD(obs, mod, w = weights, ncycle = yearLength)
     null  = null.MPD(obs, w = weights, ncycle = yearLength, n = nRRs)
 	
+	
 	if (outputMetricFiles) FullSeasonal.outputFile(obs, mod, score, name)
 
     if (!is.null(plotArgs) & plotArgs & plotModMetrics)
@@ -36,7 +37,7 @@ FullSeasonal.outputFile <- function(obs, mod, score, name) {
 	}
 	writeNcOut <- function(fname0, ...) writeRaster.gitInfo(..., comment = comment(fname0))
 	
-	individualClimPhaseConc <- function(r, extraName, FUN) {
+	individualClimPhaseConc <- function(r, extraName, FUN, mask) {
 		fname0 = filename(r)
 		if (fname0 == "") fname0 = filename(r[[1]])
 		
@@ -47,7 +48,7 @@ FullSeasonal.outputFile <- function(obs, mod, score, name) {
 		
 		## Climatology
 		fname = outFnamei('Climatology')
-		if (!file.exists(fname)) writeNcOuti(r, fname)
+		if (!file.exists(fname)) writeNcOuti(r, fname, zname = 'time', zunit = 'month')
 		
 		fnameP = outFnamei('Phase')
 		fnameC = outFnamei('Concentration')
@@ -64,22 +65,32 @@ FullSeasonal.outputFile <- function(obs, mod, score, name) {
 	extraNames0 = strsplit(name, 'model-')[[1]]
 	extraNames  = paste(extraNames0, c('observation', 'simulation'), sep = '-')
 	extraNames  = paste(extraNames, 'mask', extraNames0[1], sep = '-')
+	
+	mod[is.na(obs[[1]])] = NaN
+	
 	c(obs, obsFname) := individualClimPhaseConc(obs, extraNames[1])
 	c(mod, modFname) := individualClimPhaseConc(mod, extraNames[2])
 	
 	## MPD comparison
-	fname = outFname(paste(extraNames0[1], '_AND_', extraNames0[2], '-MPD_map', sep = ''))
+	cfname = paste(paste(extraNames0, collapse = '_AND_'), 
+	               'comparison', 'mask', extraNames0[1], sep = '-')
+				   
+	
+	fname  = paste(cfname, 'MPD_map', sep = '-')
+	fname = outFname(fname)
 	if (!file.exists(fname)) {
 		MPD = mapSeasonal.phse(mod[[1]], obs[[1]])[[2]]
 		writeNcOut(paste(obsFname, ' AND ', modFname), MPD, fname)
 	}
 	
 	## NME conc comparison
-	fname = outFname(paste(extraNames0[1], '_AND_', extraNames0[2], '-NME_concentration_map', sep = ''))
+	fname  = paste(cfname, 'NME_concentration_map', sep = '-')
+	fname = outFname(fname)
 	if (!file.exists(fname)) {
 		NME = mapNME(mod[[2]], obs[[2]])
 		writeNcOut(paste(obsFname, ' AND ', modFname), NME, fname)
 	}	
+	
 }
 
 
