@@ -72,11 +72,13 @@ FullSeasonal.outputFile <- function(obs, mod, score, name) {
 	c(mod, modFname) := individualClimPhaseConc(mod, extraNames[2])
 	
 	## MPD comparison
+
 	cfname = paste(paste(extraNames0, collapse = '_AND_'), 
 	               'comparison', 'mask', extraNames0[1], sep = '-')
 				   
 	
 	fname  = paste(cfname, 'MPD_map', sep = '-')
+
 	fname = outFname(fname)
 	if (!file.exists(fname)) {
 		MPD = mapSeasonal.phse(mod[[1]], obs[[1]])[[2]]
