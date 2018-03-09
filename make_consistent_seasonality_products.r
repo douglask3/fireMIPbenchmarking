@@ -206,4 +206,4 @@ regridAndOut <- function(filename, start, yr1, month, out_name, unit, scale, com
 }
 
 mapply(regridAndOut, filenames, Layr2000, Layr0, Monthly, names(filenames), Units, Scaling)
-memSafeFile.remove('temp/')
+memSafeFile.remove()
