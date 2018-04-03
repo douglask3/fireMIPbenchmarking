@@ -10,6 +10,7 @@ nRRs = 2
 
 outputMetricFiles = TRUE
 plotModMetrics    = FALSE
+plotSummery       = FALSE
 
 NMEmap_cols       = c('white', 'black')
 NMEmap_qunatiles  = seq(0.2,0.8,0.2)

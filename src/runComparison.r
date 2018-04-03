@@ -118,7 +118,7 @@ comparison <- function(mod, obs, name, info) {
     scores =  outputScores(comp, name, info)
 	
 	
-	plotVarAgreement(mod, obs, name, info, scores, comp)
+	if (plotSummery) plotVarAgreement(mod, obs, name, info, scores, comp)
     try(mapMetricScores(comp, name, info))
     return(list(score, comp))
 }
