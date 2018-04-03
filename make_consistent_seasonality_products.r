@@ -84,7 +84,7 @@ Monthly   = c(bareground_VCF 		= 'NA',
 			  TER_RF				= 'Scale',
 			  TER_HB_RF			    = 'Scale',
 			  BA_GFED4s				= 'Scale',
-			  carbon_veg_avitabile  = FALSE)			  
+			  carbon_veg_avitabile  = 'FALSE')			  
 			  
 Units     = c(bareground_VCF 		= "%",
 			  treecover_VCF			= "%",
