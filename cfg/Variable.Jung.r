@@ -107,3 +107,10 @@ c(ANN_GPP_HB.Spatial, ANN_GPP.Spatial, MARS_GPP_HB.Spatial, MARS_GPP.Spatial,
                    c('ANN'   , 'ANN', 'MARS'  , 'MARS', 'RF'   , 'RF' ),
                    c('GPP_HB', 'GPP', 'GPP_HB', 'GPP' ,'GPP_HB', 'GPP'),
                    MoreArgs = list(JUNG.Spatial))
+				   
+c(ANN_GPP_HB.Season, ANN_GPP.Season, MARS_GPP_HB.Season, MARS_GPP.Season,
+  RF_GPP_HB.Season, RF_GPP.Season) :=
+            mapply(replacXY,
+                   c('ANN'   , 'ANN', 'MARS'  , 'MARS', 'RF'   , 'RF' ),
+                   c('GPP_HB', 'GPP', 'GPP_HB', 'GPP' ,'GPP_HB', 'GPP'),
+                   MoreArgs = list(JUNG.Season))
