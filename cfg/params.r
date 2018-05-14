@@ -8,9 +8,9 @@ experiment   = ''
 mask_type    = 'common'
 nRRs = 2
 
-outputMetricFiles = TRUE
+outputMetricFiles = FALSE
 plotModMetrics    = FALSE
-plotSummery       = FALSE
+plotSummery       = TRUE
 
 NMEmap_cols       = c('white', 'black')
 NMEmap_qunatiles  = seq(0.2,0.8,0.2)
