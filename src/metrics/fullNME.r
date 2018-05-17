@@ -44,8 +44,63 @@ FullNME.site <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
     return(list(score, null, figName, metricMap))
 }
 
-FullNME.InterAnnual <- function(obs, mod, name, plotArgs = NULL, nZ = 1,
+FullNME.InterAnnual <- function(...) {
+	out2 = FullNME.InterAnnual.Trend(...)
+	out1 = FullNME.InterAnnual.globalAverage(...)
+}
+
+findRasterTrend <- function(r) {
+	
+	regFun <- function(x) {
+		fit = betareg(x ~ t, data = data.frame(x = x, t = 1:length(x)))
+		res = try(summary(fit)[[1]][[1]][2,][3:4])
+		if (class(res) == "try-error") return(c(-999, 0.0))
+		return(res)
+	}
+		
+	findCellTrend <- function(x) {
+		if (any(is.na(x))) return(NaN)
+		if (min(x) == max(x)) return(0)
+		
+		test = try(regFun(x), silent = TRUE)
+		if (class(test) == "try-error") return(NaN)
+		#if (test[2] > 0.1) return(NaN)
+		return(test[1])
+	}
+	tempFile = paste(temp_dir, filename.noPath(r[[1]], TRUE), 'trend.nc', sep = '')
+	if (file.exists(tempFile)) return(raster(tempFile)) else {
+		yrs = floor(nlayers(r) / 12)
+		r = layer.apply(1:yrs, function(y) sum(r[[((y-1)*12 + 1):(y*12)]]))
+		
+		r = aggregate(r, 8)
+		r[r > 1] = 1
+		r[r < 0] = 0
+		nl = nlayers(r)
+		r = (r * (nl - 1)  + 0.5) / nl
+
+		v = apply(values(r), 1, findCellTrend)
+		r = r[[1]]
+		r[] = v
+		r = writeRaster(r, filename = tempFile)
+	}
+	return(r)
+
+}
+
+FullNME.InterAnnual.Trend <- function(obs, mod, name, plotArgs = NULL, nZ = 1,
                                 nRRs = 2, ...) {
+	
+	
+	obsT = findRasterTrend(obs)
+	modT = findRasterTrend(mod)
+	browser()
+	
+}
+
+
+FullNME.InterAnnual.globalAverage <- function(obs, mod, name, plotArgs = NULL, nZ = 1,
+                                nRRs = 2, ...) {
+	
     ## Convert brick layers to ts
     calAnnual <- function(i) sum.raster(i * raster::area(i), na.rm = TRUE)
     calIAV <- function(x) unlist(layer.apply(x, calAnnual))
@@ -68,3 +123,5 @@ FullNME.InterAnnual <- function(obs, mod, name, plotArgs = NULL, nZ = 1,
 	
     return(list(score, null, figName, metricMap))
 }
+
+
