@@ -19,6 +19,10 @@ loadMask <- function(obs, mod, res, varnN) {
             obs = raster(ncol = 720, nrow = 360)
             obs[] = 1
         }
+		
+	if (is.na(res))
+		obs = raster::resample(obs, mod[[1]])
+		
     mod = layer.apply(mod, function(i) {
                 if (nlayers(i) == 1) i = i[[1]]
                 raster::resample(i, obs)
@@ -28,18 +32,21 @@ loadMask <- function(obs, mod, res, varnN) {
     mask = sum(mod) + obs
 
     mask = is.na(mask)
-	fact =  res/res(mask)
-	if (any(fact != 1.0)) {
-		if (fact[1] == fact[2]) {
-			fact = fact[1]
-			if (fact > 1 && as.integer(fact) == fact) mask = raster::aggregate(mask, fact = fact)
-			else if (fact < 1 && as.integer(1/fact) == (1/fact)) mask = raster::disaggregate(mask, fact = 1/fact)
-			else browser()
-		} else {
-			browser()
+	
+	if (!is.na(res)) {
+		fact =  res/res(mask)
+		if (any(fact != 1.0)) {
+			if (fact[1] == fact[2]) {
+				fact = fact[1]
+				if (fact > 1 && as.integer(fact) == fact) mask = raster::aggregate(mask, fact = fact)
+				else if (fact < 1 && as.integer(1/fact) == (1/fact)) mask = raster::disaggregate(mask, fact = 1/fact)
+				else browser()
+			} else {
+				browser()
+			}
 		}
 	}
-					
+	
 	mask = writeRaster(mask, filename = filename)
     return(mask)
 }
