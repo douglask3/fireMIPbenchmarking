@@ -28,6 +28,13 @@ FractionBA.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                                  '#FFD793', "#F07700", "#AA0000"),
                      limits  = c(0.001,.01,.02,.05,.1,.2),
                      dlimits = c(-0.2,-0.1,-0.05,-0.01,0.01,0.05,0.1, 0.2))
+					 
+FractionBA.Trend = list(cols    = c('#0000AA', '#2093FF', '#C0D0FF','white',
+                                 '#FFD793', "#F07700", "#AA0000"),
+                     dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
+                                 '#FFD793', "#F07700", "#AA0000"),
+                     limits  = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20),
+                     dlimits = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20))
 
 GFED4.IA      = list(x = 1997:2009)
 
@@ -78,15 +85,23 @@ GFED4.Season  = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
 ##GFED4s
 GFED4s.Spatial = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:108,
+                      obsLayers     = 1:204,
                       obsStart      = 1997,
                       ComparisonFun = FullNME,
                       plotArgs      = FractionBA.Spatial,
                       ExtraArgs     = list(mnth2yr = TRUE))
+					  
+GFED4s.Trend   = list(obsFile       = "GFED4s_v2.nc",
+                      obsVarname    = "variable",
+                      obsLayers     = 1:204,
+                      obsStart      = 1997,
+                      ComparisonFun = FullNME,
+                      plotArgs      = FractionBA.Trend,
+                      ExtraArgs     = list(zTrend = TRUE))
 
 GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:156,
+                      obsLayers     = 1:204,
                       obsStart      = 1997,
                       ComparisonFun = FullNME,
                       plotArgs      = GFED4.IA,
@@ -94,7 +109,7 @@ GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
 
 GFEDsSeason    = list(obsFile = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:156,
+                      obsLayers     = 1:204,
                       obsStart      = 1997,
                       ComparisonFun = FullSeasonal,
                       plotArgs      = TRUE)
