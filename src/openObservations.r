@@ -28,8 +28,9 @@ openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL,
         else dat = dat[[layerID]]
     }
 	
+	
 	if (check4mask) {
-		tempFname = paste(temp_dir, filename.noPath(file, TRUE), "_maskRemoval.nc", sep = "")
+		tempFname = paste(c(temp_dir, filename.noPath(file, TRUE), range(layerID), "_maskRemoval.nc"), collapse = "")
 		if (file.exists(tempFname)) {
 			dat = brick(tempFname)
 		} else {
@@ -37,6 +38,7 @@ openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL,
 			dat = writeRaster.gitInfo(dat, tempFname)
 		}
 	}
+	
     if (!is.null(scaling)) dat = scaling(dat)
     return(dat)
 }
