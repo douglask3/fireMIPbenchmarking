@@ -1,11 +1,19 @@
 loadMask <- function(obs, mod, res, varnN) {
     mod = mod[!sapply(mod, is.null)]
-
+	
     filename = paste(c(temp_dir, varnN, names(mod), '.nc'), collapse = '-')
     if(file.exists(filename)) return(raster(filename))
-
-    mod = lapply(mod, function(i) sum(i, na.rm = TRUE))
-
+	mod0 = mod
+	
+	sumFun <- function(r) {
+		r = sum(r) 
+		maskSize = sum(is.na(r[]))/length(r)
+		if (maskSize < 0.1) r = sum(r, na.rm = TRUE)
+		return(r)
+	}
+	
+    mod = lapply(mod, sumFun)
+	
     if (is.raster(obs)) obs = sum(obs)
         else {
             obs = raster(ncol = 720, nrow = 360)
@@ -38,7 +46,7 @@ loadMask <- function(obs, mod, res, varnN) {
 
 remask <- function(obs, mod0, mask, res) {
     ## if no mask to apply, return as is
-		
+	
     if (is.null(mask) || (is.character(mask) && mask == "NULL"))
         return(list(obs, mod))
 
@@ -70,7 +78,7 @@ remask <- function(obs, mod0, mask, res) {
     }
 
     mod = lapply(mod, memSafeFunction, resample)
-
+	
     if (is.raster(obs)) {
         obs = memSafeFunction(obs, resample, TRUE)
         c(obs, mod) := cropBothWays(obs, mod)
