@@ -16,8 +16,10 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                              c(rep('Annual', 4)										        ),	
                              c(rep(1992, 4)													),
                              'mean'),
-            SF2      = JULES_nl,
-            SF1      = JULES_nl)
+            S2       = JULES_nl, 
+			S3       = JULES_nl,
+			SF2      = JULES_nl,
+            SF3      = JULES_nl)
 			
 ################################################################################
 ## Plotting Info                                                              ##

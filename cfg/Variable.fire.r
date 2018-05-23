@@ -18,7 +18,7 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                              c(1997       , 1997       , 1997         , 2006       , 2001       , 2000      , 2000        , 2002      , 2002       ),
                              c('mean'     , 'mean'     , "mean"       , "mean"     , "mean"     , "mean"    , "mean"      , "mean"    , "mean"    )),
             SF2      = JULES_nl,
-            SF1      = JULES_nl)
+            SF3      = JULES_nl)
 
 ################################################################################
 ## Plotting Info                                                              ##
