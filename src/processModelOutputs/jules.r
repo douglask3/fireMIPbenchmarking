@@ -1,23 +1,25 @@
-process.jules <- function(files, varName, levels, ...) {
-    
+process.jules <- function(files, varName, levels, startYear, layers, ...) {
+	files0 = files
 	if (noFileWarning(files, varName)) return(NULL)
-
+	
+	index = unique(ceiling((layers-1)/12)[-1])
+    files = files[index]
+	layers = layers - ((min(index)-1)*12)
+	
+	if (noFileWarning(files, varName)) return(NULL)
+	
 	dat = lapply(levels, process.jules.level, 
-					          files, varName, ...)
+					          files, varName, layers, ...)
     return(dat)
 }
 
-process.jules.level <- function(level, files, varName, startYear,
+process.jules.level <- function(level, files, varName,
                         layers, layersIndex, combine) {
 	r = layer.apply(files, process.jules.file, level, varName)
-	
 	r = r[[layers]]
-	
 	r = combineRawLayers(r, layersIndex, combine)
-	
 	return(r)
 }
-#process.CTEM.level <- function(levels, files, varName) {
 
 process.jules.file <- function(file, level, varName) {
 	
@@ -37,12 +39,15 @@ process.jules.file <- function(file, level, varName) {
 	
 	l = length(lat)
 	
-	multiLayer <- function(mn) dat[, level, mn]	
-	singleLayer <- function(mn)mdat = dat[, mn]
+	multiLayer <- function(mn) {
+		mdat = dat[, level, mn]		
+		mdat = apply(mdat,1 , sum)
+	}
+	
+	singleLayer <- function(mn) dat[, mn]
 	
 	monthizeData <- function(mn, FUN) {
 		mdat = FUN(mn)
-		mdat = apply(mdat,1 , sum)
 		r = rasterFromXYZ(cbind(lon, lat, mdat))
 		return(r)
 	}
