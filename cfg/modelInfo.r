@@ -2,31 +2,21 @@
 ## Model I/O                                                                  ##
 ################################################################################
 
-Model.RAW = list(      #DIR                 #Processing
-            CLM      = c('CLM2'                   , process.CLM     ),
-            CTEM     = c('CTEM'                   , process.CTEM    ),
-            INFERNO  = c('Inferno'                , process.INFERNO ),
-            JSBACH   = c('JSBACH'                 , process.JSBACH ),
-            LPJglob  = c('LPJ-GUESS-GlobFIRM'     , process.LPJ ),
-            LPJspit  = c('LPJ-GUESS-SPITFIRE'     , process.LPJ ),
-            LPJblze  = c('LPJ-GUESS-SIMFIRE-BLAZE', process.LPJ ),
-            MC2      = c('MC2'                    , process.MC2     ),
-            ORCHIDEE = c('ORCHIDEE'               , process.orchidee))
+Model.RAW = list(      #DIR                 #Processing			
+			S2       = c('JULES-INFERNO-S2'       , process.jules   ),
+			S3       = c('JULES-INFERNO-S1'       , process.jules   ),
+			SF2      = c('JULES-INFERNO-SF2'      , process.jules   ),
+			SF3      = c('JULES-INFERNO-SF3'      , process.jules   ))
 
 ################################################################################
 ## Model plotting                                                             ##
 ################################################################################
 
 Model.plotting = rbind( #Title            #Colour
-            CLM      = c('CLM'               , 'red'        ),
-            CTEM     = c('CTEM'              , 'green'      ),
-            INFERNO  = c('inferno'           , 'blue'       ),
-            JSBACH   = c('JSBACH'            , 'yellow'     ),
-            LPJglob  = c('LPJ-GUESS-GlobFIRM', 'cyan'       ),
-            LPJspit  = c('LPJ-GUESS-SPITFIRE', 'darkcyan'   ),
-            LPJblze  = c('LPJ-GUESS-BLAZE'   , 'dodgerblue4'),
-            MC2      = c('MC2'               , 'darkgoldenrod4' ),
-            ORCHIDEE = c('ORCHIDEE'          , 'magenta'    ))
+			S2       = c('S2'                , 'blue'   ),
+			S3       = c('S3'                , 'green'  ),
+			SF2      = c('S2 - Fire'         , 'purple' ),
+			SF3      = c('S3 - Fire'         , 'red'    ))
 
 ################################################################################
 ## Model catigory                                                             ##
