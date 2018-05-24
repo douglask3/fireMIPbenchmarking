@@ -36,7 +36,9 @@ FractionBA.Trend = list(cols    = c('#0000AA', '#2093FF', '#C0D0FF','white',
                      limits  = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20),
                      dlimits = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20))
 
-FractionBA.IA      = list(x = 1997:2009)
+GFED4.IA      = list(x = 1997:2009)
+
+GFED4s.IA     = list(x = 1997:2013)
 
 ## GFAS
 GFAS          = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
@@ -104,7 +106,7 @@ GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
                       obsLayers     = 1:204,
                       obsStart      = 1997,
                       ComparisonFun = FullNME,
-                      plotArgs      = FractionBA.IA,
+                      plotArgs      = GFED4s.IA,
                       ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
 GFEDsSeason    = list(obsFile = "GFED4s_v2.nc",
