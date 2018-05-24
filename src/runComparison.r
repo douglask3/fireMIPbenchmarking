@@ -19,7 +19,7 @@ runComparison <- function(info, name, mod = NULL) {
 	if (is.null(mod))
 		mod   = openSimulations(name, varnN, simLayers)
 	
-	
+	if (all(sapply(mod, is.null))) return(NULL)
 	runres <- function(r = NULL) {
 		if (!is.null(r)) name = paste(name,'__res-', r, sep = '')
 		mask  = loadMask(obs, mod, r, name)	
