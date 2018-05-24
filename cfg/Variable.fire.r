@@ -70,6 +70,14 @@ GFED4.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                      ComparisonFun = FullNME,
                      plotArgs      = FractionBA.Spatial ,
                      ExtraArgs     = list(mnth2yr = TRUE))
+					 
+GFED4.Trend   = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
+                      obsVarname    = "mfire_frac",
+                      obsLayers     = 8:163,
+                      obsStart      = 1997,
+                      ComparisonFun = FullNME,
+                      plotArgs      = FractionBA.Trend,
+                      ExtraArgs     = list(zTrend = TRUE))
 
 GFED4.IA      = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                      obsVarname    = "mfire_frac",
