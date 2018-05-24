@@ -6,7 +6,7 @@ loadMask <- function(obs, mod, res, varnN) {
 	mod0 = mod
 	
 	sumFun <- function(r) {
-		r = sum(r) 
+		r = sum(r)[[1]]
 		maskSize = sum(is.na(r[]))/length(r)
 		if (maskSize < 0.1) r = sum(r, na.rm = TRUE)
 		return(r)
@@ -20,6 +20,7 @@ loadMask <- function(obs, mod, res, varnN) {
             obs[] = 1
         }
 		
+	if (nlayers(obs) == 1) obs = obs[[1]]
 	if (is.na(res))
 		obs = raster::resample(obs, mod[[1]])
 		
