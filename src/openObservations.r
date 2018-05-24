@@ -6,6 +6,7 @@ openObservation <- function(file, varname,...) {
         dat = try(openRasterInputs(file = file, varname = varname,
                                    dir = obs_dir, check4mask = TRUE, ...), silent = TRUE)
     }
+	
     if (!class(dat) == "try-error") return(dat)
 }
 
@@ -17,6 +18,7 @@ openCsvInputs <- function(file, layerID = NULL, scaling = NULL, dir) {
 }
 
 openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL, dir, check4mask = FALSE) {
+	
     if (is.null(varname)) varname = ""
     fname = paste(dir, file, sep = "")
     
@@ -26,19 +28,21 @@ openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL,
         if(is.list(layerID))
             dat = layer.apply(layerID, function(i) mean(dat[[i]]))
         else dat = dat[[layerID]]
-    }
-	
+    }	
 	
 	if (check4mask) {
-		tempFname = paste(c(temp_dir, filename.noPath(file, TRUE), range(layerID), "_maskRemoval.nc"), collapse = "")
+		tempFname = paste(c(temp_dir, filename.noPath(file, TRUE), varname, range(layerID), "_maskRemoval.nc"), collapse = "")
+		
 		if (file.exists(tempFname)) {
 			dat = brick(tempFname)
 		} else {
+			if (nlayers(dat) == 1) dat = dat[[1]]
 			dat[dat > 9E9] = NaN
 			dat = writeRaster.gitInfo(dat, tempFname)
 		}
 	}
 	
     if (!is.null(scaling)) dat = scaling(dat)
+	
     return(dat)
 }
