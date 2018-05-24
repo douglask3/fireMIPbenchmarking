@@ -7,7 +7,7 @@ JULES_nl =  		   rbind(rep("landCoverFrac", 4),
                              12/100,
                              1992,
                              'Monthly',
-							 c("1:2;3:5",  "1:2", "3:5", "1;2"))
+							 c("1:2,5;3:4",  "1:2,5", "3:4", "1;2"))
 
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
