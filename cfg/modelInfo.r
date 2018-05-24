@@ -4,9 +4,9 @@
 
 Model.RAW = list(      #DIR                 #Processing			
 			S2       = c('JULES-INFERNO-S2'       , process.jules   ),
-			S3       = c('JULES-INFERNO-S1'       , process.jules   ),
+			S3       = c('JULES-INFERNO-S3'       , process.jules   ),
 			SF2      = c('JULES-INFERNO-SF2'      , process.jules   ),
-			SF3      = c('JULES-INFERNO-SF3'      , process.jules   ))
+			SF3      = c('JULES-INFERNO-SF3-2'    , process.jules   ))
 
 ################################################################################
 ## Model plotting                                                             ##
