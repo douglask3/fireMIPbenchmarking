@@ -22,7 +22,16 @@ openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL,
     if (is.null(varname)) varname = ""
     fname = paste(dir, file, sep = "")
     
-    dat = layer.apply(varname, function(i) brick(fname, varname = i))
+	openVar <- function(varn) {
+		if (is.numeric(varn)) {
+			dat = brick(fname)[[varn]]
+			dat = sum(dat)[[1]]
+		} else dat = brick(fname, varname = varn)
+			dat = convert_pacific_centric_2_regular(dat)
+		return(dat)
+	}
+	
+    dat = layer.apply(varname, openVar)
 	
     if (nlayers(dat) > 1 && !is.null(layerID)) {
         if(is.list(layerID))
@@ -32,7 +41,7 @@ openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL,
 	
 	if (check4mask) {
 		tempFname = paste(c(temp_dir, filename.noPath(file, TRUE), varname, range(layerID), "_maskRemoval.nc"), collapse = "")
-		
+		tempFname= paste(strsplit(tempFname, ":")[[1]], collapse = '---')
 		if (file.exists(tempFname)) {
 			dat = brick(tempFname)
 		} else {
