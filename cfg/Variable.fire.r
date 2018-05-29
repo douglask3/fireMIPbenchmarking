@@ -36,7 +36,7 @@ FractionBA.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                      limits  = c(0.001,.01,.02,.05,.1,.2),
                      dlimits = c(-0.2,-0.1,-0.05,-0.01,0.01,0.05,0.1, 0.2))
 
-GFED4.IA      = list(x = 1997:2009)
+FractionBA.IA      = list(x = 1997:2010)
 
 ## GFAS
 GFAS          = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
@@ -73,7 +73,7 @@ GFED4.IA      = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                      obsVarname    = "mfire_frac",
                      obsLayers     = 8:163,
                      ComparisonFun = FullNME,
-                     plotArgs      = GFED4.IA,
+                     plotArgs      = FractionBA.IA,
                      ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
 GFED4.Season  = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
@@ -85,7 +85,7 @@ GFED4.Season  = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
 ##GFED4s
 GFED4s.Spatial = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:156,
+                      obsLayers     = (37:180) + 6,
                       obsStart      = 1997,
                       ComparisonFun = FullNME,
                       plotArgs      = FractionBA.Spatial,
@@ -93,15 +93,15 @@ GFED4s.Spatial = list(obsFile       = "GFED4s_v2.nc",
 
 GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:156,
+                      obsLayers     = (37:180) + 6,
                       obsStart      = 1997,
                       ComparisonFun = FullNME,
-                      plotArgs      = GFED4.IA,
+                      plotArgs      = FractionBA.IA ,
                       ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
 GFEDsSeason    = list(obsFile = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:156,
+                      obsLayers     = (37:180) + 6,
                       obsStart      = 1997,
                       ComparisonFun = FullSeasonal,
                       plotArgs      = TRUE)
