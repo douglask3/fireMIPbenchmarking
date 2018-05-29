@@ -1,32 +1,30 @@
 ################################################################################
 ## Model I/O                                                                  ##
 ################################################################################
+ensFun <- function(nmb) {
+	DIR = paste('ensemble_', nmb, '/', sep = '')
+	return(c(DIR, process.ConFIRE))
+}
 
-Model.RAW = list(      #DIR                 #Processing
-            CLM      = c('CLM2'                   , process.CLM     ),
-            CTEM     = c('CTEM'                   , process.CTEM    ),
-            INFERNO  = c('Inferno'                , process.INFERNO ),
-            JSBACH   = c('JSBACH'                 , process.JSBACH ),
-            LPJglob  = c('LPJ-GUESS-GlobFIRM'     , process.LPJ ),
-            LPJspit  = c('LPJ-GUESS-SPITFIRE'     , process.LPJ ),
-            LPJblze  = c('LPJ-GUESS-SIMFIRE-BLAZE', process.LPJ ),
-            MC2      = c('MC2'                    , process.MC2     ),
-            ORCHIDEE = c('ORCHIDEE'               , process.orchidee))
+niterations = 2
+ConFire_iterations <- seq(0, 1000, length.out = niterations)
+ensemble_names = paste('ens', ConFire_iterations, sep = '_')
+
+Model.RAW = lapply(ConFire_iterations, ensFun)
+names(Model.RAW) = ensemble_names
 
 ################################################################################
 ## Model plotting                                                             ##
 ################################################################################
 
-Model.plotting = rbind( #Title            #Colour
-            CLM      = c('CLM'               , 'red'        ),
-            CTEM     = c('CTEM'              , 'green'      ),
-            INFERNO  = c('inferno'           , 'blue'       ),
-            JSBACH   = c('JSBACH'            , 'yellow'     ),
-            LPJglob  = c('LPJ-GUESS-GlobFIRM', 'cyan'       ),
-            LPJspit  = c('LPJ-GUESS-SPITFIRE', 'darkcyan'   ),
-            LPJblze  = c('LPJ-GUESS-BLAZE'   , 'dodgerblue4'),
-            MC2      = c('MC2'               , 'darkgoldenrod4' ),
-            ORCHIDEE = c('ORCHIDEE'          , 'magenta'    ))
+ensFun <- function(nmb) {
+	Title = paste('LimFIRE_ensemble_', nmb, sep = '')
+	col = rainbow(niterations)[1+nmb/1000]
+	return(c(Title, col))
+}
+
+Model.plotting = t(sapply(ConFire_iterations, ensFun))
+rownames(Model.plotting) = ensemble_names
 
 ################################################################################
 ## Model catigory                                                             ##

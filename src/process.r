@@ -4,6 +4,7 @@ process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex, scli
               varInfo[[1]], 'comparison\n'))
 
     dir   = paste(data_dir.ModelOutputs, rawInfo[[1]], experiment, sep = '/')
+	
     files = list.files(dir, full.names = TRUE, recursive = TRUE)
     levels = findModelLevels(modInfo[5])
 	
@@ -14,6 +15,7 @@ process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex, scli
 		
         if (!is.null(dat)) {
 			dat = memSafeFunction(dat, '*', scling) 
+			makeDir(paste(head(strsplit(outFile, '/')[[1]], -1), collapse = '/'))
             dat = writeRaster(dat, outFile, overwrite = TRUE)
             #if (is.list(dat) && length(dat)) dat = dat[[1]]
 		}

@@ -7,48 +7,25 @@ kgpersec =  sec_frac/1000
 ## Burnt area                                            ##
 ###########################################################
 
+Ens      = rbind(c("fire"      , "fire"      , "fire"        , "fire"      , "fire"      , "NaN"  , "NaN"    , "NaN"  , "NaN"),
+				 1,
+				 1997,
+				 'Monthly')
+
 Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("GFED4"    , "GFED4s"   , "GFEDsSeason", "meris"    , "MCD45"    , "GFAS"    , "GFASSeason", "NRfire"  , "meanFire" ),
                              c(1          , 1          , 1            , 1          , 1          , kgpersec  , kgpersec    , 1         , 1          ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'    , 'Monthly'  , "Monthly"  , 'Monthly' , 'Monthly'   , "Annual"  , "Annual"   ),
                              c(1996       , 1996       , 1996         , 2006       , 2001       , 2000      , 2000        , 2002      , 2002       ),
-                             c('mean'     , 'mean'     , "mean"       , "mean"     , "mean"     , "mean"    , "mean"      , "mean"    , "mean"    )),
-            CLM      = rbind(c("BAF"      , "BAF"      , "BAF"        , "BAF"      , "BAF"      , "CFFIRE"  , "CFFIRE"    , "nrfire"  , "mean_fire"),
-                             c(rep(100, 5)                                                      , kgpersec  , kgpersec    , 1         , 1          ),
-                             c(1850       , 1850       , 1850         , 1850       , 1850       , 1850      , 1850        , 1850      , 1850       ),
-                             c('Monthly'  , 'Monthly'  , "Monthly"    , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly"   , "Monthly" , "Monthly" )),
-            CTEM     = rbind(c("burntArea", "burntArea", "burntArea"  , "burntArea", "burntArea", "fFirepft", "fFirepft"  ,"nrfire"  , "mean_fire"),
-                             c(100        , 100        , 100          , 100        , 100        , kgpersec  , kgpersec    , 1         , 1          ),
-                             c(1859       , 1859       , 1859         , 1859       , 1859       , 1861      , 1861        , 1859      , 1859       ),
-                             c('Monthly'  , 'Monthly'  , "Monthly"    , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly"   , "Monthly" , "Monthly" )),
-            INFERNO  = rbind(c("burntArea", "burntArea", "burntArea"  , "burntArea", "burntArea", "fFirepft", "fFirepft"  , "nfire"   , "mean_fire"),
-                             c(sec_frac   , sec_frac   , sec_frac     , sec_frac   , sec_frac   , kgpersec  , kgpersec    , 1         , 1          ),
-                             c(1700       , 1700       , 1700         , 1700       , 1700       , 1700      , 1700        , 1700      , 1700       ),
-                             c('Monthly'  , 'Monthly'  , "Monthly"    , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly"   , "Monthly" , "Monthly" )),
-            JSBACH   = rbind(c("burntArea", "burntArea", "burntArea"  , "burntArea", "burntArea", "fFirepft", "fFirepft"  , "nrfire"  , "burntArea%nrfire"),
-                             c(rep(daily_pc, 5)                                                 , kgpersec  , kgpersec    , 1E-6      , daily_pc * 1E6),
-                             c(1700       , 1700       , 1700         , 1700       , 1700       , 1700      , 1700        , 1950      , "1700&1950"),
-                             c('Monthly'  , 'Monthly'  , "Monthly"    , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly"   , "Monthly" , "Monthly"  )),
-            LPJglob  = rbind(c("burntArea", "burntArea", "NANA"       , "burntArea", "burntArea", "Cfire"   , "NANA"      , "nrfire"  , "mean_fire"),
-                             c(rep(100, 5)                                                      , kgpersec  , kgpersec    , 1         , 100        ),
-                             c(1700       , 1700       , 1700         , 1700       , 1700       , 1700      , 1700        , 1700      , 1700       ),
-                             c('Annual'   , "Annual"   , "Annual"     , 'Annual'   , "Annual"   , "Annual"  , "Annual"    ,  "Annual" , "Annual"  )),
-            LPJspit  = rbind(c(rep("BA", 5)                                                     , "fFire"   , "fFire"     , "nrfire"  , "mean_fire"),
-                             c(100        , 100        , 100          , 100        , 100        , kgpersec  , kgpersec    , 1E-6      , 1E8        ),
-                             c(1700       , 1700       , 1700         , 1700       , 1700       , 1700      , 1700        , 1700      , 1700       ),
-                             c('Monthly'  , "Monthly"  , "Monthly"    , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly"   , "Monthly" , "Monthly" )),
-            LPJblze  = rbind(c("BA"       , "BA"       , "NANA"       , "BA"       , "BA"       , "Cfire"   , "NANA"      , "nrfire"  , "mean_fire"),
-                             c(100        , 100        , 100          , 100        , 100        , kgpersec  , kgpersec    , 1         , 100        ),
-                             c(1700       , 1700       , 1700         , 1700       , 1700       , 1700      , 1700        , 1700      , 1700       ),
-                             c('Monthly'  , 'Monthly'  , "Monthly"    , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly"   , "Monthly" , "Monthly" )),
-            MC2      = rbind(c("BA"       , "BA"       , "NANA"       , "BA"       , "BA"       , "Cfire"   , "NANA"      , "nnfire"  , "mean_fire"),
-                             c(rep(100, 5)                                                      , kgpersec  , kgpersec    , 1         , 1          ),
-                             c(1901       , 1901       , 1901         , 1901       , 1901       , 1901      , 1901        , 1901      , 1901       ),
-                             c('Annual'   , 'Annual'   , "Annual"     , 'Annual'   , "Annual"   , "Annual"  , "Annual"    , "Annual"  , "Annual"  )),
-            ORCHIDEE = rbind(c("burntArea", "burntArea", "burntArea"  , "burntArea", "burntArea", "fFire"   , "fFire"     , "nrfire"  , "mean_fire"),
-                             c(daily_pc   , daily_pc   , daily_pc     , daily_pc   , daily_pc   , 12*kgpersec, 12*kgpersec, 1E-6/30   , daily_pc * 30E-6),
-                             c(1700       , 1700       , 1700         , 1700       , 1700       , 1700      , 1700        , 1950      , "1950"     ),
-                             c('Monthly'  , 'Monthly'  , "Monthly"    , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly"   , "Monthly" , "Monthly"  )))
+                             c('mean'     , 'mean'     , "mean"       , "mean"     , "mean"     , "mean"    , "mean"      , "mean"    , "mean"    )))
+							 
+							 
+							 
+for (i in 1:niterations) Model.Variable = c(Model.Variable, list(Ens))
+
+names(Model.Variable) = c('varname', ensemble_names)
+			
+			
 
 ################################################################################
 ## Plotting Info                                                              ##
