@@ -7,6 +7,7 @@ month_length = c(31,28,31,30,31,30,31,31,30,31,30,31)
 experiment   = ''
 mask_type    = 'common'
 nRRs = 2
+res = 0.5
 
 outputMetricFiles = FALSE
 plotModMetrics    = FALSE
