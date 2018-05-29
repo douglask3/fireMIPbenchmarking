@@ -104,6 +104,17 @@ plotVarAgreement.IA <- function(mod, obs, name, modNames, info, scores, comp, ..
 	mod = lapply(comp, function(i) i[[1]][[6]])
 	obs = lapply(comp, function(i) i[[1]][[5]])
 	x   = info$plotArgs$x
+	
+	nPnts = max(sapply(c(obs, mod), length))
+	if (nPnts < length(x)) {
+		warning("length of TS comparison less then given x-axis data. x-axis cropped")
+		x = x[1:nPnts]
+	} else if (nPnts > length(x)) {
+		warning("length of TS comparison greater then given x-axis data. x-axis extended")
+		xdiff = tail(diff(x), 1)
+		x = c(x, tail(x, 1) + xdiff * (1:(nPnts - length(x))))
+	}
+	
 	yrange = range(unlist(mod), obs)
 	
 	fname =  paste(figs_dir, name, 'modObsMetric', '.png', sep = '-')
