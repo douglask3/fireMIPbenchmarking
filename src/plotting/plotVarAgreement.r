@@ -133,7 +133,8 @@ plotVarAgreement.IA <- function(mod, obs, name, modNames, info, scores, comp, ..
 		yrange = range(unlist(NMEs))
 		plot(range(x), yrange, type = 'n', xlab = '', ylab ='')
 		mtext(stepTitle)
-		mapply(plotModObsLines, NMEs, NMEs,  Model.plotting[, 2])
+		index = sapply(NMEs, length) > 0
+		mapply(plotModObsLines, NMEs[index], NMEs[index],  Model.plotting[index, 2])
 		
 		c(MetricLims, MN, RR) := nullScores_lims(scores)
 		RR = tail(MetricLims, 3)

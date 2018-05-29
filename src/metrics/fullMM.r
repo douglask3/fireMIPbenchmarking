@@ -5,17 +5,19 @@ FullMM <- function(obs, mod, name, plotArgs = NULL, extraItem = NULL,
 		if (nlayers(dat) == 1) return(dat)
 		return(sum(dat))
 	}
-
+		
 	addExtraItem <- function(dat, maxval)
 		addLayer(dat, sumRasterNoWarn(dat)[[1]] * -1 + maxval)
-
+	
     if (!is.null(extraItem))
         c(obs, mod) := lapply(c(obs, mod), addExtraItem, extraItem)
 
+	obs = obs[[1:length(itemNames)]]
+	mod = mod[[1:length(itemNames)]]
     obs = layer.apply(obs, function(i) {i[i<0]= NaN; i})
-
+	
     weights = raster::area(obs)
-
+	
     names(obs) = itemNames
     names(mod) = itemNames
 
