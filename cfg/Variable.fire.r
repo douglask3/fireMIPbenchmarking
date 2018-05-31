@@ -35,6 +35,13 @@ FractionBA.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                                  '#FFD793', "#F07700", "#AA0000"),
                      limits  = c(0.001,.01,.02,.05,.1,.2),
                      dlimits = c(-0.2,-0.1,-0.05,-0.01,0.01,0.05,0.1, 0.2))
+					 	 
+FractionBA.Trend = list(cols    = c('#0000AA', '#2093FF', '#C0D0FF','white',
+                                 '#FFD793', "#F07700", "#AA0000"),
+                     dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
+                                 '#FFD793', "#F07700", "#AA0000"),
+                     limits  = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20),
+                     dlimits = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20))
 
 FractionBA.IA      = list(x = 1997:2010)
 
@@ -105,6 +112,14 @@ GFEDsSeason    = list(obsFile = "GFED4s_v2.nc",
                       obsStart      = 1997,
                       ComparisonFun = FullSeasonal,
                       plotArgs      = TRUE)
+					  
+GFED4s.Trend   = list(obsFile       = "GFED4s_v2.nc",
+                      obsVarname    = "variable",
+                      obsLayers     = (37:180) + 6,
+                      obsStart      = 1997,
+                      ComparisonFun = FullNME,
+                      plotArgs      = FractionBA.Trend,
+                      ExtraArgs     = list(zTrend = TRUE))
 
 ## GFAS
 GFAS           = list(obsFile       = "GFAS.nc",
