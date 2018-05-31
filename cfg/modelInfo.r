@@ -6,8 +6,9 @@ ensFun <- function(nmb) {
 	return(c(DIR, process.ConFIRE))
 }
 
-niterations = 2
-ConFire_iterations <- seq(0, 1000, length.out = niterations)
+niterations = 4
+nensembles = 1320
+ConFire_iterations = round(seq(0, nensembles, length.out = niterations))
 ensemble_names = paste('ens', ConFire_iterations, sep = '_')
 
 Model.RAW = lapply(ConFire_iterations, ensFun)
@@ -19,7 +20,7 @@ names(Model.RAW) = ensemble_names
 
 ensFun <- function(nmb) {
 	Title = paste('LimFIRE_ensemble_', nmb, sep = '')
-	col = rainbow(niterations)[1+nmb/1000]
+	col = rainbow(niterations)[1+nmb/nensembles]
 	return(c(Title, col))
 }
 
