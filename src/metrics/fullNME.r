@@ -59,6 +59,7 @@ findRasterTrend <- function(r, obs = TRUE) {
 		
 	findCellTrend <- function(x) {
 		if (any(is.na(x))) return(NaN)
+		if (min(x) == 0 && max(x) == 0) return(NaN)
 		if (min(x) == max(x)) return(0)
 		test = TrendFun(x)
 		test = try(TrendFun(x), silent = TRUE)
@@ -94,9 +95,25 @@ findRasterTrend <- function(r, obs = TRUE) {
 FullNME.Trend <- function(obs, mod, name, ...) {
 	obs = findRasterTrend(obs)
 	mod = findRasterTrend(mod, obs = FALSE)
+
+	obs[obs == 0] = NaN
 	mod[is.na(obs)] = NaN
+	
+	sigmoid <- function(r) (2/(1+exp(r*(-1))))-1
+	
+	obs0 = obs
+	mod0 = mod
+	
+	obs = sigmoid(obs)
+	mod = sigmoid(mod)
+	#mx =  max.raster(obs, na.rm = TRUE)
+	#mn =  min.raster(obs, na.rm = TRUE)
+	
+	#mod[mod > mx] = mx
+	#mod[mod < mn] = mn
+	
 	out = FullNME.spatial(obs, mod, name, mnth2yr = FALSE,  ...)
-    return(c(out, obs, mod))
+    return(c(out, obs0, mod0))
 }
 
 
