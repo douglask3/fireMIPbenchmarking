@@ -63,7 +63,8 @@ openModel <- function(varInfo, modInfo, rawInfo, layers) {
     c(modLayers, layersIndex, scling) :=
         calculateLayersFromOpening(varInfo, modInfo, layers, as.numeric(modInfo[3]))
 	
-    tempFile = paste(c(temp_dir, '/processed', '-', varInfo[1], '-', rawInfo[[1]], modInfo[1], 1, modInfo[-(1:2)],
+	rinfo = paste(strsplit(rawInfo[[1]], '/')[[1]], collapse = '---')
+    tempFile = paste(c(temp_dir, '/processed', '-', varInfo[1], '-', rinfo, modInfo[1], 1, modInfo[-(1:2)],
                      min(layers), '-', max(layers), '.nc'), collapse = '')
 	tempFile = gsub(':', '---', tempFile)
     if (file.exists(tempFile)) dat = brick(tempFile)
