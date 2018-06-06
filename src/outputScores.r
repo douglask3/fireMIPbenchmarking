@@ -68,11 +68,11 @@ beautifyOutScore <- function(scores) {
 nullScores <- function(comp) {
     comp = summary(comp[[2]])
     if (length(comp[[1]]) == 1) {
-        comp = standard.round(comp)
+        comp = standard.round(comp, 6)
         comp[3] = paste(comp[3:4], collapse = ' +/- ')
         comp = comp[1:3]
     } else {
-        comp = lapply(comp, standard.round)
+        comp = lapply(comp, standard.round, 6)
         comp = c(comp[[1]], comp[[2]], paste(comp[[3]], '+/-', comp[[4]]))
     }
     return(comp)
@@ -80,7 +80,7 @@ nullScores <- function(comp) {
 
 
 modelScores <- function(comp)
-    standard.round(score(comp[[1]]))
+    standard.round(score(comp[[1]]), 6)
 
 meanVariance <- function(comp) {
     summ = summary(comp[[1]])
