@@ -73,7 +73,7 @@ nullScores <- function(comp) {
         comp = comp[1:3]
     } else {
         comp = lapply(comp, standard.round, 6)
-        comp = c(comp[[1]], comp[[2]], paste(comp[[3]], '+/-', comp[[4]]))
+        comp = c(comp[[1]], comp[[2]], comp[[3]])
     }
     return(comp)
 }
