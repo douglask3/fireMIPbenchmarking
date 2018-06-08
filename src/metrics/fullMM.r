@@ -9,9 +9,11 @@ FullMM <- function(obs, mod, name, plotArgs = NULL, extraItem = NULL,
 	addExtraItem <- function(dat, maxval)
 		addLayer(dat, sumRasterNoWarn(dat)[[1]] * -1 + maxval)
 	
-    if (!is.null(extraItem))
-        c(obs, mod) := lapply(c(obs, mod), addExtraItem, extraItem)
-
+    if (!is.null(extraItem)) {
+		obs = addExtraItem(obs, extraItem)
+		mod = addExtraItem(mod, extraItem)
+	}
+    
 	obs = obs[[1:length(itemNames)]]
 	mod = mod[[1:length(itemNames)]]
     obs = layer.apply(obs, function(i) {i[i<0]= NaN; i})
