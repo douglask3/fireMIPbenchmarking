@@ -23,15 +23,24 @@ openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL,
     fname = paste(dir, file, sep = "")
     
 	openVar <- function(varn) {
+		
 		if (is.numeric(varn)) {
 			dat = brick(fname)[[varn]]
 			dat = sum(dat)[[1]]
 		} else dat = brick(fname, varname = varn)
 			dat = convert_pacific_centric_2_regular(dat)
+		dat = sum(dat)
 		return(dat)
 	}
 	
-    dat = layer.apply(varname, openVar)
+	openVars <- function(varns) {
+		varn = strsplit(varns, ';')[[1]]
+		
+		dat = layer.apply(varn, openVar)
+		dat = sum(dat)
+	}
+	
+    dat = layer.apply(varname, openVars)
 	
     if (nlayers(dat) > 1 && !is.null(layerID)) {
         if(is.list(layerID))
