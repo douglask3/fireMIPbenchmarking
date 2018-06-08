@@ -7,10 +7,10 @@ JULES_nl =  		   rbind(rep("landCoverFrac", 5),
                              12/100,
                              1997,
                              'Monthly',
-							 c("1:2;3:4;5", "1:2"     , "1:2,5"    , "3:4"      , "1;2"     , "1" , "2" , "3" , "4" , "5" ))
+							 c("1:2;3:4;5", "1:2"     , "1:2,5"    , "3:4"    ,  "1:5", "1;2"     , "1" , "2" , "3" , "4" , "5" ))
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
-            varname  = rbind(c("lifeForm_cci", "TreeCover_cci", "WoodCover_cci", "HerbCover_cci", "LeafType_cci", "BL_cci", "NL_cci", "C3_cci", "C4_cci", "Sh_cci"),
+            varname  = rbind(c("lifeForm_cci", "TreeCover_cci", "WoodCover_cci", "HerbCover_cci", "BareCover_cci", "LeafType_cci", "BL_cci", "NL_cci", "C3_cci", "C4_cci", "Sh_cci"),
                              1/100,
                              "Annual",
                              2010,
@@ -36,11 +36,11 @@ VegComparison         = list(cols    = c('white',"#88EE11","#00FF00",
 ################################################################################
 
 setupList <- function(obsVarname, itemNames, extraItem = 100) {
-	lifeForm = list(obsFile       = "vegfrac_refLC_refCW.nc",
+	list(obsFile       = "vegfrac_refLC_refCW.nc",
 					obsVarname    = obsVarname,
 					ComparisonFun = FullMM,
 					plotArgs      = VegComparison,
-					ExtraArgs     = list(extraItem = 100,
+					ExtraArgs     = list(extraItem = extraItem,
                                          itemNames = itemNames))
 }
 
@@ -48,6 +48,7 @@ lifeForm_cci  = setupList(list(1:2, 3:4, 5), c('Tree', 'Grass', 'Shrub', 'Bare')
 TreeCover_cci = setupList(list(c(1:2))        , c('Tree', 'non-Tree'))
 WoodCover_cci = setupList(list(c(1:2, 5))  , c('Woody', 'non-Woody'))
 HerbCover_cci = setupList(list(3:4)        , c("Herb", "non-Herb"))
+BareCover_cci = setupList(list(c(1:5))     , c("Bare", "Vegetated"))
 LeafType_cci  = setupList(list(1, 2)       , c("BL", "NL"))
 BL_cci        = setupList(list(1)          , c("BL", "None-BL"))
 NL_cci        = setupList(list(2)          , c("NL", "None-NL"))

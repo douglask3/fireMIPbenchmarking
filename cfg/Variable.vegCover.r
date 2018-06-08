@@ -3,18 +3,18 @@
 # Production
 # Veg Cover
 
-JULES_nl =  		   rbind(rep("landCoverFrac", 4),
+JULES_nl =  		   rbind(rep("landCoverFrac", 5),
                              12/100,
                              1992,
                              'Monthly',
-							 c("1:2,5;3:4",  "1:2,5", "3:4", "1;2"))
+							 c("1:2,5;3:4",  "1:2,5", "3:4", "1:5", "1;2"))
 
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
-            varname  = rbind(c("lifeForm", "TreeCover", "HerbCover", "LeafType"),
-                             c(rep(1, 4)													),
-                             c(rep('Annual', 4)										        ),	
-                             c(rep(1992, 4)													),
+            varname  = rbind(c("lifeForm", "TreeCover", "HerbCover", "BareCover", "LeafType"),
+                             c(rep(1, 5)													),
+                             c(rep('Annual', 5)										        ),	
+                             c(rep(1992, 5)													),
                              'mean'),
             S2       = JULES_nl, 
 			S3       = JULES_nl,
@@ -55,6 +55,13 @@ HerbCover         = list(obsFile       = "veg_cont_fields_CRU.nc",
                          plotArgs      = VegComparison,
                          ExtraArgs     = list(extraItem = 100,
                                               itemNames = c('Herb', 'Not Herb')))
+
+BareCover         = list(obsFile       = "veg_cont_fields_CRU.nc",
+                         obsVarname    = c("Tree_cover;Herb"),
+                         ComparisonFun = FullMM,
+                         plotArgs      = VegComparison,
+                         ExtraArgs     = list(extraItem = 100,
+                                              itemNames = c('Vegetated', 'Bare')))											  
 
 LeafType          = list(obsFile       = "veg_cont_fields_CRU.nc",
                          obsVarname    = c("Broadleaf", "Needleleaf"),
