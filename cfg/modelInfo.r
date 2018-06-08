@@ -1,30 +1,30 @@
 ################################################################################
 ## Model I/O                                                                  ##
 ################################################################################
-ensFun <- function(nmb) {
-	DIR = paste('ensemble_', nmb, '/', sep = '')
-	return(c(DIR, process.ConFIRE))
-}
+dir = '../LimFIRE/outputs/'
+dirs = list.dirs(dir, full.names = FALSE)
 
-niterations = 4
-nensembles = 1320
-ConFire_iterations = round(seq(0, nensembles, length.out = niterations))
-ensemble_names = paste('ens', ConFire_iterations, sep = '_')
+dirs = dirs[grep('ensemble_', dirs)]
+ensemble_names = sapply(dirs, function(i) strsplit(i, 'outputs//')[[1]][2])
+niterations = length(ensemble_names)
 
-Model.RAW = lapply(ConFire_iterations, ensFun)
+dirs = paste(dirs, '/', sep = '')
+
+Model.RAW = lapply(dirs, c, process.ConFIRE)
+
 names(Model.RAW) = ensemble_names
 
 ################################################################################
 ## Model plotting                                                             ##
 ################################################################################
 
-ensFun <- function(nmb) {
-	Title = paste('LimFIRE_ensemble_', nmb, sep = '')
-	col = rainbow(niterations)[1+nmb/nensembles]
+ensFun <- function(nm, nmb) {
+	Title =  paste("conFire_", nm, sep = '')
+	col = rainbow(niterations)[nmb]
 	return(c(Title, col))
 }
 
-Model.plotting = t(sapply(ConFire_iterations, ensFun))
+Model.plotting = t(mapply(ensFun, ensemble_names, 1:length(ensemble_names)))
 rownames(Model.plotting) = ensemble_names
 
 ################################################################################
