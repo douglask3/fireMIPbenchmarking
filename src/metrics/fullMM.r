@@ -1,5 +1,5 @@
 FullMM <- function(obs, mod, name, plotArgs = NULL, extraItem = NULL,
-                   itemNames = letters[1:nlayers(obs)], nRRs = 10, ...) {
+                   itemNames = letters[1:nlayers(obs)], switchMod = FALSE, nRRs = 10, ...) {
 
 	sumRasterNoWarn <- function(dat, ...) {
 		if (nlayers(dat) == 1) return(dat)
@@ -22,6 +22,8 @@ FullMM <- function(obs, mod, name, plotArgs = NULL, extraItem = NULL,
 	
     names(obs) = itemNames
     names(mod) = itemNames
+	
+	if (switchMod) mod = mod[[nlayers(mod):1]]
 
     score   = MM (obs, mod, weights)
     null    = null.MM(obs, w =  weights, n = nRRs)
