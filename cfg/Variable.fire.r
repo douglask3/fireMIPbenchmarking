@@ -9,7 +9,7 @@ kgpersec =  sec_frac/1000
 
 Ens      = rbind(c("fire"      , "fire"      , "fire"        , "fire"      , "fire"      , "NaN"  , "NaN"    , "NaN"  , "NaN"),
 				 1,
-				 1997,
+				 2000.5,
 				 'Monthly')
 
 Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
