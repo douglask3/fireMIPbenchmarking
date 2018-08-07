@@ -5,7 +5,9 @@ dir = '../LimFIRE/outputs/'
 dirs = list.dirs(dir, full.names = FALSE)
 
 dirs = dirs[grep('ensemble_', dirs)]
+dirs = dirs[!grepl('noVar', dirs)]
 ensemble_names = sapply(dirs, function(i) strsplit(i, 'outputs//')[[1]][2])
+
 niterations = length(ensemble_names)
 
 dirs = paste(dirs, '/', sep = '')
