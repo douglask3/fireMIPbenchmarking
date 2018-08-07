@@ -15,14 +15,16 @@ runComparison <- function(info, name, mod = NULL) {
                                obsTemporalRes, obsLayers)
 	
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
-    
+   
 	if (is.null(mod))
 		mod   = openSimulations(name, varnN, simLayers)
 	
 	if (all(sapply(mod, is.null))) return(NULL)
 	runres <- function(r = NULL) {
 		if (!is.null(r)) name = paste(name,'__res-', r, sep = '')
+		
 		mask  = loadMask(obs, mod, r, name)	
+		
 		c(obs, mod) := remask(obs, mod, mask, r)
 		
 		obs = scaleMod(obs, Model.Variable[[1]], varnN)
