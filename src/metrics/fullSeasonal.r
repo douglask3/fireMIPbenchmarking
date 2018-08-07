@@ -113,7 +113,15 @@ climateologize <- function(r, yearLength = 12) {
 		j = baseN(i, yearLength)
 		out[[j]] = out[[j]] + r[[i]] / scaling
 	}
-	out = writeRaster.gitInfo(out, fname)
+	
+	fnameShort = strsplit(fname, '-NA')[[1]]
+	test = fnameShort == ''
+	nNa = sum(test)
+	
+	fname = paste(fnameShort[!test], collapse = paste('_NA_by_', nNa, sep = ''))
+	
+	
+	out = writeRaster.gitInfo(out, fname, overwrite = TRUE)
 	return(out)
 	
 }
