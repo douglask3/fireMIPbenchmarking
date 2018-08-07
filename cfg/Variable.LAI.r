@@ -3,6 +3,12 @@
 # Production
 # Veg Cover
 
+jules_nl = rbind(rep("lai", 4),
+                             1,
+                             1700,
+                             'Monthly',
+                             "NULL")
+
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("LAImodis", "LAIavhrr", "LAImodisMonthly", "LAIavhrrMonthly"),
