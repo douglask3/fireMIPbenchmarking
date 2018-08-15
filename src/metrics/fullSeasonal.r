@@ -103,16 +103,17 @@ climateologize <- function(r, yearLength = 12) {
 	
 	if (file.exists(fname)) return(stack(fname))
 	out = r[[1:yearLength]]
+	out[] = 0
 
 	nlayers = nlayers(r)
-	scaling = floor(nlayers / yearLength)
-	nlayers = scaling * yearLength
-	
+	nyears = floor(nlayers / yearLength)
+	nlayers = nyears * yearLength
 	
 	for (i in 1:nlayers) {
 		j = baseN(i, yearLength)
-		out[[j]] = out[[j]] + r[[i]] / scaling
+		out[[j]] = out[[j]] + r[[i]] / nyears
 	}
+	
 	out = writeRaster.gitInfo(out, fname)
 	return(out)
 	
