@@ -5,6 +5,7 @@ process.orchidee <- function(files, varName, levels, ...) {
 }
 process.orchidee.levels <- function(levels, files, varName, startYear,
                         layers, layersIndex, combine) {
+	
     files0 = files
     files = findAfile(files, varName, '', FALSE)
     if (noFileWarning(files, varName)) return(NULL)
@@ -29,10 +30,11 @@ process.orchidee.levels <- function(levels, files, varName, startYear,
     }
 
     dat = lapply(files, brickLevels)
-
-    dat = mapply(function(i, j) i[[j]], dat, lyersIndex)
+	
+    dat = mapply(function(i, j) i[[round(j)]], dat, lyersIndex)
     dat = layer.apply(dat, function(i) i)
     
     dat = combineRawLayers(dat, layersIndex, combine)
+	
     return(dat)
 }
