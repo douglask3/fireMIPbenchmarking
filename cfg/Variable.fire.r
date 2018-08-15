@@ -14,7 +14,7 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                              c(1996       , 1996       , 1996         , 2006       , 2001       , 2000      , 2000        , 2002      , 2002       ),
                              c('mean'     , 'mean'     , "mean"       , "mean"     , "mean"     , "mean"    , "mean"      , "mean"    , "mean"    )),
             CLM      = rbind(c("BAF"      , "BAF"      , "BAF"        , "BAF"      , "BAF"      , "CFFIRE"  , "CFFIRE"    , "nrfire"  , "mean_fire"),
-                             c(rep(100, 5)                                                      , kgpersec  , kgpersec    , 1         , 1          ),
+                             c(100        , 100        , 100          , 100        , 100        , kgpersec  , kgpersec    , 1         , 1          ),
                              c(1850       , 1850       , 1850         , 1850       , 1850       , 1850      , 1850        , 1850      , 1850       ),
                              c('Monthly'  , 'Monthly'  , "Monthly"    , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly"   , "Monthly" , "Monthly" )),
             CTEM     = rbind(c("burntArea", "burntArea", "burntArea"  , "burntArea", "burntArea", "fFirepft", "fFirepft"  ,"nrfire"  , "mean_fire"),
