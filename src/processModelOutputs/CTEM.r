@@ -14,7 +14,15 @@ process.CTEM.level <- function(levels, files, varName, startYear,
     if (noFileWarning(file, varName)) return(NULL)
 
     dat0 = brickLevels()
-
+	
+	if (grepl('CTEM',file) &  grepl('CLASS-', file)) {
+		file = findAfile(files, vegVarN)
+        veg0 = brickLevels()[[1]]
+		dat0 = lapply(dat0, function(i) {extent(i) = extent(veg0); i})
+	}		
+	
+	#if (grepl('CTEM',file) & !grepl('pft.nc', file)) vegVarN = NULL
+	
     ## Open frac cover
     openFrac_test = !is.null(vegVarN) && varName != vegVarN
     if (openFrac_test) {
