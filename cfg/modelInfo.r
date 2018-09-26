@@ -4,7 +4,7 @@
 
 Model.RAW = list(      #DIR                 #Processing
             CLM      = c('CLM2'                   , process.CLM     ),
-            CTEM     = c('CTEM'                   , process.CTEM    ),
+            CTEM     = c('CLASS_CTEM'             , process.CTEM    ),
             INFERNO  = c('Inferno'                , process.INFERNO ),
             JSBACH   = c('JSBACH'                 , process.JSBACH ),
             LPJglob  = c('LPJ-GUESS-GlobFIRM'     , process.LPJ ),
