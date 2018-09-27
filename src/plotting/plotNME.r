@@ -13,6 +13,10 @@ plotNME.spatial <- function(obs, mod, ...) {
     return(list(c(f1, f2, f3), c(map1, map2, map3)))
 }
 
+plotNME.spatial.gradient <- function(obs, modm , ...) {
+	browser()
+}
+
 plotNME.spatial.stepN <- function(mod, obs, step, name, cols, dcols, metricCols = NMEmap_cols, 
                                   limits, dlimits, metricLimits = NULL, 
 								  figOut = TRUE, plotObs = TRUE, denomNormFun = sum.raster, ...) {

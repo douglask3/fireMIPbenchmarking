@@ -14,6 +14,7 @@ FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ...) {
     weights = raster::area(obs)
 
     if (mnth2yr) {obs = obs * 12; mod = mod * 12}
+	browser()
     score   = NME (obs, mod, weights)
 
     if (!is.null(plotArgs) && plotModMetrics)

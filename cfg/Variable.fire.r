@@ -35,7 +35,15 @@ FractionBA.Trend = list(cols    = c('#0000AA', '#2093FF', '#C0D0FF','white',
                                  '#FFD793', "#F07700", "#AA0000"),
                      limits  = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20),
                      dlimits = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20))
+					 
+FractionBA.Grad = list(cols    = c('#0000AA', '#2093FF', '#C0D0FF','white',
+                                 '#FFD793', "#F07700", "#AA0000"),
+                     dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
+                                 '#FFD793', "#F07700", "#AA0000"),
+                     limits  = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20),
+                     dlimits = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20))
 
+FractionBA.IA      = list(x = 1997:2009)
 GFED4.IA      = list(x = 1997:2009)
 
 GFED4s.IA     = list(x = 1997:2013)
@@ -108,6 +116,14 @@ GFED4s.Trend   = list(obsFile       = "GFED4s_v2.nc",
                       ComparisonFun = FullNME,
                       plotArgs      = FractionBA.Trend,
                       ExtraArgs     = list(zTrend = TRUE))
+					  
+GFED4s.Grad    = list(obsFile       = "GFED4s_v2.nc",
+                      obsVarname    = "variable",
+                      obsLayers     = 1:204,
+                      obsStart      = 1997,
+                      ComparisonFun = FullGrad,
+                      plotArgs      = FractionBA.Grad,
+                      ExtraArgs     = list(FUN = "NME"))
 
 GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
