@@ -41,7 +41,7 @@ openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL,
 	}
 	
 	if (length(file) > 1) dat = layer.apply(fname, openVars, varns = varname)
-	else                  dat = layer.apply(varname, openVars, fname)
+	else  dat = layer.apply(varname, function(i) brick(fname, varname = i))
 	
     if (nlayers(dat) > length(fname) && !is.null(layerID)) {
         if(is.list(layerID))
