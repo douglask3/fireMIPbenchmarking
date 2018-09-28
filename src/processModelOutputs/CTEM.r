@@ -38,7 +38,7 @@ process.CTEM.level <- function(levels, files, varName, startYear,
 
     combineLevels <- function(i) {
         cat(i, ' ')
-		if (grepl('CTEM',file) &  grepl('CLASS-', file)) vi = floor(i/12) else ci = i
+		if (grepl('CTEM',file) &  grepl('CLASS-', file)) vi = floor(i/12) else vi = i
         if (openFrac_test) v1 = veg0[[1]][[vi]] else v1 = 1
 
         dat = noNaN(dat0[[1]][[i]]) * v1
