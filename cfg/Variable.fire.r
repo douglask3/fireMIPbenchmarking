@@ -19,7 +19,7 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
                              c('Monthly'  , 'Monthly'  , "Monthly"    , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly"   , "Monthly" , "Monthly" )),
             CTEM     = rbind(c("burntArea", "burntArea", "burntArea"  , "burntArea", "burntArea", "fFirepft", "fFirepft"  ,"nrfire"  , "mean_fire"),
                              c(100        , 100        , 100          , 100        , 100        , kgpersec  , kgpersec    , 1         , 1          ),
-                             c(1859       , 1859       , 1859         , 1859       , 1859       , 1861      , 1861        , 1859      , 1859       ),
+                             c(1861       , 1861       , 1861         , 1861       , 1861       , 1861      , 1861        , 1861      , 1861       ),
                              c('Monthly'  , 'Monthly'  , "Monthly"    , 'Monthly'  , "Monthly"  , "Monthly" , "Monthly"   , "Monthly" , "Monthly" )),
             INFERNO  = rbind(c("burntArea", "burntArea", "burntArea"  , "burntArea", "burntArea", "fFirepft", "fFirepft"  , "nfire"   , "mean_fire"),
                              c(sec_frac   , sec_frac   , sec_frac     , sec_frac   , sec_frac   , kgpersec  , kgpersec    , 1         , 1          ),
