@@ -14,7 +14,7 @@ FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ...) {
     weights = raster::area(obs)
 
     if (mnth2yr) {obs = obs * 12; mod = mod * 12}
-	browser()
+	
     score   = NME (obs, mod, weights)
 
     if (!is.null(plotArgs) && plotModMetrics)
@@ -70,6 +70,13 @@ findRasterTrend <- function(r, obs = TRUE) {
 	tempFile = paste(temp_dir, filename.noPath(r[[1]], TRUE), 'trend.nc', sep = '')
 	if (file.exists(tempFile)) return(raster(tempFile)) else {
 		yrs = floor(nlayers(r) / 12)
+		
+		raster.ma <- function(r) {
+			nmnths = nlayers(r)
+			start = 1:(nmnths-12)
+			rma = layer.apply(start, function(i) mean(r[[i:(i+11)]]))
+		}
+			
 		
 		r = raster.ma(r) * 12
 		
