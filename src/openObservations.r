@@ -34,6 +34,7 @@ openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL,
 		if (file.exists(tempFname)) {
 			dat = brick(tempFname)
 		} else {
+			if (nlayers(dat) == 1) dat = dat[[1]]
 			dat[dat > 9E9] = NaN
 			dat = writeRaster.gitInfo(dat, tempFname)
 		}
