@@ -7,20 +7,31 @@ FullNME <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
 	return(out)
 }
 
-FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ...) {
+FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, FUN = 'NME', average = TRUE, ...) {
 	
-    obs     = mean.nlayers(obs)
-    mod     = mean.nlayers(mod)
-    weights = raster::area(obs)
-
+	if (average) {
+		obs     = mean.nlayers(obs)
+		mod     = mean.nlayers(mod)
+		weights = raster::area(obs)
+	} else {
+		weights = raster::area(obs[[1]])
+		mask = which(!is.na(obs[[1]][]))
+		
+		mask = mask[sample(1:length(mask), length(mask)/10, replace = FALSE)]
+		mod = mod[mask]
+		obs = obs[mask]
+		weights = matrix(rep(weights[mask], ncol(obs)), ncol = ncol(obs))
+	}
+	
     if (mnth2yr) {obs = obs * 12; mod = mod * 12}
-    score   = NME (obs, mod, weights)
+    score   = match.fun(FUN)(obs, mod, weights)
 
     if (!is.null(plotArgs) && plotModMetrics)
         c(figNames, metricMap) := do.call(plotNME.spatial, c(obs, mod, name, plotArgs, ...))
     else figNames = metricMap =  NULL
-
-    null    = null.NME(obs, w = weights, n = nRRs)
+	
+	FUN = paste('null', FUN, sep = '.')
+    null    = match.fun(FUN)(obs, w = weights, n = nRRs)
 	
     return(list(score, null, figNames, metricMap))
 }

@@ -1,5 +1,5 @@
 names = 'fire'
-comparisons = list(c("GFED4s.Trend", "GFED4s.Spatial", "GFEDsSeason", "meris.Spatial", "MCD45.Spatial"))#list(c("GFASSeason"))
+comparisons = list(c("GFED4s.MonthComp"))#, "MCD45.Spatial", "GFED4s.Trend", "meris.Spatial"))#, , ))#list(c("GFASSeason"))
 res = NaN
 
 source('run.r')

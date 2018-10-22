@@ -7,17 +7,17 @@ kgpersec =  sec_frac/1000
 ## Burnt area                                            ##
 ###########################################################
 
-Ens      = rbind(c("fire"      , "fire"      , "fire"        , "fire"      , "fire"      , "NaN"  , "NaN"    , "NaN"  , "NaN"),
+Ens      = rbind(c("fire"      , "fire"      , "fire"        , "fire"      , "fire"),
 				 1,
 				 2000.5,
 				 'Monthly')
 
 Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
-            varname  = rbind(c("GFED4"    , "GFED4s"   , "GFEDsSeason", "meris"    , "MCD45"    , "GFAS"    , "GFASSeason", "NRfire"  , "meanFire" ),
-                             c(1          , 1          , 1            , 1          , 1          , kgpersec  , kgpersec    , 1         , 1          ),
-                             c('Monthly'  , 'Monthly'  , 'Monthly'    , 'Monthly'  , "Monthly"  , 'Monthly' , 'Monthly'   , "Annual"  , "Annual"   ),
-                             c(1996       , 1996       , 1996         , 2006       , 2001       , 2000      , 2000        , 2002      , 2002       ),
-                             c('mean'     , 'mean'     , "mean"       , "mean"     , "mean"     , "mean"    , "mean"      , "mean"    , "mean"    )))
+            varname  = rbind(c("GFED4"    , "GFED4s"   , "GFEDsSeason", "meris"    , "MCD45"   ),
+                             c(1          , 1          , 1            , 1          , 1         ),
+                             c('Monthly'  , 'Monthly'  , 'Monthly'    , 'Monthly'  , "Monthly" ),
+                             c(1996       , 2000.5       , 1996         , 2006       , 2001    ),
+                             c('mean'     , 'mean'     , "mean"       , "mean"     , "mean"    )))
 							 
 							 
 							 
@@ -69,6 +69,13 @@ meanFire      = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
 ## Full comparisons info                                                      ##
 ################################################################################
 ## GFED4
+GFED4.MonthComp = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
+                     obsVarname    = "mfire_frac",
+                     obsLayers     = 8:163,
+                     ComparisonFun = FullNME,
+                     plotArgs      = NULL,
+                     ExtraArgs     = list(mnth2yr = TRUE, FUN = 'NMSE', average = FALSE))
+					 
 GFED4.Spatial = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                      obsVarname    = "mfire_frac",
                      obsLayers     = 8:163,
@@ -90,6 +97,14 @@ GFED4.Season  = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                      plotArgs      = TRUE)
 
 ##GFED4s
+GFED4s.MonthComp = list(obsFile       = "GFED4s_v2.nc",
+                      obsVarname    = "variable",
+                      obsLayers     = (37:180) + 6,
+                      obsStart      = 1997,
+                      ComparisonFun = FullNME,
+                      plotArgs      = FractionBA.Spatial,
+                      ExtraArgs     = list(mnth2yr = TRUE, FUN = 'NMSE', average = FALSE))
+					  
 GFED4s.Spatial = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
                       obsLayers     = (37:180) + 6,
