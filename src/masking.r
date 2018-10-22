@@ -56,21 +56,21 @@ remask <- function(obs, mod0, mask, res) {
     ## if no mask to apply, return as is
 	
     if (is.null(mask) || (is.character(mask) && mask == "NULL"))
-        return(list(obs, mod))
+        return(list(obs, mod0))
 
     ## if mask has been applied and stored in cache, return cache
-    present = !sapply(mod0, is.null)
-    mod = mod0[present]
+    #present = !sapply(mod0, is.null)
+    #mod = mod0[present]
 	
     if (is.raster(obs))
         filename_obs = paste(temp_dir, filename.noPath(mask, TRUE), 'obsRemasked', res, '.nc', sep = '-')
     else
         filename_obs = c()
-    filename_mod = paste(temp_dir, sapply(mod, filename.noPath, TRUE), 'modRemasked', res, '.nc', sep = '-')
-    filenames    = c(filename_obs, filename_mod)
+    #filename_mod = paste(temp_dir, sapply(mod, filename.noPath, TRUE), 'modRemasked', res, '.nc', sep = '-')
+    filenames    = c(filename_obs)#, filename_mod)
 	
     if (files.exist(filenames)) {
-        mod0[present] = lapply(filename_mod, stack)
+        #mod0[present] = lapply(filename_mod, stack)
 		if (is.raster(obs)) obs = stack(filename_obs)
         return(list(obs, mod0))
     }
@@ -85,17 +85,18 @@ remask <- function(obs, mod0, mask, res) {
         return(i)
     }
 
-    mod = lapply(mod, memSafeFunction, resample)
+    #mod = lapply(mod, memSafeFunction, resample)
 	
     if (is.raster(obs)) {
         obs = memSafeFunction(obs, resample, TRUE)
-        c(obs, mod) := cropBothWays(obs, mod)
+        #c(obs, mod) := cropBothWays(obs, mod)
         obs = writeRaster(obs, filename_obs, overwrite = TRUE)
     }
-    mod = mapply(writeRaster, mod, filename_mod,
-                 MoreArgs = list(overwrite = TRUE))
+	#browser()
+    #mod = mapply(writeRaster, mod, filename_mod,
+    #             MoreArgs = list(overwrite = TRUE))
 
     memSafeFile.remove()
-    mod0[present] = mod
+    #mod0[present] = mod
     return(list(obs, mod0))
 }

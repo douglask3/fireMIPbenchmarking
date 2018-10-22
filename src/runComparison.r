@@ -5,6 +5,7 @@ runComparisons <- function(comparisonList) {
 }
 
 runComparison <- function(info, name, mod = NULL) {
+	
     if(is.null(info$noMasking)) info$noMasking = FALSE
     componentID <- function(name) strsplit(name,'.', TRUE)[[1]]
 
@@ -15,7 +16,7 @@ runComparison <- function(info, name, mod = NULL) {
                                obsTemporalRes, obsLayers)
 	
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
-   
+	
 	if (is.null(mod))
 		mod   = openSimulations(name, varnN, simLayers)
 	
@@ -23,7 +24,7 @@ runComparison <- function(info, name, mod = NULL) {
 	runres <- function(r = NULL) {
 		if (!is.null(r)) name = paste(name,'__res-', r, sep = '')
 		
-		mask  = loadMask(obs, mod, r, name)	
+		mask  = loadMask(obs, mod[1], r, name)	
 		
 		c(obs, mod) := remask(obs, mod, mask, r)
 		
@@ -90,6 +91,7 @@ comparisonOutput <- function(scores, name) {
 }
 
 layersFrom1900 <- function(start, res, layers) {
+	
     layers = layers - min(layers)
     diff = as.numeric(start) - 1900
          if (res == "Annual" ) diff
