@@ -46,7 +46,7 @@ outputScores <- function(comp, name, info) {
 	
 	comp = comp[MET_test] 
 	
-	sig = sapply(comp, function(i) sapply(comp, sigDiff, i, MM__test[[1]]))
+	sig = sapply(comp, function(i) sapply(comp, sigDiff, i, 1, MM__test[[1]]))
 	modNames =  Model.plotting[,1][MET_test]
 	colnames(sig) = modNames
 	
@@ -62,6 +62,7 @@ outputScores <- function(comp, name, info) {
 }
 
 sigDiff <- function(m1, m2, index = 1, MM_type = FALSE) {
+	
 	if (names(m1[[1]])[1] == "Phase") {
 		
 		sig1 = sigDiff(m1[[1]], m2[[1]])
