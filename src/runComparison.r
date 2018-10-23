@@ -15,7 +15,7 @@ runComparison <- function(info, name, mod = NULL) {
                                obsTemporalRes, obsLayers)
 	
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
-    
+   
 	if (is.null(mod))
 		mod   = openSimulations(name, varnN, simLayers)
 	
