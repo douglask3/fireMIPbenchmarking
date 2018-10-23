@@ -61,10 +61,16 @@ outputScores <- function(comp, name, info) {
     return(scores)
 }
 
-sigDiff <- function(m1, m2, MM_type = FALSE) {
+sigDiff <- function(m1, m2, index = 1, MM_type = FALSE) {
+	if (names(m1[[1]])[1] == "Phase") {
+		
+		sig1 = sigDiff(m1[[1]], m2[[1]])
+		sig2 = sigDiff(m1[[1]], m2[[1]], 2)
+		return(c(phase = sig1, conc = sig2))
+	}
 	
 	grabInfo <- function(m) {
-		m = m[[1]][c('diff', 'w')]
+		m = m[[index]][c('diff', 'w')]
 		if (MM_type) 
 			m = lapply(m, function(i) as.matrix(as.vector(i[, -ncol(i)])))
 		return(m)
