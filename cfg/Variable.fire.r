@@ -122,8 +122,15 @@ GFED4s.Grad    = list(obsFile       = "GFED4s_v2.nc",
                       obsLayers     = 1:204,
                       obsStart      = 1997,
                       ComparisonFun = FullGrad,
+                      plotArgs      = FractionBA.Grad)
+					  
+GFED4s.NMDE    = list(obsFile       = "GFED4s_v2.nc",
+                      obsVarname    = "variable",
+                      obsLayers     = 1:204,
+                      obsStart      = 1997,
+                      ComparisonFun = FullNMDE,
                       plotArgs      = FractionBA.Grad,
-                      ExtraArgs     = list(FUN = "NME"))
+                      ExtraArgs     = list(scale_fact = 0.01))
 
 GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
