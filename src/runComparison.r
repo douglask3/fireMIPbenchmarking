@@ -5,6 +5,7 @@ runComparisons <- function(comparisonList) {
 }
 
 runComparison <- function(info, name, mod = NULL) {
+	if (is.null(info$inherit)) temp_name = name else temp_name = info$inherit
     if(is.null(info$noMasking)) info$noMasking = FALSE
     componentID <- function(name) strsplit(name,'.', TRUE)[[1]]
 
@@ -15,14 +16,14 @@ runComparison <- function(info, name, mod = NULL) {
                                obsTemporalRes, obsLayers)
 	
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
-   
+	
 	if (is.null(mod))
-		mod   = openSimulations(name, varnN, simLayers)
+		mod   = openSimulations(temp_name, varnN, simLayers)
 	
 	if (all(sapply(mod, is.null))) return(NULL)
 	runres <- function(r = NULL) {
-		if (!is.null(r)) name = paste(name,'__res-', r, sep = '')
-		mask  = loadMask(obs, mod, r, name)	
+		if (!is.null(r)) temp_name = paste(temp_name,'__res-', r, sep = '')
+		mask  = loadMask(obs, mod, r, temp_name)	
 		
 		c(obs, mod) := remask(obs, mod, mask, r)
 		
@@ -123,7 +124,7 @@ comparison <- function(mod, obs, name, info) {
 	}
 	
     scores =  outputScores(comp, name, info)	
-	if (plotSummery) plotVarAgreement(mod, obs, name, info, scores, comp)
+	if (plotSummery) plotVarAgreement(mod, obs, name, info, scores, comp )
     try(mapMetricScores(comp, name, info))
     return(list(score, comp))
 }
