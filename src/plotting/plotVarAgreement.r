@@ -1,6 +1,6 @@
-plotVarAgreement <- function(mod, obs, name, info, scores, ...) {
-	
+plotVarAgreement <- function(mod, obs, name, info, scores, comp,...) {
 	mod = remove_null_or_constant(mod)
+	comp = remove_null_or_constant(comp)
 	
 	modNames = names(mod)
 	
@@ -9,7 +9,7 @@ plotVarAgreement <- function(mod, obs, name, info, scores, ...) {
 	else if (all(names(info$plotArgs) == 'x')) FUN = plotVarAgreement.IA
 	else FUN = plotVarAgreement.spatial
 	
-	FUN(mod, obs, name, modNames, info, scores, ...)
+	FUN(mod, obs, name, modNames, info, scores, comp = comp,...)
 }
 
 remove_null_or_constant <- function(x) {
@@ -177,7 +177,7 @@ plotVarAgreement.spatial <- function(mod, obs, name, modNames, info, scores, ...
 	dlims = info$plotArgs$dlimits
 	
 	plotSepMods.3step(mod, obs, modNames, name, info,
-					  cols, dcols, lims, dlims, scores)
+					  cols, dcols, lims, dlims, scores, ...)
 }
 
 plotVarAgreement.seasonal <- function(mod, obs, name, modNames, info, scores, ...) {
@@ -220,21 +220,35 @@ plotVarAgreement.seasonal <- function(mod, obs, name, modNames, info, scores, ..
 				scores[, c("median.concentration2", "mean.concentration2", "random.concentration")])
 }
 
-plotSepMods.3step <- function(mod, obs, modNames, name, ...) {
-	FUN <- function(nme, denomNormFun) {
-		stepN <- function(FUN, title)  {
+plotSepMods.3step <- function(mod, obs, modNames, name, comp = NULL,...) {
 	
+	FUN <- function(nme, denomNormFun) {
+		stepN <- function(FUN, ns)  {			
+			title = paste('step', ns)
+			
+			diff = mod[[1]]
+			grabDiff <- function(i, v = 'diff') {
+				diff[] = as.vector(t(matrix(i[[1]][[v]][,ns], nrow = nrow(diff))))
+				return(diff)
+			}
+			#browser()
+			x = layer.apply(comp, grabDiff, 'x')
+			y = layer.apply(comp, grabDiff, 'y')
+			
+			diff1 = y - x
+			diff2 = layer.apply(comp, grabDiff)
+			
 			if (!is.null(FUN)) mod = layer.apply(mod, FUN, obs)
 			Name = paste(name, nme, title, sep = '-')
-			plotSepMods(mod, obs, modNames, Name, denomNormFun = denomNormFun, ...)
+			plotSepMods(mod, obs, diff1 = diff1, diff2 = diff2, modNames, Name, denomNormFun = denomNormFun, ...)
 		}
-	
-		mapply(stepN, list(NULL, removeMean, removeMeanVar), paste('step', 1:3))
+		
+		mapply(stepN, list(NULL, removeMean, removeMeanVar), 1:3)
 	}
 	mapply(FUN, c('MNRR', 'MNonly'), c(sum.raster, function(i, ...) return(i)))
 }
 
-plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims, scores, nullScore = NULL,
+plotSepMods <- function(mod, obs, diff1, diff2, modNames, name, info, cols, dcols, lims, dlims, scores, nullScore = NULL,
 						    plotFun = plotNME.spatial.stepN, legendFun = add_raster_legend2, ...) {
 	MetricCols = c('white', 'green', 'yellow', 'orange', 'red', 'black')
 	MetricLabs = c('prefect', 'mean', 'RR low', 'RR', 'RR high')
@@ -247,16 +261,17 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 	}
 	
 	nmods = nlayers(mod)
-	np = nmods*3 + 6
-	lmat  = t(matrix(rep(1:np, each = 2), nrow = 6))
-	lmat2 = t(matrix(rep(np + c(1, 3, 2, 4), each = 3), nrow = 6))
-	lmat3 = t(matrix(rep(np + c(5, 7, 6, 8), each = 3), nrow = 6))
+	np = (nmods + 2) * 4
+	
+	lmat  = t(matrix(rep(1:np, each = 2), nrow = 8))
+	lmat2 = t(matrix(rep(np + c(1, 3, 2, 4), each = 4), nrow = 8))
+	lmat3 = t(matrix(rep(np + c(5, 7, 6, 8), each = 4), nrow = 8))
 	lmat  = rbind(lmat, lmat2, lmat3) 
 	
 	fname =  paste(figs_dir, name, 'modObsMetric', '.png', sep = '-')
 	
 	heights = c(0.1, rep(1, nrow(lmat)-6),0.5, 1, 0.7, 1, 0.25)
-	png(fname, height = 2.5 * sum(heights), width = 14, res = 300, units = 'in')
+	png(fname, height = 2.8 * sum(heights), width = 18, res = 300, units = 'in')
 	layout(lmat, heights = heights)
 	par(mar = rep(0,4), oma = c(0, 1, 0, 0))
 	mtextPN <- function(txt) {
@@ -264,17 +279,18 @@ plotSepMods <- function(mod, obs, modNames, name, info, cols, dcols, lims, dlims
 		mtext(txt, side = 3, line = -3)
 	}
 	
-	lapply(c('Simulated', 'Simulated - Observed', 'Metric contribution'), mtextPN)
+	lapply(c('Simulated', 'Simulated - Observed', 'Metric contribution', 'vs Null Model'), mtextPN)
 	
 	out = c()
 	for (i in 1:nlayers(mod)) {
 		out[i] = 
-			plotFun(mod[[i]],obs, 1, modNames[i], cols, dcols, metricCols = MetricCols,
+			plotFun(mod[[i]],obs, diff1 = diff1[[i]], diff2 = diff2[[i]], 1, modNames[i], cols, dcols, metricCols = MetricCols,
 								   lims, dlims, MetricLims, figOut = FALSE, plotObs = FALSE, ...)
 	}
 	legendFun(cols =  cols, limits =  lims, transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), add = FALSE, 
 	          mar = c(-0.5, 0, 0, 0))
 	legendFun(cols = dcols, limits = dlims, transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), add = FALSE, mar = rep(0,4))
+	legendFun(cols = cols, limits = c(0.1, 0.2, 0.5, 1, 2, 5, 20), transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), add = FALSE, mar = rep(0,4))
 	add_raster_legend2(cols = MetricCols, limits = MetricLims, labelss = MetricLabs,
 	                   transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), add = FALSE)	
 	
