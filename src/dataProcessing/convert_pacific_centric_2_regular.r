@@ -1,6 +1,6 @@
 convert_pacific_centric_2_regular <- function(dat, tempWrite = FALSE) {
     if (xmax(dat) < 180) return(dat)
-
+	if (nlayers(dat) == 1) dat = dat[[1]]
     index = 1:length(values(dat[[1]]))
 
     xyz = cbind(xyFromCell(dat,index), values(dat))

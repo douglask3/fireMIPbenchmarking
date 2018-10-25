@@ -8,6 +8,12 @@ annual2persec = 60 * 60 * 24 * 365.24
 annualg2perseckg = annual2persec*1000
 perseckg2annualg = 1/annualg2perseckg
 perseckg2Mnthg = perseckg2annualg * 12
+
+jules_nl  = rbind(c("gpp"           ,  rep("npp", 4), "c_veg"   ),
+                 c(rep(perseckg2Mnthg, 5)          , 0.001      ),                   
+                 1997,
+                 "Monthly")
+
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("GPP_Kelley2013", "NPP_all"       , "NPP_Kelley2013", "NPP_EMDI"      , "NNP_Michaletz" , "cveg"  ),
                              c(1               , 1               , 1               , 1               , 1               , 1       ),

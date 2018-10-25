@@ -1,7 +1,10 @@
 FullNME <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
-                    byZ = FALSE, nZ = 0, ...) {
-    if (!byZ) return(FullNME.spatial(obs, mod, name, mnth2yr, plotArgs, ...))
-        else  return(FullNME.InterAnnual(obs, mod, name, plotArgs, nZ, ...))
+                    byZ = FALSE, nZ = 0, zTrend = FALSE, ...) {
+    if (byZ) out = FullNME.InterAnnual(obs, mod, name, plotArgs, nZ, ...)
+		else if (zTrend)  out = FullNME.Trend(obs, mod, name, plotArgs, ...)
+		else out = FullNME.spatial(obs, mod, name, mnth2yr, plotArgs, ...)
+	
+	return(out)
 }
 
 FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ...) {
@@ -11,6 +14,7 @@ FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ...) {
     weights = raster::area(obs)
 
     if (mnth2yr) {obs = obs * 12; mod = mod * 12}
+	
     score   = NME (obs, mod, weights)
 
     if (!is.null(plotArgs) && plotModMetrics)
@@ -42,6 +46,66 @@ FullNME.site <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
 	
     null    = null.NME(obs, n = nRRs)
     return(list(score, null, figName, metricMap))
+}
+
+
+
+findRasterTrend <- function(r, obs = TRUE) {
+	
+	TrendFun <- function(x) {
+		fit = lm(x ~ t, data = data.frame(x = x, t = 1:length(x)))
+		res = try(summary(fit)[[4]][2, 3:4])
+		if (class(res) == "try-error") return(c(-999, 0.0))
+		return(res)
+	}
+		
+	findCellTrend <- function(x) {
+		if (any(is.na(x))) return(NaN)
+		if (min(x) == max(x)) return(0)
+		test = TrendFun(x)
+		test = try(TrendFun(x), silent = TRUE)
+		if (class(test) == "try-error") return(NaN)
+		if (obs && test[2] > 0.1) return(NaN)
+		return(test[1])
+	}
+	tempFile = paste(temp_dir, filename.noPath(r[[1]], TRUE), 'trend.nc', sep = '')
+	if (file.exists(tempFile)) return(raster(tempFile)) else {
+		yrs = floor(nlayers(r) / 12)
+		
+		raster.ma <- function(r) {
+			nmnths = nlayers(r)
+			start = 1:(nmnths-12)
+			rma = layer.apply(start, function(i) mean(r[[i:(i+11)]]))
+		}
+			
+		
+		r = raster.ma(r) * 12
+		
+		r[r > 1] = 1
+		r[r < 0] = 0
+		
+		
+		nl = nlayers(r)
+		r = (r * (nl - 1)  + 0.5) / nl
+		
+		r = log(r/(1 - r))
+		
+		v = apply(values(r), 1, findCellTrend)
+		r = r[[1]]
+		r[] = v
+		
+		r = writeRaster(r, filename = tempFile)
+	}
+	return(r)
+
+}
+
+FullNME.Trend <- function(obs, mod, name, ...) {
+	obs = findRasterTrend(obs)
+	mod = findRasterTrend(mod, obs = FALSE)
+	mod[is.na(obs)] = NaN
+	out = FullNME.spatial(obs, mod, name, mnth2yr = FALSE,  ...)
+    return(c(out, obs, mod))
 }
 
 
