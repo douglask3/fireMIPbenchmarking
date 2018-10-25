@@ -228,19 +228,32 @@ plotSepMods.3step <- function(mod, obs, modNames, name, comp = NULL,...) {
 			
 			diff = mod[[1]]
 			grabDiff <- function(i, v = 'diff') {
-				diff[] = as.vector(t(matrix(i[[1]][[v]][,ns], nrow = nrow(diff))))
+				
+				vs = as.vector(t(matrix(i[[1]][[v]][,ns], nrow = nrow(diff))))
+				if (is.complex(vs)) {
+					diff = addLayer(diff, diff)
+					diff[] = cbind(Re(vs), Im(vs))
+				} else diff[] = as.vector(t(matrix(i[[1]][[v]][,ns], nrow = nrow(diff))))
 				return(diff)
 			}
-			#browser()
+			print('yay')
+			
 			x = layer.apply(comp, grabDiff, 'x')
 			y = layer.apply(comp, grabDiff, 'y')
 			
-			diff1 = y - x
-			diff2 = layer.apply(comp, grabDiff)
+			if (is.complex(comp[[1]][[1]][['x']])) {
+				diff1 = x
+				diff2 = y
+				gradient = TRUE
+			} else {
+				diff1 = y - x
+				diff2 = layer.apply(comp, grabDiff)
+				gradient = FALSE
+			}
 			
 			if (!is.null(FUN)) mod = layer.apply(mod, FUN, obs)
 			Name = paste(name, nme, title, sep = '-')
-			plotSepMods(mod, obs, diff1 = diff1, diff2 = diff2, modNames, Name, denomNormFun = denomNormFun, ...)
+			plotSepMods(mod, obs, diff1 = diff1, diff2 = diff2, modNames, Name, denomNormFun = denomNormFun, gradient = gradient,...)
 		}
 		
 		mapply(stepN, list(NULL, removeMean, removeMeanVar), 1:3)
@@ -249,7 +262,7 @@ plotSepMods.3step <- function(mod, obs, modNames, name, comp = NULL,...) {
 }
 
 plotSepMods <- function(mod, obs, diff1, diff2, modNames, name, info, cols, dcols, lims, dlims, scores, nullScore = NULL,
-						    plotFun = plotNME.spatial.stepN, legendFun = add_raster_legend2, ...) {
+						    plotFun = plotNME.spatial.stepN, legendFun = add_raster_legend2, gradient = FALSE, ...) {
 	MetricCols = c('white', 'green', 'yellow', 'orange', 'red', 'black')
 	MetricLabs = c('prefect', 'mean', 'RR low', 'RR', 'RR high')
 	c(MetricLims, MN, RR) := nullScores_lims(scores)
@@ -280,11 +293,12 @@ plotSepMods <- function(mod, obs, diff1, diff2, modNames, name, info, cols, dcol
 	}
 	
 	lapply(c('Simulated', 'Simulated - Observed', 'Metric contribution', 'vs Null Model'), mtextPN)
-	
+	if (gradient) plotFun = plotGradient
 	out = c()
 	for (i in 1:nlayers(mod)) {
-		out[i] = 
-			plotFun(mod[[i]],obs, diff1 = diff1[[i]], diff2 = diff2[[i]], 1, modNames[i], cols, dcols, metricCols = MetricCols,
+		if ( nlayers(diff1) == nlayers(mod) * 2) ii = (((i-1)*2)+1):(2*i) else ii = i
+		out[i] = 	
+			plotFun(mod[[i]],obs, diff1 = diff1[[ii]], diff2 = diff2[[ii]], 1, modNames[i], cols, dcols, metricCols = MetricCols,
 								   lims, dlims, MetricLims, figOut = FALSE, plotObs = FALSE, ...)
 	}
 	legendFun(cols =  cols, limits =  lims, transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), add = FALSE, 
@@ -294,7 +308,9 @@ plotSepMods <- function(mod, obs, diff1, diff2, modNames, name, info, cols, dcol
 	add_raster_legend2(cols = MetricCols, limits = MetricLims, labelss = MetricLabs,
 	                   transpose = FALSE, plot_loc = c(0.2, 0.6, 0.8, 0.9), add = FALSE)	
 	
-	plotComMods(mod, obs, name, cols, lims, newFig = FALSE, legendFun = legendFun, ...)
+	
+	plotComMods(mod, obs, name, cols, lims, newFig = FALSE, legendFun = legendFun, 
+			    gradient = gradient, diff1 = diff1[[ii]], diff2 = diff2[[ii]], ...)
 	if (!is.null(nullScore)) MN = nullScore
 	
 	mapMetricScores.default(lapply(out,list), 1, info, score = MN)
@@ -302,6 +318,87 @@ plotSepMods <- function(mod, obs, diff1, diff2, modNames, name, info, cols, dcol
 
 	dev.off.gitWatermarkStandard()
 	plotComMods(mod, obs, name, cols, lims, newFig = TRUE, legendFun = legendFun, ...)
+}
+
+plotGradient <- function(mod,obs, diff1 = diff1, diff2 = diff2, step, name, 
+						  cols, dcols, metricCols = NMEmap_cols,
+						  limits, dlimits, 
+						  metricLimits = NULL, figOut = FALSE, plotObs = FALSE, ...) {
+  
+	ph_dir <- function(diff) {
+		dir = atans(diff[[1]], diff[[2]])
+		mag = sqrt(diff[[1]]^2 + diff[[2]]^2)
+		return(addLayer(dir, mag))
+	}
+	obs = ph_dir(diff1)
+	mod = ph_dir(diff2)
+	
+	grad_lims = quantile(obs[[2]][obs[[2]] > 0], c(0.1, 0.25, 0.5, 0.75, 0.9))
+	grad_lims = c(0, grad_lims)
+	mnth_lims = 1:12
+	pcols =  make_col_vector(SeasonPhaseCols, limits = 1:11, whiteAt0=FALSE)
+	pcols = c(darken (pcols, 2.67), darken (pcols, 2), darken (pcols, 1.33), 
+			  lighten(pcols, 1.33), lighten(pcols, 2), lighten(pcols, 2.67))
+	pcols = c(pcols, 'white')
+	limits = 1.5:(length(pcols))
+	
+	returnLim <- function(r) {
+		rn = r[[1]]
+		rn[] = NaN
+		pn = 0
+		for (i in rev(grad_lims)) {
+			testi =  r[[2]] >= i
+			for (j in mnth_lims) {
+				pn = pn + 1
+				test = testi & (r[[1]] < j) & is.na(rn)
+				rn[test] = pn
+			}
+		}
+		rn[r[[2]] == 0] = pn + 1
+		return(rn)
+	}	
+	
+	gmod = returnLim(mod)
+	gobs = returnLim(obs)	
+	
+    if (plotObs) {
+		plotStandardMap(gobs, '', limits, pcols, add_legend = FALSE)
+		return()
+	} else
+		plotStandardMap(gmod, '', limits, pcols, add_legend = FALSE)
+    mtext(name, side = 2, line = -1)
+	
+	diff = mod - obs
+	diff[[1]][diff[[1]] < (-6)] = 12 + diff[[1]][diff[[1]] < (-6)]
+	diff[[1]][diff[[1]] > 6] = 12 - diff[[1]][diff[[1]] > 6]
+	
+	grad_lims = quantile(obs[[2]][obs[[2]] > 0], c(0.1, 0.25, 0.5))
+	grad_lims =  c(-9E9, -rev(grad_lims), grad_lims)
+	mnth_lims = (-5.5):(5.5)
+	pcols1 =  make_col_vector(c('purple', '#AA6666', '#888888', '#6666AA', 'purple'), 
+						      limits = mnth_lims, whiteAt0 = FALSE)
+	pcols2 =  make_col_vector(c('green', 'cyan', 'grey', 'yellow', 'green'), 
+						      limits = mnth_lims, whiteAt0 = FALSE)							 
+	pcols = c(darken (pcols1, 2), pcols1, lighten(pcols1, 2), rep('white', length(pcols1)),
+			  lighten(pcols2, 2), pcols2, darken (pcols2, 2))
+	pcols = c(pcols, 'white')
+	limits = 1.5:(length(pcols))
+	
+	gdiff = returnLim(diff)
+	
+	plotStandardMap(gdiff, '', limits, pcols, add_legend = FALSE)
+    #plotStandardMap(gdiff, labs[3], dlimits, dcols, add_legend = add_legend)
+	
+	den =  sum((raster::area(diff1[[1]]) * sqrt(sum(diff1^2)))[], na.rm = TRUE)/sum(raster::area(diff1[[1]])[], na.rm = TRUE)
+	
+	NMEs = sqrt(sum((diff1 - diff2)^2))/den
+        
+    plotStandardMetricMap(NMEs, '', c(0.1, 0.2, 0.5, 1, 2, 5, 20), cols = cols, add_legend = FALSE)
+    plotStandardMetricMap(NMEs, '', metricLimits, cols = metricCols, add_legend = FALSE)
+
+    figName = NULL 
+    return(c(figName, NMEs))
+								   
 }
 
 
@@ -380,14 +477,18 @@ plotComMods.mod <- function(mod, lims, cols, obs = NULL,
 
 }
 
-plotComMods <- function(mod, obs, name, cols, lims, newFig = TRUE, ...) {	
+plotComMods <- function(mod, obs, name, cols, lims, newFig = TRUE, gradient = FALSE, diff1 = NULL, diff2 = NULL, ...) {	
+	
 	
 	if (newFig) {
 		fname =  paste(figs_dir, name, 'modObsMean', '.png', sep = '-')
 		png(fname, height = 3.67, width = 7.5, res = 150, units = 'in')
 		layout(cbind(1:2, 3:4), heights = c(1,0.5))
 		par(mar = rep(0,4))
-	}		
+	}	
+	if (gradient) 
+		plotGradient(mod,obs, diff1 = diff1, diff2 = diff2, 1, '', plotObs = TRUE)
+		
 	plotComMods.obs(obs, lims, cols, name, ...)
 	plotComMods.mod(mod, lims, cols, obs, ...)
 	
