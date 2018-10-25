@@ -37,10 +37,10 @@ FractionBA.Trend = list(cols    = c('#0000AA', '#2093FF', '#C0D0FF','white',
                      dlimits = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20))
 					 
 FractionBA.Grad = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
-                     dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
-                                 '#FFD793', "#F07700", "#AA0000"),
+                     dcols   = c('#000033', '#0066FF','white',
+                                 '#FF6600',"#330000"),
                      limits  = c(0.001,.01,.02,.05,.1,.2),
-                     dlimits = c(-0.2,-0.1,-0.05,-0.01,0.01,0.05,0.1, 0.2))
+                     dlimits = c(-0.2,-0.1,-0.05,-0.01,-0.005, -0.001, 0.001, 0.005, 0.01,0.05,0.1, 0.2))
 
 FractionBA.IA      = list(x = 1997:2009)
 GFED4.IA      = list(x = 1997:2009)
