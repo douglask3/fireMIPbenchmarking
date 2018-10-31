@@ -21,8 +21,9 @@ openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL,
 	
     if (is.null(varname)) varname = ""
     fname = paste(dir, file, sep = "")
-    
-	openVar <- function(varn, fnamei) {
+     
+    dat = layer.apply(varname, function(i) brick(fname, varname = i))
+	"'openVar <- function(varn, fnamei) {
 		
 		if (is.numeric(varn)) {
 			dat = brick(fnamei)[[varn]]
@@ -43,14 +44,16 @@ openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL,
 	if (length(file) > 1) dat = layer.apply(fname, openVars, varns = varname)
 	else  dat = layer.apply(varname, function(i) openVar(fname, varn = i))
 	
-    if (nlayers(dat) > length(fname) && !is.null(layerID)) {
+    if (nlayers(dat) > length(fname) && !is.null(layerID)) {'"
+	if (nlayers(dat) > 1 && !is.null(layerID)) {
         if(is.list(layerID))
             dat = layer.apply(layerID, function(i) mean(dat[[i]]))
         else dat = dat[[layerID]]
     }	
 	
 	if (check4mask) {
-		tempFname = paste(c(temp_dir, filename.noPath(file, TRUE), varname, range(layerID), "_maskRemoval.nc"), collapse = "")
+		tempFname = paste(c(temp_dir, filename.noPath(file, TRUE), range(layerID), "_maskRemoval.nc"), collapse = "")
+		#tempFname = paste(c(temp_dir, filename.noPath(file, TRUE), varname, range(layerID), "_maskRemoval.nc"), collapse = "")
 		tempFname= paste(strsplit(tempFname, ":")[[1]], collapse = '---')
 		if (file.exists(tempFname)) {
 			dat = brick(tempFname)
