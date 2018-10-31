@@ -11,7 +11,7 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
             varname  = rbind(c("GFED4"    , "GFED4s"   , "GFEDsSeason", "meris"    , "MCD45"    , "GFAS"    , "GFASSeason", "NRfire"  , "meanFire" ),
                              c(1          , 1          , 1            , 1          , 1          , kgpersec  , kgpersec    , 1         , 1          ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'    , 'Monthly'  , "Monthly"  , 'Monthly' , 'Monthly'   , "Annual"  , "Annual"   ),
-                             c(1997       , 1997       , 1997         , 2006       , 2001       , 2000      , 2000        , 2002      , 2002       ),
+                             c(1996       , 1996       , 1996         , 2006       , 2001       , 2000      , 2000        , 2002      , 2002       ),
                              c('mean'     , 'mean'     , "mean"       , "mean"     , "mean"     , "mean"    , "mean"      , "mean"    , "mean"    )),
             CLM      = rbind(c("BAF"      , "BAF"      , "BAF"        , "BAF"      , "BAF"      , "CFFIRE"  , "CFFIRE"    , "nrfire"  , "mean_fire"),
                              c(100        , 100        , 100          , 100        , 100        , kgpersec  , kgpersec    , 1         , 1          ),
@@ -67,7 +67,7 @@ FractionBA.Trend = list(cols    = c('#0000AA', '#2093FF', '#C0D0FF','white',
                      limits  = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20),
                      dlimits = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20))
 					 
-FractionBA.Grad = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
+FractionBA.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                      dcols   = c('#000033', '#0066FF','white',
                                  '#FF6600',"#330000"),
                      limits  = c(0.001,.01,.02,.05,.1,.2),
@@ -133,7 +133,7 @@ GFED4.Season  = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
 ##GFED4s
 GFED4s.Spatial = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:204,
+                      obsLayers     = 1:156,
                       obsStart      = 1997,
                       ComparisonFun = FullNME,
                       plotArgs      = FractionBA.Spatial,
@@ -141,25 +141,37 @@ GFED4s.Spatial = list(obsFile       = "GFED4s_v2.nc",
 					  
 GFED4s.Trend   = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:204,
+                      obsLayers     = 1:156,
                       obsStart      = 1997,
                       ComparisonFun = FullNME,
                       plotArgs      = FractionBA.Trend,
+					  inherit       = "GFED4s.Spatial",
                       ExtraArgs     = list(zTrend = TRUE))
 					  
 GFED4s.Grad    = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:204,
+                      obsLayers     = 1:156,
                       obsStart      = 1997,
                       ComparisonFun = FullGrad,
-                      plotArgs      = FractionBA.Grad)
+					  inherit       = "GFED4s.Spatial",
+                      plotArgs      = FractionBA.Spatial)
+					  
+GFED4s.NMDE1    = list(obsFile       = "GFED4s_v2.nc",
+                      obsVarname    = "variable",
+                      obsLayers     = 1:156,
+                      obsStart      = 1997,
+                      ComparisonFun = FullNMDE,
+                      plotArgs      = FractionBA.Spatial,
+					  inherit       = "GFED4s.Spatial",
+                      ExtraArgs     = list(mnth2yr = TRUE, scale_fact = 1))
+
 					  
 GFED4s.NMDE10    = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:204,
+                      obsLayers     = 1:156,
                       obsStart      = 1997,
                       ComparisonFun = FullNMDE,
-                      plotArgs      = FractionBA.Grad,
+                      plotArgs      = FractionBA.Spatial,
 					  inherit       = "GFED4s.Spatial",
                       ExtraArgs     = list(mnth2yr = TRUE, scale_fact = 0.1))
 
@@ -167,25 +179,25 @@ GFED4s.NMDE10    = list(obsFile       = "GFED4s_v2.nc",
 					  
 GFED4s.NMDE20    = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:204,
+                      obsLayers     = 1:156,
                       obsStart      = 1997,
                       ComparisonFun = FullNMDE,
-                      plotArgs      = FractionBA.Grad,
+                      plotArgs      = FractionBA.Spatial,
 					  inherit       = "GFED4s.Spatial",
                       ExtraArgs     = list(mnth2yr = TRUE, scale_fact = 0.05))
 					  
 GFED4s.NMDE50    = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:204,
+                      obsLayers     = 1:156,
                       obsStart      = 1997,
                       ComparisonFun = FullNMDE,
-                      plotArgs      = FractionBA.Grad,
+                      plotArgs      = FractionBA.Spatial,
 					  inherit       = "GFED4s.Spatial",
                       ExtraArgs     = list(mnth2yr = TRUE, scale_fact = 0.02))
 
 GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:204,
+                      obsLayers     = 1:156,
                       obsStart      = 1997,
                       ComparisonFun = FullNME,
 					  plotArgs      = GFED4s.IA,
@@ -193,7 +205,7 @@ GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
 
 GFEDsSeason    = list(obsFile = "GFED4s_v2.nc",
                       obsVarname    = "variable",
-                      obsLayers     = 1:204,
+                      obsLayers     = 1:156,
                       obsStart      = 1997,
                       ComparisonFun = FullSeasonal,
                       plotArgs      = TRUE)
