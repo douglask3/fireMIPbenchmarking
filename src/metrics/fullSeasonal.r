@@ -19,9 +19,9 @@ FullSeasonal <- function(obs, mod, name,
 }
 
 FullSeasonal.outputFile <- function(obs, mod, score, name) {
-
+	
 	outFname <- function(nm)		
-			fname  = paste(outputs_dir, nm, '-fullSeasonal', '.nc', sep = '')
+			fname  = paste(outputs_dir, nm, '.nc', sep = '')
 			
 	
 	comment <- function(fname0) {
@@ -56,6 +56,8 @@ FullSeasonal.outputFile <- function(obs, mod, score, name) {
 		## Phase and concentration
 		if (any(!file.exists(fnameP, fnameC))) {
 			PC = PolarConcentrationAndPhase(r, phase_units='months')
+			PC[[2]][PC[[2]] < 0] = 0
+			PC[[2]][PC[[2]] > 1] = 1
 			writeNcOuti(PC[[1]], fnameP)
 			writeNcOuti(PC[[2]], fnameC)
 		} else  PC = layer.apply(c(fnameP, fnameC), raster)
@@ -64,15 +66,35 @@ FullSeasonal.outputFile <- function(obs, mod, score, name) {
 	}
 	extraNames0 = strsplit(name, 'model-')[[1]]
 	extraNames  = paste(extraNames0, c('observation', 'simulation'), sep = '-')
-	extraNames  = paste(extraNames, 'mask', extraNames0[1], sep = '-')
+	#extraNames  = paste(extraNames, 'mask', extraNames0[1], sep = '-')
 	
 	mod[is.na(obs[[1]])] = NaN
 	
 	c(obs, obsFname) := individualClimPhaseConc(obs, extraNames[1])
 	c(mod, modFname) := individualClimPhaseConc(mod, extraNames[2])
 	
+	### phase diff
+	phase_diff = obs[[1]] - mod[[1]]
+	phase_diff[phase_diff < (-6)] = 12 + phase_diff[phase_diff < (-6)]
+	phase_diff[phase_diff > 6] = phase_diff[phase_diff > 6] - 12
+	
+	
+	pfname = paste(outputs_dir, paste(extraNames0, collapse = '_AND_'), 
+	               'phase-difference.nc', sep = '-')
+				   
+	writeNcOut(paste(obsFname, ' AND ', modFname), phase_diff, pfname, overwrite = TRUE)
+	
+	
+	
+	conc_diff = obs[[2]] - mod[[2]]
+	
+	cfname = paste(outputs_dir, paste(extraNames0, collapse = '_AND_'), 
+	               'conc-difference.nc', sep = '-')
+	
+	writeNcOut(paste(obsFname, ' AND ', modFname), conc_diff, cfname, overwrite = TRUE)
+	 
 	## MPD comparison
-
+	
 	cfname = paste(paste(extraNames0, collapse = '_AND_'), 
 	               'comparison', 'mask', extraNames0[1], sep = '-')
 				   
