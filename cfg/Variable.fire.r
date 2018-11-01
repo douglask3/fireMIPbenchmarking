@@ -8,7 +8,7 @@ kgpersec =  sec_frac/1000
 ###########################################################
 
 Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
-            varname  = rbind(c("GFED4"    , "GFED4s"   , "GFEDsSeason", "meris"    , "MCD45"    , "GFAS"    , "GFASSeason", "NRfire"  , "meanFire" ),
+            varname  = rbind(c("GFED4"    , "GFED4s"   , "GFED4sSeason", "meris"    , "MCD45"    , "GFAS"    , "GFASSeason", "NRfire"  , "meanFire" ),
                              c(1          , 1          , 1            , 1          , 1          , kgpersec  , kgpersec    , 1         , 1          ),
                              c('Monthly'  , 'Monthly'  , 'Monthly'    , 'Monthly'  , "Monthly"  , 'Monthly' , 'Monthly'   , "Annual"  , "Annual"   ),
                              c(1996       , 1996       , 1996         , 2006       , 2001       , 2000      , 2000        , 2002      , 2002       ),
@@ -99,9 +99,9 @@ GFED4.IA      = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
                      plotArgs      = list(x = 1997:2009),
                      ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
-GFED4.Season  = list(obsFile       = "Fire_GFEDv4_Burnt_fraction_0.5grid9.nc",
+GFED4.Season  = list(obsFile       = "GFED4.nc",
                      obsVarname    = "mfire_frac",
-                     obsLayers     = 8:163,
+                     obsLayers     = 1:156,
                      ComparisonFun = FullSeasonal,
                      plotArgs      = TRUE)
 
@@ -122,7 +122,7 @@ GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
                       plotArgs      = list(x = 1997:2009),
                       ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
-GFEDsSeason    = list(obsFile = "GFED4s_v2.nc",
+GFED4sSeason    = list(obsFile = "GFED4s_v2.nc",
                       obsVarname    = "variable",
                       obsLayers     = 1:156,
                       obsStart      = 1997,
