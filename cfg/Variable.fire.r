@@ -108,11 +108,19 @@ MODIS.Spatial = list(obsFile       = "MODIS250_q_BA_regridded0.5.nc",
                      ComparisonFun = FullNME,
                      plotArgs      = FractionBA.Spatial ,
                      ExtraArgs     = list(mnth2yr = TRUE))
+					 
+MODIS.Trend    = list(obsFile       = "MODIS250_q_BA_regridded0.5.n",
+                      obsVarname    = "burned_area",
+                      obsLayers     = 1:108,
+                      obsStart      = 2001,
+                      ComparisonFun = FullNME,
+                      plotArgs      = FractionBA.Trend,
+                      ExtraArgs     = list(zTrend = TRUE))
 
 MODISSeason    = list(obsFile       = "MODIS250_q_BA_regridded0.5.nc",
                       obsVarname    = "burned_area",
                       obsLayers     = 1:108,
-                      obsStart      = 1997,
+                      obsStart      = 2001,
                       ComparisonFun = FullSeasonal,
                       plotArgs      = TRUE)
 
@@ -120,7 +128,7 @@ MODIS.IA      = list(obsFile       = "MODIS250_q_BA_regridded0.5.nc",
                      obsVarname    = "burned_area",
                      obsLayers     = 1:108,
                      ComparisonFun = FullNME,
-                     plotArgs      = list(x = 1997:2009),
+                     plotArgs      = list(x = 2001:2009),
                      ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
 MODIS.Season  = list(obsFile       = "MODIS250_q_BA_regridded0.5.nc",
