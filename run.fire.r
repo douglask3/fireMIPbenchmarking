@@ -1,5 +1,5 @@
 names = 'fire'
-comparisons = list(c("GFED4s.Spatial"))
-res = c(0.5, 1, 2, 4, 8, 16)
+comparisons = list(c("MODIS.Spatial", "MODIS.IA", "MODISSeason"))
+res = NULL
 
 source('run.r')
