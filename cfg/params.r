@@ -6,12 +6,12 @@ ContactDetails = 'Douglas Kelley - douglas.i.kelley@gmail.com'
 month_length = c(31,28,31,30,31,30,31,31,30,31,30,31)
 experiment   = ''
 mask_type    = 'common'
-nRRs = 2
+nRRs = 4
 res = 0.5
 
-outputMetricFiles = TRUE
+outputMetricFiles = FALSE
 plotModMetrics    = FALSE
-plotSummery       = TRUE
+plotSummery       = FALSE
 
 NMEmap_cols       = c('white', 'black')
 NMEmap_qunatiles  = seq(0.2,0.8,0.2)
