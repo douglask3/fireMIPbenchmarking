@@ -10,13 +10,13 @@ smp = raster(sample_fname)
 
 regridScale <- function(r) {
     r = raster::resample(r, smp)
-    r = r / (raster::area(r) * 1000 * 1000)
+    r = r * 4 / (raster::area(r) * 1000 * 1000)
     return(r)
 }
 
 memSafeFile.initialise('temp/')
     dat2 = layer.apply(dat, memSafeFunction, regridScale)
-    dat2 = writeRaster.gitInfo(dat2, file = fnameOut,
+    dat2 = writeRaster.gitInfo(dat2, file = fnameOut, varname = "burnt_area",
                                overwrite = TRUE,
                                comment = list("original file" = "MODIS250_q_BA.nc",
                                               "original CDI" = "Climate Data Interface version 1.9.5 (http://mpimet.mpg.de/cdi)",
