@@ -16,29 +16,28 @@ runComparison <- function(info, name, mod = NULL) {
 	
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
     
-	if (is.null(mod))
-		mod   = openSimulations(name, varnN, simLayers)
+    if (is.null(mod))
+	mod   = openSimulations(name, varnN, simLayers)
 	
-	
-	runres <- function(r = NULL) {
-		if (!is.null(r)) name = paste(name,'__res-', r, sep = '')
-		mask  = loadMask(obs, mod, r, name)	
-		c(obs, mod) := remask(obs, mod, mask, r)
+    runres <- function(r = NULL) {
+	if (!is.null(r)) name = paste(name,'__res-', r, sep = '')
+            
+	    mask  = loadMask(obs, mod, r, name)	
+            
+	    c(obs, mod) := remask(obs, mod, mask, r)
+	    
+	    obs = scaleMod(obs, Model.Variable[[1]], varnN)
+	    mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(varnN))
+	    if (is.True(openOnly)) return(list(obs, mod))
 		
-		obs = scaleMod(obs, Model.Variable[[1]], varnN)
-		mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(varnN))
-		
-		if (is.True(openOnly)) return(list(obs, mod))
-		
-		c(scores, comp) := comparison(mod, obs, name, info)
-		return(list(scores, obs, mod, comp))
-	}
-	
-	if (is.null(res) || class(res) != 'numeric') {
-		return(runres())
-	} else {
-		return(lapply(res, runres))
-	}
+	    c(scores, comp) := comparison(mod, obs, name, info)
+	    return(list(scores, obs, mod, comp))
+    }
+    if (is.null(res) || class(res) != 'numeric') {
+	return(runres())
+    } else {
+	 return(lapply(res, runres))
+    }
 }
 
 comparisonOutput <- function(scores, name) {
@@ -113,12 +112,10 @@ comparison <- function(mod, obs, name, info) {
 
         comp[index] = mapply(FUN, mod[index], names(mod)[index], SIMPLIFY = FALSE)
     }
-	
+    	
     if (is.null(comp)) return(NULL)
     scores =  outputScores(comp, name, info)
-	
-	
-	if (plotSummery) plotVarAgreement(mod, obs, name, info, scores, comp)
+    #if (plotSummery) plotVarAgreement(mod, obs, name, info, scores, comp)
     try(mapMetricScores(comp, name, info))
     return(list(score, comp))
 }
