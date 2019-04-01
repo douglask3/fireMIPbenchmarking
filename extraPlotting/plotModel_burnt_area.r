@@ -7,12 +7,12 @@ res = NULL
 
 limits = GFED4s.Spatial$plotArgs$limits * 100
 cols = GFED4s.Spatial$plotArgs$cols
-names = c("GFED4s", "GFED4", "meris", "MCD45", "MODIS")
+names = c("GFED4s", "GFED4", "Fire CCI", "MCD45", "MODIS")
 
 doMean <- function(rs) {
     mean12 <- function(r) mean(r[[1:12]])
-    rout = mean12(rs[[1]][[2]])
-    rout = addLayer(rout, layer.apply(rs[[1]][[3]], mean12))
+    rout = mean(rs[[1]][[2]])
+    rout = addLayer(rout, layer.apply(rs[[1]][[3]], mean))
     return(rout)
 }
 
