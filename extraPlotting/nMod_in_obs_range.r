@@ -1,25 +1,25 @@
 source('cfg.r')
-names = c('fire', 'production')
-comparisons  = list(c("GFED4s.Spatial",  "GFAS"), c("cveg"))
+names = c('fire', 'production', "LAI")
+comparisons  = list(c("GFED4s.Spatial",  "GFAS"), c("cveg"), c("LAImodis"))
 plotSeason   =      c(TRUE            ,  FALSE , FALSE)
-titles       = list(list(
-					     c('a) GFED4s burnt area', 
-						   'f) Simulated burnt area', 
-					       'k) Performance in burnt area'),
-					     c('b) GFED4s seasonal phase', 
-						   'g) Simulated seasonal phase',    
-						   'l) Performance in seasonal phase'),
-						 c('c) GFED4s seasonal concentration',
-  						   'h) Simulated seasonal concentration', 
-						   'm) Performance in seasonal concentration')),
-					list(
-						 c('d) GFAS fire emissions', 
-						   'i) Simulated fire emissions',
-                           'n) Performance in fire emissions')),		
-					list(
-						 c('e) Avitabile vegetative carbon',
-						   'j) Simulated vegetative carbon',
-						   'o) Performance in vegetative carbon')))
+titles       = list(list(c('a) GFED4s burnt area', 
+			   'g) Simulated burnt area', 
+			   'm) Performance in burnt area'),
+			 c('b) GFED4s seasonal phase', 
+			   'h) Simulated seasonal phase',    
+			   'n) Performance in seasonal phase'),
+			 c('c) GFED4s seasonal concentration',
+  			   'i) Simulated seasonal concentration', 
+			   'o) Performance in seasonal concentration')),
+		    list(c('d) GFAS fire emissions', 
+			   'j) Simulated fire emissions',
+                           'p) Performance in fire emissions')),		
+		    list(c('e) Avitabile vegetative carbon',
+			   'k) Simulated vegetative carbon',
+			   'q) Performance in vegetative carbon')),
+                    list(c('f) MODIS Leaf Area Index',
+                           'l) Simulated Lead Area Index',
+                           'r) Performance in Leaf Area Index')))
 
 		   
 scale  = c(12, 12, 1)
@@ -75,7 +75,7 @@ plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale, e_lims,
 	mask = min.raster(mask) < mask
 	nmod[mask] = NaN
 	plotAgreement(nmod, txt[[1]][3], e_lims = e_lims)
-	plotLegend(cols, limits)#, e_lims = e_lims)
+	plotLegend(cols, limits, extend_max = TRUE)#, e_lims = e_lims)
 }
 
 
