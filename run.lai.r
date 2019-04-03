@@ -1,3 +1,3 @@
 names = 'LAI'
-comparisons = NULL
+comparisons = 'LAImodis'
 source('run.r')
