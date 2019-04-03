@@ -1,8 +1,8 @@
-sourceAllLibs('../rasterextrafuns/rasterPlotFunctions/R/')
+
 filename_dat = 'temp/spatial_fire_variables.Rd'
 openOnly = TRUE
 names = 'fire'
-comparisons = list(c("GFED4s.Spatial", "GFED4.Spatial","meris.Spatial", "MCD45.Spatial", "MODIS.Spatial"))
+comparisons = list(c("GFED4s.Spatial", "GFED4.Spatial","meris.Spatial", "MCD45.Spatial", "MODIS.Spatial", "GFED4s.Spatial", "GFED4.Spatial","meris.Spatial", "MCD45.Spatial", "MODIS.Spatial"))
 res = NULL
 
 limits = GFED4s.Spatial$plotArgs$limits * 100
