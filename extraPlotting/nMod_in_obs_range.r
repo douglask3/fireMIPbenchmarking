@@ -1,7 +1,7 @@
 source('cfg.r')
 names = c('fire', 'production', "LAI")
 comparisons  = list(c("GFED4s.Spatial",  "GFAS"), c("cveg"), c("LAImodis"))
-plotSeason   =      c(TRUE            ,  FALSE , FALSE)
+plotSeason   =      c(TRUE            ,  FALSE , FALSE, FALSE)
 titles       = list(list(c('a) GFED4s burnt area', 
 			   'g) Simulated burnt area', 
 			   'm) Performance in burnt area'),
@@ -28,7 +28,7 @@ res = NULL
 openOnly = TRUE
 range = c(1.2, 2.0, 3.0, 5.0)
 range = 5
-e_lims = list(c(0.5, 1), c(1, 2))
+e_lims = list(c(0.5, 1))
 
 nmodLims  = seq(10, 90, 10)
 nmodeCols = c('#AA0000', '#FFFF55', '#008800')
@@ -47,7 +47,7 @@ if (length(names) > 1) out = unlist(out, recursive = FALSE)
 
 plotAgreement <- function(x, txt, limits = nmodLims, cols = nmodeCols, e_lims, ...) {
 	plotStandardMap(x, '',  limits = limits, cols = cols,
-					add_legend = FALSE, e_polygon = FALSE, ePatternRes = 40, 
+			add_legend = FALSE, e_polygon = FALSE, ePatternRes = 40, 
 					ePatternThick = 0.35, limits_error = e_lims, ...)
 	mtext(txt, side = 3, adj = 0.1, line = -1)
 }
@@ -177,3 +177,37 @@ for (r in range) for (es in e_lims) {
 		mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, F, T), scale = scale, MoreArgs = list(range = r, e_lims = es))			   
 	dev.off()#.gitWatermarkStandard()
 }
+
+browser()
+names = c('fire')
+comparisons  = list(c("NRfire",  "meanFire"))
+plotSeason   =      c( FALSE , FALSE)
+titles       = list(list(c('a) Hantson no. of fires', 
+			   'g) Simulated no. of fires')),
+		    list(c('b) Hantson mean fire size', 
+			   'h) Simulated mean fire size')))
+
+scale  = c(1,1)
+						   
+res = NULL
+openOnly = TRUE
+
+source('run.r')
+
+limits = list(NRfire$plotArgs$limits,
+	      meanFire$plotArgs$limits)
+		   
+cols   = list(NRfire$plotArgs$cols,
+	      meanFire$plotArgs$cols)
+
+nrow = 2
+lmat = index = t(matrix(c(1:3,4,4,5), ncol = 2))
+for (i in 2:nrow) lmat = rbind(lmat, index + (i-1) * 5)
+fname = paste('figs/fireSize_no.png', sep = '')
+png(fname, height = 1.9 * nrow, width = 10, unit = 'in', res = 300)
+    layout(lmat, heights = c(1, 0.2, 1, 0.01, 1, 0.2, 1, 0.2, 1, 0.2))
+    par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
+    mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, F, T), 
+           scale = scale, MoreArgs = list(range = r, e_lims = es))			   
+dev.off()#.gitWatermarkStandard()
+
