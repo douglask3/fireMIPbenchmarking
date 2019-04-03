@@ -103,7 +103,7 @@ meanFire      = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
 ################################################################################
 ## GFED4
 MODIS.Spatial = list(obsFile       = "MODIS250_q_BA_regridded0.5.nc",
-                     obsVarname    = "burned_area",
+                     obsVarname    = "burnt_area",
                      obsLayers     = 1:108,
                      ComparisonFun = FullNME,
                      plotArgs      = FractionBA.Spatial ,
@@ -118,21 +118,21 @@ MODIS.Trend    = list(obsFile       = "MODIS250_q_BA_regridded0.5.n",
                       ExtraArgs     = list(zTrend = TRUE))
 
 MODISSeason    = list(obsFile       = "MODIS250_q_BA_regridded0.5.nc",
-                      obsVarname    = "burned_area",
+                      obsVarname    = "burnt_area",
                       obsLayers     = 1:108,
                       obsStart      = 2001,
                       ComparisonFun = FullSeasonal,
                       plotArgs      = TRUE)
 
 MODIS.IA      = list(obsFile       = "MODIS250_q_BA_regridded0.5.nc",
-                     obsVarname    = "burned_area",
+                     obsVarname    = "burnt_area",
                      obsLayers     = 1:108,
                      ComparisonFun = FullNME,
                      plotArgs      = list(x = 2001:2009),
                      ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
 MODIS.Season  = list(obsFile       = "MODIS250_q_BA_regridded0.5.nc",
-                     obsVarname    = "burned_area",
+                     obsVarname    = "burnt_area",
                      obsLayers     = 1:108,
                      ComparisonFun = FullSeasonal,
                      plotArgs      = TRUE)

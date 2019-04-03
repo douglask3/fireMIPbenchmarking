@@ -5,7 +5,7 @@ runComparisons <- function(comparisonList) {
 }
 
 runComparison <- function(info, name, mod = NULL) {
-	if (is.null(info$inherit)) temp_name = name else temp_name = info$inherit
+    if (is.null(info$inherit)) temp_name = name else temp_name = info$inherit
     if(is.null(info$noMasking)) info$noMasking = FALSE
     componentID <- function(name) strsplit(name,'.', TRUE)[[1]]
 
@@ -16,30 +16,31 @@ runComparison <- function(info, name, mod = NULL) {
                                obsTemporalRes, obsLayers)
 	
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
+
+    if (is.null(mod))
+	mod   = openSimulations(temp_name, varnN, simLayers)
 	
-	if (is.null(mod))
-		mod   = openSimulations(temp_name, varnN, simLayers)
+    if (all(sapply(mod, is.null))) return(NULL)
+    runres <- function(r = NULL) {
+	if (!is.null(r)) temp_name = paste(temp_name,'__res-', r, sep = '')
+    	mask  = loadMask(obs, mod, r, temp_name)	
+		
+	c(obs, mod) := remask(obs, mod, mask, r)
+		
+	obs = scaleMod(obs, Model.Variable[[1]], varnN)
+	mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(varnN))
+		
+	if (is.True(openOnly)) return(list(obs, mod))
+	c(scores, comp) := comparison(mod, obs, name, info)
+	return(list(scores, obs, mod, comp))
+    }
 	
-	if (all(sapply(mod, is.null))) return(NULL)
-	runres <- function(r = NULL) {
-		if (!is.null(r)) temp_name = paste(temp_name,'__res-', r, sep = '')
-		mask  = loadMask(obs, mod, r, temp_name)	
-		
-		c(obs, mod) := remask(obs, mod, mask, r)
-		
-		obs = scaleMod(obs, Model.Variable[[1]], varnN)
-		mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(varnN))
-		
-		if (is.True(openOnly)) return(list(obs, mod))
-		c(scores, comp) := comparison(mod, obs, name, info)
-		return(list(scores, obs, mod, comp))
-	}
-	
-	if (is.null(res) || class(res) != 'numeric') {
-		return(runres())
-	} else {
-		return(lapply(res, runres))
-	}
+    if (is.null(res) || class(res) != 'numeric') {
+	    return(runres())
+    } else {
+	    return(lapply(res, runres))
+    }
+
 }
 
 comparisonOutput <- function(scores, name) {
@@ -115,16 +116,17 @@ comparison <- function(mod, obs, name, info) {
 
         comp[index] = mapply(FUN, mod[index], names(mod)[index], SIMPLIFY = FALSE)
     }
-	
+    	
     if (is.null(comp)) return(NULL)
 	
-	for (i in 1:length(comp)) {
-		if (!is.null(comp[[i]][5][[1]])) obs     = comp[[i]][[5]]
-		if (!is.null(comp[[i]][6][[1]])) mod[[i]] = comp[[i]][[6]]
-	}
+    for (i in 1:length(comp)) {
+	if (!is.null(comp[[i]][5][[1]])) obs     = comp[[i]][[5]]
+	if (!is.null(comp[[i]][6][[1]])) mod[[i]] = comp[[i]][[6]]
+    }
 	
     scores =  outputScores(comp, name, info)	
-	if (plotSummery) plotVarAgreement(mod, obs, name, info, scores, comp )
+    if (plotSummery) plotVarAgreement(mod, obs, name, info, scores, comp )
+
     try(mapMetricScores(comp, name, info))
     return(list(score, comp))
 }
