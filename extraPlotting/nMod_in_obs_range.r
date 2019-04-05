@@ -22,7 +22,7 @@ titles       = list(list(c('a) GFED4s burnt area',
                            'r) Performance in Leaf Area Index')))
 
 		   
-scale  = c(12, 12, 1)
+scale  = c(12, 12, 1, 1)
 						   
 res = NULL
 openOnly = TRUE
@@ -37,23 +37,25 @@ source('run.r')
 
 limits = list(GFED4s.Spatial$plotArgs$limits,
 		   GFAS$plotArgs$limits,
-		   cveg$plotArgs$limits)
+		   cveg$plotArgs$limits,
+                   LAImodis$plotArgs$limits)
 		   
 cols   = list(GFED4s.Spatial$plotArgs$cols,
 		   GFAS$plotArgs$cols,
-		   cveg$plotArgs$cols)
+		   cveg$plotArgs$cols,
+                   LAImodis$plotArgs$cols)
 
 if (length(names) > 1) out = unlist(out, recursive = FALSE)
 
 plotAgreement <- function(x, txt, limits = nmodLims, cols = nmodeCols, e_lims, ...) {
 	plotStandardMap(x, '',  limits = limits, cols = cols,
-			add_legend = FALSE, e_polygon = FALSE, ePatternRes = 40, 
-					ePatternThick = 0.35, limits_error = e_lims, ...)
-	mtext(txt, side = 3, adj = 0.1, line = -1)
+			add_legend = FALSE, e_polygon = FALSE, ePatternRes = 65, 
+					ePatternThick = 0.9, limits_error = e_lims, ...)
+	mtext(txt, side = 3, adj = 0.1, line = -1.2)
 }
 
-plotLegend <- function(cols, limits, plot_loc = c(0.25, 0.5, 0.75, 0.99), ...) {
-	add_raster_legend2(cols = cols, limits = limits, ylabposScling = 3,
+plotLegend <- function(cols, limits, plot_loc = c(0.3, 0.7, 0.7, 0.9), ...) {
+	add_raster_legend2(cols = cols, limits = limits, ylabposScling = 1.1,srt = 0,
 						   transpose = FALSE, plot_loc = plot_loc, 
 						   add = FALSE, nx  = 1.75, ...)
 }
@@ -64,7 +66,9 @@ plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale, e_lims,
 	plotAgreement(obs, txt[[1]][1], limits, cols)
 	
 	mod = layer.apply(dat[[2]], function(i) mean(i[[index]]))
-	plotAgreement(mean(mod) * scale, txt[[1]][2], limits, cols,
+        mn = mean(mod, na.rm = TRUE)
+        mn[is.na(obs)] = NaN
+	plotAgreement(mn * scale, txt[[1]][2], limits, cols,
 				  e = sd.raster(mod), e_lims = e_lims)
 	
 	lower = obs / range
@@ -155,7 +159,7 @@ plotVariable <- function(dat, pltSeason, txt,
 		plotSeasonalNmod(dat, txt, index, range, ...)
 	}
 	
-	if (add_extra_leg) plotLegend(nmodeCols, nmodLims,plot_loc = c(0.01, 0.5, 0.99, 0.99),  #plot_loc = c(0.2, 0.5, 0.8, 0.8),
+	if (add_extra_leg) plotLegend(nmodeCols, nmodLims, plot_loc = c(0.1, 0.9, 0.7, 0.9),  #plot_loc = c(0.2, 0.5, 0.8, 0.8),
 								  labelss = c(0, nmodLims, 100))
 	else plot.new()
 }
@@ -170,15 +174,15 @@ for (r in range) for (es in e_lims) {
 	#lmat = rbind(lmat, max(lmat) + 1)
 	
 	fname = paste('figs/nmodAgreement', '-R', r - 1, '-sd', paste(es, collapse='-'), '.png', sep = '')
-	png(fname, height = 1.9 * nrow, width = 10, unit = 'in', res = 300)
-		layout(lmat, heights = c(1, 0.2, 1, 0.01, 1, 0.2, 1, 0.2, 1, 0.2))
+	png(fname, height = 2 * nrow, width = 10, unit = 'in', res = 300)
+		layout(lmat, heights = c(1, 0.2, 1, 0.01, 1, 0.2, 1, 0.2, 1, 0.2, 1, 0.2))
 		par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
 		
-		mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, F, T), scale = scale, MoreArgs = list(range = r, e_lims = es))			   
+		mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, F, F, T), scale = scale, MoreArgs = list(range = r, e_lims = es))			   
 	dev.off()#.gitWatermarkStandard()
 }
 
-browser()
+
 names = c('fire')
 comparisons  = list(c("NRfire",  "meanFire"))
 plotSeason   =      c( FALSE , FALSE)
