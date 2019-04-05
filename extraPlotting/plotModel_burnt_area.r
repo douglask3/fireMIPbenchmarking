@@ -1,12 +1,12 @@
 filename_dat = 'temp/spatial_fire_variables.Rd'
 openOnly = TRUE
 names = 'fire'
-comparisons = list(c("GFED4s.Spatial", "GFED4.Spatial","meris.Spatial", "MCD45.Spatial", "MODIS.Spatial", "GFED4s.Spatial", "GFED4.Spatial","meris.Spatial", "MCD45.Spatial", "MODIS.Spatial"))
+comparisons = list(c("GFED4s.Spatial", "GFED4.Spatial","meris.Spatial", "MCD45.Spatial", "MODIS.Spatial"))
 res = NULL
 
 limits = GFED4s.Spatial$plotArgs$limits * 100
 cols = GFED4s.Spatial$plotArgs$cols
-names = c("GFED4s", "GFED4", "Fire CCI", "MCD45", "MODIS")
+names = c("GFED4s", "GFED4", "Fire CCI41", "MCD45", "Fire CCI51")
 
 doMean <- function(rs) {
     mean12 <- function(r) mean(r[[1:12]])
