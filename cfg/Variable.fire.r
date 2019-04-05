@@ -109,7 +109,7 @@ MODIS.Spatial = list(obsFile       = "MODIS250_q_BA_regridded0.5.nc",
                      plotArgs      = FractionBA.Spatial ,
                      ExtraArgs     = list(mnth2yr = TRUE))
 					 
-MODIS.Trend    = list(obsFile       = "MODIS250_q_BA_regridded0.5.n",
+MODIS.Trend    = list(obsFile       = "MODIS250_q_BA_regridded0.5.nc",
                       obsVarname    = "burned_area",
                       obsLayers     = 1:108,
                       obsStart      = 2001,
@@ -296,6 +296,16 @@ MCD45.Spatial  = list(obsFile       = "MCD45.nc",
                       ComparisonFun = FullNME,
                       plotArgs      = FractionBA.Spatial,
                       ExtraArgs     = list(mnth2yr = TRUE))
+
+					  
+MCD45.Trend   = list(obsFile       = "MCD45.nc",
+                      obsVarname    = "variable",
+                      obsLayers     = 1:96,
+                      obsStart      = 2001,
+                      ComparisonFun = FullNME,
+                      plotArgs      = FractionBA.Trend,
+					  inherit       = "MCD45.Spatial",
+                      ExtraArgs     = list(zTrend = TRUE))
 					  
 MCD45.Season   = list(obsFile       = "MCD45.nc",
                       obsVarname    = "variable",
