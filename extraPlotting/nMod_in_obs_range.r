@@ -91,9 +91,9 @@ plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale,
         fnames = paste0(dir, names(dat[[2]]), '-', fnames[2])
         mapply(writeOut, dat[[2]], fnames)
     
-	obs = mean(dat[[1]][[index]]) * scale
+	obs = mean(dat[[1]][[index]])
 	
-	plotAgreement(obs, txt[[1]][1], limits, cols)
+	plotAgreement(obs * scale, txt[[1]][1], limits, cols)
 	
         MeanFun <- function(r) {
             index = index[sapply(index, function(i) any(i == 1:nlayers(r)))]
