@@ -29,7 +29,7 @@ loadMask <- function(obs, mod, res, varnN) {
     if (nlayers(obs) == 1) obs = obs[[1]]
     if (is.na(res))
 	obs = raster::resample(obs, mod[[1]])
-		
+    	
     mod = layer.apply(mod, function(i) {
         if (nlayers(i) == 1) i = i[[1]]
         raster::resample(i, obs)
@@ -40,8 +40,9 @@ loadMask <- function(obs, mod, res, varnN) {
     mod = layer.apply(mod, function(i) i >= 0.5 * max.raster(i, na.rm = TRUE))
     mask = sum(mod) + is.na(obs)
     
-    mask = mask >  min.raster(mask)
-    
+    mask = mask >  min.raster(mask, na.rm = TRUE)
+    mask[is.na(mask)] = 1
+     
     fact =  res/res(mask)
     if (any(fact != 1.0)) {
 	if (fact[1] == fact[2]) {
