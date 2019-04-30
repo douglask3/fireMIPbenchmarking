@@ -1,3 +1,4 @@
+
 source('cfg.r')
 names = c('fire', 'production', "LAI")
 comparisons  = list(c("GFED4s.Spatial",  "GFAS"), c("cveg"), c("LAImodis"))
@@ -31,10 +32,10 @@ range = 5
 e_lims = list(c(0.5, 1))
 
 nmodLims  = seq(10, 90, 10)
-nmodeCols = c('#AA0000', '#FFFF55', '#008800')
+nmodeCols = rev(c('#14320C', '#276419', '#4d9221', '#7fbc41', '#b8e186',# '#f7f7f7',)
+              '#f1b6da', '#de77ae', '#c51b7d', '#8e0152', '#48012A'))
 
 source('run.r')
-
 limits = list(GFED4s.Spatial$plotArgs$limits,
 		   GFAS$plotArgs$limits,
 		   cveg$plotArgs$limits,
@@ -78,6 +79,7 @@ plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale, e_lims,
 	mask = sum(is.na(mod))
 	mask = min.raster(mask) < mask
 	nmod[mask] = NaN
+        
 	plotAgreement(nmod, txt[[1]][3], e_lims = e_lims)
 	plotLegend(cols, limits, extend_max = TRUE)#, e_lims = e_lims)
 }
@@ -138,48 +140,49 @@ plotSeasonalNmod <- function(dat, txt, index, range, e_lims, ...) {
 	nmod = mean(modC >= lower & modC <= upper, na.rm = TRUE) * 100
 	plotAgreement(nmod, txt[[3]][3], e_lims = e_lims)
 	
-	plotLegend(SeasonConcCols, SeasonConcLimits)#, e_lims = e_lims)
+	plotLegend(SeasonConcCols, SeasonConcLimits, maxLab = 100)#, e_lims = e_lims)
 }
 
 
 plotVariable <- function(dat, pltSeason, txt, 
-						 limits, cols, add_extra_leg, 
-						 index = NULL, range, ...) {
-	if (class(dat) == "list" && length(dat) == 1) dat = dat[[1]]
-	#if (class(dat) == "list" && length(dat) == 2 && is.null(dat[[1]])) dat = dat[[2]]
+			 limits, cols, add_extra_leg, 
+			  index = NULL, range, ...) {
+    if (class(dat) == "list" && length(dat) == 1) dat = dat[[1]]
+    #if (class(dat) == "list" && length(dat) == 2 && is.null(dat[[1]])) dat = dat[[2]]
 	
-	if (nlayers(dat[[1]]) == 1) index = 1
-	else if (is.null(index)) index = 1:nlayers(dat[[1]])
+    if (nlayers(dat[[1]]) == 1) index = 1
+    else if (is.null(index)) index = 1:nlayers(dat[[1]])
 	
-	dat[[2]] = dat[[2]][!sapply(dat[[2]], is.null)]
+    dat[[2]] = dat[[2]][!sapply(dat[[2]], is.null)]
 	
-	plotSpatialNmod(dat, txt, index, limits, cols, range, ...)
-	if (pltSeason) {
-		plot.new()
-		plotSeasonalNmod(dat, txt, index, range, ...)
-	}
+    plotSpatialNmod(dat, txt, index, limits, cols, range, ...)
+    if (pltSeason) {
+	plot.new()
+	plotSeasonalNmod(dat, txt, index, range, ...)
+    }
 	
-	if (add_extra_leg) plotLegend(nmodeCols, nmodLims, plot_loc = c(0.1, 0.9, 0.7, 0.9),  #plot_loc = c(0.2, 0.5, 0.8, 0.8),
-								  labelss = c(0, nmodLims, 100))
-	else plot.new()
+    if (add_extra_leg)
+        plotLegend(nmodeCols, nmodLims, 
+                   plot_loc = c(0.1, 0.9, 0.7, 0.9),
+		   labelss = c(0, nmodLims, 100))
+    else plot.new()
 }
 
+
 for (r in range) for (es in e_lims) {		
-	nrow = length(plotSeason) + sum(plotSeason) * 2
+    nrow = length(plotSeason) + sum(plotSeason) * 2
 	
-	lmat = index = t(matrix(c(1:3,4,4,5), ncol = 2))
-	for (i in 2:nrow) lmat = rbind(lmat, index + (i-1) * 5)
+    lmat = index = t(matrix(c(1:3,4,4,5), ncol = 2))
+    for (i in 2:nrow) lmat = rbind(lmat, index + (i-1) * 5)
 	
-	#lmat = t(matrix(1:(3*6), ncol = nrow))
-	#lmat = rbind(lmat, max(lmat) + 1)
-	
-	fname = paste('figs/nmodAgreement', '-R', r - 1, '-sd', paste(es, collapse='-'), '.png', sep = '')
-	png(fname, height = 2 * nrow, width = 10, unit = 'in', res = 300)
-		layout(lmat, heights = c(1, 0.2, 1, 0.01, 1, 0.2, 1, 0.2, 1, 0.2, 1, 0.2))
-		par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
+    fname = paste('figs/nmodAgreement', '-R', r - 1, '-sd', paste(es, collapse='-'), '.png', sep = '')
+    png(fname, height = 2 * nrow, width = 10, unit = 'in', res = 300)
+	layout(lmat, heights = c(1, 0.2, 1, 0.01, 1, 0.2, 1, 0.2, 1, 0.2, 1, 0.2))
+        par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
 		
-		mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, F, F, T), scale = scale, MoreArgs = list(range = r, e_lims = es))			   
-	dev.off()#.gitWatermarkStandard()
+	mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, F, F, T), 
+               scale = scale, MoreArgs = list(range = r, e_lims = es))			   
+    dev.off()#.gitWatermarkStandard()
 }
 
 
@@ -187,9 +190,11 @@ names = c('fire')
 comparisons  = list(c("NRfire",  "meanFire"))
 plotSeason   =      c( FALSE , FALSE)
 titles       = list(list(c('a) Hantson no. of fires', 
-			   'g) Simulated no. of fires')),
+			   'c) Simulated no. of fires',
+                           'nn')),
 		    list(c('b) Hantson mean fire size', 
-			   'h) Simulated mean fire size')))
+			   'd) Simulated mean fire size',
+                           'nn')))
 
 scale  = c(1,1)
 						   
@@ -198,6 +203,29 @@ openOnly = TRUE
 
 source('run.r')
 
+meanRaster.scaling <- function(r) {
+    areaR = raster::area(r, na.rm = TRUE)
+    out = sum.raster(r * areaR, na.rm = TRUE) / sum.raster(areaR, na.rm = TRUE)
+    return(out)
+}
+
+scaleOut <- function(r) {
+    obs_sc = meanRaster.scaling(r[[1]][[1]])
+    rescale <- function(ri) {
+        if (is.null(ri)) return(NULL)
+        ri = mean(ri)
+        ri[is.na(r[[1]][[1]])] = NaN
+        mod_sc = meanRaster.scaling(ri)
+        ri = ri * obs_sc / mod_sc
+        return(ri)
+    }
+    r[[1]][[2]] = lapply(r[[1]][[2]], rescale)
+    return(r)
+}
+
+out = lapply(out, scaleOut)
+
+
 limits = list(NRfire$plotArgs$limits,
 	      meanFire$plotArgs$limits)
 		   
@@ -205,13 +233,14 @@ cols   = list(NRfire$plotArgs$cols,
 	      meanFire$plotArgs$cols)
 
 nrow = 2
+nrow = length(plotSeason) + sum(plotSeason) * 2
 lmat = index = t(matrix(c(1:3,4,4,5), ncol = 2))
 for (i in 2:nrow) lmat = rbind(lmat, index + (i-1) * 5)
 fname = paste('figs/fireSize_no.png', sep = '')
-png(fname, height = 1.9 * nrow, width = 10, unit = 'in', res = 300)
-    layout(lmat, heights = c(1, 0.2, 1, 0.01, 1, 0.2, 1, 0.2, 1, 0.2))
+png(fname, height = 2.1 * nrow, width = 10, unit = 'in', res = 300)
+    layout(lmat, heights = c(1, 0.2, 1, 0.2))
     par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
-    mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, F, T), 
-           scale = scale, MoreArgs = list(range = r, e_lims = es))			   
+    mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, T), 
+           scale = scale, MoreArgs = list(range = r, e_lims = e_lims[[1]]))			   
 dev.off()#.gitWatermarkStandard()
 
