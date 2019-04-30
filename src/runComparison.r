@@ -19,12 +19,11 @@ runComparison <- function(info, name, mod = NULL) {
 
     if (is.null(mod))
 	mod   = openSimulations(temp_name, varnN, simLayers)
-	
+    	
     if (all(sapply(mod, is.null))) return(NULL)
     runres <- function(r = NULL) {
 	if (!is.null(r)) temp_name = paste(temp_name,'__res-', r, sep = '')
     	mask  = loadMask(obs, mod, r, temp_name)	
-		
 	c(obs, mod) := remask(obs, mod, mask, r)
 		
 	obs = scaleMod(obs, Model.Variable[[1]], varnN)
