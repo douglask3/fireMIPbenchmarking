@@ -1,3 +1,5 @@
+source("cfg.r")
+graphics.off()
 filename_dat = 'temp/spatial_fire_variables.Rd'
 openOnly = TRUE
 names = 'fire'
