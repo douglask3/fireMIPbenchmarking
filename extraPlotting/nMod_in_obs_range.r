@@ -29,7 +29,7 @@ titles       = list(list(c('a) GFED4s burnt area',
 
 
 		   
-scale  = c(1200, 1200, 1, 1)
+scale  = c(1200, 12, 1, 1)
 						   
 res = NULL
 openOnly = TRUE
