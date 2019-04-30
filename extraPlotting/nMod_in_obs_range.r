@@ -2,6 +2,10 @@
 source('cfg.r')
 names = c('fire', 'production', "LAI")
 comparisons  = list(c("GFED4s.Spatial",  "GFAS"), c("cveg"), c("LAImodis"))
+units =             c('frac Month-1' = '%', 'gC m-2 mn-1' = 'g C ~m-2~ ~yr-1~', 
+                      'Mg Ha-1' = 'Mg ~ha-1~', 'm2 m-2' = 'm2 ~m-2~')
+startYear    =      c(1998, 2000, 1997, 2001)
+timestep     =      c('Months', 'Months', 'Years', 'Months')
 plotSeason   =      c(TRUE            ,  FALSE , FALSE, FALSE)
 titles       = list(list(c('a) GFED4s burnt area', 
 			   'g) Simulated burnt area', 
@@ -22,8 +26,10 @@ titles       = list(list(c('a) GFED4s burnt area',
                            'l) Simulated Lead Area Index',
                            'r) Performance in Leaf Area Index')))
 
+
+
 		   
-scale  = c(12, 12, 1, 1)
+scale  = c(1200, 1200, 1, 1)
 						   
 res = NULL
 openOnly = TRUE
@@ -36,7 +42,7 @@ nmodeCols = rev(c('#14320C', '#276419', '#4d9221', '#7fbc41', '#b8e186',# '#f7f7
               '#f1b6da', '#de77ae', '#c51b7d', '#8e0152', '#48012A'))
 
 source('run.r')
-limits = list(GFED4s.Spatial$plotArgs$limits,
+limits = list(GFED4s.Spatial$plotArgs$limits*100,
 		   GFAS$plotArgs$limits,
 		   cveg$plotArgs$limits,
                    LAImodis$plotArgs$limits)
@@ -61,12 +67,39 @@ plotLegend <- function(cols, limits, plot_loc = c(0.3, 0.7, 0.7, 0.9), ...) {
 						   add = FALSE, nx  = 1.75, ...)
 }
 
-plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale, e_lims, ...) {
+plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale,
+                            varunit, units, startYear, timestep, e_lims, ...) {
+        fnames = sapply(txt[[1]], function(i) strsplit(i, ') ')[[1]][2])
+        vname  = paste(strsplit(fnames[1], ' ')[[1]][-1], collapse = '_')
+
+        dir = paste0('outputs/', vname, '/')
+        makeDir(dir)
+
+        fnames = gsub(' ', '_', fnames, fixed = TRUE)
+        fnames[1] = paste0(dir, fnames[1])
+
+        zname = paste('no.', timestep, 'since', startYear)
+    
+        writeOut <- function(r, fname) {
+            if (nlayers(r) == 1) zname = 'Annual Average'
+            writeRaster.gitInfo(r, file = fname, varname = vname, varunit = varunit, 
+                                zname = zname, overwrite = TRUE)
+        }
+
+        writeOut(dat[[1]], fnames[1])
+
+        fnames = paste0(dir, names(dat[[2]]), '-', fnames[2])
+        mapply(writeOut, dat[[2]], fnames)
+    
 	obs = mean(dat[[1]][[index]]) * scale
 	
 	plotAgreement(obs, txt[[1]][1], limits, cols)
 	
-	mod = layer.apply(dat[[2]], function(i) mean(i[[index]]))
+        MeanFun <- function(r) {
+            index = index[sapply(index, function(i) any(i == 1:nlayers(r)))]
+            return(mean(r[[index]]))
+        }
+	mod = layer.apply(dat[[2]], MeanFun)
         mn = mean(mod, na.rm = TRUE)
         mn[is.na(obs)] = NaN
 	plotAgreement(mn * scale, txt[[1]][2], limits, cols,
@@ -81,7 +114,7 @@ plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale, e_lims,
 	nmod[mask] = NaN
         
 	plotAgreement(nmod, txt[[1]][3], e_lims = e_lims)
-	plotLegend(cols, limits, extend_max = TRUE)#, e_lims = e_lims)
+	plotLegend(cols, limits, extend_max = TRUE, units = units)#, e_lims = e_lims)
 }
 
 
@@ -149,7 +182,7 @@ plotVariable <- function(dat, pltSeason, txt,
 			  index = NULL, range, ...) {
     if (class(dat) == "list" && length(dat) == 1) dat = dat[[1]]
     #if (class(dat) == "list" && length(dat) == 2 && is.null(dat[[1]])) dat = dat[[2]]
-	
+    
     if (nlayers(dat[[1]]) == 1) index = 1
     else if (is.null(index)) index = 1:nlayers(dat[[1]])
 	
@@ -181,13 +214,18 @@ for (r in range) for (es in e_lims) {
         par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
 		
 	mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, F, F, T), 
-               scale = scale, MoreArgs = list(range = r, e_lims = es))			   
+               scale = scale, varunit = names(units), units = units, startYear = startYear,
+               timestep = timestep, 
+               MoreArgs = list(range = r, e_lims = es))			   
     dev.off()#.gitWatermarkStandard()
 }
 
 
 names = c('fire')
 comparisons  = list(c("NRfire",  "meanFire"))
+units =             c('no. fires' = 'no.', 'km2' = 'k~m2~')
+startYear    =      c(2002, 2002)
+timestep     =      c('Years', 'Years')
 plotSeason   =      c( FALSE , FALSE)
 titles       = list(list(c('a) Hantson no. of fires', 
 			   'c) Simulated no. of fires',
@@ -241,6 +279,7 @@ png(fname, height = 2.1 * nrow, width = 10, unit = 'in', res = 300)
     layout(lmat, heights = c(1, 0.2, 1, 0.2))
     par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
     mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, T), 
-           scale = scale, MoreArgs = list(range = r, e_lims = e_lims[[1]]))			   
+           scale = scale, varunit = names(units), units = units, startYear = startYear,
+               timestep = timestep, MoreArgs = list(range = r, e_lims = e_lims[[1]]))			   
 dev.off()#.gitWatermarkStandard()
 
