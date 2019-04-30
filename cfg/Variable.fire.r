@@ -11,7 +11,7 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
             varname  = rbind(c("MODIS", "GFED4"    , "GFED4s"   , "GFED4sSeason", "MODISSeason", "meris"    , "MCD45"    , "GFAS"    , "GFASSeason", "NRfire"  , "meanFire" ),
                              c(1      , 1          , 1          , 1            , 1          , 1          , 1          , kgpersec  , kgpersec    , 1         , 1          ),
                              c('Monthly', 'Monthly'  , 'Monthly'  , 'Monthly'    , 'Monthly'  ,  'Monthly'  , "Monthly"  , 'Monthly' , 'Monthly'   , "Annual"  , "Annual"   ),
-                             c(2001  , 1996       , 1996       , 1996         , 1996         , 2006       , 2001       , 2000      , 2000        , 2002      , 2002       ),
+                             c(2001  , 1996       , 1998       , 1996         , 1996         , 2006       , 2001       , 2000      , 2000        , 2002      , 2002       ),
                              c('mean', 'mean'     , 'mean'     , "mean"       , "mean"       , "mean"     , "mean"     , "mean"    , "mean"      , "mean"    , "mean"    )),
             CLM      = rbind(c("BAF", "BAF"      , "BAF"      , "BAF"        , "BAF"        , "BAF"      , "BAF"      , "CFFIRE"  , "CFFIRE"    , "nrfire"  , "mean_fire"),
                              c(100, 100        , 100        , 100          , 100          , 100        , 100        , kgpersec  , kgpersec    , 1         , 1          ),
@@ -90,7 +90,7 @@ NRfire        = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                      dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
                                  '#FFD793', "#F07700", "#AA0000"),
                      limits  = c(0.001,.01,.05,.1,.2,.5),
-                     dlimits = c(-0.2,-0.1,-0.05,-0.01,0.01,0.05,0.1, 0.2))
+                     dlimits = c(-0.2,-0.1,-0.05,-0.01,0.01,0.05,0.1, 0.2)*10)
 					 
 ## meanFire
 meanFire      = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
@@ -234,7 +234,7 @@ GFED4s.NMDE50    = list(obsFile       = "GFED4s_v2.nc",
 GFED4s.IA      = list(obsFile       = "GFED4s_v2.nc",
                       obsVarname    = "variable",
                       obsLayers     = 1:156,
-                      obsStart      = 1997,
+                      obsStart      = 1998,
                       ComparisonFun = FullNME,
 					  plotArgs      = GFED4s.IA,
 					  ExtraArgs     = list(byZ = TRUE, nZ = 12))
