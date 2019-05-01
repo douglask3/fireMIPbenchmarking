@@ -42,7 +42,7 @@ loadMask <- function(obs, mod, res, varnN) {
     
     mask = mask >  min.raster(mask, na.rm = TRUE)
     mask[is.na(mask)] = 1
-     
+    
     fact =  res/res(mask)
     if (any(fact != 1.0)) {
 	if (fact[1] == fact[2]) {
@@ -51,9 +51,15 @@ loadMask <- function(obs, mod, res, varnN) {
                 mask = raster::aggregate(mask, fact = fact)
 	    else if (fact < 1 && as.integer(1/fact) == (1/fact))
                 mask = raster::disaggregate(mask, fact = 1/fact)
-	    else browser()
+	    else {
+                example = raster(ncol = 360/res, nrow = 180/res)
+                mask = raster::resample(mask, example)
+                mask = mask > 0.5
+            }
 	} else {
-	    browser()
+	    example = raster(ncol = 360/res[1], nrow = 180/res[2])
+            mask = raster::resample(mask, example)
+            mask = mask > 0.5
 	}
     }
     mask = writeRaster(mask, filename = filename, overwrite = TRUE)
