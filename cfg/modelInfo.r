@@ -17,15 +17,15 @@ Model.RAW = list(      #DIR                 #Processing
 ################################################################################
 
 Model.plotting = rbind( #Title            #Colour
-            CLM      = c('CLM'               , 'red'        ),
-            CTEM     = c('CLASS-CTEM'        , 'green'      ),
-            INFERNO  = c('JULES-INFERNO'     , 'blue'       ),
-            JSBACH   = c('JSBACH-SPITFIRE'   , 'yellow'     ),
-            LPJglob  = c('LPJ-GUESS-GlobFIRM', 'cyan'       ),
-            LPJspit  = c('LPJ-GUESS-SPITFIRE', 'darkcyan'   ),
-            LPJblze  = c('LPJ-GUESS-BLAZE'   , 'dodgerblue4'),
-            MC2      = c('MC2'               , 'darkgoldenrod4' ),
-            ORCHIDEE = c('ORCHIDEE-SPITFIRE' , 'magenta'    ))
+            CLM      = c('CLM'               , '#8a2be2'        ),
+            CTEM     = c('CLASS-CTEM'        , '#00ee00'      ),
+            INFERNO  = c('JULES-INFERNO'     , '#cd0000'       ),
+            JSBACH   = c('JSBACH-SPITFIRE'   , '#ee7621'     ),
+            LPJglob  = c('LPJ-GUESS-GlobFIRM', '#000c68'       ),
+            LPJspit  = c('LPJ-GUESS-SPITFIRE', '#008b45'   ),
+            LPJblze  = c('LPJ-GUESS-BLAZE'   , '#001eff'),
+            MC2      = c('MC2'               , '#ffa3a3' ),
+            ORCHIDEE = c('ORCHIDEE-SPITFIRE' , '#5cacee'    ))
 
 ################################################################################
 ## Model catigory                                                             ##
