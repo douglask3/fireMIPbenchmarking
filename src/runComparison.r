@@ -22,19 +22,23 @@ runComparison <- function(info, name, mod = NULL) {
     	
     if (all(sapply(mod, is.null))) return(NULL)
     runres <- function(r = NULL) {
+        print(r)
+        
 	if (!is.null(r)) temp_name = paste(temp_name,'__res-', r, sep = '')
     	mask  = loadMask(obs, mod, r, temp_name)	
 	c(obs, mod) := remask(obs, mod, mask, r)
 		
 	obs = scaleMod(obs, Model.Variable[[1]], varnN)
 	mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(varnN))
-		
+        		
 	if (is.True(openOnly)) return(list(obs, mod))
 	c(scores, comp) := comparison(mod, obs, name, info)
+        
 	return(list(scores, obs, mod, comp))
     }
-	
-    if (is.null(res) || class(res) != 'numeric') {
+    
+    if (is.null(res) || (class(res) != 'numeric' &&
+        !(class(res) == "list" && class(res[[1]]) == "numeric"))) {
 	    return(runres())
     } else {
 	    return(lapply(res, runres))
