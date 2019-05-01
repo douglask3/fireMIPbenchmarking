@@ -8,7 +8,7 @@ experiment   = ''
 mask_type    = 'common'
 
 nRRs = 2
-res = 0.5
+#res = 0.5
 
 outputMetricFiles = FALSE
 plotModMetrics    = FALSE
