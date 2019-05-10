@@ -27,7 +27,7 @@ loadMask <- function(obs, mod, res, varnN) {
     }
 		
     if (nlayers(obs) == 1) obs = obs[[1]]
-    if (is.na(res))
+    if (!is.null(res) &&is.na(res))
 	obs = raster::resample(obs, mod[[1]])
     	
     mod = layer.apply(mod, function(i) {
