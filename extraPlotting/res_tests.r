@@ -37,6 +37,8 @@ scores = sapply(out, extractScore)
 
 modScores = (unlist(scores[1,]))
 
+res = list(c(2.5, 1.9), 2.8125, c(1.875, 1.245), 1.875, 0.5)
+
 nms = sapply(sapply(res, as.character), paste, collapse = ', ')
 #nms = sapply(nms, function(i) c(rep('', 4), i, rep('', 4)))
 png('figs/res_test_new.png', height = 6, width = 7, res = 300, units = 'in')
