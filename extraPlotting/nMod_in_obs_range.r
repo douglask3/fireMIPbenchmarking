@@ -31,15 +31,15 @@ titles       = list(list(c('a) GFED4s burnt area',
 		   
 scale  = c(1200, 12, 1, 1)
 						   
-res = NULL
+res = 0.5
 openOnly = TRUE
 range = c(1.2, 2.0, 3.0, 5.0)
 range = 5
 e_lims = list(c(0.5, 1))
 
 nmodLims  = seq(10, 90, 10)
-nmodeCols = rev(c('#14320C', '#276419', '#4d9221', '#7fbc41', '#b8e186',# '#f7f7f7',)
-              '#f1b6da', '#de77ae', '#c51b7d', '#8e0152', '#48012A'))
+nmodeCols = rev(c('#276419', '#4d9221', '#7fbc41', '#b8e186',# '#f7f7f7',)
+              '#f1b6da', '#de77ae', '#c51b7d', '#8e0152'))
 
 source('run.r')
 limits = list(GFED4s.Spatial$plotArgs$limits*100,
@@ -69,6 +69,7 @@ plotLegend <- function(cols, limits, plot_loc = c(0.3, 0.7, 0.7, 0.9), ...) {
 
 plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale,
                             varunit, units, startYear, timestep, e_lims, ...) {
+        if (FALSE) {
         fnames = sapply(txt[[1]], function(i) strsplit(i, ') ')[[1]][2])
         vname  = paste(strsplit(fnames[1], ' ')[[1]][-1], collapse = '_')
 
@@ -90,7 +91,7 @@ plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale,
 
         fnames = paste0(dir, names(dat[[2]]), '-', fnames[2])
         mapply(writeOut, dat[[2]], fnames)
-    
+        }
 	obs = mean(dat[[1]][[index]])
 	
 	plotAgreement(obs * scale, txt[[1]][1], limits, cols)
