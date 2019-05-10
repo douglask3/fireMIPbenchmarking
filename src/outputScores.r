@@ -84,7 +84,7 @@ sigDiff <- function(m1, m2, index = 1, MM_type = FALSE) {
 	
 	
 	test <- function(m1i, m2i, w) {
-		sc = wtd.t.test(m1i - m2i, weight = w)[[2]][3] * 100
+		sc = wtd.t.test(m1i - m2i)[[2]][3] * 100
 	}
 	if ( is.matrix(m1[[2]]) && ncol(m1[[2]]) == 1 && ncol(m1[[1]]) > 1)
 		m1[[2]] = sapply(1:3, function(i) m1[[2]])
