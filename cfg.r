@@ -11,7 +11,7 @@ library(mapplots)
 library(truncdist)
 library(weights)
 
-sourceAllLibs('src')
+sourceAllLibs('src/')
 sourceAllLibs('../benchmarkmetrics/benchmarkMetrics/')
 source('cfg/params.r')
 source('cfg/modelInfo.r')
