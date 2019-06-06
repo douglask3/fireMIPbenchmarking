@@ -1,22 +1,25 @@
 source('cfg.r')
-names = c('fire', 'production')
-comparisons  = list(c("GFED4s.Spatial",  "GFAS"), c("cveg"))
-plotSeason   =      c(TRUE            ,  FALSE , FALSE)
-titles       = list(list(
-					     c('a) GFED4s burnt area', 'b) Simulated burnt area', 
-					       'c) Model performance in burnt area'),
-					     c('d) GFED4s seasonal phase', 'e) Simulated seasonal phase',    
-						   'f) Model performance in seasonal phase'),
-						 c('g) GFED4s seasonal concentration',
-  						   'h) Simulated seasonal concentration', 
-						   'i) Model performance in seasonal concentration')),
-					list(
-						 c('j) GFAS fire emissions', 'k) Simulated fire emissions',
-                           'm) Model performance in fire emissions')),		
-					list(
-						 c('n) Avitabile vegetative carbon',
-						   'o) Simulated vegetative carbon',
-						   'p) Model performance in vegetative carbon')))
+names = c('fire', 'production', "LAI")
+comparisons  = list(c("GFED4s.Spatial",  "GFAS"), c("cveg"), c("LAImodis"))
+plotSeason   =      c(TRUE            ,  FALSE , FALSE, FALSE)
+titles       = list(list(c('a) GFED4s burnt area', 
+			   'g) Simulated burnt area', 
+			   'm) Performance in burnt area'),
+			 c('b) GFED4s seasonal phase', 
+			   'h) Simulated seasonal phase',    
+			   'n) Performance in seasonal phase'),
+			 c('c) GFED4s seasonal concentration',
+  			   'i) Simulated seasonal concentration', 
+			   'o) Performance in seasonal concentration')),
+		    list(c('d) GFAS fire emissions', 
+			   'j) Simulated fire emissions',
+                           'p) Performance in fire emissions')),		
+		    list(c('e) Avitabile vegetative carbon',
+			   'k) Simulated vegetative carbon',
+			   'q) Performance in vegetative carbon')),
+                    list(c('f) MODIS Leaf Area Index',
+                           'l) Simulated Lead Area Index',
+                           'r) Performance in Leaf Area Index')))
 
 		   
 scale  = c(12, 12, 1)
@@ -24,7 +27,8 @@ scale  = c(12, 12, 1)
 res = NULL
 openOnly = TRUE
 range = c(1.2, 2.0, 3.0, 5.0)
-e_lims = list(c(0.5, 1), c(1, 2))
+range = 5
+e_lims = list(c(0.5, 1))
 
 nmodLims  = seq(10, 90, 10)
 nmodeCols = c('#AA0000', '#FFFF55', '#008800')
@@ -43,13 +47,13 @@ if (length(names) > 1) out = unlist(out, recursive = FALSE)
 
 plotAgreement <- function(x, txt, limits = nmodLims, cols = nmodeCols, e_lims, ...) {
 	plotStandardMap(x, '',  limits = limits, cols = cols,
-					add_legend = FALSE, e_polygon = FALSE, ePatternRes = 30, 
-					ePatternThick = 0.2, limits_error = e_lims, ...)
+			add_legend = FALSE, e_polygon = FALSE, ePatternRes = 40, 
+					ePatternThick = 0.35, limits_error = e_lims, ...)
 	mtext(txt, side = 3, adj = 0.1, line = -1)
 }
 
-plotLegend <- function(cols, limits, plot_loc = c(0.2, 0.3, 0.8, 0.99), ...) {
-	add_raster_legend2(cols = cols, limits = limits, ylabposScling = 2,
+plotLegend <- function(cols, limits, plot_loc = c(0.25, 0.5, 0.75, 0.99), ...) {
+	add_raster_legend2(cols = cols, limits = limits, ylabposScling = 3,
 						   transpose = FALSE, plot_loc = plot_loc, 
 						   add = FALSE, nx  = 1.75, ...)
 }
@@ -67,9 +71,11 @@ plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale, e_lims,
 	upper = obs * range
 	upper[upper < 0.001] = 0.001
 	nmod = mean(mod >= lower & mod <= upper, na.rm = TRUE) * 100
-
+	mask = sum(is.na(mod))
+	mask = min.raster(mask) < mask
+	nmod[mask] = NaN
 	plotAgreement(nmod, txt[[1]][3], e_lims = e_lims)
-	plotLegend(cols, limits, e_lims = e_lims)
+	plotLegend(cols, limits, extend_max = TRUE)#, e_lims = e_lims)
 }
 
 
@@ -100,7 +106,7 @@ plotSeasonalNmod <- function(dat, txt, index, range, e_lims, ...) {
 	plotAgreement(modPmean, txt[[2]][2], SeasonPhaseLimits, SeasonPhaseCols,
 	              e_lims = e_lims, e = modPsd / 3)
 	SeasonLegend(SeasonPhaseLimits, SeasonPhaseCols, dat = modPmean, mar = rep(0,4),
-				 add = TRUE, xp = 0.08, e_lims = e_lims)
+				 add = TRUE, xp = 0.08)#, e_lims = e_lims)
 	
 	diff = abs(obsP - modP)
 	nmod = diff < mnthRange | diff > 12 - mnthRange	
@@ -128,13 +134,16 @@ plotSeasonalNmod <- function(dat, txt, index, range, e_lims, ...) {
 	nmod = mean(modC >= lower & modC <= upper, na.rm = TRUE) * 100
 	plotAgreement(nmod, txt[[3]][3], e_lims = e_lims)
 	
-	plotLegend(SeasonConcCols, SeasonConcLimits, e_lims = e_lims)
+	plotLegend(SeasonConcCols, SeasonConcLimits)#, e_lims = e_lims)
 }
 
 
 plotVariable <- function(dat, pltSeason, txt, 
 						 limits, cols, add_extra_leg, 
-						 index = 1:12, range, ...) {
+						 index = NULL, range, ...) {
+	if (class(dat) == "list" && length(dat) == 1) dat = dat[[1]]
+	#if (class(dat) == "list" && length(dat) == 2 && is.null(dat[[1]])) dat = dat[[2]]
+	
 	if (nlayers(dat[[1]]) == 1) index = 1
 	else if (is.null(index)) index = 1:nlayers(dat[[1]])
 	
@@ -146,7 +155,7 @@ plotVariable <- function(dat, pltSeason, txt,
 		plotSeasonalNmod(dat, txt, index, range, ...)
 	}
 	
-	if (add_extra_leg) plotLegend(nmodeCols, nmodLims, plot_loc = c(0.2, 0.5, 0.8, 0.8),
+	if (add_extra_leg) plotLegend(nmodeCols, nmodLims,plot_loc = c(0.01, 0.5, 0.99, 0.99),  #plot_loc = c(0.2, 0.5, 0.8, 0.8),
 								  labelss = c(0, nmodLims, 100))
 	else plot.new()
 }
@@ -161,10 +170,44 @@ for (r in range) for (es in e_lims) {
 	#lmat = rbind(lmat, max(lmat) + 1)
 	
 	fname = paste('figs/nmodAgreement', '-R', r - 1, '-sd', paste(es, collapse='-'), '.png', sep = '')
-	png(fname, height = 2 * nrow, width = 10, unit = 'in', res = 300)
-		layout(lmat, heights = c(1, 0.3, 1, 0.01, 1, 0.3, 1, 0.3, 1, 0.3))
+	png(fname, height = 1.9 * nrow, width = 10, unit = 'in', res = 300)
+		layout(lmat, heights = c(1, 0.2, 1, 0.01, 1, 0.2, 1, 0.2, 1, 0.2))
 		par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
 		
 		mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, F, T), scale = scale, MoreArgs = list(range = r, e_lims = es))			   
-	dev.off.gitWatermarkStandard()
+	dev.off()#.gitWatermarkStandard()
 }
+
+browser()
+names = c('fire')
+comparisons  = list(c("NRfire",  "meanFire"))
+plotSeason   =      c( FALSE , FALSE)
+titles       = list(list(c('a) Hantson no. of fires', 
+			   'g) Simulated no. of fires')),
+		    list(c('b) Hantson mean fire size', 
+			   'h) Simulated mean fire size')))
+
+scale  = c(1,1)
+						   
+res = NULL
+openOnly = TRUE
+
+source('run.r')
+
+limits = list(NRfire$plotArgs$limits,
+	      meanFire$plotArgs$limits)
+		   
+cols   = list(NRfire$plotArgs$cols,
+	      meanFire$plotArgs$cols)
+
+nrow = 2
+lmat = index = t(matrix(c(1:3,4,4,5), ncol = 2))
+for (i in 2:nrow) lmat = rbind(lmat, index + (i-1) * 5)
+fname = paste('figs/fireSize_no.png', sep = '')
+png(fname, height = 1.9 * nrow, width = 10, unit = 'in', res = 300)
+    layout(lmat, heights = c(1, 0.2, 1, 0.01, 1, 0.2, 1, 0.2, 1, 0.2))
+    par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
+    mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, F, T), 
+           scale = scale, MoreArgs = list(range = r, e_lims = es))			   
+dev.off()#.gitWatermarkStandard()
+

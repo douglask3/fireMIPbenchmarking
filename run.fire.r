@@ -1,5 +1,8 @@
 names = 'fire'
-comparisons = list(c("GFED4s.Spatial"))
-res = c(0.5, 1, 2, 4, 8, 16)
+comparisons = list(c("GFED4s.","MODIS.IA", "GFED4.Spatial", "GFED4s.Spatial", "meris.Spatial", "MCD45.Spatial", "MODIS.Spatial"))
+res = NULL
 
 source('run.r')
+
+
+

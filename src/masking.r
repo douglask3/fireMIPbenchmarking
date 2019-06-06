@@ -1,19 +1,29 @@
 loadMask <- function(obs, mod, res, varnN) {
     mod = mod[!sapply(mod, is.null)]
+
 	
+    #filename = paste(c(temp_dir, varnN, names(mod), '.nc'), collapse = '-')
+    #if(file.exists(filename)) return(raster(filename))
+#	mod0 = mod
+#	
+#	sumFun <- function(r) {
+#		r = sum(r)[[1]]
+#		maskSize = sum(is.na(r[]))/length(r)
+#		if (maskSize < 0.1) r = sum(r, na.rm = TRUE)
+#		return(r)
+#	}
+#	
+ #   mod = lapply(mod, sumFun)
+	
+
+   
     filename = paste(c(temp_dir, varnN, names(mod), '.nc'), collapse = '-')
     if(file.exists(filename)) return(raster(filename))
-	mod0 = mod
-	
-	sumFun <- function(r) {
-		r = sum(r)[[1]]
-		maskSize = sum(is.na(r[]))/length(r)
-		if (maskSize < 0.1) r = sum(r, na.rm = TRUE)
-		return(r)
-	}
-	
-    mod = lapply(mod, sumFun)
-	
+
+    mod = lapply(mod, function(i) sum(is.na(i[[1:12]])))
+    mod = mod[sapply(mod, function(i) max.raster(i) > 0)]
+    
+
     if (is.raster(obs)) obs = sum(obs)
         else {
             obs = raster(ncol = 720, nrow = 360)
@@ -29,25 +39,45 @@ loadMask <- function(obs, mod, res, varnN) {
                 raster::resample(i, obs)
             })
     if (nlayers(obs) == 1) obs = obs[[1]]
-	
-    mask = sum(mod) + obs
 
-    mask = is.na(mask)
+#	
+#    mask = sum(mod) + obs
+#    mask = is.na(mask)#
+#	
+#	if (!is.na(res)) {
+#		fact =  res/res(mask)
+#		if (any(fact != 1.0)) {
+#			if (fact[1] == fact[2]) {
+#				fact = fact[1]
+#				if (fact > 1 && as.integer(fact) == fact) mask = raster::aggregate(mask, fact = fact)
+#				else if (fact < 1 && as.integer(1/fact) == (1/fact)) mask = raster::disaggregate(mask, fact = 1/fact)
+#				else browser()
+#			} else {
+#				browser()
+#			}
+#		}
+#	}
 	
-	if (!is.na(res)) {
-		fact =  res/res(mask)
-		if (any(fact != 1.0)) {
-			if (fact[1] == fact[2]) {
-				fact = fact[1]
-				if (fact > 1 && as.integer(fact) == fact) mask = raster::aggregate(mask, fact = fact)
-				else if (fact < 1 && as.integer(1/fact) == (1/fact)) mask = raster::disaggregate(mask, fact = 1/fact)
-				else browser()
-			} else {
-				browser()
-			}
-		}
+
+    
+    mod = layer.apply(mod, function(i) i >= 0.5 * max.raster(i, na.rm = TRUE))
+    mask = sum(mod) + is.na(obs)
+   
+    mask = mask > 0
+    fact =  res/res(mask)
+    if (any(fact != 1.0)) {
+	if (fact[1] == fact[2]) {
+	    fact = fact[1]
+	    if (fact > 1 && as.integer(fact) == fact)
+                mask = raster::aggregate(mask, fact = fact)
+	    else if (fact < 1 && as.integer(1/fact) == (1/fact))
+                mask = raster::disaggregate(mask, fact = 1/fact)
+	    else browser()
+	} else {
+	    browser()
 	}
-	
+    }
+					
 	mask = writeRaster(mask, filename = filename)
     return(mask)
 }
@@ -68,7 +98,7 @@ remask <- function(obs, mod0, mask, res) {
         filename_obs = c()
     filename_mod = paste(temp_dir, sapply(mod, filename.noPath, TRUE), 'modRemasked', res, '.nc', sep = '-')
     filenames    = c(filename_obs, filename_mod)
-	
+    
     if (files.exist(filenames)) {
         mod0[present] = lapply(filename_mod, stack)
 		if (is.raster(obs)) obs = stack(filename_obs)

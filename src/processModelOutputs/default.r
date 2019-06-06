@@ -2,12 +2,16 @@ process.default <- function(files, varName, levels, ...)
     dat = layer.apply(levels, process.default.level, files, varName, ...)
 
 process.default.level <- function(levels, files, varName, startYear,
-                        layers, layersIndex, combine) {
+                        layers, layersIndex, combine, amIMC2 = FALSE) {
 	
     file = findAfile(files, varName)
     if (is.null(file)) return(NULL)
+	
 
-	if (max(layers) > nlayers(stack(file))) stop('layers exceed file length', file)	
+	if (max(layers) > nlayers(stack(file))) {
+		if (amIMC2) layers = layers[layers < nlayers(stack(file))]
+		else stop('layers exceed file length', file)	#
+	}
     
 	if (is.na(levels)) dat = brick.gunzip(file)[[layers]]
         else dat = lapply(levels, function(i) brick.gunzip(file, level = i)[[layers]])

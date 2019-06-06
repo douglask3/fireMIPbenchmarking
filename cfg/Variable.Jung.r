@@ -67,21 +67,21 @@ JUNG.IA      = list(x = 1997:2009)
 ################################################################################
 JUNG.Spatial = list(obsFile        = "CRUNCEPv6.XXX.YYY.monthly.1980_2013.nc",
                      obsVarname    = "YYY",
-                     obsLayers     = 1:384,
+                     obsLayers     = 1:360,
                      ComparisonFun = FullNME,
                      plotArgs      = JUNG.Spatial,
                      ExtraArgs     = list(mnth2yr = TRUE))
 
 JUNG.IA      = list(obsFile        = "CRUNCEPv6.XXX.YYY.monthly.1980_2013.nc",
                      obsVarname    = "YYY",
-                     obsLayers     = 1:384,
+                     obsLayers     = 1:360,
                      ComparisonFun = FullNME,
                      plotArgs      = JUNG.IA,
                      ExtraArgs     = list(byZ = TRUE, nZ = 12))
 
 JUNG.Season  = list(obsFile        = "CRUNCEPv6.XXX.YYY.monthly.1980_2013.nc",
                      obsVarname    = "YYY",
-                     obsLayers     = 1:384,
+                     obsLayers     = 1:360,
                      ComparisonFun = FullSeasonal,
                      plotArgs      = TRUE)
 

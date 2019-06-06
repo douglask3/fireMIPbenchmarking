@@ -20,10 +20,9 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                              c('Annual'        , "Annual"        , "Annual"        , "Annual"        , "Annual"        ,"Monthly"),
                              c(1997            , 1997            , 1997            , 1997            , 1997            , 1997    ),
                                "mean"),
-            S2  = jules_nl,
-			S3  = jules_nl,
-			SF2 = jules_nl,
-			SF3 = jules_nl)
+            
+            Mort4.3      = JULES_nl,
+            Emissions3      = JULES_nl)
 
 
 ################################################################################
