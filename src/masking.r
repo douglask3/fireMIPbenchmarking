@@ -19,20 +19,24 @@ loadMask <- function(obs, mod, res, varnN) {
    
     filename = paste(c(temp_dir, varnN, names(mod), '.nc'), collapse = '-')
     if(file.exists(filename)) return(raster(filename))
-
-    mod = lapply(mod, function(i) sum(is.na(i[[1:12]])))
+    mod0 = mod
+     
+    mod = lapply(mod, function(i) {
+            nl = min(c(12, nlayers(i)))
+            sum(is.na(i[[1:nl]]))} )
+            
     mod = mod[sapply(mod, function(i) max.raster(i) > 0)]
     
 
     if (is.raster(obs)) obs = sum(obs)
-        else {
-            obs = raster(ncol = 720, nrow = 360)
-            obs[] = 1
-        }
+    else {
+        obs = raster(ncol = 720, nrow = 360)
+        obs[] = 1
+    }
 		
-	if (nlayers(obs) == 1) obs = obs[[1]]
-	if (is.na(res))
-		obs = raster::resample(obs, mod[[1]])
+    if (nlayers(obs) == 1) obs = obs[[1]]
+    if (is.na(res))
+	    obs = raster::resample(obs, mod[[1]])
 		
     mod = layer.apply(mod, function(i) {
                 if (nlayers(i) == 1) i = i[[1]]
@@ -58,27 +62,26 @@ loadMask <- function(obs, mod, res, varnN) {
 #		}
 #	}
 	
-
-    
     mod = layer.apply(mod, function(i) i >= 0.5 * max.raster(i, na.rm = TRUE))
     mask = sum(mod) + is.na(obs)
    
     mask = mask > 0
-    fact =  res/res(mask)
-    if (any(fact != 1.0)) {
-	if (fact[1] == fact[2]) {
-	    fact = fact[1]
-	    if (fact > 1 && as.integer(fact) == fact)
-                mask = raster::aggregate(mask, fact = fact)
-	    else if (fact < 1 && as.integer(1/fact) == (1/fact))
-                mask = raster::disaggregate(mask, fact = 1/fact)
-	    else browser()
-	} else {
-	    browser()
-	}
-    }
-					
-	mask = writeRaster(mask, filename = filename)
+    if (!is.na(res)) {
+        fact =  res/res(mask)
+        if (any(fact != 1.0)) {
+	    if (fact[1] == fact[2]) {
+	        fact = fact[1]
+	        if (fact > 1 && as.integer(fact) == fact)
+                    mask = raster::aggregate(mask, fact = fact)
+	        else if (fact < 1 && as.integer(1/fact) == (1/fact))
+                    mask = raster::disaggregate(mask, fact = 1/fact)
+	        else browser()
+	    } else {
+	        browser()
+	    }
+        }
+    }				
+    mask = writeRaster(mask, filename = filename)
     return(mask)
 }
 
