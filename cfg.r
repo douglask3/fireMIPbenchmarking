@@ -1,6 +1,22 @@
+library(benchmarkMetrics)
+source("../gitProjectExtras/gitBasedProjects/R/sourceAllLibs.r")
+sourceAllLibs('../gitProjectExtras/gitBasedProjects/R/')
+
+## uncomment on windows
+#source('../gitProjectExtras/package_git2r.r')
+#config(repository(), user.name="Douglas Kelley", user.email="douglas.i.kelley@gmail.com")
+library(raster)
+library(ncdf4)
+library(rasterExtras)
+library(rasterPlot)
+library(mapdata)
+library(plotrix)
+library(MASS)
 library(mapplots)
 library(truncdist)
 library(weights)
+library(gitBasedProjects)
+
 sourceAllLibs('src/')
 
 sourceAllLibs('src/dataProcessing/')
@@ -12,6 +28,7 @@ sourceAllLibs('src/processModelOutputs/')
 sourceAllLibs('../benchmarkmetrics_github/benchmarkMetrics/')
 sourceAllLibs('../benchmarkmetrics_github/benchmarkMetrics/R/')
 sourceAllLibs('../rasterextrafuns/rasterPlotFunctions/R/')
+sourceAllLibs('../rasterextrafuns/rasterExtras/R/')
 
 
 source('cfg/params.r')
