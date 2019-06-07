@@ -6,7 +6,7 @@
 JULES_nl =  		   rbind(rep("landCoverFrac", 9),
                              c(rep(12/100, 5),rep(1/100, 4)),
                              c(rep(1992, 5), rep(2002, 4)),
-                             'Monthly',
+                             'Annual',
 							 c("1:2,5;3:4",  "1:2,5", "3:4", "1:5", "1;2", "1:2,5;3:4",  "1:2,5", "3:4", "1:5"))
 
 
@@ -16,10 +16,8 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                              c(rep('Annual', 5)	, rep('Monthly', 4)),		
                              c(rep(1992, 5), rep(2002, 4)),
                              'mean'),
-            S2       = JULES_nl, 
-			S3       = JULES_nl,
-			SF2      = JULES_nl,
-            SF3      = JULES_nl)
+            Mort4.3      = JULES_nl,
+            Emissions3   = JULES_nl)
 			
 ################################################################################
 ## Plotting Info                                                              ##
