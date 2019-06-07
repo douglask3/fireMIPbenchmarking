@@ -14,7 +14,7 @@ runComparison <- function(info, name, mod = NULL) {
     if (is.null(info$obsLayers)) obsLayers = 1 else obsLayers = info$obsLayers
     simLayers = layersFrom1900(Model.Variable[[1]][4,varnN],
                                obsTemporalRes, obsLayers)
-	
+    
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
     
     if (is.null(mod))
@@ -126,7 +126,7 @@ comparison <- function(mod, obs, name, info) {
     }
 
     scores =  outputScores(comp, name, info)
-    #if (plotSummery) plotVarAgreement(mod, obs, name, info, scores, comp)
+    if (plotSummery) plotVarAgreement(mod, obs, name, info, scores, comp)
     
     try(mapMetricScores(comp, name, info))
     return(list(score, comp))
