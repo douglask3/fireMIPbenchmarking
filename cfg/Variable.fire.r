@@ -1,16 +1,16 @@
 
 daily_pc = 100/30.4167
-sec_frac = 1/(60*60*24*30)
-kgpersec =  sec_frac/1000
+sec_frac = 1/(60*60*24*30*12)
+kgpersec =  12* sec_frac/1000
 
 ###########################################################
 ## Burnt area                                            ##
 ###########################################################
 
-JULES_nl = rbind(c(rep("burnt_area_gb", 7) , rep("emitted_carbon_gb", 2), "nfire"   , "mean_fire"),
-                 c(sec_frac   , sec_frac   , sec_frac     , sec_frac   , sec_frac   , sec_frac, sec_frac, kgpersec  , kgpersec    , 1         , 1          ),
-                 1997,
-                 'Monthly')
+JULES_nl = rbind(c(rep("burnt_area_gb", 7) , rep("veg_c_fire_emission_gb;burnt_carbon_dpm;burnt_carbon_rpm", 2), "nfire"   , "mean_fire"),
+                 c(sec_frac   , sec_frac   , sec_frac     , sec_frac   , sec_frac   , sec_frac, sec_frac, 1  , 1, 1         , 1          ),
+                 1990,
+                 'Annual')
 Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - time
              varname  = rbind(c("MODIS", "GFED4"    , "GFED4s"   , "GFED4sSeason", "MODISSeason", "meris"    , "MCD45"    , "GFAS"    , "GFASSeason", "NRfire"  , "meanFire" ),
                              c(1      , 1          , 1          , 1            , 1          , 1          , 1          , kgpersec  , kgpersec    , 1         , 1          ),
@@ -54,6 +54,13 @@ GFAS          = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                                  '#FFD793', "#F07700", "#AA0000"),
                      limits  = c(0.01, 0.1, 1, 10, 100),
                      dlimits = c(-100, -10, -1, -0.1, -0.01 ,0.01, 0.1, 1, 10, 100))
+
+GFAS.Trend    = list(cols    = c('#0000AA', '#2093FF', '#C0D0FF','white',
+                                 '#FFD793', "#F07700", "#AA0000"),
+                     dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
+                                 '#FFD793', "#F07700", "#AA0000"),
+                     limits  = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20),
+                     dlimits = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20))
 
 ## NR
 NRfire        = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
@@ -197,28 +204,36 @@ GFED4sSeason    = list(obsFile = "GFED4s_v2.nc",
                       plotArgs      = TRUE)
 
 ## GFAS
-GFAS           = list(obsFile       = "GFAS.nc",
+GFAS.Spatial   = list(obsFile       = "GFAS.nc",
                       obsVarname    = "cfire",
-                      obsLayers     = 1:108,
-                      obsStart      = 2000,
+                      obsLayers     = 11:175,
+                      obsStart      = 2001,
                       ComparisonFun = FullNME,
                       plotArgs      = GFAS,
                       ExtraArgs     = list(mnth2yr = TRUE))
 
+GFAS.Trend     = list(obsFile       = "GFAS.nc",
+                      obsVarname    = "cfire",
+                      obsLayers     = 11:175,
+                      obsStart      = 2001,
+                      ComparisonFun = FullNME,
+                      plotArgs      = GFAS.Trend,
+                      ExtraArgs     = list(zTrend = TRUE))
+
 ## GFAS
 GFASSeason     = list(obsFile       = "GFAS.nc",
                       obsVarname    = "cfire",
-                      obsLayers     = 1:108,
-                      obsStart      = 2000, 
+                      obsLayers     = 11:175,
+                      obsStart      = 2001, 
                       ComparisonFun = FullSeasonal,
                       plotArgs      = TRUE)
 
 GFAS.IA       = list(obsFile       = "GFAS.nc",
                      obsVarname    = "cfire",
-                     obsLayers     = 1:108,
-                     obsStart      = 2000,
+                     obsLayers     = 11:175,
+                     obsStart      = 2001,
                      ComparisonFun = FullNME,
-                     plotArgs      = list(x = 2000:2008),
+                     plotArgs      = list(x = 2001:2014),
                      ExtraArgs     = list(byZ = TRUE, nZ = 12))
 					 
 ## Meris
