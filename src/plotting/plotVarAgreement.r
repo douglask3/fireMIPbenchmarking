@@ -222,43 +222,45 @@ plotVarAgreement.seasonal <- function(mod, obs, name, modNames, info, scores, ..
 
 plotSepMods.3step <- function(mod, obs, modNames, name, comp = NULL,...) {
 	
-	FUN <- function(nme, denomNormFun) {
-		stepN <- function(FUN, ns)  {			
-			title = paste('step', ns)
+    FUN <- function(nme, denomNormFun) {
+        stepN <- function(FUN, ns)  {			
+	    title = paste('step', ns)
 			
-			diff = mod[[1]]
-			grabDiff <- function(i, v = 'diff') {
-				
-				vs = as.vector(t(matrix(i[[1]][[v]][,ns], nrow = nrow(diff))))
-				if (is.complex(vs)) {
-					diff = addLayer(diff, diff)
-					diff[] = cbind(Re(vs), Im(vs))
-				} else diff[] = as.vector(t(matrix(i[[1]][[v]][,ns], nrow = nrow(diff))))
-				return(diff)
-			}
-			print('yay')
-			
-			x = layer.apply(comp, grabDiff, 'x')
-			y = layer.apply(comp, grabDiff, 'y')
-			
-			if (is.complex(comp[[1]][[1]][['x']])) {
-				diff1 = x
-				diff2 = y
-				gradient = TRUE
-			} else {
-				diff1 = y - x
-				diff2 = layer.apply(comp, grabDiff)
-				gradient = FALSE
-			}
-			
-			if (!is.null(FUN)) mod = layer.apply(mod, FUN, obs)
-			Name = paste(name, nme, title, sep = '-')
-			plotSepMods(mod, obs, diff1 = diff1, diff2 = diff2, modNames, Name, denomNormFun = denomNormFun, gradient = gradient,...)
+	    diff = mod[[1]]
+	    grabDiff <- function(i, v = 'diff') {
+                ix = i[[1]][[v]]
+                if (ncol(ix) == 1) ix = ix[,1] else ix = ix[, ns]
+		vs = as.vector(t(matrix(ix, nrow = nrow(diff))))
+		if (is.complex(vs)) {
+		    diff = addLayer(diff, diff)
+		    diff[] = cbind(Re(vs), Im(vs))
+		} else diff[] = as.vector(t(matrix(ix, nrow = nrow(diff))))
+		    return(diff)
 		}
+            print('yay')
+			
+	    x = layer.apply(comp, grabDiff, 'x')
+	    y = layer.apply(comp, grabDiff, 'y')
+			
+            if (is.complex(comp[[1]][[1]][['x']])) {
+	        diff1 = x
+		diff2 = y
+		gradient = TRUE
+            } else {
+		diff1 = y - x
+		diff2 = layer.apply(comp, grabDiff)
+		gradient = FALSE
+	    }
+			
+	    if (!is.null(FUN)) mod = layer.apply(mod, FUN, obs)
+	    Name = paste(name, nme, title, sep = '-')
+	    plotSepMods(mod, obs, diff1 = diff1, diff2 = diff2, 
+                        modNames, Name, denomNormFun = denomNormFun, gradient = gradient,...)
+	 }
 		
-		mapply(stepN, list(NULL, removeMean, removeMeanVar), 1:3)
-	}
-	mapply(FUN, c('MNRR', 'MNonly'), c(sum.raster, function(i, ...) return(i)))
+	mapply(stepN, list(NULL, removeMean, removeMeanVar), 1:3)
+    }
+    mapply(FUN, c('MNRR', 'MNonly'), c(sum.raster, function(i, ...) return(i)))
 }
 
 plotSepMods <- function(mod, obs, diff1, diff2, modNames, name, info, cols, dcols, lims, dlims, scores, nullScore = NULL,
