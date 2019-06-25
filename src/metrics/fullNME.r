@@ -1,19 +1,20 @@
 FullNME <- function(obs, mod, name, plotArgs = NULL, mnth2yr = FALSE,
                     byZ = FALSE, nZ = 0, zTrend = FALSE, ...) {
     if (byZ) out = FullNME.InterAnnual(obs, mod, name, plotArgs, nZ, ...)
-		else if (zTrend)  out = FullNME.Trend(obs, mod, name, plotArgs, ...)
-		else out = FullNME.spatial(obs, mod, name, mnth2yr, plotArgs, ...)
+	else if (zTrend)  out = FullNME.Trend(obs, mod, name, plotArgs, ...)
+	else out = FullNME.spatial(obs, mod, name, mnth2yr, plotArgs, ...)
 	
 	return(out)
 }
 
-FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ...) {
+FullNME.spatial <- function(obs, mod, name, mnth2yr, plotArgs, nRRs = 2, ..., weights0 = NULL) {
     obs     = mean.nlayers(obs)  
     mod     = mean.nlayers(mod)    
     weights = raster::area(obs)
+    if (!is.null(weights0)) weights = weights0 * weights
     
-    if (mnth2yr) {obs = obs * 12; mod = mod * 12}
-	
+    if (mnth2yr) {obs = obs * 12; mod = mod * 12}       
+    
     score   = NME (obs, mod, weights)
 
     if (!is.null(plotArgs) && plotModMetrics)
@@ -98,10 +99,11 @@ findRasterTrend <- function(r, obs = TRUE) {
 }
 
 FullNME.Trend <- function(obs, mod, name, ...) {
+        weights0 = sum(obs)
 	obs = findRasterTrend(obs)
 	mod = findRasterTrend(mod, obs = FALSE)
 	mod[is.na(obs)] = NaN
-	out = FullNME.spatial(obs, mod, name, mnth2yr = FALSE,  ...)
+	out = FullNME.spatial(obs, mod, name, mnth2yr = FALSE,  weights0 = weights0, ...)
     return(c(out, obs, mod))
 }
 
