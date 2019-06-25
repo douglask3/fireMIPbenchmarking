@@ -1,14 +1,14 @@
 
 daily_pc = 100/30.4167
 sec_frac = 1/(60*60*24*30*12)
-kgpersec =  12* sec_frac/1000
+kgpersec =  1/(60*60*24*365)
 
 ###########################################################
 ## Burnt area                                            ##
 ###########################################################
 
 JULES_nl = rbind(c(rep("burnt_area_gb", 7) , rep("veg_c_fire_emission_gb;burnt_carbon_dpm;burnt_carbon_rpm", 2), "nfire"   , "mean_fire"),
-                 c(sec_frac   , sec_frac   , sec_frac     , sec_frac   , sec_frac   , sec_frac, sec_frac, 1  , 1, 1         , 1          ),
+                 c(sec_frac   , sec_frac   , sec_frac     , sec_frac   , sec_frac   , sec_frac, sec_frac, 1/12  , 1/12, 1         , 1          ),
                  1990,
                  'Annual')
 Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - time
@@ -85,6 +85,13 @@ MODIS.Spatial = list(obsFile       = "MODIS250_q_BA_regridded0.5.nc",
                      ComparisonFun = FullNME,
                      plotArgs      = FractionBA.Spatial ,
                      ExtraArgs     = list(mnth2yr = TRUE))
+
+MODIS.Trend    = list(obsFile       = "MODIS250_q_BA_regridded0.5.nc",
+                      obsVarname    = "burnt_area",
+                      obsLayers     = 1:108,
+                      ComparisonFun = FullNME,
+                      plotArgs      = FractionBA.Trend,
+                      ExtraArgs     = list(zTrend = TRUE))
 
 MODISSeason    = list(obsFile       = "MODIS250_q_BA_regridded0.5.nc",
                       obsVarname    = "burnt_area",
