@@ -8,14 +8,14 @@ FullMM <- function(obs, mod, name, plotArgs = NULL, extraItem = NULL,
 		
 	addExtraItem <- function(dat, maxval)
 		addLayer(dat, sumRasterNoWarn(dat)[[1]] * -1 + maxval)
-	
+    
     if (!is.null(extraItem)) {
 		obs = addExtraItem(obs, extraItem)
 		mod = addExtraItem(mod, extraItem)
 	}
     
-	obs = obs[[1:length(itemNames)]]
-	mod = mod[[1:length(itemNames)]]
+    obs = obs[[1:length(itemNames)]]
+    mod = mod[[1:length(itemNames)]]
     obs = layer.apply(obs, function(i) {i[i<0]= NaN; i})
 	
     weights = raster::area(obs)
@@ -23,8 +23,8 @@ FullMM <- function(obs, mod, name, plotArgs = NULL, extraItem = NULL,
     names(obs) = itemNames
     names(mod) = itemNames
 	
-	if (switchMod) mod = mod[[nlayers(mod):1]]
-
+    if (switchMod) mod = mod[[nlayers(mod):1]]
+    browser()
     score   = MM (obs, mod, weights)
     null    = null.MM(obs, w =  weights, n = nRRs)
 
