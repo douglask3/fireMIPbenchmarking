@@ -56,8 +56,8 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
 JUNG.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
                      dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
                                  '#FFD793', "#F07700", "#AA0000"),
-                     limits  = c(0.001,.01,.02,.05,.1,.2),
-                     dlimits = c(-0.2,-0.1,-0.5,-0.01,0.01,0.05,0.1, 0.2))
+                     limits  = c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5),
+                     dlimits = c(-0.2,-0.1,-0.5,-0.01,0.01,0.05,0.1, 0.2)*10)
 
 JUNG.IA      = list(x = 1997:2009)
 
