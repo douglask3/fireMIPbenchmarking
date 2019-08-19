@@ -1,5 +1,5 @@
 outputScores <- function(comp, name, info) {
-	
+    
     MET_test = !sapply(comp, is.null)
 	MET_test = !sapply(comp, is.null)
     TYP_test <- function(TYP) sapply(comp[MET_test],
