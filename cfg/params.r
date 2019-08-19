@@ -10,6 +10,7 @@ mask_type    = 'common'
 nRRs = 2
 #res = 0.5
 
+openOnly          = FALSE
 outputMetricFiles = FALSE
 plotModMetrics    = FALSE
 plotSummery       = FALSE
