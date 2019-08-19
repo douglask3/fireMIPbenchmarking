@@ -67,7 +67,7 @@ FractionBA.Trend = list(cols    = c('#0000AA', '#2093FF', '#C0D0FF','white',
                      limits  = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20),
                      dlimits = c(-20, -10, -5, -2, -1, 1, 2, 5, 10, 20))
 					 
-FractionBA.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
+FractionBA.Spatial = list(cols    = c('white', "#EE8811", "#FF4400", "#660000"),
                      dcols   = c('#000033', '#0066FF','white',
                                  '#FF6600',"#330000"),
                      limits  = c(0.001,.01,.02,.05,.1,.2),
