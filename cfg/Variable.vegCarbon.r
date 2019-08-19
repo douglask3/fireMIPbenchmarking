@@ -10,8 +10,8 @@ perseckg2annualg = 1/annualg2perseckg
 perseckg2Mnthg = perseckg2annualg * 12
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
-            varname  = rbind(c("cveg"  , "cVeg_50"),
-                             c(1       , 50/12       ),
+            varname  = rbind(c("cveg"  , "cveg_tc20", "cveg_tc40", "cveg_tc60", "cVeg_50"),
+                             c(1       , 50/12    ),
                              c("Monthly", "Annual"),
                              c(1997    , 1997),
                                "mean"),
