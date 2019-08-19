@@ -1,4 +1,5 @@
 loadMask <- function(obs, mod, res, varnN) {
+    mod0 = mod
     mod = mod[!sapply(mod, is.null)]	
     filename = paste(c(temp_dir, varnN, names(mod), '.nc'), collapse = '-')
     if(file.exists(filename)) return(raster(filename))
@@ -29,16 +30,18 @@ loadMask <- function(obs, mod, res, varnN) {
     if (nlayers(obs) == 1) obs = obs[[1]]
     if (!is.null(res) &&is.na(res))
 	obs = raster::resample(obs, mod[[1]])
-    	
-    mod = layer.apply(mod, function(i) {
-        if (nlayers(i) == 1) i = i[[1]]
-        raster::resample(i, obs)
-    })
 
     if (nlayers(obs) == 1) obs = obs[[1]]
+
+    if (length(mod)>0) {	
+        mod = layer.apply(mod, function(i) {
+            if (nlayers(i) == 1) i = i[[1]]
+            raster::resample(i, obs)
+        })
+        mod = layer.apply(mod, function(i) i >= 0.5 * max.raster(i, na.rm = TRUE))
+        mask = sum(mod) + is.na(obs)
+    } else  mask = is.na(obs)
     
-    mod = layer.apply(mod, function(i) i >= 0.5 * max.raster(i, na.rm = TRUE))
-    mask = sum(mod) + is.na(obs)
     
     mask = mask >  min.raster(mask, na.rm = TRUE)
     mask[is.na(mask)] = 1
