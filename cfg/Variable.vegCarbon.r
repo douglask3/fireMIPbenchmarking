@@ -76,19 +76,19 @@ cVeg_50         = list(obsFile       = "Carvalhais.cVeg_50.360.720.1-1.nc",
                        plotArgs      = cVeg.plot)
 
 cveg_tc20       = list(obsFile       = "avitabile_carbon_veg_05-remove20pc-tree.nc",
-                       obsVarname    = "test2",
+                       obsVarname    = "cVeg",
                        ComparisonFun = FullNME,
                        obsLayers     = 1:9,
                        plotArgs      = cVeg.plot)
 
 cveg_tc40       = list(obsFile       = "avitabile_carbon_veg_05-remove40pc-tree.nc",
-                       obsVarname    = "test2",
+                       obsVarname    = "cVeg",
                        ComparisonFun = FullNME,
                        obsLayers     = 1:9,
                        plotArgs      = cVeg.plot)
 
 cveg_tc60       = list(obsFile       = "avitabile_carbon_veg_05-remove60pc-tree.nc",
-                       obsVarname    = "test2",
+                       obsVarname    = "cVeg",
                        ComparisonFun = FullNME,
                        obsLayers     = 1:9,
                        plotArgs      = cVeg.plot)
