@@ -14,7 +14,7 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
             varname  = rbind(c("LAImodis", "LAIavhrr", "LAImodisMonthly", "LAIavhrrMonthly"),
                              1,
                              "Monthly",
-                             c(2001, 		1983     , 2001             , 1983),
+                             c(2001, 		2000     , 2001             , 2000),
                              'mean'),
             CLM      = rbind(c("lai", "lai", "NULL", "NULL"),
                              1/12 ,
@@ -89,3 +89,19 @@ LAImodis          = list(obsFile       = "lai_0.5x0.5_2000-2005.nc",
                          ComparisonFun = FullNME,
                          obsLayers     = 12:71,
                          plotArgs      = LAI)
+
+LAIavhrrMonthly    = list(obsFile       = "lai_0.5x0.5_1982-2009.nc",
+                         obsVarname    = "lai",
+                      obsLayers     = 228:336,
+                      ComparisonFun = FullSeasonal,
+                      plotArgs      = TRUE)
+							 
+LAIavhrr          = list(obsFile       = "lai_0.5x0.5_1982-2009.nc",
+                         obsVarname    = "lai",
+                         ComparisonFun = FullNME,
+                         obsLayers     = 228:336,
+                         plotArgs      = LAI)
+
+
+
+
