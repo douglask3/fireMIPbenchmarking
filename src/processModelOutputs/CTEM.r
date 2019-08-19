@@ -15,11 +15,11 @@ process.CTEM.level <- function(levels, files, varName, startYear,
 
     dat0 = brickLevels()
 	
-	if (grepl('CTEM',file) &  grepl('CLASS-', file)) {
-		file = findAfile(files, vegVarN)
+    if (grepl('CTEM',file) &  grepl('CLASS-', file)) {
+	file = findAfile(files, vegVarN)
         veg0 = brickLevels()[[1]]
-		dat0 = lapply(dat0, function(i) {extent(i) = extent(veg0); i})
-	}		
+	dat0 = lapply(dat0, function(i) {extent(i) = extent(veg0); i})
+    }		
 	
 	#if (grepl('CTEM',file) & !grepl('pft.nc', file)) vegVarN = NULL
 	
@@ -38,7 +38,7 @@ process.CTEM.level <- function(levels, files, varName, startYear,
 
     combineLevels <- function(i) {
         cat(i, ' ')
-		if (grepl('CTEM',file) &  grepl('CLASS-', file)) vi = floor(i/12) else vi = i
+	if (grepl('CTEM',file) &  grepl('CLASS-', file)) vi = floor(i/12) else vi = i
         if (openFrac_test) v1 = veg0[[1]][[vi]] else v1 = 1
 
         dat = noNaN(dat0[[1]][[i]]) * v1
