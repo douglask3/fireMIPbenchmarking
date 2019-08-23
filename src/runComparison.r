@@ -12,14 +12,15 @@ runComparison <- function(info, name, mod = NULL) {
     varnN = which( Model.Variable[[1]][1,] == componentID(name)[1])
     obsTemporalRes = Model.Variable[[1]][3, varnN]
     if (is.null(info$obsLayers)) obsLayers = 1 else obsLayers = info$obsLayers
+    
     simLayers = layersFrom1900(Model.Variable[[1]][4,varnN],
                                obsTemporalRes, obsLayers)
 	
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
-
+    
     if (is.null(mod))
 	mod   = openSimulations(temp_name, varnN, simLayers)
-    	
+    
     if (all(sapply(mod, is.null))) return(NULL)
     runres <- function(r = NULL) {
         print(r)
