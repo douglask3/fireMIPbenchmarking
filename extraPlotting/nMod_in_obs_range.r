@@ -1,11 +1,11 @@
 
 source('cfg.r')
-names = c('fire', 'production', "LAI")
-comparisons  = list(c("GFED4s.Spatial",  "GFAS"), c("cveg"), c("LAImodis"))
+names = c('fire', "LAI", 'production')
+comparisons  = list(c("GFED4s.Spatial",  "GFAS"), c("LAImodis"), c("cveg"))
 units =             c('frac Month-1' = '%', 'gC m-2 mn-1' = 'g C ~m-2~ ~yr-1~', 
-                      'Mg Ha-1' = 'Mg ~ha-1~', 'm2 m-2' = 'm2 ~m-2~')
+                      'm2 m-2' = '~m2~ ~m-2~', 'Mg Ha-1' = 'Mg ~ha-1~')
 startYear    =      c(1998, 2000, 1997, 2001)
-timestep     =      c('Months', 'Months', 'Years', 'Months')
+timestep     =      c('Months', 'Months', 'Months', 'Years')
 plotSeason   =      c(TRUE            ,  FALSE , FALSE, FALSE)
 titles       = list(list(c('a) GFED4s burnt area', 
 			   'g) Simulated burnt area', 
@@ -19,12 +19,12 @@ titles       = list(list(c('a) GFED4s burnt area',
 		    list(c('d) GFAS fire emissions', 
 			   'j) Simulated fire emissions',
                            'p) Performance in fire emissions')),		
-		    list(c('e) Avitabile vegetative carbon',
-			   'k) Simulated vegetative carbon',
-			   'q) Performance in vegetative carbon')),
-                    list(c('f) MODIS Leaf Area Index',
-                           'l) Simulated Lead Area Index',
-                           'r) Performance in Leaf Area Index')))
+		    list(c('e) MODIS Leaf Area Index',
+			   'k) Simulated Lead Area Index',
+			   'q) Performance in Leaf Area Index')),
+                    list(c('f) Avitabile vegetative carbon',
+                           'l) Simulated vegetative carbon',
+                           'r) Performance in vegetative carbon')))
 
 
 
@@ -35,7 +35,7 @@ res = 0.5
 openOnly = TRUE
 range = c(1.2, 2.0, 3.0, 5.0)
 range = 5
-e_lims = list(c(0.5, 1))
+e_lims = list(c(1, 1))
 
 nmodLims  = seq(10, 90, 10)
 nmodeCols = rev(c('#276419', '#4d9221', '#7fbc41', '#b8e186',# '#f7f7f7',)
@@ -44,19 +44,20 @@ nmodeCols = rev(c('#276419', '#4d9221', '#7fbc41', '#b8e186',# '#f7f7f7',)
 source('run.r')
 limits = list(GFED4s.Spatial$plotArgs$limits*100,
 		   GFAS$plotArgs$limits,
-		   cveg$plotArgs$limits,
-                   LAImodis$plotArgs$limits)
+                   LAImodis$plotArgs$limits,
+		   cveg$plotArgs$limits)
 		   
 cols   = list(GFED4s.Spatial$plotArgs$cols,
 		   GFAS$plotArgs$cols,
-		   cveg$plotArgs$cols,
-                   LAImodis$plotArgs$cols)
+                   LAImodis$plotArgs$cols,
+		   cveg$plotArgs$cols)
 
 if (length(names) > 1) out = unlist(out, recursive = FALSE)
 
 plotAgreement <- function(x, txt, limits = nmodLims, cols = nmodeCols, e_lims, ...) {
+        ePatternRes = 32.5/res(x)[1]
 	plotStandardMap(x, '',  limits = limits, cols = cols,
-			add_legend = FALSE, e_polygon = FALSE, ePatternRes = 65, 
+			add_legend = FALSE, e_polygon = FALSE, ePatternRes = ePatternRes, 
 					ePatternThick = 0.9, limits_error = e_lims, ...)
 	mtext(txt, side = 3, adj = 0.1, line = -1.2)
 }
@@ -249,7 +250,7 @@ meanRaster.scaling <- function(r) {
 }
 
 scaleOut <- function(r) {
-    obs_sc = meanRaster.scaling(r[[1]][[1]])
+    obs_sc = meanRaster.scaling(r[[1]])
     rescale <- function(ri) {
         if (is.null(ri)) return(NULL)
         ri = mean(ri)
@@ -258,7 +259,7 @@ scaleOut <- function(r) {
         ri = ri * obs_sc / mod_sc
         return(ri)
     }
-    r[[1]][[2]] = lapply(r[[1]][[2]], rescale)
+    r[[2]] = lapply(r[[2]], rescale)
     return(r)
 }
 
