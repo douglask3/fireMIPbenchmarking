@@ -10,44 +10,45 @@ perseckg2annualg = 1/annualg2perseckg
 perseckg2Mnthg = perseckg2annualg * 12
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
-            varname  = rbind(c("cveg"  , "cveg_tc20", "cveg_tc40", "cveg_tc60", "cVeg_50"),
-                             c(1       , 50/12    ),
-                             c("Monthly", "Annual"),
-                             c(1997    , 1997),
+            varname  = rbind(c("avitabile_cveg" , "avitabile_cveg_tc20" , "avitabile_cveg_tc40" , "avitabile_cveg_tc60" , 
+                               "carvalhais_cveg", "carvalhais_cveg_tc20", "carvalhais_cveg_tc40", "carvalhais_cveg_tc60"),
+                             c(rep(1, 4)       , rep(50/12, 4)),
+                             c(rep("Monthly", 4), rep("Annual",4)),
+                             1997,
                                "mean"),
-            CLM      = rbind(rep("cVeg"  , 5),
+            CLM      = rbind(rep("cVeg"  , 8),
                              0.1,                   
                              1950,
                              'Monthly'),
-            CTEM     = rbind(rep("cVeg"  , 5),
+            CTEM     = rbind(rep("cVeg"  , 8),
                              0.1,                   
                              1860,
                              "Monthly"),
-            INFERNO  = rbind(rep("cVeg"  , 5),
+            INFERNO  = rbind(rep("cVeg"  , 8),
                              0.05,                   
                              1700,
                              "Monthly"),
-            JSBACH   = rbind(rep("cVeg"  , 5),
+            JSBACH   = rbind(rep("cVeg"  , 8),
                              1,                   
                              1950,
                              "Monthly"),
-            LPJglob  = rbind(rep("cVeg"  , 5),
+            LPJglob  = rbind(rep("cVeg"  , 8),
                              0.01,                   
                              1700,
                              "Annual"),
-            LPJspit  = rbind(rep("cVeg"  , 5),
+            LPJspit  = rbind(rep("cVeg"  , 8),
                              0.01,                   
                              1700,
                              "Annual"),
-            LPJblze  = rbind(rep("cVeg"  , 5),
+            LPJblze  = rbind(rep("cVeg"  , 8),
                              0.01,                   
                              1700,
                              "Annual"),
-            MC2      = rbind(rep("cVeg"  , 5),
+            MC2      = rbind(rep("cVeg"  , 8),
                              0.01,                   
                              1900,
                              "Annual"),
-            ORCHIDEE = rbind(rep("cVeg"  , 5),
+            ORCHIDEE = rbind(rep("cVeg"  , 8),
                              1,                   
                              1700,
                              "Monthly"))
@@ -69,32 +70,52 @@ cVeg.plot             = list(cols    = c('white',"#BBBB00","#CCCC00",
 ################################################################################
 
 ## cveg
-cVeg_50         = list(obsFile       = "Carvalhais.cVeg_50.360.720.1-1.nc",
-                       obsVarname    = "cVeg_50",
-                       ComparisonFun = FullNME,
-                       obsLayers     = 1:9,
-                       plotArgs      = cVeg.plot)
+carvalhais_cveg      = list(obsFile       = "Carvalhais.cVeg_50.360.720.1-1.nc",
+                            obsVarname    = "cVeg_50",
+                            ComparisonFun = FullNME,
+                            obsLayers     = 1:9,
+                            plotArgs      = cVeg.plot)
 
-cveg_tc20       = list(obsFile       = "avitabile_carbon_veg_05-remove20pc-tree.nc",
-                       obsVarname    = "cVeg",
-                       ComparisonFun = FullNME,
-                       obsLayers     = 1:9,
-                       plotArgs      = cVeg.plot)
+carvalhais_cveg_tc20 = list(obsFile       = "Carvalhais.cVeg_50.360.720.1-1-remove20pc-tree.nc",
+                            obsVarname    = "cVeg",
+                            ComparisonFun = FullNME,
+                            obsLayers     = 1:9,
+                            plotArgs      = cVeg.plot)
 
-cveg_tc40       = list(obsFile       = "avitabile_carbon_veg_05-remove40pc-tree.nc",
-                       obsVarname    = "cVeg",
-                       ComparisonFun = FullNME,
-                       obsLayers     = 1:9,
-                       plotArgs      = cVeg.plot)
+carvalhais_cveg_tc40 = list(obsFile       = "Carvalhais.cVeg_50.360.720.1-1-remove40pc-tree.nc",
+                            obsVarname    = "cVeg",
+                            ComparisonFun = FullNME,
+                            obsLayers     = 1:9,
+                            plotArgs      = cVeg.plot)
 
-cveg_tc60       = list(obsFile       = "avitabile_carbon_veg_05-remove60pc-tree.nc",
-                       obsVarname    = "cVeg",
-                       ComparisonFun = FullNME,
-                       obsLayers     = 1:9,
-                       plotArgs      = cVeg.plot)
+carvalhais_cveg_tc60 = list(obsFile       = "Carvalhais.cVeg_50.360.720.1-1-remove60pc-tree.nc",
+                            obsVarname    = "cVeg",
+                            ComparisonFun = FullNME,
+                            obsLayers     = 1:9,
+                            plotArgs      = cVeg.plot)
 
-cveg            = list(obsFile       = "avitabile_carbon_veg_05.nc",
-                       obsVarname    = "test2",
-                       ComparisonFun = FullNME,
-                       obsLayers     = 1:9,
-                       plotArgs      = cVeg.plot)
+avitabile_cveg       = list(obsFile       = "avitabile_carbon_veg_05.nc",
+                            obsVarname    = "test2",
+                            ComparisonFun = FullNME,
+                            obsLayers     = 1:9,
+                            plotArgs      = cVeg.plot)
+
+avitabile_cveg_tc20  = list(obsFile       = "avitabile_carbon_veg_05-remove20pc-tree.nc",
+                            obsVarname    = "cVeg",
+                            ComparisonFun = FullNME,
+                            obsLayers     = 1:9,
+                            plotArgs      = cVeg.plot)
+
+avitabile_cveg_tc40  = list(obsFile       = "avitabile_carbon_veg_05-remove40pc-tree.nc",
+                            obsVarname    = "cVeg",
+                            ComparisonFun = FullNME,
+                            obsLayers     = 1:9,
+                            plotArgs      = cVeg.plot)
+
+avitabile_cveg_tc60  = list(obsFile       = "avitabile_carbon_veg_05-remove60pc-tree.nc",
+                            obsVarname    = "cVeg",
+                            ComparisonFun = FullNME,
+                            obsLayers     = 1:9,
+                            plotArgs      = cVeg.plot)
+
+
