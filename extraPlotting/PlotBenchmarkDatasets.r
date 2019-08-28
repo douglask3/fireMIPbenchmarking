@@ -3,7 +3,7 @@ sourceAllLibs("cfg/")
 
 dir = 'data/benchmarkData/'
 
-temp_file = 'temp/benchmarkDatasetFigures2.Rd'
+temp_file = 'temp/benchmarkDatasetFigures3.Rd'
 
 pnames = list(c("a) GFED4s burnt area"    , 'b) GFED4s seasonal phase'    , 'c) GFED4s seasonal concentration'     ),
               c("d) GFED4 burnt area"     , 'e) GFED4 seasonal phase'     , 'f) GFED4 seasonal concentration'      ),
@@ -15,35 +15,39 @@ pnames = list(c("a) GFED4s burnt area"    , 'b) GFED4s seasonal phase'    , 'c) 
               c('u) Hantson mean fire size'),
               c('v) MODIS leaf area index'), 
               c("w) AVHRR leaf area index"),
-              c('x) Avitabile vegetative carbon'),
-              c("y) Jung GPP", 'z) Jung seasonal phase', 'aa) Jung seasonal concentration'     ),
-              c("ab) Site GPP"), 
-              c("ac) Michaletz NPP"),
-              c("ad) Site NPP"),
-              c("ae) EDI NPP"))
+              c('ad) Avitabile vegetative carbon'),
+              c('ae) Carvalhais biomass carbon'),
+              c("z) Jung GPP", 'y) Jung seasonal phase', 'z) Jung seasonal concentration'),
+              c("aa) Site GPP"), 
+              c("ab) Michaletz NPP"),
+              c("ac) Site NPP"),
+              c("af) EMDI NPP"))
 
 pnameIAVplot = 's) Fire interannual variablity'
 
 files = c('GFED4s_v2.nc', 'GFED4.nc', 'MCD45.nc', 'meris.nc', 'MODIS250_q_BA_regridded0.5.nc',
           'GFAS.nc', 'NRfire-nr_fire.nc', 'NRfire-mean_fire.nc',
           'lai_0.5x0.5_2000-2005.nc', 'lai_0.5x0.5_1982-2009.nc', 'avitabile_carbon_veg_05.nc',
+          'Carvalhais.cVeg_50.360.720.1-1.nc',
           'CRUNCEPv6.ANN.GPP.monthly.1980_2013.nc', 'GPP6.csv', 'NNP_Michaletz_2014_single.csv',
           'NPP.csv', 'EMDI_NPP.csv')
 
 scale = c(rep(12*100, 5),
           12*60 * 60 *24*30*1000, 1, 1, 
           1, 1,1,
+          1/50,
           1000, 1, 1, 
           1, 1)
 
 isSeasonal = c(TRUE, TRUE, TRUE, TRUE, TRUE,
                TRUE, FALSE, FALSE, 
-               FALSE, FALSE, FALSE, 
+               FALSE, FALSE, FALSE, FALSE,
                TRUE, FALSE, FALSE, FALSE, FALSE)
 
 isIAV      = list(TRUE, TRUE, TRUE, FALSE, TRUE, 
                   TRUE, FALSE, FALSE, 
-                  FALSE, FALSE, FALSE,          
+                  FALSE, FALSE, FALSE,
+                  FALSE,          
                   FALSE, FALSE, FALSE, 
                   FALSE, FALSE)
 
@@ -51,41 +55,44 @@ startYr   = c(1998, 1998, 2006, 2001, 2001,
               2001, NaN, NaN,
               NaN, NaN, NaN,
               NaN, NaN, NaN,
-              NaN, NaN)
+              NaN, NaN, NaN)
 
 line_col = c('red', 'orange', 'cyan', 'blue', '#330033',
              'black', NaN, NaN,
               NaN, NaN, NaN,
               NaN, NaN, NaN,
-              NaN, NaN)
+              NaN, NaN, NaN)
 
 line_lty = c(1, 1, 1, 1, 1, 
              2, NaN, NaN,
               NaN, NaN, NaN,
               NaN, NaN, NaN,
-              NaN, NaN)
+              NaN, NaN, NaN)
 
 layers    = list(1:204, 1:204, 1:96, 1:36, 1:156,       
                  1:175, 1, 1, 
                  12:71, 228:336, 1,
+                 1,
                  1:360, NULL,NULL,
                  NULL, NULL)
 
 addLegend = c(FALSE, FALSE, FALSE, FALSE, NA, 
               TRUE, TRUE, TRUE,
               TRUE, TRUE, TRUE, 
-              TRUE, TRUE, FALSE, 
+              TRUE, TRUE, TRUE, FALSE, 
               FALSE, TRUE) 
 
 extend_max = list(NULL, NULL, NULL, NULL, FALSE, 
                   TRUE, TRUE, TRUE,
                   TRUE, TRUE, TRUE, 
+                  TRUE,
                   TRUE, TRUE, NULL, 
                   NULL, TRUE) 
 
 maxLab     = list(NULL, NULL, NULL, NULL, 100, 
                   NULL, NULL, NULL,
                   NULL, NULL, NULL,
+                  NULL,
                   NULL, NULL, NULL,
                   NULL, NULL) 
 
@@ -93,6 +100,7 @@ BA_limits = GFED4s.Spatial$plotArgs$limits*100
 limits = list(BA_limits, BA_limits, BA_limits, BA_limits, BA_limits,
 	      GFAS$plotArgs$limits, NRfire$plotArgs$limits, meanFire$plotArgs$limits,
               LAImodis$plotArgs$limits,  LAImodis$plotArgs$limits, cveg$plotArgs$limits,
+              cveg$plotArgs$limits,
               GPP$limits, GPP$limits, NPP$limits,
               NPP$limits, NPP$limits)
 
@@ -102,6 +110,7 @@ BA_cols = GFED4s.Spatial$plotArgs$cols
 cols = list(BA_cols, BA_cols, BA_cols, BA_cols, BA_cols,
 	      GFAS$plotArgs$cols, NRfire$plotArgs$cols, meanFire$plotArgs$cols,
               LAImodis$plotArgs$cols,  LAImodis$plotArgs$cols, cveg$plotArgs$cols,
+              cveg$plotArgs$cols,
               GPP$cols, GPP$cols, NPP$cols,
               NPP$cols, NPP$cols)
 
@@ -159,7 +168,7 @@ plotLegend <- function(cols, limits, plot_loc = c(0.35, 0.85, 0.03, 0.06), ...) 
 }
 
 lmat = t(matrix(1:18, nrow = 3))
-lmat = rbind(lmat, c(31, 19, 20),21:23, c(24,25,26), 27:29, c(0, 0, 30)) 
+lmat = rbind(lmat, c(32, 19, 20),21:23, c(24,25,0), 28:30, c(26, 27, 31)) 
 png('figs/BenchmarkFig.png', height = 18, width = 10, units = 'in', res = 300)
 layout(lmat)
 par(mar = rep(0,4))
