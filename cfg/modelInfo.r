@@ -1,14 +1,16 @@
 ################################################################################
 ## Model I/O                                                                  ##
 ################################################################################
-Model.RAW = list(      #DIR                 #Processing			
-			Mort4.3    = c('JULES-ES-INFERNO-Mort4.3'   , process.jules   ),
-			Emissions3 = c('JULES-ES-INFERNO-Emissions3', process.jules   ))
+Model.RAW = list(#DIR                 #Processing
+                 "u-bl106_5"= c('u-bl106_5'                  , process.jules),		
+		 Mort4.3    = c('JULES-ES-INFERNO-Mort4.3'   , process.jules),
+		 Emissions3 = c('JULES-ES-INFERNO-Emissions3', process.jules))
 
 ################################################################################
 ## Model plotting                                                             ##
 ################################################################################
 Model.plotting = rbind( #Title            #Colour
+			"u-bl106_5"= c("u-bl106_5"       , 'black'  ),   
 			Mort4.3    = c('Mort4.3'         , 'blue'   ),
 			Emissions3 = c('Emissions3'      , 'green'  ))
 
