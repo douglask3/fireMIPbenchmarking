@@ -55,7 +55,7 @@ cols   = list(GFED4s.Spatial$plotArgs$cols,
 if (length(names) > 1) out = unlist(out, recursive = FALSE)
 
 plotAgreement <- function(x, txt, limits = nmodLims, cols = nmodeCols, e_lims, ...) {
-        ePatternRes = 32.5/res(x)[1]
+        ePatternRes = (3/2) * 32.5/res(x)[1]
 	plotStandardMap(x, '',  limits = limits, cols = cols,
 			add_legend = FALSE, e_polygon = FALSE, ePatternRes = ePatternRes, 
 					ePatternThick = 0.9, limits_error = e_lims, ...)
@@ -175,7 +175,7 @@ plotSeasonalNmod <- function(dat, txt, index, range, e_lims, ...) {
 	nmod = mean(modC >= lower & modC <= upper, na.rm = TRUE) * 100
 	plotAgreement(nmod, txt[[3]][3], e_lims = e_lims)
 	
-	plotLegend(SeasonConcCols, SeasonConcLimits, maxLab = 100)#, e_lims = e_lims)
+	plotLegend(SeasonConcCols, SeasonConcLimits, maxLab = 1)#, e_lims = e_lims)
 }
 
 
