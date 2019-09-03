@@ -25,9 +25,6 @@ titles       = list(list(c('a) GFED4s burnt area',
                     list(c('f) Avitabile vegetative carbon',
                            'l) Simulated vegetative carbon',
                            'r) Performance in vegetative carbon')))
-
-
-
 		   
 scale  = c(1200, 12, 1, 1)
 						   
@@ -55,10 +52,10 @@ cols   = list(GFED4s.Spatial$plotArgs$cols,
 if (length(names) > 1) out = unlist(out, recursive = FALSE)
 
 plotAgreement <- function(x, txt, limits = nmodLims, cols = nmodeCols, e_lims, ...) {
-        ePatternRes = (3/2) * 32.5/res(x)[1]
+        ePatternRes = (4/3) * 32.5/res(x)[1]
 	plotStandardMap(x, '',  limits = limits, cols = cols,
 			add_legend = FALSE, e_polygon = FALSE, ePatternRes = ePatternRes, 
-					ePatternThick = 0.9, limits_error = e_lims, ...)
+					ePatternThick = 0.7, limits_error = e_lims, ...)
 	mtext(txt, side = 3, adj = 0.1, line = -1.2)
 }
 
