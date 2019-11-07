@@ -49,8 +49,8 @@ plot_dataset <- function(rs, name) {
             r = mean(r)
         } else e = NULL
         plotStandardMap(r * 12 * 100, limits = limits, 
-                        e = e, e_polygon = FALSE, ePatternRes = 50, 
-			ePatternThick = 0.5, limits_error = e_lims,
+                        e = e, e_polygon = FALSE, ePatternRes = (4/3) * 32.5/res(r)[1], 
+			ePatternThick = 0.7, limits_error = e_lims,
                         cols = cols, txt = '', add_legend = FALSE)
         mtext(txt, adj = 0.1)
     }
@@ -72,6 +72,6 @@ obs = layer.apply(outc, function(i) i[[1]])
 mod = layers2list(outc[[1]][[-1]])
 
 out = c(obs, mod)
-plot_dataset(out, 'combined')
+plot_dataset(out, 'Mean observed')
 
 
