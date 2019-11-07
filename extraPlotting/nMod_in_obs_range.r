@@ -1,7 +1,7 @@
 
 source('cfg.r')
-names = c('fire', "LAI", 'production')
-comparisons  = list(c("GFED4s.Spatial",  "GFAS"), c("LAImodis"), c("cveg"))
+names = c('fire', "LAI", 'vegCarbon')
+comparisons  = list(c("GFED4s.Spatial",  "GFAS"), c("LAImodis"), c("carvalhais_cveg"))
 units =             c('frac Month-1' = '%', 'gC m-2 mn-1' = 'g C ~m-2~ ~yr-1~', 
                       'm2 m-2' = '~m2~ ~m-2~', 'Mg Ha-1' = 'Mg ~ha-1~')
 startYear    =      c(1998, 2000, 1997, 2001)
@@ -22,11 +22,11 @@ titles       = list(list(c('a) GFED4s burnt area',
 		    list(c('e) MODIS Leaf Area Index',
 			   'k) Simulated Lead Area Index',
 			   'q) Performance in Leaf Area Index')),
-                    list(c('f) Avitabile vegetative carbon',
+                    list(c('f) Carvalhais vegetative carbon',
                            'l) Simulated vegetative carbon',
                            'r) Performance in vegetative carbon')))
 		   
-scale  = c(1200, 12, 1, 1)
+scale  = list(1200, 12, 1, c(12/120, 1/12))
 						   
 res = 0.5
 openOnly = TRUE
@@ -67,7 +67,7 @@ plotLegend <- function(cols, limits, plot_loc = c(0.3, 0.7, 0.7, 0.9), ...) {
 
 plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale,
                             varunit, units, startYear, timestep, e_lims, ...) {
-        if (FALSE) {
+    if (FALSE) {
         fnames = sapply(txt[[1]], function(i) strsplit(i, ') ')[[1]][2])
         vname  = paste(strsplit(fnames[1], ' ')[[1]][-1], collapse = '_')
 
@@ -89,10 +89,11 @@ plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale,
 
         fnames = paste0(dir, names(dat[[2]]), '-', fnames[2])
         mapply(writeOut, dat[[2]], fnames)
-        }
-	obs = mean(dat[[1]][[index]])
+    }
+    if (length(scale) == 1) scale = rep(scale, 2)
+    obs = mean(dat[[1]][[index]])
 	
-	plotAgreement(obs * scale, txt[[1]][1], limits, cols)
+    plotAgreement(obs * scale[1], txt[[1]][1], limits, cols)
 	
         MeanFun <- function(r) {
             index = index[sapply(index, function(i) any(i == 1:nlayers(r)))]
@@ -101,7 +102,7 @@ plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale,
 	mod = layer.apply(dat[[2]], MeanFun)
         mn = mean(mod, na.rm = TRUE)
         mn[is.na(obs)] = NaN
-	plotAgreement(mn * scale, txt[[1]][2], limits, cols,
+	plotAgreement(mn * scale[2], txt[[1]][2], limits, cols,
 				  e = sd.raster(mod), e_lims = e_lims)
 	
 	lower = obs / range
