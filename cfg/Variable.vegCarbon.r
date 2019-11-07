@@ -58,7 +58,7 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
 ## Plotting Info                                                              ##
 ################################################################################
 
-cVeg.plot             = list(cols    = c('white',"#BBBB00","#CCCC00",
+cVeg.plot             = list(cols    = c('white',"#BBFF00","#CCCC00",
                                          "#111100"),
                              dcols   = c('#000099','#0000FF','#CCCCFF','white',
                                         '#FFFF00',"#CCCC00","#444400"),
