@@ -42,12 +42,12 @@ source('run.r')
 limits = list(GFED4s.Spatial$plotArgs$limits*100,
 		   GFAS$plotArgs$limits,
                    LAImodis$plotArgs$limits,
-		   cveg$plotArgs$limits)
+		   carvalhais_cveg$plotArgs$limits)
 		   
 cols   = list(GFED4s.Spatial$plotArgs$cols,
 		   GFAS$plotArgs$cols,
                    LAImodis$plotArgs$cols,
-		   cveg$plotArgs$cols)
+		   carvalhais_cveg$plotArgs$cols)
 
 if (length(names) > 1) out = unlist(out, recursive = FALSE)
 
@@ -67,13 +67,13 @@ plotLegend <- function(cols, limits, plot_loc = c(0.3, 0.7, 0.7, 0.9), ...) {
 
 plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale,
                             varunit, units, startYear, timestep, e_lims, ...) {
-    if (FALSE) {
+    if (TRUE) {
         fnames = sapply(txt[[1]], function(i) strsplit(i, ') ')[[1]][2])
         vname  = paste(strsplit(fnames[1], ' ')[[1]][-1], collapse = '_')
-
+        
         dir = paste0('outputs/', vname, '/')
         makeDir(dir)
-
+        
         fnames = gsub(' ', '_', fnames, fixed = TRUE)
         fnames[1] = paste0(dir, fnames[1])
 
@@ -84,7 +84,12 @@ plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale,
             writeRaster.gitInfo(r, file = fname, varname = vname, varunit = varunit, 
                                 zname = zname, overwrite = TRUE)
         }
-
+        mask = layer.apply(dat[[2]], function(i) i[[1]])
+        mask = sum(is.na(addLayer(mask, dat[[1]][[1]])))
+        mask = mask > min.raster(mask)
+        dat0 = dat
+        dat[[1]][mask] = NaN
+        dat[[2]] = lapply(dat[[2]], function(i) {i[mask] = NaN; i})
         writeOut(dat[[1]], fnames[1])
 
         fnames = paste0(dir, names(dat[[2]]), '-', fnames[2])
@@ -100,6 +105,7 @@ plotSpatialNmod <- function(dat, txt, index, limits, cols, range, scale,
             return(mean(r[[index]]))
         }
 	mod = layer.apply(dat[[2]], MeanFun)
+        
         mn = mean(mod, na.rm = TRUE)
         mn[is.na(obs)] = NaN
 	plotAgreement(mn * scale[2], txt[[1]][2], limits, cols,
@@ -283,3 +289,78 @@ png(fname, height = 2.1 * nrow, width = 10, unit = 'in', res = 300)
                timestep = timestep, MoreArgs = list(range = r, e_lims = e_lims[[1]]))			   
 dev.off()#.gitWatermarkStandard()
 
+
+
+
+names = c('fire', "LAI", 'vegCarbon', 'Jung')
+comparisons  = list(c("GFED4s.Spatial",  "GFED4.Spatial", "MODIS.Spatial",
+                      "meris.Spatial", "MCD45.Spatial"),
+                    c("LAImodis", "LAIavhrr"),
+                    c("carvalhais_cveg", "avitabile_cveg"),
+                    c("ANN_GPP_HB.Spatial"))
+units =             c(rep('frac Month-1' = '%', 5), 
+                      rep('m2 m-2' = '~m2~ ~m-2~', 2),
+                      rep('Mg Ha-1' = 'Mg ~ha-1~', 2),
+                      rep('g m-2 Month-1' = 'g ~m-2~, ~month-1~', 1))
+startYear    =      c(1998, 1997, 2006, 2001, 2001, 2001, 2000, 1997)
+timestep     =      c(rep('Months', 5),
+                      rep('Months', 2),
+                      rep('Years', 2),
+                      rep('Months', 1))
+plotSeason   =       FALSE
+
+##Here!!
+titles       = list(list(c('a) Obs GFED4s burnt area', 
+			   'b) Simulated burnt area', 
+			   'c) Performance in burnt area'),
+			 c('d) Obs GFED4 burnt area', 
+			   'e) Simulated burnt area',    
+			   'f) Performance in burnt area'),
+			 c('g) Obs MODIS burnt area',
+  			   'h) Simulated burnt area', 
+			   'i) Performance in burnt area'),
+                         c('j) Obs MERIS burnt area',
+  			   'k) Simulated burnt area', 
+			   'l) Performance in burnt area'),
+                         c('m) Obs MCD45 burnt area',
+  			   'n) Simulated burnt area', 
+			   'o) Performance in burnt area')),		
+		    list(c('p) Obs MODIS Leaf Area Index',
+			   'q) Simulated Lead Area Index',
+			   'r) Performance in Leaf Area Index'),
+                         c('s) Obs AVHRR Leaf Area Index',
+			   't) Simulated Lead Area Index',
+			   'u) Performance in Leaf Area Index')),
+                    list(c('v) Obs Carvalhais vegetative carbon',
+                           'w) Simulated vegetative carbon',
+                           'x) Performance in vegetative carbon'),
+                         c('y) Obs Avitabile vegetative carbon',
+                           'z) Simulated vegetative carbon',
+                           'aa) Performance in vegetative carbon')),
+                    list(c('ab) Obs JUNG GPP',
+                           'ac) Simulated GPP',
+                           'ad) Performance in GPP')))
+
+scale  = list(1200, 1200, 1200, 1200, 1200, 1, c(12/120, 1/12), c(12/120, 1/12), 12)
+						   
+res = 0.5
+openOnly = TRUE
+range = 5
+e_lims = list(c(1, 1))
+
+nmodLims  = seq(10, 90, 10)
+nmodeCols = rev(c('#276419', '#4d9221', '#7fbc41', '#b8e186',# '#f7f7f7',)
+              '#f1b6da', '#de77ae', '#c51b7d', '#8e0152'))
+
+
+source('run.r')
+png('figs/nMod-MultiDatatsets.png', height = 2 * nrow, width = 10, unit = 'in', res = 300)
+
+    layout( t(matrix(1:60, nrow = 3)), heights =rep(c(1, 0.2), 10))
+    par(mar = rep(0, 4), oma = c(0, 0, 2, 0))
+		
+    mapply(plotVariable, out, plotSeason, titles, limits, cols, c(F, F, F, T), 
+            scale = scale, varunit = names(units), units = units, startYear = startYear,
+            timestep = timestep, 
+            MoreArgs = list(range = r, e_lims = es))			   
+dev.off()#.gitWatermarkStandard()
