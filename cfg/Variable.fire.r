@@ -55,8 +55,8 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - timest
 ## Plotting Info                                                              ##
 ################################################################################
 FractionBA.Spatial = list(cols    = c('white', "#EE8811", "#FF0000", "#110000"),
-                     dcols   = c('#0000AA', '#2093FF', '#C0D0FF','white',
-                                 '#FFD793', "#F07700", "#AA0000"),
+                     dcols   = c('#a50026','#d73027','#f46d43','#fdae61','#fee090','#ffffbf','#e0f3f8','#abd9e9','#74add1','#4575b4','#313695'),#c('#0000AA', '#2093FF', '#C0D0FF','white',
+                                # '#FFD793', "#F07700", "#AA0000"),
                      limits  = c(0.001,.01,.02,.05,.1,.2),
                      dlimits = c(-0.2,-0.1,-0.05,-0.01,0.01,0.05,0.1, 0.2))
 					 

@@ -26,7 +26,8 @@ runComparison <- function(info, name, mod = NULL) {
         print(r)
         
 	if (!is.null(r)) temp_name = paste(temp_name,'__res-', r, sep = '')
-    	mask  = loadMask(obs, mod, r, temp_name)	
+    	mask  = loadMask(obs, mod, r, temp_name)
+        
 	c(obs, mod) := remask(obs, mod, mask, r)
 		
 	obs = scaleMod(obs, Model.Variable[[1]], varnN)

@@ -4,6 +4,7 @@ process.LPJ <- function(files, varName, levels, ...) {
 	else if (all(is.na(levels)))
 	    dat = process.default(files, varName, levels, ...)
 	else dat = layer.apply(levels, process.LPJ.level, files, varName, ...)
+    
     return(dat)	
 }
 
@@ -40,8 +41,18 @@ process.LPJ.level <- function(levels, files, varName, startYear,
    
     file = findAfile(files, varName)
     if (noFileWarning(files, varName)) return(NULL)
-	
+    dat = brick(file)
     
+    if (ncol(dat) == 720 && nrow(dat) ==360)	{
+        dat = dat[[layers]]
+        return(dat)
+    }
+    if (all(res(dat)==0.5)) {
+        dat = dat[[layers]]
+        dat = raster::extend(dat, extent(c(-180, 180, -90, 90)))
+        return(dat)
+    }
+    browser()
     dat = brickLevels()
     nc =  nrow(dat[[1]])
     if (levels == "all") {
@@ -70,9 +81,9 @@ process.LPJ.level <- function(levels, files, varName, startYear,
     }	
 	
     dat = layer.apply(levels, buildLevels)
-	
+    browser()
     if (is.null(combine)) return(c(dat, nlevelJump)) 
-	
+    	
     dat = combineLayers(dat, 'sum')
 	
     return(dat)

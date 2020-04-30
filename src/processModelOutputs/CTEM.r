@@ -40,11 +40,15 @@ process.CTEM.level <- function(levels, files, varName, startYear,
         cat(i, ' ')
 	if (grepl('CTEM',file) &  grepl('CLASS-', file)) vi = floor(i/12) else vi = i
         if (openFrac_test) v1 = veg0[[1]][[vi]] else v1 = 1
-
-        dat = noNaN(dat0[[1]][[i]]) * v1
-        for (j in 2:(length(levels))) {
-            if (openFrac_test) v2 = veg0[[j]][[vi]] else v2 = 1
-            dat = dat + noNaN(dat0[[j]][[i]]) * v2
+        
+        if (varName == "mrso" && length(dat0) == 1) {
+            dat =  noNaN(dat0[[1]][[i]])
+        } else {
+            dat = noNaN(dat0[[1]][[i]]) * v1
+            for (j in 2:(length(levels))) {
+                if (openFrac_test) v2 = veg0[[j]][[vi]] else v2 = 1
+                dat = dat + noNaN(dat0[[j]][[i]]) * v2
+            }
         }
         if (!is.null(mask)) dat[is.na(mask)] = NaN
         dat = convert_pacific_centric_2_regular(dat)
