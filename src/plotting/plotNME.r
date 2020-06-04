@@ -13,28 +13,34 @@ plotNME.spatial <- function(obs, mod, ...) {
     return(list(c(f1, f2, f3), c(map1, map2, map3)))
 }
 
+plotNME.spatial.gradient <- function(obs, modm , ...) {
+	browser()
+}
+
 plotNME.spatial.stepN <- function(mod, obs, step, name, cols, dcols, metricCols = NMEmap_cols, 
                                   limits, dlimits, metricLimits = NULL, 
-								  figOut = TRUE, plotObs = TRUE, denomNormFun = sum.raster, ...) {
+								  figOut = TRUE, plotObs = TRUE, denomNormFun = sum.raster, diff1 = NULL, diff2 = NULL, ...) {
 
     stepN   = paste("step", step, sep = '')
     if (figOut) { 
 		figName = setupPlotStandardMap(paste(name, stepN, sep = '-'), 2, 2)
-		labs = c('obs', 'mod', 'mod - obs', paste('NME relative contributions -', stepN))
+		labs = c('obs', 'mod', 'mod - obs', paste('NME relative contributions -', stepN), 'vs null mods')
 		add_legend = TRUE
 	} else {
-		labs = rep('', 4)
+		labs = rep('', 5)
 		add_legend = FALSE
 	}
 	
-	NMEs = mapNME(mod, obs, denomNormFun)
+	if (is.null(diff1)) diff1 = mod - obs
+	if (is.null(diff2)) NMEs = mapNME(mod, obs, denomNormFun) else NMEs = diff2
 	
 	if(plotObs) plotStandardMap(obs, labs[1], limits, cols, add_legend = add_legend)
     plotStandardMap( mod, labs[2], limits, cols, add_legend = add_legend)
 	if (!figOut) mtext(name, side = 2, line = -1)
-    plotStandardMap(mod - obs, labs[3], dlimits, dcols, add_legend = add_legend)
+    plotStandardMap(diff1, labs[3], dlimits, dcols, add_legend = add_legend)
 	
-    plotStandardMetricMap(NMEs, labs[4], metricLimits, cols = metricCols, add_legend = add_legend)
+    plotStandardMetricMap(NMEs, labs[4], c(0.1, 0.2, 0.5, 1, 2, 5, 20), cols = cols, add_legend = add_legend)
+    plotStandardMetricMap(NMEs, labs[5], metricLimits, cols = metricCols, add_legend = add_legend)
 
     if (figOut) dev.off.annotate(paste(name, stepN))
 	else figName = NULL 

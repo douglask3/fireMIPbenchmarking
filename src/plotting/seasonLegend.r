@@ -1,6 +1,6 @@
 SeasonLegend <- function(limits, cols, add = FALSE, plot_loc, dat, e_lims = NULL,
                          mnthLabs = 1:12,
-                         mar = c(4,0,0,0),labR = 0.87,
+                         mar = c(0,0,0,0),labR = 0.87,
                          MonLetters = c('J','F','M','A','M','J','J','A','S','O','N','D'),
 						 xp = 1.0, yp = 0.13, radius = 0.11,
                          ...) {
@@ -8,12 +8,12 @@ SeasonLegend <- function(limits, cols, add = FALSE, plot_loc, dat, e_lims = NULL
     if (all(range(limits)==c(0,11))) {
         labelss = rep('', 12)
         labelss[mnthLabs] = MonLetters[mnthLabs]
-        mar[1] = mar[1]+1.5
+        #mar[1] = mar[1]+1.5
         ncols = c(13,12)
         dang = 0
     } else {
         #labelss = limits[-1]
-        mar[4]=mar[4]+1
+        #mar[4]=mar[4]+1
         labelss = limits + 0.5
         ncols=c(length(labelss)+1,length(labelss))
         dang = 180

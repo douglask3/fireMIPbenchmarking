@@ -11,7 +11,7 @@ process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex, scli
         dat = rawInfo[[2]](files, varName = modInfo[1], levels = levels,
                            startYear = rawInfo[3], modLayers, layersIndex,
                            combine = varInfo[5])
-		
+		if (is.list(levels) && is.list(dat)) dat = layer.apply(dat, mean)
         if (!is.null(dat)) {
 			dat = memSafeFunction(dat, '*', scling) 
             dat = writeRaster(dat, outFile, overwrite = TRUE)

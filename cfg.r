@@ -14,6 +14,7 @@ library(plotrix)
 library(MASS)
 library(mapplots)
 library(truncdist)
+library(weights)
 
 sourceAllLibs('src/')
 sourceAllLibs('src/dataProcessing/')
