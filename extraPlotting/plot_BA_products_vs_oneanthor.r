@@ -22,9 +22,20 @@ mask = any(addLayer(mask, layer.apply(dat, function(i) any(is.na(i)))))
 
 vdat = lapply(dat, function(i) i[mask == 0])
 
+xy = xyFromCell(dat[[1]], which(mask[] == 0))
+
 
 plotScatter <- function(j, i, xaxis, yaxis, name) {
     test = (i + j) > 0
+    xyi = apply(test, 2, function(i) xy[i,])
+    xy = c()
+    for (ti in xyi) xy = rbind(xy, ti)
+    
+    ycols = c('#67001f','#b2182b','#d6604d','#f4a582','#fddbc7','#f7f7f7','#d1e5f0','#92c5de','#4393c3','#2166ac','#053061')
+    ycols = make.transparent(ycols, 0.9)
+    ycols = ycols[cut_results(xy[,2], seq(-60, 60, length.out = 10))]
+    #xcols = 
+    #ycols = make_col_vector(c("#fddbc7", "#67001f"), ncols = 12)
     
     i = log10(i[test]); j = log10(j[test])
     cols = reds9[unlist(mapply(rep, 1:9, 9 + (1:9)^1))]
@@ -40,8 +51,9 @@ plotScatter <- function(j, i, xaxis, yaxis, name) {
     lapply(lat, lines, y = c(-9E9, 9E9), lty = 2, col = grid_col)
     lapply(lat, lines, x = c(-9E9, 9E9), lty = 2, col = grid_col)
     
-    points(j~i, pch = 20, cex = 2, col = cols)
-    
+    #points(j~i, pch = 20, cex = 2, col = cols)
+    browser()
+    for (nn in 1:10) points(j, i, pch = 20, cex = 0.1, col = ycols)
     
     lapply(lat, lines, y = c(-9E9, 9E9), lty = 2, col = grid_col)
     lapply(lat, lines, x = c(-9E9, 9E9), lty = 2, col = grid_col)
