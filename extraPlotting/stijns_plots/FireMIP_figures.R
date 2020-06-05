@@ -150,14 +150,14 @@ legend("bottom",c("CLM","CLASS-CTEM","JULES-INFERNO","JSBACH-SPITFIRE","LPJ-GUES
 
 ##################  IAV plot   ##################
 ##############################################################################
-
-dd = read.table("~/IAV_data_fig.txt",header=T)
+dev.new()
+dd = read.table("extraPlotting/stijns_plots/IAV_data_fig.txt",header=T)
 dd=dd*100
 dd <- dd[-nrow(dd),] 
 year=c(2001:2012)
 
 plotLineWithRange_obs <- function(x, yVal, yMin, yMax,
-                              lineColor="Black", rangeColor=transparent("Black",trans.val = 0.5),
+                              lineColor="Black", rangeColor=make.transparent("Black", 0.5),
                               main=""){
   if(missing(x)){
     x <- year
@@ -169,7 +169,7 @@ plotLineWithRange_obs <- function(x, yVal, yMin, yMax,
 }
 
 plotLineWithRange_mod <- function(x, yVal, yMin, yMax,
-                              lineColor="Black", rangeColor=transparent("Blue",trans.val = 0.5),
+                              lineColor="Black", rangeColor=make.transparent("Blue",0.5),
                               main=""){
   if(missing(x)){
     x <- year
@@ -189,7 +189,7 @@ dd$max_mod = apply(dd[, c(1,2,3,4,5,6,7,8,9)], 1, quantile, probs=c(.80),type=1,
 dd$min_mod = apply(dd[, c(1,2,3,4,5,6,7,8,9)], 1, quantile,probs=c(.20),type=1,na.rm=TRUE)
 dd$mean_mod = apply(dd[, c(1,2,3,4,5,6,7,8,9)], 1, mean,na.rm=TRUE)
 
-plot(year,dd$CLM, type="l", ylim=c(-25,25),xlab="year",ylab="change in burnt area (%)",cex.lab=1.3,cex.axis=1.3, col=transparent("black",trans.val = 1))
+plot(year,dd$CLM, type="l", ylim=c(-25,25),xlab="year",ylab="change in burnt area (%)",cex.lab=1.3,cex.axis=1.3, col=make.transparent("black",1))
 plotLineWithRange_obs(yVal=dd$mean_obs,yMin=dd$min_obs,yMax=dd$max_obs)
 
 lines(year,dd$CTEM, col="green2", lwd=1.3)
@@ -205,7 +205,7 @@ lines(year,dd$MC2 , col="lightsalmon", lwd=1.3)
 legend("top",c("CLM","CLASS-CTEM","JULES-INFERNO","JSBACH-SPITFIRE","LPJ-GUESS-SPITFIRE","ORCHIDEE-SPITFIRE", "LPJ-GUESS-GlobFIRM","LPJ-GUESS-SIMFIRE-BLAZE","MC2","Observations"),xpd=T,lwd=3,lty=c(1,1,1,1,1,1,1),col=c("blueviolet","green2","red3","chocolate2","springgreen4","steelblue2","midnightblue","blue","lightsalmon", "grey"),bty = "n",cex=1,seg.len=1.5,ncol=1)
 
 legend("bottom",c("model range", "Observation range"),xpd=T,lwd=8,
-       lty=c(1,1),col=c(transparent("Blue",trans.val = 0.5),transparent("Black",trans.val = 0.5)),bty = "n",cex=1,seg.len=1.5,ncol=1)
+       lty=c(1,1),col=c(make.transparent("Blue",0.5),make.transparent("Black",0.5)),bty = "n",cex=1,seg.len=1.5,ncol=1)
 
 
 
