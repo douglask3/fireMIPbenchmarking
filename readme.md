@@ -9,12 +9,10 @@ The projects code and version history is accessible from github:
 
 1. Clone the git repo. In command line, this is:
 >	git clone https://github.com/douglask3/fireMIPbenchmarking.git
-
 > 	cd fireMIPbenchmarking
 
 To update:
 >	git pull 
-
 
 ### Gradding Data
 
@@ -221,3 +219,28 @@ This would normally remain unchanged. However, if a new model needs adding, just
 Goodluck!
 
 Doug.
+
+
+## Reproducing plots for Hantson et al. 2020, GDM
+Beyond uisng the system for benchmarking, this repo also contains the scripts to produce the plots in the recent GDM paper. The scripts are in the ``extraPlotting'' dir, and should be called from the repo home. Figures are pltted into the "figs/" dir. i.e, in R, to plot each figure in turn:
+
+*figure 1&5:
+>> 		source("extraPlotting/nMod_in_obs_range.r")
+    makes "figs/nmodAgreement-R4-sd0.5-1.png" and "figs/fireSize_no.png"
+
+*figure 2:
+>> 		source("extraPlotting/plotModel_burnt_area.r")
+    makes "figs/Spatial_BurntArea- combined .png"
+
+*figure 3 & 4:
+>> 		source("extraPlotting/stijns_plots/FireMIP_figures.R")
+    which plots to devices
+
+*figure S1:
+>> 		source("extraPlotting/PlotBenchmarkDatasets.r")
+    makes "figs/BenchmarkFig.png"
+
+
+*figure S2:
+>> 		source("extraPlotting/rest_tests.r")
+    makes "figs/res_test_new.png"
