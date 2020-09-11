@@ -12,6 +12,8 @@ mod_varname = "tas_anom"
 # location of file for observations
 obs_file = 'LGM/data/benchmarkData/data_MAT_all.csv'
 
+#use model grid or site locations as basis of comparison
+# (basically, Hantson et al 2020 = FALSE; Forrest et al in prep = TRUE)
 modgrid = FALSE
 
 ################
