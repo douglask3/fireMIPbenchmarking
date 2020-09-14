@@ -1,27 +1,51 @@
 loadMask <- function(obs, mod, res, varnN) {
-    mod = mod[!sapply(mod, is.null)]
-   
+    mod0 = mod
+    mod = mod[!sapply(mod, is.null)]	
     filename = paste(c(temp_dir, varnN, names(mod), '.nc'), collapse = '-')
     if(file.exists(filename)) return(raster(filename))
-
-    mod = lapply(mod, function(i) sum(is.na(i[[1:12]])))
+	
+    #sumFun <- function(r) {
+    #	r = sum(r)[[1]]
+    #   maskSize = sum(is.na(r[]))/length(r)
+    #   if (maskSize < 0.1) r = sum(r, na.rm = TRUE)
+    #   return(r)
+    #}	
+    #mod = lapply(mod, sumFun)
+    mod0 = mod
+    
+    mod = lapply(mod, function(i) sum(is.na(i[[1:min(c(12, nlayers(i)))]])))
     mod = mod[sapply(mod, function(i) max.raster(i) > 0)]
+    mod = lapply(mod, function(i) {
+                            if (length(unique(i)) == 1) i[] = 0.0
+                            return(i)
+                        })
+        
     
     if (is.raster(obs)) obs = sum(obs)
-        else {
-            obs = raster(ncol = 720, nrow = 360)
-            obs[] = 1
-        }
-    mod = layer.apply(mod, function(i) {
-                if (nlayers(i) == 1) i = i[[1]]
-                raster::resample(i, obs)
-            })
+    else {
+        obs = raster(ncol = 720, nrow = 360)
+        obs[] = 1
+    }
+		
     if (nlayers(obs) == 1) obs = obs[[1]]
+    if (!is.null(res) &&is.na(res))
+	obs = raster::resample(obs, mod[[1]])
+
+    if (nlayers(obs) == 1) obs = obs[[1]]
+
+    if (length(mod)>0) {	
+        mod = layer.apply(mod, function(i) {
+            if (nlayers(i) == 1) i = i[[1]]
+            raster::resample(i, obs)
+        })
+        mod = layer.apply(mod, function(i) i >= 0.5 * max.raster(i, na.rm = TRUE))
+        mask = sum(mod) + is.na(obs)
+    } else  mask = is.na(obs)
     
-    mod = layer.apply(mod, function(i) i >= 0.5 * max.raster(i, na.rm = TRUE))
-    mask = sum(mod) + is.na(obs)
-   
-    mask = mask > 0
+    
+    mask = mask >  min.raster(mask, na.rm = TRUE)
+    mask[is.na(mask)] = 1
+    
     fact =  res/res(mask)
     if (any(fact != 1.0)) {
 	if (fact[1] == fact[2]) {
@@ -30,19 +54,24 @@ loadMask <- function(obs, mod, res, varnN) {
                 mask = raster::aggregate(mask, fact = fact)
 	    else if (fact < 1 && as.integer(1/fact) == (1/fact))
                 mask = raster::disaggregate(mask, fact = 1/fact)
-	    else browser()
+	    else {
+                example = raster(ncol = 360/res, nrow = 180/res)
+                mask = raster::resample(mask, example)
+                mask = mask > 0.5
+            }
 	} else {
-	    browser()
+	    example = raster(ncol = 360/res[1], nrow = 180/res[2])
+            mask = raster::resample(mask, example)
+            mask = mask > 0.5
 	}
     }
-					
-	mask = writeRaster(mask, filename = filename)
+    mask = writeRaster(mask, filename = filename, overwrite = TRUE)
     return(mask)
 }
 
 remask <- function(obs, mod0, mask, res) {
     ## if no mask to apply, return as is
-		
+	
     if (is.null(mask) || (is.character(mask) && mask == "NULL"))
         return(list(obs, mod))
 
@@ -74,7 +103,7 @@ remask <- function(obs, mod0, mask, res) {
     }
 
     mod = lapply(mod, memSafeFunction, resample)
-
+    	
     if (is.raster(obs)) {
         obs = memSafeFunction(obs, resample, TRUE)
         c(obs, mod) := cropBothWays(obs, mod)
