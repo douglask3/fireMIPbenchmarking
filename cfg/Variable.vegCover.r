@@ -3,11 +3,12 @@
 # Production
 # Veg Cover
 
-JULES_nl =  		   rbind(rep("landCoverFrac", 9),
-                             c(rep(12/100, 5),rep(1/10000, 4)),
-                             c(rep(1992, 5), rep(2002, 4)),
-                             'Annual',
-							 c("1:2,5;3:4",  "1:2,5", "3:4", "1:5", "1;2", "1:2,5;3:4",  "1:2,5", "3:4", "1:5"))
+JULES_nl = rbind(rep("landCoverFrac", 9),
+           c(rep(1, 5),rep(1/(12*100), 4)),
+           c(rep(1990, 5), rep(1990, 4)),
+           'Annual',
+           c("1:5,12:13;6:11",  "1:5,12:13", "6:11", "1:13", "1:3;4:5",
+             "1:5,12:13;6:11",  "1:5,12:13", "6:11", "1:13"))
 
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
@@ -39,12 +40,12 @@ lifeForm          = list(obsFile       = "veg_cont_fields_CRU.nc",
                          plotArgs      = VegComparison,
                          ExtraArgs     = list(extraItem = 100,
                                               itemNames = c('Tree', 'Herb', 'Bare')))
-
+VCFlayers = 7:156
 lifeForm2         = list(obsFile       = c("treecover2000-2014.nc", "nontree2000-2014.nc"),
                          obsVarname    = c("variable"),
                          ComparisonFun = FullMM,
                          plotArgs      = VegComparison,
-						 obsLayers     = 7:168,
+						 obsLayers     = VCFlayers,
                          ExtraArgs     = list(extraItem = 100,
                                               itemNames = c('Tree', 'Herb', 'Bare')))
 
@@ -60,7 +61,7 @@ TreeCover2        = list(obsFile       = "treecover2000-2014.nc",
                          obsVarname    = c("variable"),
                          ComparisonFun = FullMM,
                          plotArgs      = VegComparison,
-						 obsLayers     = 7:168,
+						 obsLayers     = VCFlayers,
                          ExtraArgs     = list(extraItem = 100,
                                               itemNames = c('Tree', 'Not Tree')))
 
@@ -75,7 +76,7 @@ GrassCover2        = list(obsFile       = "nontree2000-2014.nc",
                          obsVarname    = c("variable"),
                          ComparisonFun = FullMM,
                          plotArgs      = VegComparison,
-						 obsLayers     = 7:168,
+						 obsLayers     = VCFlayers,
                          ExtraArgs     = list(extraItem = 100,
                                               itemNames = c('Grass', 'Not Grass')))
 
@@ -90,7 +91,7 @@ BareCover2        = list(obsFile       = "bareground2000-2014.nc",
                          obsVarname    = c("variable"),
                          ComparisonFun = FullMM,
                          plotArgs      = VegComparison,
-						 obsLayers     = 7:168,
+						 obsLayers     = VCFlayers,
                          ExtraArgs     = list(extraItem = 100,
                                               itemNames = c('Bare Soil', 'Vegetative'),
 											  switchMod = TRUE))									  

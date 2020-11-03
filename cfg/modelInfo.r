@@ -5,6 +5,9 @@ Model.RAW = list(#DIR                 #Processing
                  "u-bl106_5"= c('u-bl106_5'                  , process.jules),		
 		 Mort4.3    = c('JULES-ES-INFERNO-Mort4.3'   , process.jules),
 		 Emissions3 = c('JULES-ES-INFERNO-Emissions3', process.jules))
+Model.RAW = list(#DIR                 #Processing
+                 Historic_FireOn  = c('u-bi607_Historic_CBmort' , process.jules),
+                 Historic_FireOff = c('u-bi607_HIST_NF' , process.jules))
 
 ################################################################################
 ## Model plotting                                                             ##
@@ -13,6 +16,10 @@ Model.plotting = rbind( #Title            #Colour
 			"u-bl106_5"= c("u-bl106_5"       , 'black'  ),   
 			Mort4.3    = c('Mort4.3'         , 'blue'   ),
 			Emissions3 = c('Emissions3'      , 'green'  ))
+
+Model.plotting = rbind( #Title            #Colour
+			Historic_CBmort = c("u-bi607_Historic_CBmort", 'black'  ),
+			HIST_FFDI = c("u-bi607_HIST_FFDI", 'red'  ))
 
 
 ################################################################################

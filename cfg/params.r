@@ -7,7 +7,10 @@ month_length = c(31,28,31,30,31,30,31,31,30,31,30,31)
 experiment   = ''
 mask_type    = 'common'
 res          = NaN
-nRRs = 2
+nRRs = 100
+
+extent = c(-90, -30, -60, 12.5)
+#extent = c(-180, 180 -90, 90)
 
 outputMetricFiles = FALSE
 plotModMetrics    = FALSE

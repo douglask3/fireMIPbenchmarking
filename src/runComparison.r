@@ -12,28 +12,38 @@ runComparison <- function(info, name, mod = NULL) {
     varnN = which( Model.Variable[[1]][1,] == componentID(name)[1])
     obsTemporalRes = Model.Variable[[1]][3, varnN]
     if (is.null(info$obsLayers)) obsLayers = 1 else obsLayers = info$obsLayers
+    
     simLayers = layersFrom1900(Model.Variable[[1]][4,varnN],
                                obsTemporalRes, obsLayers)
     
     obs   = openObservation(info$obsFile, info$obsVarname, info$obsLayers)
-    
+    if (nlayers(obs) == 1) obs = obs[[1]] 
+    obs = raster::crop(obs,  extent) 
+    #if (name ==  "lifeForm_cci") browser()
     if (is.null(mod))
-	mod   = openSimulations(name, varnN, simLayers)
-
+	mod   = openSimulations(name, varnN, simLayers)    
     
+    fnames = sapply(mod, filename.noPath, noExtension=T)
+    mod = lapply(mod, function(i) {if (nlayers(i) == 1) i = i[[1]]; i})
+    mod = lapply(mod, raster::crop, extent)
+    mod = mapply(function(i, file) writeRaster(i, filename = file, overwrite = TRUE),  
+                 mod, paste0("temp/", fnames, "croppedEtc.nc"))
+    mod0 = mod
+    obs = raster::resample(obs, mod[[1]])
     if (all(sapply(mod, is.null))) return(NULL)
     runres <- function(r = NULL) {
-	if (!is.null(r)) temp_name = paste(temp_name,'__res-', r, sep = '')
+	if (!is.null(r)) temp_name = paste0(temp_name,'__res-', r, 'extent-', 
+                                            paste(extent, collapse = '--'))
             
 	    mask  = loadMask(obs, mod, r, temp_name)
-            
+            mod1 = mod
 	    c(obs, mod) := remask(obs, mod, mask, r)
-	    
+	    mod2 = mod
 	    obs = scaleMod(obs, Model.Variable[[1]], varnN)
             mod = mapply(scaleMod, mod, Model.Variable[-1], MoreArgs = list(varnN))
-
+            #browser()
 	    if (is.True(openOnly)) return(list(obs, mod))
-		
+	     
 	    c(scores, comp) := comparison(mod, obs, name, info)
 	    return(list(scores, obs, mod, comp))
     }
@@ -126,7 +136,7 @@ comparison <- function(mod, obs, name, info) {
     }
 
     scores =  outputScores(comp, name, info)
-    if (plotSummery) plotVarAgreement(mod, obs, name, info, scores, comp)
+    #if (plotSummery) plotVarAgreement(mod, obs, name, info, scores, comp)
     
     try(mapMetricScores(comp, name, info))
     return(list(score, comp))

@@ -3,22 +3,24 @@
 # Production
 # Veg Cover
 
-JULES_nl =  		   rbind(rep("landCoverFrac", 5),
+JULES_nl = rbind(rep("landCoverFrac", 5),
                              12/100,
-                             1997,
+                             1990,
                              'Monthly',
-							 c("1:2;3:4;5", "1:2"     , "1:2,5"    , "3:4"    ,  "1:5", "1;2"     , "1" , "2" , "3" , "4" , "5" ))
+		c("1:5;12:13;6:11",  "1:5", "1:5,12:13", "6:11",  "1:13", "1:3;4:5", "1:3" , "4:5" , "3" , "4" , "12:13" ))
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
             varname  = rbind(c("lifeForm_cci", "TreeCover_cci", "WoodCover_cci", "HerbCover_cci", "BareCover_cci", "LeafType_cci", "BL_cci", "NL_cci", "C3_cci", "C4_cci", "Sh_cci"),
                              1/100,
                              "Annual",
-                             2010,
+                             2009,
                              'mean'),
-		    S2       = JULES_nl, 
-			S3       = JULES_nl,
-			SF2      = JULES_nl,
-            SF3      = JULES_nl)
+                    Historic_CBmort = JULES_nl,
+                    HIST_FFDI = JULES_nl)
+	#	    S2       = JULES_nl, 
+		#	S3       = JULES_nl,
+	#		SF2      = JULES_nl,
+         #   SF3      = JULES_nl)
 			
 ################################################################################
 ## Plotting Info                                                              ##

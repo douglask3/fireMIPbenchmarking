@@ -2,11 +2,11 @@ process.RAW <- function (rawInfo, varInfo, modInfo, modLayers, layersIndex, scli
                          outFile) {
     cat(paste('\nOpening raw data for', rawInfo[[1]], 'for',
               varInfo[[1]], 'comparison\n'))
-
+    
     dir   = paste(data_dir.ModelOutputs, rawInfo[[1]], experiment, sep = '/')
     files = list.files(dir, full.names = TRUE, recursive = TRUE)
     levels = findModelLevels(modInfo[5])
-	
+     
     memSafeFile.initialise('temp/')
         dat = rawInfo[[2]](files, varName = modInfo[1], levels = levels,
                            startYear = rawInfo[3], modLayers, layersIndex,

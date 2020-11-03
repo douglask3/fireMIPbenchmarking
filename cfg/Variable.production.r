@@ -11,7 +11,7 @@ perseckg2Mnthg = perseckg2annualg * 12
 
 jules_nl  = rbind(c("gpp"           ,  rep("npp", 4), "c_veg"   ),
                  c(rep(perseckg2Mnthg, 5)          , 0.001      ),                   
-                 1997,
+                 1990,
                  "Monthly")
 
 Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timestep
@@ -21,8 +21,8 @@ Model.Variable = list( #Line 1  variable name; Line 2  scaling; Line 3 - timeste
                              c(1997            , 1997            , 1997            , 1997            , 1997            , 1997    ),
                                "mean"),
             
-            Mort4.3      = JULES_nl,
-            Emissions3      = JULES_nl)
+            Historic_CBmort      = jules_nl,
+            HIST_FFDI      = jules_nl)
 
 
 ################################################################################

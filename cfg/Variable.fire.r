@@ -7,10 +7,10 @@ kgpersec =  1/(60*60*24*365)
 ## Burnt area                                            ##
 ###########################################################
 
-JULES_nl = rbind(c(rep("burnt_area_gb", 7) , rep("veg_c_fire_emission_gb;burnt_carbon_dpm;burnt_carbon_rpm", 2), "nfire"   , "mean_fire"),
-                 c(sec_frac   , sec_frac   , sec_frac     , sec_frac   , sec_frac   , sec_frac, sec_frac, 1/12  , 1/12, 1         , 1          ),
+JULES_nl = rbind(c(rep("burnt_area_gb", 7) , rep("fire_em_CO2_gb", 2), "nfire"   , "mean_fire"),
+                 c(sec_frac   , sec_frac   , sec_frac     , sec_frac   , sec_frac   , sec_frac, sec_frac, 1  , 1, 1         , 1          ),
                  1990,
-                 'Annual')
+                 'Monthly')
 Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - time
              varname  = rbind(c("MODIS", "GFED4"    , "GFED4s"   , "GFED4sSeason", "MODISSeason", "meris"    , "MCD45"    , "GFAS"    , "GFASSeason", "NRfire"  , "meanFire" ),
                              c(1      , 1          , 1          , 1            , 1          , 1          , 1          , kgpersec  , kgpersec    , 1         , 1          ),
@@ -18,8 +18,8 @@ Model.Variable  = list( #Line 1  variable name; Line 2  scaling; Line 3 - time
                              c(2001  , 1996       , 1996       , 1996         , 1996         , 2006       , 2001       , 2000      , 2000        , 2002      , 2002       ),
                              c('mean', 'mean'     , 'mean'     , "mean"       , "mean"       , "mean"     , "mean"     , "mean"    , "mean"      , "mean"    , "mean"    )),
             
-            Mort4.3      = JULES_nl,
-            Emissions3      = JULES_nl)
+            Historic_CBmort      = JULES_nl,
+            HIST_FFDI      = JULES_nl)
 
 ################################################################################
 ## Plotting Info                                                              ##

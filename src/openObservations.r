@@ -19,23 +19,25 @@ openCsvInputs <- function(file, layerID = NULL, scaling = NULL, dir) {
 
 openRasterInputs <- function(file, varname = "", layerID = NULL, scaling = NULL, 
                              dir, check4mask = FALSE) {
-	
+    
     if (is.null(varname)) varname = ""
     fname = paste(dir, file, sep = "")
     
     openVar <- function(varn, fnamei, sumT = TRUE) {
+        if (is.list(varn) && length(varn) == 1) varn = varn[[1]]
 	if (is.numeric(varn)) {
 	    dat = brick(fnamei)[[varn]]
 	    dat = sum(dat)[[1]]
 	} else dat = brick(fnamei, varname = varn)
 	dat = convert_pacific_centric_2_regular(dat)
+        dat = raster::crop(dat, extent)
 	if (sumT) dat = sum(dat)
 	return(dat)
     }
 	
-    openVars <- function(varns, ..., sumT = FALSE) {
+    openVars <- function(varns, ..., sumT = FALSE) {        
 	varn = strsplit(varns, ';')[[1]]
-    
+        
 	dat = layer.apply(varn, openVar, ...)
 	if (sumT) dat = sum(dat)
         return(dat)

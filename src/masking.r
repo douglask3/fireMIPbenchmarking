@@ -1,7 +1,7 @@
 loadMask <- function(obs, mod, res, varnN) {
     mod = mod[!sapply(mod, is.null)]
 
-	
+    	
     #filename = paste(c(temp_dir, varnN, names(mod), '.nc'), collapse = '-')
     #if(file.exists(filename)) return(raster(filename))
 #	mod0 = mod
@@ -27,7 +27,6 @@ loadMask <- function(obs, mod, res, varnN) {
             
     mod = mod[sapply(mod, function(i) max.raster(i) > 0)]
     
-
     if (is.raster(obs)) obs = sum(obs)
     else {
         obs = raster(ncol = 720, nrow = 360)
@@ -94,13 +93,13 @@ remask <- function(obs, mod0, mask, res) {
     ## if mask has been applied and stored in cache, return cache
     present = !sapply(mod0, is.null)
     mod = mod0[present]
-	
+    
     if (is.raster(obs))
         filename_obs = paste(temp_dir, filename.noPath(mask, TRUE), 'obsRemasked', res, '.nc', sep = '-')
     else
         filename_obs = c()
-    filename_mod = paste(temp_dir, sapply(mod, filename.noPath, TRUE), 'modRemasked', res, '.nc', sep = '-')
-    filenames    = c(filename_obs, filename_mod)
+        filename_mod = paste(temp_dir, sapply(mod, filename.noPath, TRUE), 'modRemasked', res, '.nc', sep = '-')
+        filenames    = c(filename_obs, filename_mod)
     
     if (files.exist(filenames)) {
         mod0[present] = lapply(filename_mod, stack)
@@ -117,7 +116,7 @@ remask <- function(obs, mod0, mask, res) {
         if (remask) i[mask == 1] = NaN
         return(i)
     }
-
+    
     mod = lapply(mod, memSafeFunction, resample)
 	
     if (is.raster(obs)) {
