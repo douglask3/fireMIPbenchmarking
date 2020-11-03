@@ -1,3 +1,3 @@
 names = 'LAI'
-comparisons = 'LAImodis'
+comparisons = c('LAImodis', "LAImodisMonthly")
 source('run.r')

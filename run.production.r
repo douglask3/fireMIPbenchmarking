@@ -1,3 +1,3 @@
 names = 'production'
-comparisons = NULL
+comparisons = "cveg"
 source('run.r')
