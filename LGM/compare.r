@@ -45,6 +45,7 @@ makeComparison <- function(mod) {
     ## pairs obs and simulation
     vmod = values(mod)
     amod = raster::area(mod)
+    browser()
     obsSim <- function(xyidU) {
         out = c(mean(obs[which(xyid == xyidU),3]), vmod[xyidU]) 
         if (modgrid) out = c(out, amod[xyidU]) else out = c(out, 1)
@@ -56,7 +57,7 @@ makeComparison <- function(mod) {
     score(NME(obsSims[1,], obsSims[2,], w =  obsSims[3,]))
 }
 
-scores = sapply(mod, makeComparison)
+scores = sapply(mods, makeComparison)
 
 null_scores = summary(null.NME(obs[,3]))
 
