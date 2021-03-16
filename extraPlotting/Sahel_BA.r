@@ -4,6 +4,8 @@ map_cols = c('#ffffcc','#ffeda0','#fed976','#feb24c','#fd8d3c','#fc4e2a',
              '#e31a1c','#bd0026','#800026')
 map_limits = c(0, 1, 2, 5, 10, 20, 50)
 
+confire_file_store =  '../amazon_fires/outputs/sampled_posterior_ConFire_solutions-burnt_area_MCD-Tnorm/constant_post_2018_full_2002-attempt2-NewMoist-DeepSoil/model_summary.nc'
+
 openOnly = TRUE
 names = 'fire'
 comparisons = list(c("GFED4s.Spatial"))
@@ -24,10 +26,14 @@ RUN <- function() {
         
         if (is.null(mask)) return(r)
         if (any(res(r) != res(mask))) r = raster::resample(r, mask)
+        mask = mask & !is.na(r[[1]])
         v = r[mask]
         
         if (allLayers) q = hist(apply(v, 1, max), ba_sample, plot = FALSE)$density
-        else q = apply(v, 2, quantile, qs, na.rm = TRUE)
+        else {
+            if (meanMean) q = apply(v, 2, function(i) rep(mean(i), length(qs), na.rm = TRUE))
+            else  q = apply(v, 2, quantile, qs, na.rm = TRUE)
+        }
         return(q)
     }
     plotQs <- function(q, col = "black", scale = 100, ...) {
@@ -69,7 +75,8 @@ RUN <- function() {
 
     obs = outCropMask(out[[1]][[1]], mask = mask)
     
-    if (!is.null(conFire)) conFire = lapply(conFire, outCropMask, mask = mask)
+    tConFire = !is.null(conFire) && !is.logical(conFire)
+    if (tConFire) conFire = lapply(conFire, outCropMask, mask = mask)
     sim = lapply(out[[1]][[2]], outCropMask, mask = mask)
        
     obsh = outCropMask(out[[1]][[1]], mask = mask, layers = fSeason, allLayers = TRUE)
@@ -77,11 +84,11 @@ RUN <- function() {
 
     plotFun <- function(psim = FALSE) {
         TSfun <- function(...) {
-            if (!is.null(conFire)) obs_col = 'red' else obs_col = 'black'
+            if (tConFire) obs_col = 'red' else obs_col = 'black'
             
             plotQs(obs, lwd = 3, col = obs_col)
             if (psim) {
-                if (!is.null(conFire)) {
+                if (tConFire) {
                     #browser()
                     lapply(conFire, plotQs, col = 'orange', lwd = 3, scale = 100)    
                     mapply(plotQs, sim, lty = 2, lwd = 1, col = 'blue')               
@@ -132,29 +139,33 @@ fname = "SahelMap2"
 fSeason = seq(1, 156, by = 12)
 mask = 0.5
 ymax = 50
+meanMean = TRUE
 #RUN()
 
-fname = "Sahel3"
-qs = c(0.25, 0.5, 0.75)
-#RUN()
+conFire_file = '../amazon_fires/outputs/sampled_posterior_ConFire_solutions-burnt_area_MCD-Tnorm/constant_post_2018_full_2002-attempt2-NewMoist-DeepSoil/model_summary.nc'
 
+#conFireD = lapply(c(1,seq(5, 95, 5),99), function(qt) layer.apply(1:156, function(i) brick(conFire_file, level = i)[[qt]]))
+#conFire = conFireD 
+#fname = "Sahel2-ConFIRE"
+#qs = c(0.25, 0.5, 0.75)
+#RUN()
+conFire_file = NULL
+conFire = FALSE
 extentc = c(-110, -30, -25, 0)
 fname = "SouthernAmericas"
 fSeason = seq(8, 156, by = 12)
 mask =  raster('../amazon_fires/outputs/amazon_region/treeCoverTrendRegions.nc') == 6
-ymax = 20
-#RUN()
+ymax = 10
+RUN()
 
+conFire = conFireD
 fname = "SouthernAmericas-ConFire"
 qs = c(0.5, 0.5)
-ymax = 5
-conFire_file = '../amazon_fires/outputs/sampled_posterior_ConFire_solutions-burnt_area_MCD-Tnorm/constant_post_2018_full_2002-attempt2-NewMoist-DeepSoil/model_summary.nc'
 
-conFire = lapply(c(1,seq(5, 95, 5),99), function(qt) layer.apply(1:156, function(i) brick(conFire_file, level = i)[[qt]]))
 RUN()
-browser()
 
-conFire_file = NULL
+ymax = 15
+conFire = FALSE
 qs = c(0.25, 0.5, 0.75)
 extentc = c(140, 155, -43, -8)
 fSeason = 1:156
@@ -162,9 +173,11 @@ fname = "SE_AUS"
 mask = raster('../australia_fires/outputs/Australia_region/SE_TempBLRegion.nc') 
 mask = mask > 20
 mask = list(0.04, mask)
-#RUN()
+RUN()
 
 
-qs = c(0.5)
+conFire = FALSE
+fname = "SE_AUS-ConFire"
+RUN()
 
 
